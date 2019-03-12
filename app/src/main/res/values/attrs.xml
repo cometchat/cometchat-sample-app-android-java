@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircleImageView">
+        <attr name="civ_border_width" format="dimension" />
+        <attr name="civ_border_color" format="color" />
+        <attr name="civ_border_overlay" format="boolean" />
+
+        <attr name="civ_fill_color" format="color" />
+        <attr name="civ_circle_background_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="MutativeFab">
+        <attr name="fabTextColor" format="color" />
+        <attr name="fabTextVisibility">
+            <!-- Visible on screen; the default value. -->
+            <enum name="visible" value="0" />
+            <!-- Completely hidden, as if the view had not been added. -->
+            <enum name="gone" value="8" />
+        </attr>
+        <attr name="fabText" format="string" />
+        <attr name="fabIcon" format="integer" />
+        <attr name="fabBackgroundColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="RecordAudio">
+        <attr name="slide_to_cancel_text" format="string" />
+        <attr name="slide_to_cancel_arrow" format="reference" />
+        <attr name="slide_to_cancel_margin_right" format="dimension" />
+        <attr name="slide_to_cancel_bounds" format="dimension" />
+        <attr name="slide_to_cancel_arrow_color" format="color" />
+        <attr name="counter_time_color" format="color" />
+
+    </declare-styleable>
+
+    <declare-styleable name="RecordMic">
+
+        <attr name="mic_icon" format="reference" />
+
+    </declare-styleable>
+
+    <declare-styleable name="CometChatSearchView">
+        <attr name="searchBackground" format="integer" />
+        <attr name="searchVoiceIcon" format="integer" />
+        <attr name="searchCloseIcon" format="integer" />
+        <attr name="searchBackIcon" format="integer" />
+        <attr name="searchSuggestionIcon" format="integer" />
+        <attr name="searchSuggestionBackground" format="integer" />
+        <attr name="android:hint" />
+        <attr name="android:textColor" />
+        <attr name="android:textColorHint" />
+        <attr name="android:inputType" />
+    </declare-styleable>
+
+</resources>

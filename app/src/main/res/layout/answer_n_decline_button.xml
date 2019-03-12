@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:clipToPadding="false"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ImageView
+        android:id="@+id/green_arrow_one"
+        android:src="@drawable/ic_keyboard_arrow_up_green_24dp"
+        android:layout_width="24dp"
+        android:alpha="0"
+        tool:alpha="1"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="24dp" />
+    <ImageView
+        android:id="@+id/green_arrow_two"
+        android:src="@drawable/ic_keyboard_arrow_up_green_24dp"
+        android:layout_width="24dp"
+        android:alpha="0"
+        tool:alpha="1"
+        android:layout_marginTop="-18dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="24dp" />
+
+    <ImageView
+        android:id="@+id/green_arrow_three"
+        android:src="@drawable/ic_keyboard_arrow_up_green_24dp"
+        android:layout_width="24dp"
+        android:alpha="0"
+        tool:alpha="1"
+        android:layout_marginTop="-18dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="24dp" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        app:fabSize="normal"
+        android:elevation="0dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/primaryLightColor"
+        android:src="@drawable/ic_call_green24dp"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/red_arrow_one"
+        android:src="@drawable/ic_keyboard_arrow_down_red_24dp"
+        android:layout_width="wrap_content"
+        android:alpha="0"
+        tool:alpha="1"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/red_arrow_two"
+        android:src="@drawable/ic_keyboard_arrow_down_red_24dp"
+        android:layout_width="wrap_content"
+        android:alpha="0"
+        tool:alpha="1"
+        android:layout_marginTop="-18dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/red_arrow_three"
+        android:src="@drawable/ic_keyboard_arrow_down_red_24dp"
+        android:layout_width="wrap_content"
+        android:alpha="0"
+        tool:alpha="1"
+        android:layout_marginTop="-18dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

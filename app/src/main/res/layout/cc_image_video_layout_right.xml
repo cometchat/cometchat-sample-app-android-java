@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp">
+
+    <!--<ImageView-->
+        <!--android:id="@+id/rightArrow"-->
+        <!--android:layout_width="25dp"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginRight="8dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:rotation="180"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+    <View
+        android:id="@+id/imageContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/cc_custom_right_bubble"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/rightGuideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/rightGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <TextView
+        android:id="@+id/imageTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/imageMessage"
+        app:layout_constraintEnd_toEndOf="@+id/imageContainer"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/imageContainer"
+        app:layout_constraintTop_toTopOf="@+id/imageContainer"
+        tools:text="Handwrite Message" />
+
+    <ImageView
+        android:id="@+id/imageMessage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:src="@drawable/ic_broken_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@+id/imageContainer"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/imageContainer"
+        app:layout_constraintTop_toBottomOf="@+id/imageTitle"
+        android:scaleType="centerCrop"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/btnPlayVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/imageMessage"
+        app:layout_constraintEnd_toEndOf="@+id/imageMessage"
+        app:layout_constraintStart_toStartOf="@+id/imageMessage"
+        app:layout_constraintTop_toTopOf="@+id/imageMessage"
+        app:srcCompat="@drawable/cc_play_video_button" />
+
+    <com.inscripts.cometchatpulse.demo.CustomView.CircleImageView
+        android:id="@+id/messageStatus"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="4dp"
+        app:civ_circle_background_color="@color/secondaryColor"
+        android:src="@drawable/ic_check_white_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageContainer"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/timeStamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textSize="@dimen/timestampsize"
+        android:textColor="@color/primaryTextColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageContainer"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="10:00 AM" />
+
+    <ProgressBar
+        android:id="@+id/fileName"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageMessage"
+        app:layout_constraintEnd_toEndOf="@+id/imageMessage"
+        app:layout_constraintStart_toStartOf="@+id/imageMessage"
+        app:layout_constraintTop_toTopOf="@+id/imageMessage" />
+
+</android.support.constraint.ConstraintLayout>

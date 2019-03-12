@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="Message Date"
+        android:gravity="start"
+        android:padding="12dp"
+        android:paddingStart="20dp"
+        android:textColor="@color/secondaryTextColor"
+        android:background="@drawable/cc_group_header_background"
+        android:id="@+id/txt_group_status"/>
+</RelativeLayout>

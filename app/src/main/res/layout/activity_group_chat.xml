@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:fadingEdgeLength="0dp"
+    android:fillViewport="true"
+    android:overScrollMode="never"
+    android:scrollbars="none">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/cometchat_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primaryLightColor"
+        app:contentInsetStart="0dp"
+        android:stateListAnimator="@animator/toolbar_elevation"
+        app:contentInsetStartWithNavigation="0dp"
+        app:layout_scrollFlags="scroll|enterAlways">
+
+        <RelativeLayout
+            style="@style/SelectableItemBackground"
+            android:id="@+id/rl_titlecontainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.inscripts.cometchatpulse.demo.CustomView.CircleImageView
+                android:id="@+id/contact_pic"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:transitionName="groupImage"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp" />
+
+
+                <TextView
+                    android:layout_toEndOf="@id/contact_pic"
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text=""
+                    android:transitionName="groupName"
+                    android:maxWidth="150dp"
+                    android:textColor="@color/primaryTextColor"
+                    android:textSize="@dimen/text_header"
+                    android:textStyle="bold" />
+
+            <TextView
+                android:layout_below="@id/title"
+                android:id="@+id/subtitle"
+                android:layout_toEndOf="@id/contact_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text=""
+                android:maxWidth="150dp"
+                android:textSize="@dimen/small_text" />
+
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+
+
+    <RelativeLayout
+        android:id="@+id/rl_container"
+        android:layout_below="@id/cometchat_toolbar"
+        android:layout_above="@id/ll_chatBox"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvChatMessages"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/primaryLightColor"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:scrollbars="vertical" />
+
+        <Button
+            android:id="@+id/btn_new_message"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10sp"
+            android:background="@drawable/cc_rounded_date_button"
+            android:drawableStart="@drawable/cc_down_arrow"
+            android:drawablePadding="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/jump_to_latest"
+            android:textAllCaps="false"
+            android:textColor="@color/primaryColor"
+            android:textSize="@dimen/small_text"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/ll_chatBox"
+        layout="@layout/bottom_message_bar"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+</RelativeLayout>
