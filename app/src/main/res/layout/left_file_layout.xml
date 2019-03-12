@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+
+    <com.inscripts.cometchatpulse.demo.CustomView.CircleImageView
+        android:id="@+id/imgAvatar"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="4dp"
+       android:layout_marginTop="8dp"
+        android:background="@drawable/default_avatar"
+        app:civ_circle_background_color="@color/secondaryColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/senderName"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/default_avatar" />
+
+    <TextView
+        android:id="@+id/senderName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:visibility="visible"
+        android:textSize="@dimen/small_text"
+        android:textColor="@color/primaryTextColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imgAvatar"
+        tools:layout_editor_absoluteY="8dp"
+        tools:text="Sender Name" />
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/leftGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.7" />
+
+    <View
+        android:id="@+id/fileContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/cc_custom_left_bubble"
+        android:padding="8dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/leftGuideline"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imgAvatar"
+        app:layout_constraintTop_toBottomOf="@+id/senderName"
+        app:layout_constraintWidth_default="wrap" />
+
+
+    <TextView
+        android:id="@+id/fileName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:maxLines="1"
+        android:maxWidth="120dp"
+        android:ellipsize="end"
+        tools:text="PDF"
+        android:drawableStart="@drawable/ic_insert_drive_file_black_24dp"
+        android:textSize="@dimen/toolbar_title"
+        android:drawablePadding="5dp"
+        android:textColor="@color/primaryTextColor"
+        app:layout_constraintBottom_toBottomOf="@+id/fileContainer"
+        app:layout_constraintEnd_toEndOf="@+id/fileContainer"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/fileContainer"
+        app:layout_constraintTop_toTopOf="@+id/fileContainer" />
+
+    <TextView
+        android:id="@+id/fileType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="@dimen/small_text"
+        tools:text="PDF"
+        android:textAllCaps="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintEnd_toEndOf="@id/fileContainer"
+        app:layout_constraintTop_toBottomOf="@id/fileName"
+        app:layout_constraintBottom_toBottomOf="@id/fileContainer"/>
+
+    <TextView
+        android:id="@+id/timeStamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="@dimen/small_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/fileContainer"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="10:00 AM" />
+
+
+</android.support.constraint.ConstraintLayout>

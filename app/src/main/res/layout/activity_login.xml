@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context="com.inscripts.cometchatpulse.demo.Activity.LoginActivity">
+
+
+    <ImageView
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="150dp"
+        android:src="@mipmap/cc_small"
+        android:elevation="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="150dp" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_uid"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:hint="Enter Uid"
+        app:boxStrokeColor="@color/secondaryDarkColor"
+        app:boxStrokeWidth="1dp"
+        app:counterOverflowTextAppearance="@color/error"
+        app:counterTextAppearance="@style/AppTheme.HelpText"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@color/error"
+        app:helperText="Required*"
+        app:helperTextEnabled="true"
+        app:helperTextTextAppearance="@style/AppTheme.HelpText"
+        app:hintAnimationEnabled="true">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/guid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:imeOptions="actionDone"
+            android:inputType="text|textCapSentences"
+            android:maxLines="1"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:textSize="16sp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/btn_login"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:text="Login"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_background"
+        android:textColor="@color/primaryLightColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

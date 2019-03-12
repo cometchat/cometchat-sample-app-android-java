@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/camera_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivUserImageBackground"
+            android:layout_width="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@tools:sample/avatars"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:background="@android:color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_callText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            tools:text="CometChat Video Call"
+            android:textColor="@color/primaryLightColor"
+            android:textSize="@dimen/text_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_dots"
+            android:layout_toEndOf="@id/tv_callText"
+            android:text="..."
+            android:textColor="@color/primaryLightColor"
+            android:textSize="@dimen/toolbar_title"
+            android:layout_alignBaseline="@id/tv_callText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.inscripts.cometchatpulse.demo.CustomView.CircleImageView
+            android:id="@+id/ivUserImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_below="@id/ivUserImage"
+            android:textSize="@dimen/toolbar_title"
+            android:textColor="@color/primaryTextColor"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            tools:text="Jose Mortal" />
+
+
+        <com.inscripts.cometchatpulse.demo.CustomView.CallScreenButton
+            android:id="@+id/callScreenButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/hangup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/red_600"
+            android:src="@drawable/ic_call_end_white_24dp"
+            app:fabSize="normal"
+            android:layout_marginBottom="32dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/main_view">
+
+    </RelativeLayout>
+
+</RelativeLayout>

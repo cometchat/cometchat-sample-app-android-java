@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/menu_custom_action_video_call"
+        android:icon="@drawable/ic_video_call_black_24dp"
+        android:title=""
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_custom_action_audio_call"
+        android:icon="@drawable/ic_call_black_24dp"
+        android:title=""
+        app:showAsAction="always" />
+
+
+    <!--<item-->
+        <!--android:id="@+id/menu_group_deatils"-->
+        <!--android:title="@string/group_detail"-->
+        <!--app:showAsAction="never" />-->
+
+    <!--<item-->
+        <!--android:id="@+id/menu_group_report_conversation"-->
+        <!--android:title="@string/report_conversation" />-->
+
+    <!--<item-->
+        <!--android:id="@+id/menu_group_clear_conversation"-->
+        <!--android:title="@string/clear_conversation" />-->
+
+    <item
+        android:id="@+id/menu_group_leave"
+        android:title="@string/leave_group" />
+</menu>
