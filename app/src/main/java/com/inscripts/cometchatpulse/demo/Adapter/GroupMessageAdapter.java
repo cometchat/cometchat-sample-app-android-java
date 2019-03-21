@@ -1,5 +1,6 @@
 package com.inscripts.cometchatpulse.demo.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,11 +9,13 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.LongSparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +31,15 @@ import com.cometchat.pro.models.Action;
 import com.cometchat.pro.models.BaseMessage;
 import com.cometchat.pro.models.MediaMessage;
 import com.cometchat.pro.models.TextMessage;
+import com.inscripts.cometchatpulse.demo.AsyncTask.DownloadFile;
 import com.inscripts.cometchatpulse.demo.CustomView.CircleImageView;
+import com.inscripts.cometchatpulse.demo.Helper.CCPermissionHelper;
 import com.inscripts.cometchatpulse.demo.R;
 import com.inscripts.cometchatpulse.demo.Activity.VideoViewActivity;
 import com.inscripts.cometchatpulse.demo.Contracts.StringContract;
 import com.inscripts.cometchatpulse.demo.CustomView.StickyHeaderAdapter;
 import com.inscripts.cometchatpulse.demo.Utils.DateUtils;
+import com.inscripts.cometchatpulse.demo.Utils.FileUtils;
 import com.inscripts.cometchatpulse.demo.Utils.FontUtils;
 import com.inscripts.cometchatpulse.demo.Utils.Logger;
 import com.inscripts.cometchatpulse.demo.ViewHolders.LeftAudioViewHolder;
@@ -49,6 +55,9 @@ import com.inscripts.cometchatpulse.demo.ViewHolders.RightReplyViewHolder;
 
 import org.json.JSONException;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.CookieHandler;
 import java.util.Date;
 import java.util.List;
 import static com.inscripts.cometchatpulse.demo.Utils.FileUtils.getFileExtension;
@@ -130,6 +139,9 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Handler seekHandler = new Handler(Looper.getMainLooper());
 
     private static final String TAG = "GroupMessageAdapter";
+    private static LongSparseArray<Integer> audioDurations;
+
+    private DownloadFile downloadFile;
 
     public GroupMessageAdapter(List<BaseMessage> groupList, Context context, String groupId, String ownerId) {
         this.messageList = groupList;
@@ -140,6 +152,8 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (player == null) {
             player = new MediaPlayer();
         }
+
+        audioDurations=new LongSparseArray<>();
 
         new FontUtils(context);
     }
@@ -329,6 +343,8 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if (mediaFile != null) {
 
                     Glide.with(context).load(mediaFile).apply(requestOptions).into(leftImageViewHolder.imageMessage);
+                    String finalMediaFile7 = mediaFile;
+                    leftImageViewHolder.imageMessage.setOnClickListener(view->startIntent(finalMediaFile7,false));
                 }
 
                 break;
@@ -345,6 +361,8 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             .placeholder(R.drawable.ic_broken_image);
 
                     Glide.with(context).load(mediaFile).apply(RightrequestOptions).into(rightImageVideoViewHolder.imageMessage);
+                    String finalMediaFile6 = mediaFile;
+                    rightImageVideoViewHolder.imageMessage.setOnClickListener(view->startIntent(finalMediaFile6,false));
                 }
                 break;
             case ACTION_MESSAGE:
@@ -381,7 +399,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 leftVideoViewHolder.btnPlayVideo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startIntent(finalMediaFile3);
+                        startIntent(finalMediaFile3,true);
                     }
                 });
                 break;
@@ -404,7 +422,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 rightVideoViewHolder.btnPlayVideo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startIntent(finalMediaFile4);
+                        startIntent(finalMediaFile4,true);
                     }
                 });
                 break;
@@ -419,8 +437,50 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     rightAudioViewHolder.playAudio.setImageResource(R.drawable.ic_play_arrow);
                 }
                 rightAudioViewHolder.audioSeekBar.setProgress(0);
+                String rightAudioPath=null;
+                File rightAudioFile=null;
+                try {
+                    if (mediaMessage.getMetadata() != null) {
+                        try {
+                            rightAudioPath = mediaMessage.getMetadata().getString("path");
+                            rightAudioFile=new File(rightAudioPath);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (rightAudioFile.exists()){
+                        try {
+
+                            if (audioDurations.get(timeStampLong) == null) {
+                                player.reset();
+                                try {
+                                    player.setDataSource(rightAudioPath);
+                                    player.prepare();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                int duration = player.getDuration();
+                                audioDurations.put(timeStampLong, duration);
+                                rightAudioViewHolder.audioLength.setText(DateUtils.convertTimeStampToDurationTime(duration));
+
+                            } else {
+                                int duration = player.getDuration();
+                                audioDurations.put(timeStampLong, duration);
+                                rightAudioViewHolder.audioLength.setText(DateUtils.convertTimeStampToDurationTime(duration));
+
+                            }
+
+                        } catch ( Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
 
                 final String tempMediaFile = mediaFile;
+                final String tempPath = rightAudioPath;
+                final File tempFile= rightAudioFile;
                 rightAudioViewHolder.playAudio.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -475,7 +535,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                                 } else {
                                     rightAudioViewHolder.playAudio.setImageResource(R.drawable.ic_pause);
-                                    playAudio(tempMediaFile, timeStampLong, player, rightAudioViewHolder.playAudio,
+                                    playAudio(tempFile.exists()?tempPath:tempMediaFile, timeStampLong, player, rightAudioViewHolder.playAudio,
                                             rightAudioViewHolder.audioLength, rightAudioViewHolder.audioSeekBar);
                                 }
                             } catch (Exception e) {
@@ -497,14 +557,90 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 leftAudioViewHolder.senderName.setVisibility(View.GONE);
                 leftAudioViewHolder.audioSeekBar.getProgressDrawable().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
                 leftAudioViewHolder.audioSeekBar.getThumb().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
+
                 if (!player.isPlaying()) {
                     leftAudioViewHolder.playAudio.setImageResource(R.drawable.ic_play_arrow);
                 }
+                leftAudioViewHolder.audioSeekBar.setProgress(0);
+                final String finalMediaFile1 = mediaFile;
+
+                String audioPath= FileUtils.getPath(context, CometChatConstants.MESSAGE_TYPE_AUDIO) +
+                        FileUtils.getFileName(mediaFile);
+
+                File audioFile=new File(audioPath);
+
+                if (audioFile.exists()){
+                    leftAudioViewHolder.fileLoadingProgressBar.setVisibility(View.GONE);
+                    leftAudioViewHolder.download.setVisibility(View.GONE);
+                    leftAudioViewHolder.playAudio.setVisibility(View.VISIBLE);
+
+                    try {
+
+                        if (audioDurations.get(timeStampLong) == null) {
+                            player.reset();
+                            try {
+                                player.setDataSource(audioPath);
+                                player.prepare();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            int duration = player.getDuration();
+                            audioDurations.put(timeStampLong, duration);
+                            leftAudioViewHolder.audioLength.setText(DateUtils.convertTimeStampToDurationTime(duration));
+
+                        } else {
+                            int duration = player.getDuration();
+                            audioDurations.put(timeStampLong, duration);
+                            leftAudioViewHolder.audioLength.setText(DateUtils.convertTimeStampToDurationTime(duration));
+
+                        }
+
+                    } catch ( Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }else {
+                    leftAudioViewHolder.fileLoadingProgressBar.setVisibility(View.GONE);
+                    leftAudioViewHolder.download.setVisibility(View.VISIBLE);
+                    leftAudioViewHolder.playAudio.setVisibility(View.GONE);
+                }
+
+                String tempUrl=mediaFile;
+                leftAudioViewHolder.download.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (downloadFile!=null&&downloadFile.getStatus()== AsyncTask.Status.RUNNING){
+
+                            downloadFile.cancel(true);
+                            leftAudioViewHolder.fileLoadingProgressBar.setVisibility(View.GONE);
+                            leftAudioViewHolder.playAudio.setVisibility(View.GONE);
+                            leftAudioViewHolder.download.setImageResource(R.drawable.ic_file_download);
+                            try {
+                                if (audioFile.exists()){
+                                    audioFile.delete();
+                                }
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }else {
+                            if (CCPermissionHelper.hasPermissions(context, CCPermissionHelper.REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE)){
+                                if (FileUtils.checkDirExistence(context,CometChatConstants.MESSAGE_TYPE_AUDIO)){
+                                    downloadFile=new DownloadFile(context,CometChatConstants.MESSAGE_TYPE_AUDIO,tempUrl,leftAudioViewHolder);
+                                    downloadFile.execute();
+                                }
+                            }else {
+                                CCPermissionHelper.requestPermissions((Activity)context, new String[]{CCPermissionHelper.REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE},
+                                        StringContract.RequestCode.FILE_WRITE);
+
+                            }
+                        }
+                    }
+                });
+
 
                 setAvatar(leftAudioViewHolder.avatar,avatar);
 
-                leftAudioViewHolder.audioSeekBar.setProgress(0);
-                final String finalMediaFile1 = mediaFile;
                 leftAudioViewHolder.playAudio.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -557,7 +693,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                                 } else {
                                     leftAudioViewHolder.playAudio.setImageResource(R.drawable.ic_pause);
-                                    playAudio(finalMediaFile1, timeStampLong, player, leftAudioViewHolder.playAudio, leftAudioViewHolder.audioLength, leftAudioViewHolder.audioSeekBar);
+                                    playAudio(audioFile.exists()?audioPath:finalMediaFile1, timeStampLong, player, leftAudioViewHolder.playAudio, leftAudioViewHolder.audioLength, leftAudioViewHolder.audioSeekBar);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -578,9 +714,9 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                     rightFileViewHolder.fileType.setTypeface(FontUtils.robotoRegular);
                     rightFileViewHolder.fileName.setTypeface(FontUtils.robotoRegular);
-                    rightFileViewHolder.fileName.setText(getFileName(mediaFile));
+                    rightFileViewHolder.fileName.setText(mediaMessage.getAttachment().getFileName());
                     rightFileViewHolder.messageTimeStamp.setText(timeStampString);
-                    rightFileViewHolder.fileType.setText(getFileExtension(mediaFile));
+                    rightFileViewHolder.fileType.setText(mediaMessage.getAttachment().getFileExtension());
 
                     final String finalMediaFile = mediaFile;
                     rightFileViewHolder.fileName.setOnClickListener(new View.OnClickListener() {
@@ -602,9 +738,9 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     leftFileViewHolder.senderName.setVisibility(View.GONE);
                     leftFileViewHolder.fileType.setTypeface(FontUtils.robotoRegular);
                     leftFileViewHolder.fileName.setTypeface(FontUtils.robotoRegular);
-                    leftFileViewHolder.fileName.setText(getFileName(mediaFile));
+                    leftFileViewHolder.fileName.setText(mediaMessage.getAttachment().getFileName());
                     leftFileViewHolder.messageTimeStamp.setText(timeStampString);
-                    leftFileViewHolder.fileType.setText(getFileExtension(mediaFile));
+                    leftFileViewHolder.fileType.setText(mediaMessage.getAttachment().getFileExtension());
                     final String finalMediaFile2 = mediaFile;
 
                     setAvatar(leftFileViewHolder.avatar,avatar);
@@ -817,7 +953,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 rightMediaReplyViewHolder.ivPlayVideoButton.setVisibility(View.VISIBLE);
                                 rightMediaReplyViewHolder.tvReplyTextMessage.setVisibility(View.VISIBLE);
                                 String finalMediaFile5 = mediaMessage.getUrl();
-                                rightMediaReplyViewHolder.ivPlayVideoButton.setOnClickListener(v -> startIntent(finalMediaFile5));
+                                rightMediaReplyViewHolder.ivPlayVideoButton.setOnClickListener(v -> startIntent(finalMediaFile5,true));
                                 Glide.with(context).load(mediaMessage.getUrl()).into(rightMediaReplyViewHolder.ivNewImage);
 
                                 break;
@@ -979,7 +1115,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 leftMediaReplyViewHolder.ivPlayVideoButton.setVisibility(View.VISIBLE);
                                 leftMediaReplyViewHolder.tvReplyTextMessage.setVisibility(View.VISIBLE);
                                 String finalMediaFile5 = mediaMessage.getUrl();
-                                leftMediaReplyViewHolder.ivPlayVideoButton.setOnClickListener(v -> startIntent(finalMediaFile5));
+                                leftMediaReplyViewHolder.ivPlayVideoButton.setOnClickListener(v -> startIntent(finalMediaFile5,true));
                                 Glide.with(context).load(mediaMessage.getUrl()).into(leftMediaReplyViewHolder.ivNewImage);
 
                                 break;
@@ -1077,13 +1213,13 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
 
-        setAvatarAndName(viewHolder, position, avatar);
 
     }
 
-    private void startIntent(String url) {
+    private void startIntent(String url,boolean isVideo) {
         Intent videoIntent=new Intent(context,VideoViewActivity.class);
         videoIntent.putExtra(StringContract.IntentStrings.MEDIA_URL,url);
+        videoIntent.putExtra(StringContract.IntentStrings.ISVIDEO,isVideo);
         context.startActivity(videoIntent);
     }
 
@@ -1151,7 +1287,19 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
 
         } catch (Exception e) {
-            e.printStackTrace();
+            playButton.setImageResource(R.drawable.ic_play_arrow);
+        }
+    }
+
+    public void stopPlayer(){
+        try {
+            if (player != null) {
+                player.stop();
+               player.reset();
+            }
+
+        } catch ( Exception e) {
+         e.printStackTrace();
         }
     }
 
@@ -1169,36 +1317,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
 
-    private <P> void setAvatarAndName(P holder, int position, String avatar) {
 
-        try {
-
-            if (getItemViewType(position) == LEFT_IMAGE_MESSAGE || getItemViewType(position) == LEFT_TEXT_MESSAGE
-                    || getItemViewType(position) == LEFT_VIDEO_MESSAGE || getItemViewType(position) == LEFT_AUDIO_MESSAGE) {
-                if (currentSenderId.equals(previousSenderId) && currentData.equals(previousDate) &&
-                        currentViewType != ACTION_MESSAGE && previousViewType != ACTION_MESSAGE) {
-                    if (holder instanceof LeftMessageViewHolder) {
-                        ((LeftMessageViewHolder) holder).senderName.setVisibility(View.GONE);
-                        ((LeftMessageViewHolder) holder).avatar.setVisibility(View.INVISIBLE);
-                    } else if (holder instanceof LeftImageVideoViewHolder) {
-                        ((LeftImageVideoViewHolder) holder).avatar.setVisibility(View.INVISIBLE);
-                        ((LeftImageVideoViewHolder) holder).senderName.setVisibility(View.GONE);
-                    } else if (holder instanceof LeftAudioViewHolder) {
-                        ((LeftAudioViewHolder) holder).avatar.setVisibility(View.INVISIBLE);
-                        ((LeftAudioViewHolder) holder).senderName.setVisibility(View.GONE);
-                    } else if (holder instanceof LeftFileViewHolder) {
-                        ((LeftFileViewHolder) holder).avatar.setVisibility(View.INVISIBLE);
-                        ((LeftFileViewHolder) holder).senderName.setVisibility(View.GONE);
-                    }
-                }
-            }
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-
-    }
 
 
     @Override

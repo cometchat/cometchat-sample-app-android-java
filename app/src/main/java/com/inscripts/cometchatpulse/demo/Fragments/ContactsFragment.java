@@ -35,7 +35,6 @@ import java.util.List;
  */
 public class ContactsFragment extends Fragment implements ContactsContract.ContactView{
 
-
     private ContactListAdapter contactListAdapter;
 
     private RecyclerView contactRecyclerView;
@@ -51,6 +50,7 @@ public class ContactsFragment extends Fragment implements ContactsContract.Conta
     private User user;
 
     private ShimmerFrameLayout contactShimmer;
+
     private LinearLayoutManager linearLayoutManager;
 
     public ContactsFragment() {
@@ -101,7 +101,6 @@ public class ContactsFragment extends Fragment implements ContactsContract.Conta
                 intent.putExtra(StringContract.IntentStrings.USER_NAME,contactName);
                 ActivityOptionsCompat optionsCompat=ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),p1,p2,p3);
                 startActivity(intent,optionsCompat.toBundle());
-
 
             }
 
@@ -159,7 +158,6 @@ public class ContactsFragment extends Fragment implements ContactsContract.Conta
     public void onStart() {
         super.onStart();
         contactPresenter.addPresenceListener(getString(R.string.presenceListener));
-
 
     }
 

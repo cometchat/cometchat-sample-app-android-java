@@ -12,7 +12,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginBottom="20dp"
         android:layout_width="150dp"
-        android:src="@mipmap/cc_small"
+        android:src="@drawable/cc"
         android:elevation="10dp"
         android:layout_gravity="center_horizontal"
         android:layout_height="150dp" />
@@ -26,7 +26,7 @@
         android:layout_marginBottom="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:hint="Enter Uid"
+        android:hint="@string/enter_uid"
         app:boxStrokeColor="@color/secondaryDarkColor"
         app:boxStrokeWidth="1dp"
         app:counterOverflowTextAppearance="@color/error"
@@ -46,6 +46,7 @@
             android:imeOptions="actionDone"
             android:inputType="text|textCapSentences"
             android:maxLines="1"
+            android:hint="@string/enter_uid"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:textSize="16sp" />
@@ -62,10 +63,27 @@
         android:textStyle="bold"
         android:textAllCaps="false"
         android:textSize="16sp"
-        android:layout_marginTop="20dp"
         android:background="@drawable/button_background"
         android:textColor="@color/primaryLightColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/primaryTextColor"
+        android:text="@string/haven_t_created_a_user_yet_select_one_of_our_default_users_for_testing"
+        android:layout_height="wrap_content" />
+
+    <GridView
+        android:id="@+id/sample_list"
+        android:layout_width="match_parent"
+        android:numColumns="2"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

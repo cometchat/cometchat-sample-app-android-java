@@ -29,6 +29,7 @@ import com.inscripts.cometchatpulse.demo.Adapter.ViewPagerAdapter;
 import com.inscripts.cometchatpulse.demo.Contracts.CometChatActivityContract;
 import com.inscripts.cometchatpulse.demo.Contracts.IncomingCallActivityContract;
 import com.inscripts.cometchatpulse.demo.Contracts.StringContract;
+import com.inscripts.cometchatpulse.demo.Fcm.MyFirebaseService;
 import com.inscripts.cometchatpulse.demo.Fragments.ContactsFragment;
 import com.inscripts.cometchatpulse.demo.Fragments.GroupListFragment;
 import com.inscripts.cometchatpulse.demo.Helper.FabIconAnimator;
@@ -59,8 +60,6 @@ public class CometChatActivity extends AppCompatActivity implements
 
     private CometChatActivityContract.CometChatActivityPresenter cometChatActivityPresenter;
 
-    private IncomingCallActivityContract.IncomingCallActivityPresenter incomingCallActivityPresenter;
-
     private ViewPagerAdapter adapter;
 
     private static final String TAG = "CometChatActivity";
@@ -73,12 +72,8 @@ public class CometChatActivity extends AppCompatActivity implements
         context = this;
         initViewComponents();
         cometChatActivityPresenter = new CometChatActivityPresenter();
-        incomingCallActivityPresenter = new IncomingCallActivityPresenter();
         cometChatActivityPresenter.attach(this);
-
     }
-
-
 
     private void initViewComponents() {
 
@@ -92,11 +87,12 @@ public class CometChatActivity extends AppCompatActivity implements
 
         getSupportActionBar().setTitle("");
 
+        MyFirebaseService.messageList=null;
+
         Drawable groupDrawable = getResources().getDrawable(R.drawable.ic_group_add_white_24dp);
 
         container = findViewById(R.id.constraint_container);
         mainContent = findViewById(R.id.main_content);
-
 
         fabIconAnimator = new FabIconAnimator(container);
         fabIconAnimator.update(groupDrawable, R.string.group);
@@ -142,14 +138,11 @@ public class CometChatActivity extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-
-
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-
     }
 
 
@@ -158,6 +151,7 @@ public class CometChatActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+        MyFirebaseService.messageList=null;
         cometChatActivityPresenter.addCallEventListener(context, TAG);
         Log.d(TAG, "onResume: ");
         cometChatActivityPresenter.addMessageListener(CometChatActivity.this,TAG);
@@ -169,7 +163,6 @@ public class CometChatActivity extends AppCompatActivity implements
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "onPause: ");
-
         cometChatActivityPresenter.removeMessageListener(TAG);
         cometChatActivityPresenter.removeCallEventListener(TAG);
     }
@@ -177,13 +170,12 @@ public class CometChatActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        MyFirebaseService.messageList=null;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         new GroupListFragment().onActivityResult(requestCode, resultCode, data);
         mViewPager.setCurrentItem(2);
     }

@@ -25,7 +25,6 @@ import com.inscripts.cometchatpulse.demo.R;
 public class IncomingCallActivityPresenter extends Presenter<IncomingCallActivityContract.IncomingCallActivityView>
         implements IncomingCallActivityContract.IncomingCallActivityPresenter {
 
-
     private Context context;
 
     @Override
@@ -74,14 +73,12 @@ public class IncomingCallActivityPresenter extends Presenter<IncomingCallActivit
     }
 
 
-
     @Override
     public void rejectCall(Context context, String sessionId,String callStatus) {
 
              CometChat.rejectCall(sessionId,callStatus, new CometChat.CallbackListener<Call>() {
                  @Override
                  public void onSuccess(Call call) {
-
                      ((IncomingCallActivity)context).finish();
                  }
 

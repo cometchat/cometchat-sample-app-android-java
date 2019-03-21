@@ -9,10 +9,11 @@
 
     <com.inscripts.cometchatpulse.demo.CustomView.CircleImageView
         android:id="@+id/imgAvatar"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/default_avatar"
         app:civ_circle_background_color="@color/secondaryColor"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -67,7 +68,7 @@
         android:layout_height="40dp"
         android:layout_margin="8dp"
         android:src="@drawable/ic_play_arrow"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/fileContainer"
         app:layout_constraintEnd_toEndOf="@+id/fileContainer"
         app:layout_constraintHorizontal_bias="0.0"
@@ -104,21 +105,39 @@
         app:layout_constraintEnd_toStartOf="@+id/leftGuideline"
         app:layout_constraintTop_toTopOf="@+id/fileContainer" />
 
-    <ProgressBar
-        android:id="@+id/fileName"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:visibility="visible"
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/fileContainer"
         app:layout_constraintEnd_toEndOf="@+id/fileContainer"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/fileContainer"
-        app:layout_constraintTop_toTopOf="@+id/fileContainer" />
+        app:layout_constraintTop_toTopOf="@+id/fileContainer"
+        android:layout_height="wrap_content">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/download"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:padding="4dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_file_download"
+            android:visibility="visible" />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/timeStamp"

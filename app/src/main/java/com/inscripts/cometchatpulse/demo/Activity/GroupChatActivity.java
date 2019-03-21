@@ -211,7 +211,7 @@ public class GroupChatActivity extends AppCompatActivity implements
         tvNameReply = findViewById(R.id.tvNameReply);
         tvTextMessage = findViewById(R.id.tvTextMessage);
         ivReplyImage = findViewById(R.id.ivReplyImage);
-        rlMain=findViewById(R.id.rl_main);
+        rlMain = findViewById(R.id.rl_main);
         ImageView ivClose = findViewById(R.id.ivClose);
 
         ivClose.setOnClickListener(this);
@@ -331,51 +331,49 @@ public class GroupChatActivity extends AppCompatActivity implements
     }
 
 
-    public static void hideReply(){
+    public static void hideReply() {
 
-        metaData=null;
-        isReply=false;
+        metaData = null;
+        isReply = false;
         rlReplyContainer.setVisibility(View.GONE);
     }
-
-
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void setScrollListener() {
 
-            messageRecyclerView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                @Override
-                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                    int temp = linearLayoutManager.findFirstVisibleItemPosition();
+        messageRecyclerView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                int temp = linearLayoutManager.findFirstVisibleItemPosition();
 
-                    if (temp < 5) {
+                if (temp < 5) {
 
-                        groupChatPresenter.fetchPreviousMessage(groupId, LIMIT);
+                    groupChatPresenter.fetchPreviousMessage(groupId, LIMIT);
 
-                    }
-                    if (messageCount - linearLayoutManager.findLastVisibleItemPosition() < 5) {
-                        if (btnScroll.getVisibility() == View.VISIBLE) {
-                            btnScroll.startAnimation(goneAnimation);
-                            btnScroll.setVisibility(View.GONE);
-                            newMessageCount = 0;
-
-                        }
-
-                    } else {
-                        if (btnScroll.getVisibility() == View.GONE) {
-                            btnScroll.startAnimation(viewAniamtion);
-                            btnScroll.setVisibility(View.VISIBLE);
-                        }
-                    }
-
-                    if (messageCount - 2 == linearLayoutManager.findLastVisibleItemPosition()) {
+                }
+                if (messageCount - linearLayoutManager.findLastVisibleItemPosition() < 5) {
+                    if (btnScroll.getVisibility() == View.VISIBLE) {
+                        btnScroll.startAnimation(goneAnimation);
+                        btnScroll.setVisibility(View.GONE);
                         newMessageCount = 0;
-                        btnScroll.setText(getString(R.string.jump_to_latest));
-                        btnScroll.getBackground().setColorFilter(Color.parseColor("#8e8e92"), PorterDuff.Mode.SRC_ATOP);
+
+                    }
+
+                } else {
+                    if (btnScroll.getVisibility() == View.GONE) {
+                        btnScroll.startAnimation(viewAniamtion);
+                        btnScroll.setVisibility(View.VISIBLE);
                     }
                 }
-            });
+
+                if (messageCount - 2 == linearLayoutManager.findLastVisibleItemPosition()) {
+                    newMessageCount = 0;
+                    btnScroll.setText(getString(R.string.jump_to_latest));
+                    btnScroll.getBackground().setColorFilter(Color.parseColor("#8e8e92"), PorterDuff.Mode.SRC_ATOP);
+                }
+            }
+        });
 
     }
 
@@ -480,11 +478,11 @@ public class GroupChatActivity extends AppCompatActivity implements
                 break;
 
             case R.id.menu_custom_action_video_call:
-                 groupChatPresenter.sendCallRequest(this,groupId,CometChatConstants.RECEIVER_TYPE_GROUP,CometChatConstants.CALL_TYPE_VIDEO);
+                groupChatPresenter.sendCallRequest(this, groupId, CometChatConstants.RECEIVER_TYPE_GROUP, CometChatConstants.CALL_TYPE_VIDEO);
                 break;
 
             case R.id.menu_custom_action_audio_call:
-                groupChatPresenter.sendCallRequest(this,groupId,CometChatConstants.RECEIVER_TYPE_GROUP,CometChatConstants.CALL_TYPE_AUDIO);
+                groupChatPresenter.sendCallRequest(this, groupId, CometChatConstants.RECEIVER_TYPE_GROUP, CometChatConstants.CALL_TYPE_AUDIO);
                 break;
 
             case R.id.menu_group_leave:
@@ -528,13 +526,16 @@ public class GroupChatActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
         groupChatPresenter.addMessageReceiveListener(getResources().getString(R.string.group_message_listener), groupId, ownerId);
-        groupChatPresenter.addGroupEventListener("action_message",groupId,ownerId);
+        groupChatPresenter.addGroupEventListener("action_message", groupId, ownerId);
         groupChatPresenter.addCallListener("call_listener");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+         if (groupMessageAdapter!=null) {
+             groupMessageAdapter.stopPlayer();
+         }
         groupChatPresenter.removeMessageReceiveListener(getResources().getString(R.string.group_message_listener));
         groupChatPresenter.removeMessageReceiveListener("action_message");
         groupChatPresenter.removeCallListener("call_listener");
@@ -599,7 +600,7 @@ public class GroupChatActivity extends AppCompatActivity implements
 
     @Override
     public void setTitle(String title) {
-        groupName=title;
+        groupName = title;
         toolbarTitle.setText(title);
 
     }
@@ -639,26 +640,25 @@ public class GroupChatActivity extends AppCompatActivity implements
         }
 
 
-
     }
 
     @Override
     public void addReceivedMessage(BaseMessage baseMessage) {
 
-         if(groupMessageAdapter!=null) {
-             newMessageCount++;
-             groupMessageAdapter.add(baseMessage);
-             if (messageCount - linearLayoutManager.findLastVisibleItemPosition() < 5) {
-                 messageRecyclerView.scrollToPosition(groupMessageAdapter.getItemCount() - 1);
-                 newMessageCount = 0;
-             } else {
-                 btnScroll.setVisibility(View.VISIBLE);
-                 btnScroll.setText(newMessageCount+" " + getString(R.string.new_message));
-                 AnimUtil.getShakeAnimation(btnScroll);
-                 btnScroll.getBackground().setColorFilter(getResources().getColor(R.color.secondaryColor), PorterDuff.Mode.SRC_ATOP);
+        if (groupMessageAdapter != null) {
+            newMessageCount++;
+            groupMessageAdapter.add(baseMessage);
+            if (messageCount - linearLayoutManager.findLastVisibleItemPosition() < 5) {
+                messageRecyclerView.scrollToPosition(groupMessageAdapter.getItemCount() - 1);
+                newMessageCount = 0;
+            } else {
+                btnScroll.setVisibility(View.VISIBLE);
+                btnScroll.setText(newMessageCount + " " + getString(R.string.new_message));
+                AnimUtil.getShakeAnimation(btnScroll);
+                btnScroll.getBackground().setColorFilter(getResources().getColor(R.color.secondaryColor), PorterDuff.Mode.SRC_ATOP);
 
-             }
-         }
+            }
+        }
 
     }
 
@@ -667,7 +667,7 @@ public class GroupChatActivity extends AppCompatActivity implements
         switch (requestCode) {
             case StringContract.RequestCode.ADD_DOCUMENT:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                        ) {
+                ) {
 
                     AttachmentHelper.selectMedia(this, StringContract.IntentStrings.DOCUMENT_TYPE,
                             null, StringContract.RequestCode.ADD_DOCUMENT);
@@ -712,6 +712,15 @@ public class GroupChatActivity extends AppCompatActivity implements
                 }
                 break;
 
+            case StringContract.RequestCode.FILE_WRITE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    FileUtils.makeDirectory(this, CometChatConstants.MESSAGE_TYPE_AUDIO);
+                } else {
+                    showToast();
+                }
+                break;
+
         }
     }
 
@@ -720,7 +729,7 @@ public class GroupChatActivity extends AppCompatActivity implements
         if (resultCode == RESULT_OK && data != null && groupChatPresenter != null) {
             switch (requestCode) {
                 case StringContract.RequestCode.ADD_GALLERY:
-                    AttachmentHelper.handlefile(context,CometChatConstants.MESSAGE_TYPE_IMAGE,groupChatPresenter,data,groupId);
+                    AttachmentHelper.handlefile(context, CometChatConstants.MESSAGE_TYPE_IMAGE, groupChatPresenter, data, groupId);
                     break;
 
                 case StringContract.RequestCode.TAKE_PHOTO:
@@ -732,11 +741,11 @@ public class GroupChatActivity extends AppCompatActivity implements
                     break;
 
                 case StringContract.RequestCode.ADD_DOCUMENT:
-                    AttachmentHelper.handlefile(context,CometChatConstants.MESSAGE_TYPE_FILE,groupChatPresenter,data,groupId);
+                    AttachmentHelper.handlefile(context, CometChatConstants.MESSAGE_TYPE_FILE, groupChatPresenter, data, groupId);
                     break;
 
                 case StringContract.RequestCode.ADD_SOUND:
-                    AttachmentHelper.handlefile(context,CometChatConstants.MESSAGE_TYPE_AUDIO,groupChatPresenter,data,groupId);
+                    AttachmentHelper.handlefile(context, CometChatConstants.MESSAGE_TYPE_AUDIO, groupChatPresenter, data, groupId);
                     break;
             }
         }
@@ -787,10 +796,10 @@ public class GroupChatActivity extends AppCompatActivity implements
         tvNameReply.setText(baseMessage.getSender().getName());
         try {
             metaData.put("reply", "reply");
-            metaData.put("senderName",  baseMessage.getSender().getName());
-            metaData.put("senderUid",baseMessage.getSender().getUid());
-            metaData.put("type",  baseMessage.getType());
-            metaData.put("id",  baseMessage.getId());
+            metaData.put("senderName", baseMessage.getSender().getName());
+            metaData.put("senderUid", baseMessage.getSender().getUid());
+            metaData.put("type", baseMessage.getType());
+            metaData.put("id", baseMessage.getId());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -801,7 +810,7 @@ public class GroupChatActivity extends AppCompatActivity implements
             tvTextMessage.setVisibility(View.VISIBLE);
             tvTextMessage.setText(((TextMessage) baseMessage).getText());
             try {
-                metaData.put("text",((TextMessage)baseMessage).getText());
+                metaData.put("text", ((TextMessage) baseMessage).getText());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -811,7 +820,7 @@ public class GroupChatActivity extends AppCompatActivity implements
             tvTextMessage.setVisibility(View.GONE);
 
             try {
-                metaData.put("url",((MediaMessage)baseMessage).getUrl());
+                metaData.put("url", ((MediaMessage) baseMessage).getUrl());
 
             } catch (JSONException e) {
                 e.printStackTrace();

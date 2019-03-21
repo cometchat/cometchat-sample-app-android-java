@@ -153,6 +153,8 @@ public class OneToOneChatActivity extends AppCompatActivity
 
     private ImageView ivReplyImage;
 
+    public static String contactId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -391,7 +393,7 @@ public class OneToOneChatActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         Logger.error(TAG, "onDestroy: ");
-
+         contactId=null;
         oneToOnePresenter.detach();
 
     }
@@ -535,6 +537,15 @@ public class OneToOneChatActivity extends AppCompatActivity
                 }
                 break;
 
+            case StringContract.RequestCode.FILE_WRITE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    FileUtils.makeDirectory(this, CometChatConstants.MESSAGE_TYPE_AUDIO);
+                } else {
+                    showToast();
+                }
+                break;
+
 
         }
     }
@@ -577,6 +588,7 @@ public class OneToOneChatActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        contactId=contactUid;
         Logger.error(TAG, "onResume: ");
         oneToOnePresenter.addPresenceListener(getString(R.string.presenceListener));
         oneToOnePresenter.addMessageReceiveListener(contactUid);
@@ -587,7 +599,11 @@ public class OneToOneChatActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
+        contactId=null;
         Logger.error(TAG, "onPause: ");
+        if (oneToOneAdapter!=null) {
+            oneToOneAdapter.stopPlayer();
+        }
         oneToOnePresenter.removeMessageLisenter(getString(R.string.message_listener));
         oneToOnePresenter.removePresenceListener(getString(R.string.presenceListener));
         oneToOnePresenter.removeCallListener(TAG);
@@ -596,7 +612,7 @@ public class OneToOneChatActivity extends AppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-
+         contactId=null;
         stopRecording(false);
 
         Logger.error(TAG, "onStop:");
@@ -636,6 +652,7 @@ public class OneToOneChatActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+        contactId=contactUid;
 
     }
 
@@ -914,7 +931,6 @@ public class OneToOneChatActivity extends AppCompatActivity
             }
         }
 
-
         return true;
     }
 
@@ -922,7 +938,6 @@ public class OneToOneChatActivity extends AppCompatActivity
     public void onDestroyActionMode(ActionMode mode) {
         mode = null;
     }
-
 
     private class AttachmentTypeListener implements AttachmentTypeSelector.AttachmentClickedListener {
         @Override

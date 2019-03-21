@@ -23,7 +23,7 @@ public class LeftAudioViewHolder extends RecyclerView.ViewHolder{
     public CircleImageView avatar;
     public View audioContainer;
     public ImageView playAudio;
-    public ImageView leftArrow;
+    public ImageView download;
     public Guideline leftGuideLine;
     public ProgressBar fileLoadingProgressBar;
     public SeekBar audioSeekBar;
@@ -35,7 +35,8 @@ public class LeftAudioViewHolder extends RecyclerView.ViewHolder{
         audioContainer = leftAudioMessageView.findViewById(R.id.fileContainer);
         playAudio = leftAudioMessageView.findViewById(R.id.playButton);
         leftGuideLine = leftAudioMessageView.findViewById(R.id.leftGuideline);
-        fileLoadingProgressBar = leftAudioMessageView.findViewById(R.id.fileName);
+        fileLoadingProgressBar = leftAudioMessageView.findViewById(R.id.progressBar);
+        download=leftAudioMessageView.findViewById(R.id.download);
         audioSeekBar = leftAudioMessageView.findViewById(R.id.audioSeekBar);
         audioLength = leftAudioMessageView.findViewById(R.id.audioLength);
         Display display = ((WindowManager) context.getSystemService(WINDOW_SERVICE)).getDefaultDisplay();

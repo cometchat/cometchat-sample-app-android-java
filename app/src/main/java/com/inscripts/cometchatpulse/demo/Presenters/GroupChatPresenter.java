@@ -33,6 +33,9 @@ import com.cometchat.pro.models.MediaMessage;
 import com.cometchat.pro.models.TextMessage;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.List;
 
@@ -173,7 +176,6 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
 
         TextMessage textMessage = new TextMessage(groupId, message,
                 CometChatConstants.MESSAGE_TYPE_TEXT, CometChatConstants.RECEIVER_TYPE_GROUP);
-
 
         if (GroupChatActivity.isReply){
             textMessage.setMetadata(GroupChatActivity.metaData);
@@ -318,7 +320,7 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
                         s= new String[groupMembers.size()];
                         for (int j = 0; j < groupMembers.size(); j++) {
 
-                            s[j] = groupMembers.get(j).getUser().getName();
+                            s[j] = groupMembers.get(j).getName();
                         }
 
                     }
@@ -349,6 +351,14 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
         MediaMessage mediaMessage = new MediaMessage(groupId, file, messageType,
                 CometChatConstants.RECEIVER_TYPE_GROUP);
         mediaMessage.setSentAt(System.currentTimeMillis());
+        JSONObject jsonObject=new JSONObject();
+
+        try {
+            jsonObject.put("path",file.getAbsolutePath());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mediaMessage.setMetadata(jsonObject);
 
         if (GroupChatActivity.isReply){
             mediaMessage.setMetadata(GroupChatActivity.metaData);

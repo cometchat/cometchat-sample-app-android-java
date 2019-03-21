@@ -44,7 +44,7 @@ public class GroupMemberListAdapter extends RecyclerView.Adapter<GroupMemberList
     public void onBindViewHolder(@NonNull GroupMemberHolder groupMemberHolder, int i) {
 
         GroupMember groupMember = groupMemberList.get(i);
-        User user = groupMember.getUser();
+        User user = groupMember;
         if (user.getUid().equals(ownerId))
         {
             groupMemberHolder.userName.setText(context.getString(R.string.you));

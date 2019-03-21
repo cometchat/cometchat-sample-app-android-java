@@ -24,7 +24,6 @@ import com.cometchat.pro.models.BaseMessage;
 public class CometChatActivityPresenter extends Presenter<CometChatActivityContract.CometChatActivityView>
 implements CometChatActivityContract.CometChatActivityPresenter {
 
-
     private static final String TAG = "CometChatActivityPresen";
 
     @Override
@@ -35,12 +34,10 @@ implements CometChatActivityContract.CometChatActivityPresenter {
             @Override
             public void onTextMessageReceived(TextMessage message) {
 
-
             }
 
             @Override
             public void onMediaMessageReceived(MediaMessage message) {
-
 
             }
         });

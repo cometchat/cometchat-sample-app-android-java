@@ -13,8 +13,6 @@
 
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
-
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -31,6 +29,12 @@
         tools:ignore="GoogleAppIndexingWarning"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
+
+        <service android:name=".Fcm.MyFirebaseService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
 
         <activity
@@ -63,13 +67,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Activity.GroupDetailActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity android:name=".Activity.VideoViewActivity" />
         <activity android:name=".Activity.IncomingCallActivity" />
-        <activity android:name=".Activity.CallActivity"></activity>
+        <activity android:name=".Activity.CallActivity"/>
     </application>
 
 </manifest>

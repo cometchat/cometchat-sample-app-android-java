@@ -10,12 +10,13 @@
 
     <com.inscripts.cometchatpulse.demo.CustomView.CircleImageView
         android:id="@+id/imgAvatar"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:background="@drawable/default_avatar"
         app:civ_circle_background_color="@color/secondaryColor"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/senderName"

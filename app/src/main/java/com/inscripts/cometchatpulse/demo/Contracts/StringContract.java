@@ -36,6 +36,7 @@ public class StringContract {
         public static final String NAME = "name";
         public static final String ID = "id";
         public static final String AVATAR = "avatar";
+        public static final String ISVIDEO ="isvideo";
     }
 
     public static class RequestCode {
@@ -46,14 +47,11 @@ public class StringContract {
         public static final int TAKE_PHOTO = 5;
         public static final int TAKE_VIDEO = 7;
         public static final int LEFT = 8;
+        public static final int FILE_WRITE = 234;
     }
 
     public static class AppDetails{
-        public static final String APP_ID  =  "XXXXXXXXXXXXXXX";
-        public static final String API_KEY =  "XXXXXXXXXXXXXXX";
+        public static final String APP_ID  =  "XXXXXXXXXXXX";
+        public static final String API_KEY =  "XXXXXXXXXXXX";
     }
-
-
-
-
 }

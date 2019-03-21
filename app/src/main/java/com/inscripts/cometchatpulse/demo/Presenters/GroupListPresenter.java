@@ -13,6 +13,7 @@ import com.cometchat.pro.core.GroupsRequest;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.helpers.Logger;
 import com.cometchat.pro.models.Group;
+import com.inscripts.cometchatpulse.demo.Fcm.MyFirebaseService;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
                     if (isViewAttached())
                         Logger.error("Groups List Received : " + groups);
                         getBaseView().setGroupAdapter(groups);
+                         MyFirebaseService.subscribeGroup(groups);
                 }
 
                 @Override
@@ -49,6 +51,7 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
                     Logger.error("Groups List Received : " + groups);
                     if (isViewAttached()&&groups.size()!=0)
                         getBaseView().setGroupAdapter(groups);
+                        MyFirebaseService.subscribeGroup(groups);
                 }
 
                 @Override
@@ -65,9 +68,9 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
     public void joinGroup(final Context context, final Group group, final ProgressDialog progressDialog,
                           final GroupListAdapter groupListAdapter) {
 
-        CometChat.joinGroup(group.getGuid(), group.getGroupType(), group.getPassword(), new CometChat.CallbackListener<String>() {
+        CometChat.joinGroup(group.getGuid(), group.getGroupType(), group.getPassword(), new CometChat.CallbackListener<Group>() {
             @Override
-            public void onSuccess(String s) {
+            public void onSuccess(Group group) {
                 showToast(context, "yes");
                 progressDialog.dismiss();
                 group.setHasJoined(true);
@@ -79,7 +82,6 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
             @Override
             public void onError(CometChatException e) {
                 progressDialog.dismiss();
-                showToast(context, "no");
             }
 
 

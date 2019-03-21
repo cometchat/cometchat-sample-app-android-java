@@ -26,6 +26,9 @@ import com.inscripts.cometchatpulse.demo.Utils.CommonUtils;
 import com.inscripts.cometchatpulse.demo.Utils.Logger;
 import com.inscripts.cometchatpulse.demo.Utils.MediaUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.List;
 
@@ -77,6 +80,7 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
             String uid = intent.getStringExtra(StringContract.IntentStrings.USER_ID);
             if (isViewAttached()) {
                 getBaseView().setContactUid(uid);
+                OneToOneChatActivity.contactId=uid;
             }
 
             CometChat.getUser(uid, new CometChat.CallbackListener<User>() {
@@ -138,6 +142,14 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
 
         final MediaMessage mediaMessage = new MediaMessage(receiverUid, filepath, type,
                 CometChatConstants.RECEIVER_TYPE_USER);
+        JSONObject jsonObject=new JSONObject();
+        try {
+
+            jsonObject.put("path",filepath.getAbsolutePath());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mediaMessage.setMetadata(jsonObject);
 
         if (OneToOneChatActivity.isReply){
             mediaMessage.setMetadata(OneToOneChatActivity.metaData);
@@ -147,7 +159,6 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
         CometChat.sendMediaMessage(mediaMessage, new CometChat.CallbackListener<MediaMessage>() {
             @Override
             public void onSuccess(MediaMessage mediaMessage) {
-
                 MediaUtils.playSendSound(context, R.raw.send);
                 getBaseView().addMessage(mediaMessage);
 
@@ -155,7 +166,6 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
 
             @Override
             public void onError(CometChatException e) {
-
             }
 
         });
