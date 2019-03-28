@@ -57,7 +57,13 @@ CometChat Android Demo app (built using **CometChat Pro**) is a fully functional
     firebase follow the instruction below :
      
       [Add Firebase to your Android project](https://firebase.google.com/docs/android/setup)
-
+      
+  - To enable push notification in your app you also need to enable push notification extension in your app from CometChat       DashBoard.To enable push notification extension follow the below steps:
+         
+      * Go to your app in [CometChat Dashboard ](https://app.cometchat.com/)
+      * Go to Extension section 
+      * Add Push Notification Extension
+      * Add **FCM Server Key** in Push Notification Extension
 
 
 ## Note
