@@ -13,7 +13,6 @@ import com.cometchat.pro.core.GroupsRequest;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.helpers.Logger;
 import com.cometchat.pro.models.Group;
-import com.inscripts.cometchatpulse.demo.Fcm.MyFirebaseService;
 
 import java.util.List;
 
@@ -35,7 +34,7 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
                     if (isViewAttached())
                         Logger.error("Groups List Received : " + groups);
                         getBaseView().setGroupAdapter(groups);
-                         MyFirebaseService.subscribeGroup(groups);
+
                 }
 
                 @Override
@@ -51,7 +50,7 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
                     Logger.error("Groups List Received : " + groups);
                     if (isViewAttached()&&groups.size()!=0)
                         getBaseView().setGroupAdapter(groups);
-                        MyFirebaseService.subscribeGroup(groups);
+
                 }
 
                 @Override

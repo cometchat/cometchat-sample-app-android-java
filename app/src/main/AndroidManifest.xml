@@ -30,12 +30,6 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
 
-        <service android:name=".Fcm.MyFirebaseService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
 
         <activity
             android:name=".Activity.CometChatActivity"

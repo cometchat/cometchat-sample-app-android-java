@@ -1,15 +1,9 @@
 package com.inscripts.cometchatpulse.demo.Activity;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
@@ -21,21 +15,16 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.models.User;
 import com.inscripts.cometchatpulse.demo.Adapter.ViewPagerAdapter;
 import com.inscripts.cometchatpulse.demo.Contracts.CometChatActivityContract;
-import com.inscripts.cometchatpulse.demo.Contracts.IncomingCallActivityContract;
 import com.inscripts.cometchatpulse.demo.Contracts.StringContract;
-import com.inscripts.cometchatpulse.demo.Fcm.MyFirebaseService;
 import com.inscripts.cometchatpulse.demo.Fragments.ContactsFragment;
 import com.inscripts.cometchatpulse.demo.Fragments.GroupListFragment;
 import com.inscripts.cometchatpulse.demo.Helper.FabIconAnimator;
 import com.inscripts.cometchatpulse.demo.Helper.ScrollHelper;
 import com.inscripts.cometchatpulse.demo.Presenters.CometChatActivityPresenter;
-import com.inscripts.cometchatpulse.demo.Presenters.IncomingCallActivityPresenter;
 import com.inscripts.cometchatpulse.demo.R;
 import com.inscripts.cometchatpulse.demo.Utils.FontUtils;
 
@@ -64,7 +53,6 @@ public class CometChatActivity extends AppCompatActivity implements
 
     private static final String TAG = "CometChatActivity";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,8 +75,6 @@ public class CometChatActivity extends AppCompatActivity implements
 
         getSupportActionBar().setTitle("");
 
-        MyFirebaseService.messageList=null;
-
         Drawable groupDrawable = getResources().getDrawable(R.drawable.ic_group_add_white_24dp);
 
         container = findViewById(R.id.constraint_container);
@@ -100,13 +86,7 @@ public class CometChatActivity extends AppCompatActivity implements
 
         tabs = findViewById(R.id.tabs);
 
-        fabIconAnimator.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(context, CreateGroupActivity.class));
-            }
-        });
-
+        fabIconAnimator.setOnClickListener(view -> startActivity(new Intent(context, CreateGroupActivity.class)));
 
         mViewPager = findViewById(R.id.container);
 
@@ -134,7 +114,6 @@ public class CometChatActivity extends AppCompatActivity implements
 
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -145,19 +124,14 @@ public class CometChatActivity extends AppCompatActivity implements
         super.onStop();
     }
 
-
-
-
     @Override
     protected void onResume() {
         super.onResume();
-        MyFirebaseService.messageList=null;
         cometChatActivityPresenter.addCallEventListener(context, TAG);
         Log.d(TAG, "onResume: ");
         cometChatActivityPresenter.addMessageListener(CometChatActivity.this,TAG);
 
     }
-
 
     @Override
     protected void onPause() {
@@ -170,7 +144,6 @@ public class CometChatActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        MyFirebaseService.messageList=null;
     }
 
     @Override
@@ -196,7 +169,6 @@ public class CometChatActivity extends AppCompatActivity implements
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -225,6 +197,5 @@ public class CometChatActivity extends AppCompatActivity implements
     public void setFab(boolean isExtended) {
         fabIconAnimator.setExtended(isExtended);
     }
-
 
 }

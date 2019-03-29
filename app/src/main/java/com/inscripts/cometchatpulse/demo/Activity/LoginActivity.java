@@ -2,24 +2,19 @@ package com.inscripts.cometchatpulse.demo.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.button.MaterialButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
-
 import com.inscripts.cometchatpulse.demo.Adapter.AutoCompleteAdapter;
-import com.inscripts.cometchatpulse.demo.Fcm.MyFirebaseService;
 import com.inscripts.cometchatpulse.demo.Pojo.Option;
 import com.inscripts.cometchatpulse.demo.R;
 import com.inscripts.cometchatpulse.demo.Contracts.LoginActivityContract;
 import com.inscripts.cometchatpulse.demo.Presenters.LoginAcitivityPresenter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,7 +75,6 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityCon
         if (!uid.isEmpty()) {
             Toast.makeText(LoginActivity.this, getString(R.string.wait), Toast.LENGTH_SHORT).show();
             loginActivityPresenter.Login(uid);
-            MyFirebaseService.subscribeUser(uid);
         } else {
 
             Toast.makeText(LoginActivity.this, getString(R.string.enter_uid_toast), Toast.LENGTH_SHORT).show();

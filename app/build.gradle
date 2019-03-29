@@ -16,14 +16,15 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
-//
-//        packagingOptions {
-//            exclude "lib/arm64-v8a/libgnustl_shared.so"
-//        }
+
 
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
+        }
+
+        testOptions {
+            unitTests.returnDefaultValues = true
         }
 
     }
@@ -58,12 +59,17 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     //cometchat sdk
     implementation 'com.cometchat:pro-android-chat-sdk:1.3.0'
+
     implementation 'com.facebook.shimmer:shimmer:0.3.0'
-    implementation 'com.google.firebase:firebase-core:16.0.8'
-    implementation 'com.google.firebase:firebase-messaging:17.4.0'
+
+
+
+
+
+
 
 }
-apply plugin: 'com.google.gms.google-services'
+
 repositories {
     mavenCentral()
 }

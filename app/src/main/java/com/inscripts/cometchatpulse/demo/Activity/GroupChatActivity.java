@@ -71,8 +71,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class GroupChatActivity extends AppCompatActivity implements
-        GroupChatActivityContract.GroupChatView, TextWatcher, View.OnClickListener, ActionMode.Callback {
+public class GroupChatActivity extends AppCompatActivity implements GroupChatActivityContract.GroupChatView, TextWatcher, View.OnClickListener, ActionMode.Callback {
 
     private static final int LIMIT = 30;
 
@@ -148,17 +147,13 @@ public class GroupChatActivity extends AppCompatActivity implements
 
     private String groupName;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_chat);
         attachmentTypeSelector = null;
         context = this;
-
         groupChatPresenter = new GroupChatPresenter();
         groupChatPresenter.attach(this);
         initViewComponent();

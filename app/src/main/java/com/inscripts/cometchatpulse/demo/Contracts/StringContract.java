@@ -40,7 +40,6 @@ public class StringContract {
     }
 
     public static class RequestCode {
-
         public static final int ADD_GALLERY = 1;
         public static final int ADD_DOCUMENT = 2;
         public static final int ADD_SOUND = 3;
@@ -51,7 +50,7 @@ public class StringContract {
     }
 
     public static class AppDetails{
-        public static final String APP_ID  =  "XXXXXXXXXXXX";
-        public static final String API_KEY =  "XXXXXXXXXXXX";
+        public static final String APP_ID  =  "XXXXXXXXXXXXXX";
+        public static final String API_KEY =  "XXXXXXXXXXXXXX";
     }
 }
