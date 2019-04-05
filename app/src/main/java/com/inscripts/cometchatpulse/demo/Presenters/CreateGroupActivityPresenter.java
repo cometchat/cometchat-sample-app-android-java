@@ -21,7 +21,7 @@ public class CreateGroupActivityPresenter extends Presenter<CreateGroupActivityC
         CometChat.createGroup(group, new CometChat.CallbackListener<Group>() {
             @Override
             public void onSuccess(Group group) {
-                CommonUtils.startActivityIntent(group, context, true, null);
+                CommonUtils.startActivityIntent(group, context, true,                                                                                            null);
                 Toast.makeText(context, group.getGroupType() + " group created ", Toast.LENGTH_SHORT).show();
             }
 

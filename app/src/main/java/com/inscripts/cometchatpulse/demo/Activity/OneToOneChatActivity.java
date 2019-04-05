@@ -269,14 +269,11 @@ public class OneToOneChatActivity extends AppCompatActivity
         }
 
 
-        KeyboardVisibilityEvent.setEventListener(this, new KeyboardVisibilityEventListener() {
-            @Override
-            public void onVisibilityChanged(boolean var1) {
-                if (messageCount - linearLayoutManager.findLastVisibleItemPosition() < 5) {
+        KeyboardVisibilityEvent.setEventListener(this, var1 -> {
+            if (messageCount - linearLayoutManager.findLastVisibleItemPosition() < 5) {
 
-                    if (oneToOneAdapter != null) {
-                        messageRecyclerView.scrollToPosition(oneToOneAdapter.getItemCount() - 1);
-                    }
+                if (oneToOneAdapter != null) {
+                    messageRecyclerView.scrollToPosition(oneToOneAdapter.getItemCount() - 1);
                 }
             }
         });
@@ -304,40 +301,37 @@ public class OneToOneChatActivity extends AppCompatActivity
     @TargetApi(Build.VERSION_CODES.M)
     private void setScrollListener() {
 
-        messageRecyclerView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        messageRecyclerView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
 
-                int temp = linearLayoutManager.findFirstVisibleItemPosition();
+            int temp = linearLayoutManager.findFirstVisibleItemPosition();
 
-                if (temp < 5) {
-                    Logger.error("Fast scroll");
-                    oneToOnePresenter.fetchPreviousMessage(contactUid, LIMIT);
+            if (temp < 5) {
+                Logger.error("Fast scroll");
+                oneToOnePresenter.fetchPreviousMessage(contactUid, LIMIT);
+
+            }
+
+            toolbar.setSelected(messageRecyclerView.canScrollVertically(-1));
+
+
+            if (messageCount - linearLayoutManager.findLastVisibleItemPosition() < 5) {
+                if (btnScroll.getVisibility() == View.VISIBLE) {
+                    btnScroll.startAnimation(goneAnimation);
+                    btnScroll.setVisibility(View.GONE);
 
                 }
 
-                toolbar.setSelected(messageRecyclerView.canScrollVertically(-1));
-
-
-                if (messageCount - linearLayoutManager.findLastVisibleItemPosition() < 5) {
-                    if (btnScroll.getVisibility() == View.VISIBLE) {
-                        btnScroll.startAnimation(goneAnimation);
-                        btnScroll.setVisibility(View.GONE);
-
-                    }
-
-                } else {
-                    if (btnScroll.getVisibility() == View.GONE) {
-                        btnScroll.startAnimation(viewAniamtion);
-                        btnScroll.setVisibility(View.VISIBLE);
-                    }
+            } else {
+                if (btnScroll.getVisibility() == View.GONE) {
+                    btnScroll.startAnimation(viewAniamtion);
+                    btnScroll.setVisibility(View.VISIBLE);
                 }
+            }
 
-                if (messageCount - 2 == linearLayoutManager.findLastVisibleItemPosition()) {
-                    newMessageCount = 0;
-                    btnScroll.setText(getString(R.string.jump_to_latest));
-                    btnScroll.getBackground().setColorFilter(Color.parseColor("#8e8e92"), PorterDuff.Mode.SRC_ATOP);
-                }
+            if (messageCount - 2 == linearLayoutManager.findLastVisibleItemPosition()) {
+                newMessageCount = 0;
+                btnScroll.setText(getString(R.string.jump_to_latest));
+                btnScroll.getBackground().setColorFilter(Color.parseColor("#8e8e92"), PorterDuff.Mode.SRC_ATOP);
             }
         });
 
@@ -373,7 +367,6 @@ public class OneToOneChatActivity extends AppCompatActivity
                     audioFile = new File(audioFileNamewithPath);
                     Logger.error("audioFileNamewithPath", audioFileNamewithPath);
                     oneToOnePresenter.sendMediaMessage(audioFile, contactUid, CometChatConstants.MESSAGE_TYPE_AUDIO);
-
                 }
 
                 stopRecording(false);
@@ -393,7 +386,6 @@ public class OneToOneChatActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         Logger.error(TAG, "onDestroy: ");
-         contactId=null;
         oneToOnePresenter.detach();
 
     }
@@ -522,7 +514,6 @@ public class OneToOneChatActivity extends AppCompatActivity
 
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                         grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-
                 } else {
                     showToast();
                 }
@@ -546,16 +537,25 @@ public class OneToOneChatActivity extends AppCompatActivity
                 }
                 break;
 
+            case StringContract.RequestCode.READ_STORAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    showToast();
+                }
+                break;
+
 
         }
     }
 
     private void startRecording() {
         try {
+
             mediaRecorder = new MediaRecorder();
             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
             audioFileNamewithPath = FileUtils.getOutputMediaFile(OneToOneChatActivity.this);
             mediaRecorder.setOutputFile(audioFileNamewithPath);
 
@@ -588,18 +588,16 @@ public class OneToOneChatActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        contactId=contactUid;
         Logger.error(TAG, "onResume: ");
         oneToOnePresenter.addPresenceListener(getString(R.string.presenceListener));
         oneToOnePresenter.addMessageReceiveListener(contactUid);
         oneToOnePresenter.addCallEventListener(TAG);
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        contactId=null;
+
         Logger.error(TAG, "onPause: ");
         if (oneToOneAdapter!=null) {
             oneToOneAdapter.stopPlayer();
@@ -612,7 +610,7 @@ public class OneToOneChatActivity extends AppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-         contactId=null;
+
         stopRecording(false);
 
         Logger.error(TAG, "onStop:");
@@ -652,7 +650,6 @@ public class OneToOneChatActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        contactId=contactUid;
 
     }
 
@@ -665,7 +662,7 @@ public class OneToOneChatActivity extends AppCompatActivity
             messageCount = 0;
         }
         if (oneToOneAdapter == null) {
-            oneToOneAdapter = new OneToOneAdapter(this, messageArrayList, contactUid, ownerUid);
+            oneToOneAdapter = new OneToOneAdapter(this, messageArrayList, ownerUid);
             oneToOneAdapter.setHasStableIds(true);
             messageRecyclerView.setAdapter(oneToOneAdapter);
             decor = new StickyHeaderDecoration(oneToOneAdapter);
@@ -703,8 +700,6 @@ public class OneToOneChatActivity extends AppCompatActivity
     @Override
     public void setOwnerDetail(User user) {
         ownerUid = user.getUid();
-
-
     }
 
     @Override

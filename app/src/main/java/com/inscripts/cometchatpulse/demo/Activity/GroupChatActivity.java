@@ -539,7 +539,6 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         groupChatPresenter.detach();
     }
 
@@ -566,10 +565,9 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
                 break;
 
             case R.id.buttonSendMessage:
-
                 String message = messageField.getText().toString().trim();
-
-                if (!TextUtils.isEmpty(message)) {
+                if (!TextUtils.isEmpty(message))
+                {
                     groupChatPresenter.sendTextMessage(message, groupId);
                     messageField.setText("");
                 }
@@ -770,7 +768,6 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         getMenuInflater().inflate(R.menu.action_mode, menu);
-
         mode.setTitle(groupName);
         return true;
     }

@@ -149,7 +149,6 @@ public class GroupListFragment extends Fragment implements GroupListContract.Gro
 
             switch (group.getGroupType()) {
                 case CometChatConstants.GROUP_TYPE_PUBLIC:
-
                     if (group.isJoined()) {
                         CommonUtils.startActivityIntent(group, getActivity(), false,pairs);
                     } else {
@@ -160,7 +159,6 @@ public class GroupListFragment extends Fragment implements GroupListContract.Gro
 
                     break;
                 case CometChatConstants.GROUP_TYPE_PRIVATE:
-
 
                     if (group.isJoined()) {
                         CommonUtils.startActivityIntent(group, getActivity(), false,pairs);

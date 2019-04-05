@@ -32,6 +32,7 @@ public class CCPermissionHelper {
 
     // requested permissions
     public static final String REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+    public static final String REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE;
     public static final String REQUEST_PERMISSION_RECORD_AUDIO = Manifest.permission.RECORD_AUDIO;
     public static final String REQUEST_PERMISSION_CAMERA = Manifest.permission.CAMERA;
     public static final String REQUEST_PERMISSION_READ_PHONE_STATE = Manifest.permission.READ_PHONE_STATE;

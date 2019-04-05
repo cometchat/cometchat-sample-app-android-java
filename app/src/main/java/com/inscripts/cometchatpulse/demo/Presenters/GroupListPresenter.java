@@ -2,6 +2,7 @@ package com.inscripts.cometchatpulse.demo.Presenters;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.inscripts.cometchatpulse.demo.Adapter.GroupListAdapter;
@@ -80,6 +81,7 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
 
             @Override
             public void onError(CometChatException e) {
+                Log.d("joinGroup", "onError: "+e.getMessage());
                 progressDialog.dismiss();
             }
 

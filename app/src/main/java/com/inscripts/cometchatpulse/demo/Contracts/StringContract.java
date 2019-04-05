@@ -1,7 +1,5 @@
 package com.inscripts.cometchatpulse.demo.Contracts;
 
-import android.os.Environment;
-
 public class StringContract {
 
     public static class IntentStrings {
@@ -47,10 +45,11 @@ public class StringContract {
         public static final int TAKE_VIDEO = 7;
         public static final int LEFT = 8;
         public static final int FILE_WRITE = 234;
+        public static final int READ_STORAGE = 545;
     }
 
     public static class AppDetails{
-        public static final String APP_ID  =  "XXXXXXXXXXXXXX";
-        public static final String API_KEY =  "XXXXXXXXXXXXXX";
+        public static final String APP_ID  =  "XXXXXXXXXXXXXXX";
+        public static final String API_KEY =  "XXXXXXXXXXXXXXX";
     }
 }

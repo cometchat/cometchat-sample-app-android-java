@@ -59,6 +59,9 @@ public class DownloadFile extends AsyncTask<String, Integer, String> {
 
             file= new File(FileUtils.getPath(context,type)+FileUtils.getFileName(mediaUrl));
 
+            file.setReadable(true,false);
+
+
             outputStream= new  FileOutputStream(file);
 
             byte []data=new byte[4096];

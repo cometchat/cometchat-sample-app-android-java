@@ -82,6 +82,9 @@
     <string name="message">message</string>
     <string name="enter_uid">Enter Uid</string>
     <string name="haven_t_created_a_user_yet_select_one_of_our_default_users_for_testing">Haven\'t created a user yet? Select one of our default users for testing:</string>
+    <string name="photo">Photo</string>
+    <string name="file_message">File Message</string>
+    <string name="audio_message">Audio Message</string>
 
 
 </resources>

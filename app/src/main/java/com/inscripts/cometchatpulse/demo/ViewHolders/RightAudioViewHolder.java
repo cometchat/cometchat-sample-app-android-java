@@ -33,6 +33,7 @@ public class RightAudioViewHolder extends RecyclerView.ViewHolder{
         fileLoadingProgressBar = rightAudioMessageView.findViewById(R.id.fileName);
         audioLength = rightAudioMessageView.findViewById(R.id.audioLength);
         audioSeekBar = rightAudioMessageView.findViewById(R.id.audioSeekBar);
+
         Display display = ((WindowManager) context.getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
         int orientation = display.getRotation();
         if(orientation == 1 || orientation == 3){
