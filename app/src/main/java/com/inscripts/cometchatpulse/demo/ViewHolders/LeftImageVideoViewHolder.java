@@ -46,7 +46,6 @@ public class LeftImageVideoViewHolder extends RecyclerView.ViewHolder{
         avatar = leftImageMessageView.findViewById(R.id.imgAvatar);
         imageContainer = leftImageMessageView.findViewById(R.id.imageContainer);
         btnPlayVideo = leftImageMessageView.findViewById(R.id.btnPlayVideo);
-        imageTitle = leftImageMessageView.findViewById(R.id.imageTitle);
         imageMessage = leftImageMessageView.findViewById(R.id.imageMessage);
         senderName = leftImageMessageView.findViewById(R.id.senderName);
         fileLoadingProgressBar = leftImageMessageView.findViewById(R.id.fileName);

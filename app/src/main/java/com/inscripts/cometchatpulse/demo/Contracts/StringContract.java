@@ -6,7 +6,6 @@ public class StringContract {
 
         public static final String INTENT_GROUP_ID = "INTENT_GROUP_ID";
         public static final String INTENT_GROUP_NAME = "INTENT_GROUP_NAME";
-        public static final String INTENT_GROUP_ISMODERATOR = "INTENT_GROUP_ISMODERATOR";
         public static final String INTENT_GROUP_ISOWNER = "INTENT_GROUP_ISOWNER";
         public static final String IMAGE_TYPE = "image/*";
         public static final String VIDEO_TYPE = "video/*";
@@ -49,7 +48,7 @@ public class StringContract {
     }
 
     public static class AppDetails{
-        public static final String APP_ID  =  "XXXXXXXXXXXXXXX";
-        public static final String API_KEY =  "XXXXXXXXXXXXXXX";
+        public static final String APP_ID  =  "XXXXXXXXXXXXX";
+        public static final String API_KEY =  "XXXXXXXXXXXXX";
     }
 }

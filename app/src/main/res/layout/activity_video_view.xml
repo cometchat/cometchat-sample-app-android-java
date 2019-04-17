@@ -12,6 +12,10 @@
         android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginBottom="?attr/actionBarSize"
         android:layout_height="match_parent"/>
 
@@ -20,6 +24,10 @@
         android:layout_width="match_parent"
         android:scaleType="fitCenter"
         tools:src="@tools:sample/avatars"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="?attr/actionBarSize"
         android:layout_marginBottom="?attr/actionBarSize"
         android:layout_height="match_parent"/>

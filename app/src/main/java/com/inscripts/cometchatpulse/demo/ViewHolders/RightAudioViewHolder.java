@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.inscripts.cometchatpulse.demo.CustomView.CircleImageView;
 import com.inscripts.cometchatpulse.demo.R;
 
 import static android.content.Context.WINDOW_SERVICE;
@@ -19,7 +20,8 @@ import static android.content.Context.WINDOW_SERVICE;
 public class RightAudioViewHolder extends RecyclerView.ViewHolder{
     public TextView messageTimeStamp,audioLength;
     public View audioContainer;
-    public ImageView playAudio,messageStatus;
+    public ImageView playAudio;
+    public CircleImageView messageStatus;
     public Guideline rightGuideLine;
     public ProgressBar fileLoadingProgressBar;
     public SeekBar audioSeekBar;

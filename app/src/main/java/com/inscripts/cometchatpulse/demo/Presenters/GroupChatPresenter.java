@@ -10,6 +10,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.cometchat.pro.core.Call;
 import com.cometchat.pro.core.MessagesRequest;
 import com.cometchat.pro.models.Action;
+import com.cometchat.pro.models.MessageReceipt;
+import com.cometchat.pro.models.TypingIndicator;
 import com.cometchat.pro.models.User;
 import com.inscripts.cometchatpulse.demo.Activity.CometChatActivity;
 import com.inscripts.cometchatpulse.demo.Activity.GroupChatActivity;
@@ -100,6 +102,21 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
                     MediaUtils.playSendSound(context,R.raw.receive);
                     getBaseView().addReceivedMessage(message);
                 }
+            }
+
+            @Override
+            public void onTypingStarted(TypingIndicator typingIndicator) {
+                getBaseView().typingStarted(typingIndicator);
+            }
+
+            @Override
+            public void onTypingEnded(TypingIndicator typingIndicator) {
+                getBaseView().typingEnded(typingIndicator);
+            }
+
+            @Override
+            public void onMessageDelivered(MessageReceipt messageReceipt) {
+                getBaseView().onMessageDelivered(messageReceipt);
             }
 
         });
@@ -256,6 +273,16 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
     public void removeCallListener(String call_listener) {
         CometChat.removeCallListener(call_listener);
 
+    }
+
+    @Override
+    public void sendTypingIndicator(String groupId) {
+        CometChat.startTyping(new TypingIndicator(groupId,CometChatConstants.RECEIVER_TYPE_GROUP));
+    }
+
+    @Override
+    public void endTypingIndicator(String groupId) {
+        CometChat.endTyping(new TypingIndicator(groupId,CometChatConstants.RECEIVER_TYPE_GROUP));
     }
 
     @Override

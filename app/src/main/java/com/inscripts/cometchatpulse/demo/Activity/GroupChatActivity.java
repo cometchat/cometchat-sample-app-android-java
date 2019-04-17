@@ -37,7 +37,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.cometchat.pro.models.MediaMessage;
+import com.cometchat.pro.models.MessageReceipt;
 import com.cometchat.pro.models.TextMessage;
+import com.cometchat.pro.models.TypingIndicator;
 import com.inscripts.cometchatpulse.demo.Helper.RecyclerTouchListener;
 import com.inscripts.cometchatpulse.demo.R;
 import com.inscripts.cometchatpulse.demo.Adapter.GroupMessageAdapter;
@@ -70,6 +72,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GroupChatActivity extends AppCompatActivity implements GroupChatActivityContract.GroupChatView, TextWatcher, View.OnClickListener, ActionMode.Callback {
 
@@ -96,6 +100,8 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
     private Button btnScroll;
 
     private long newMessageCount;
+
+    private String names = null;
 
     private ImageButton ivAttchament;
 
@@ -147,6 +153,8 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
 
     private String groupName;
 
+    private Timer timer=new Timer();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
@@ -163,7 +171,7 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
     @Override
     public void setSubTitle(String[] users) {
 
-        String names = null;
+
         if (users != null && users.length != 0) {
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -258,20 +266,9 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
         groupChatPresenter.handleIntent(getIntent());
 
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+        new Thread(() -> groupChatPresenter.fetchPreviousMessage(groupId, LIMIT)).start();
 
-                groupChatPresenter.fetchPreviousMessage(groupId, LIMIT);
-            }
-        }).start();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                groupChatPresenter.fetchGroupMembers(groupId);
-            }
-        }).start();
+        new Thread(() -> groupChatPresenter.fetchGroupMembers(groupId)).start();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             setScrollListener();
@@ -294,14 +291,11 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
             });
         }
 
-        KeyboardVisibilityEvent.setEventListener(this, new KeyboardVisibilityEventListener() {
-            @Override
-            public void onVisibilityChanged(boolean var1) {
-                if (messageCount - linearLayoutManager.findLastVisibleItemPosition() < 5) {
+        KeyboardVisibilityEvent.setEventListener(this, var1 -> {
+            if (messageCount - linearLayoutManager.findLastVisibleItemPosition() < 5) {
 
-                    if (groupMessageAdapter != null) {
-                        messageRecyclerView.scrollToPosition(groupMessageAdapter.getItemCount() - 1);
-                    }
+                if (groupMessageAdapter != null) {
+                    messageRecyclerView.scrollToPosition(groupMessageAdapter.getItemCount() - 1);
                 }
             }
         });
@@ -499,6 +493,7 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
 
         if (len > 0) {
             sendButton.setTextColor(getResources().getColor(R.color.secondaryDarkColor));
+            groupChatPresenter.sendTypingIndicator(groupId);
         } else {
             sendButton.setTextColor(getResources().getColor(R.color.secondaryTextColor));
 
@@ -507,7 +502,23 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
 
     @Override
     public void afterTextChanged(Editable editable) {
+        if (timer!=null){
+            timer();
+        }
+        else {
+            timer=new Timer();
+            timer();
+        }
+    }
 
+    private void timer(){
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                groupChatPresenter.endTypingIndicator(groupId);
+            }
+        },2000);
     }
 
     @Override
@@ -515,6 +526,7 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
         super.onStart();
 
     }
+
 
 
     @Override
@@ -652,6 +664,23 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
 
             }
         }
+
+    }
+
+    @Override
+    public void typingStarted(TypingIndicator typingIndicator) {
+       toolbarSubTitle.setText(typingIndicator.getSender().getName()+" "+getString(R.string.is_typing));
+    }
+
+    @Override
+    public void typingEnded(TypingIndicator typingIndicator) {
+           toolbarSubTitle.setText(names);
+    }
+
+    @Override
+    public void onMessageDelivered(MessageReceipt messageReceipt) {
+        if (groupMessageAdapter!=null)
+            groupMessageAdapter.Delivered(messageReceipt);
 
     }
 
@@ -831,13 +860,13 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
 
                     ivReplyImage.setVisibility(View.INVISIBLE);
 
-                    tvTextMessage.setText("Audio Message");
+                    tvTextMessage.setText(getString(R.string.audio_message));
                     break;
                 case CometChatConstants.MESSAGE_TYPE_FILE:
 
                     ivReplyImage.setVisibility(View.INVISIBLE);
 
-                    tvTextMessage.setText("File Message");
+                    tvTextMessage.setText(getString(R.string.file_message));
                     break;
             }
         }

@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.inscripts.cometchatpulse.demo.CustomView.CircleImageView;
 import com.inscripts.cometchatpulse.demo.R;
 
 public class RightReplyViewHolder extends RecyclerView.ViewHolder {
@@ -47,7 +48,7 @@ public class RightReplyViewHolder extends RecyclerView.ViewHolder {
 
     public TextView tvFileName;
 
-    public ImageView ivMessageStatus;
+    public CircleImageView ivMessageStatus;
 
     public RelativeLayout rlImageContainer;
 

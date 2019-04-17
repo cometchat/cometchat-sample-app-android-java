@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.cometchat.pro.constants.CometChatConstants;
@@ -14,7 +13,9 @@ import com.cometchat.pro.core.MessagesRequest;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.BaseMessage;
 import com.cometchat.pro.models.MediaMessage;
+import com.cometchat.pro.models.MessageReceipt;
 import com.cometchat.pro.models.TextMessage;
+import com.cometchat.pro.models.TypingIndicator;
 import com.cometchat.pro.models.User;
 import com.inscripts.cometchatpulse.demo.Activity.OneToOneChatActivity;
 import com.inscripts.cometchatpulse.demo.Base.Presenter;
@@ -25,10 +26,8 @@ import com.inscripts.cometchatpulse.demo.R;
 import com.inscripts.cometchatpulse.demo.Utils.CommonUtils;
 import com.inscripts.cometchatpulse.demo.Utils.Logger;
 import com.inscripts.cometchatpulse.demo.Utils.MediaUtils;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.util.List;
 
@@ -36,6 +35,7 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
         implements OneToOneActivityContract.OneToOnePresenter {
 
     private Context context;
+
     private MessagesRequest messagesRequest;
 
     private static final String TAG = "OneToOneActivityPresent";
@@ -61,7 +61,7 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
 
             @Override
             public void onError(CometChatException e) {
-
+                Log.d(TAG, "onError: "+e.getMessage());
             }
         });
 
@@ -90,7 +90,6 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
                         getBaseView().setPresence(user);
                     }
                 }
-
                 @Override
                 public void onError(CometChatException e) {
                     Log.d(TAG, "onError: "+e.getMessage());
@@ -118,6 +117,7 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
                     if (message.getSender().getUid().equals(contactUid)) {
                         MediaUtils.playSendSound(context, R.raw.receive);
                         getBaseView().addSendMessage(message);
+
                     }
                 }
             }
@@ -130,6 +130,24 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
                         getBaseView().addSendMessage(message);
                     }
                 }
+            }
+
+            @Override
+            public void onTypingStarted(TypingIndicator typingIndicator) {
+                getBaseView().setTyping();
+                Log.d(TAG, "onTypingStarted: ");
+            }
+
+            @Override
+            public void onTypingEnded(TypingIndicator typingIndicator) {
+                getBaseView().endTyping();
+                Log.d(TAG, "onTypingEnded:");
+            }
+
+            @Override
+            public void onMessageDelivered(MessageReceipt messageReceipt) {
+                getBaseView().setMessageDelivered(messageReceipt);
+
             }
 
         });
@@ -161,7 +179,6 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
             public void onSuccess(MediaMessage mediaMessage) {
                 MediaUtils.playSendSound(context, R.raw.send);
                 getBaseView().addMessage(mediaMessage);
-
             }
 
             @Override
@@ -176,17 +193,14 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
 
         if (messagesRequest == null) {
 
-
             messagesRequest = new MessagesRequest.MessagesRequestBuilder().setUID(contactUid).setLimit(limit).build();
             messagesRequest.fetchPrevious(new CometChat.CallbackListener<List<BaseMessage>>() {
                 @Override
                 public void onSuccess(List<BaseMessage> baseMessages) {
-                    for (BaseMessage baseMessage : baseMessages) {
-
-                        Logger.error(" Message Id : " + baseMessage.getId() + " timestamp : " + baseMessage.getSentAt() + " list size :" + baseMessages.size());
-                    }
-                    Logger.error("new message request Obj");
                     if (isViewAttached())
+                        for (BaseMessage baseMessage :baseMessages) {
+                            Log.d(TAG, "baseMessage: "+baseMessage.getId());
+                        }
                         getBaseView().setAdapter(baseMessages);
                 }
 
@@ -201,13 +215,13 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
             messagesRequest.fetchPrevious(new CometChat.CallbackListener<List<BaseMessage>>() {
                 @Override
                 public void onSuccess(List<BaseMessage> baseMessages) {
-                    for (BaseMessage baseMessage : baseMessages) {
 
-                        Logger.error(" Message Id : " + baseMessage.getId());
-                    }
                     Logger.error("old message request obj");
                     if (baseMessages.size() != 0) {
                         if (isViewAttached())
+                            for (BaseMessage baseMessage :baseMessages) {
+                                Log.d(TAG, "baseMessage: "+baseMessage.getId());
+                            }
                             getBaseView().setAdapter(baseMessages);
                     }
                 }
@@ -257,7 +271,6 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
             public void onSuccess(Call call) {
                 CommonUtils.startCallIntent(context, ((User) call.getCallReceiver()), call.getType(), true, call.getSessionId());
             }
-
             @Override
             public void onError(CometChatException e) {
 
@@ -273,10 +286,8 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
             @Override
             public void onIncomingCallReceived(Call call) {
 
-
                 CommonUtils.startCallIntent(context, (User) call.getCallInitiator(), call.getType(),
                         false, call.getSessionId());
-
             }
 
             @Override
@@ -304,7 +315,20 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
     @Override
     public void removeCallListener(String listenerId) {
         CometChat.removeCallListener(listenerId);
+    }
 
+    @Override
+    public void sendTypingIndicator(String  receiverId) {
+        TypingIndicator typingIndicator = new TypingIndicator(receiverId, CometChatConstants.RECEIVER_TYPE_USER);
+        Log.d(TAG, "sendTypingIndicator: ");
+        CometChat.startTyping(typingIndicator);
+    }
+
+    @Override
+    public void endTypingIndicator(String receiverId) {
+        Log.d(TAG, "endTypingIndicator: ");
+        TypingIndicator typingIndicator = new TypingIndicator(receiverId, CometChatConstants.RECEIVER_TYPE_USER);
+        CometChat.endTyping(typingIndicator);
     }
 
     @Override

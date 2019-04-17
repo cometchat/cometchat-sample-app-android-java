@@ -35,8 +35,8 @@ public class CallActivity extends AppCompatActivity implements CallActivityContr
 
         callActivityPresenter=new CallActivityPresenter();
         callActivityPresenter.attach(this);
-
         callView = findViewById(R.id.call_view);
+
 
         if (getIntent().hasExtra(StringContract.IntentStrings.SESSION_ID)) {
             sessionId = getIntent().getStringExtra(StringContract.IntentStrings.SESSION_ID);
@@ -67,7 +67,6 @@ public class CallActivity extends AppCompatActivity implements CallActivityContr
             });
         }
     }
-
 
     @Override
     protected void onStart() {

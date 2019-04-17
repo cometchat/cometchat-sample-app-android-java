@@ -63,7 +63,6 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
         }
     }
 
-
     @Override
     public void joinGroup(final Context context, final Group group, final ProgressDialog progressDialog,
                           final GroupListAdapter groupListAdapter) {
@@ -71,7 +70,6 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
         CometChat.joinGroup(group.getGuid(), group.getGroupType(), group.getPassword(), new CometChat.CallbackListener<Group>() {
             @Override
             public void onSuccess(Group group) {
-                showToast(context, "yes");
                 progressDialog.dismiss();
                 group.setHasJoined(true);
                 groupListAdapter.notifyDataSetChanged();
@@ -94,11 +92,6 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
     public void refresh() {
            groupsRequest=null;
            initGroupView();
-    }
-
-
-    private void showToast(Context context, String msg) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
 }

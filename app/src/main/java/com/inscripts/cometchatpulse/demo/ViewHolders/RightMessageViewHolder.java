@@ -5,12 +5,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.inscripts.cometchatpulse.demo.CustomView.CircleImageView;
 import com.inscripts.cometchatpulse.demo.R;
 
 public class RightMessageViewHolder extends RecyclerView.ViewHolder{
     public TextView textMessage;
     public TextView messageTimeStamp;
-    public ImageView rightArrow,messageStatus;
+    public CircleImageView messageStatus;
 
     public RightMessageViewHolder(View itemView) {
         super(itemView);

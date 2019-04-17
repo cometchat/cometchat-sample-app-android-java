@@ -22,7 +22,7 @@ public class RightFileViewHolder extends RecyclerView.ViewHolder {
     public TextView fileType,fileName;
 
     public TextView messageTimeStamp,senderName;
-    public CircleImageView avatar;
+    public CircleImageView avatar, messageStatus;;
     public View fileContainer;
     public Guideline rightGuideLine;
 
@@ -38,6 +38,7 @@ public class RightFileViewHolder extends RecyclerView.ViewHolder {
             params.guidePercent = 0.5f;
             rightGuideLine.setLayoutParams(params);
         }
+        messageStatus=itemView.findViewById(R.id.messageStatus);
         messageTimeStamp = itemView.findViewById(R.id.timeStamp);
         fileName=itemView.findViewById(R.id.fileName);
         fileType=itemView.findViewById(R.id.fileType);

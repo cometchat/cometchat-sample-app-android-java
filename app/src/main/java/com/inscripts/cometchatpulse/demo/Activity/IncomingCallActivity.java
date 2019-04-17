@@ -183,7 +183,7 @@ public class IncomingCallActivity extends AppCompatActivity implements
         cometChatAudioHelper.stop(true);
         callScreenButton.setVisibility(View.GONE);
         callScreenButton.stopAnimation();
-        Toast.makeText(this, "Decline", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.decline), Toast.LENGTH_SHORT).show();
         finish();
     }
 
@@ -260,9 +260,6 @@ public class IncomingCallActivity extends AppCompatActivity implements
                 cometChatAudioHelper.stop(false);
                 AnimUtil.stopBlinkAnimation(tvDots);
                 incomingCallActivityPresenter.rejectCall(IncomingCallActivity.this,sessionId,CometChatConstants.CALL_STATUS_CANCELLED);
-                Toast.makeText(this, "Decline", Toast.LENGTH_SHORT).show();
-
-
                 break;
         }
 

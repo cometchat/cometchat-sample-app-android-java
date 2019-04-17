@@ -68,6 +68,7 @@
                     android:singleLine="true"
                     android:transitionName="status"
                     android:focusable="true"
+                    tools:text="Subtitle"
                     android:focusableInTouchMode="true"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="@dimen/label_size"

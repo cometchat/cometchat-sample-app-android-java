@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text=""
+                    tools:text="Group Name"
                     android:transitionName="groupName"
                     android:maxWidth="150dp"
                     android:textColor="@color/primaryTextColor"
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text=""
+                tools:text="Group Name"
                 android:maxWidth="150dp"
                 android:textSize="@dimen/small_text" />
 

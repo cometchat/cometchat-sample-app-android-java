@@ -109,7 +109,7 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
         outcastMemberListFragment.setArguments(bundle);
 
         adapter.addFragment(memberListFragment, getString(R.string.member));
-        adapter.addFragment(outcastMemberListFragment, "Ban Member");
+        adapter.addFragment(outcastMemberListFragment, getString(R.string.ban_member));
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -161,7 +161,7 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void setGroupOwnerName(String owner) {
-        toolbarSubtitle.setText(getString(R.string.created_by)+" " + owner);
+
     }
 
     @Override

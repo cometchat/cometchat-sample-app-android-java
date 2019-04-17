@@ -18,8 +18,6 @@ public class VideoViewActivity extends AppCompatActivity {
 
     private VideoView video_view;
 
-    private ImageView imageView;
-
     private String mediaUrl;
 
     private boolean isVideo;
@@ -48,7 +46,7 @@ public class VideoViewActivity extends AppCompatActivity {
         try {
 
             video_view = findViewById(R.id.video_view);
-            imageView=findViewById(R.id.image_view);
+            ImageView imageView = findViewById(R.id.image_view);
             final MediaController mediacontroller = new MediaController(this);
             mediacontroller.setAnchorView(video_view);
 
@@ -58,25 +56,12 @@ public class VideoViewActivity extends AppCompatActivity {
                  video_view.setVideoURI(Uri.parse(mediaUrl));
                  video_view.requestFocus();
 
-                 video_view.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                     @Override
-                     public void onPrepared(MediaPlayer mediaPlayer) {
-                         mediaPlayer.setOnVideoSizeChangedListener(new MediaPlayer.OnVideoSizeChangedListener() {
-                             @Override
-                             public void onVideoSizeChanged(MediaPlayer mediaPlayer, int i, int i1) {
-                                 video_view.setMediaController(mediacontroller);
-                                 mediacontroller.setAnchorView(video_view);
-                             }
-                         });
-                     }
-                 });
+                 video_view.setOnPreparedListener(mediaPlayer -> mediaPlayer.setOnVideoSizeChangedListener((mediaPlayer1, i, i1) -> {
+                     video_view.setMediaController(mediacontroller);
+                     mediacontroller.setAnchorView(video_view);
+                 }));
 
-                 video_view.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-                     @Override
-                     public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
-                         return false;
-                     }
-                 });
+                 video_view.setOnErrorListener((mediaPlayer, i, i1) -> false);
              }
              else {
                  video_view.setVisibility(View.GONE);

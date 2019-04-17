@@ -3,6 +3,8 @@ package com.inscripts.cometchatpulse.demo.Contracts;
 import android.content.Context;
 import android.content.Intent;
 
+import com.cometchat.pro.models.MessageReceipt;
+import com.cometchat.pro.models.TypingIndicator;
 import com.inscripts.cometchatpulse.demo.Activity.GroupChatActivity;
 import com.inscripts.cometchatpulse.demo.Base.BasePresenter;
 import com.inscripts.cometchatpulse.demo.Base.BaseView;
@@ -33,6 +35,12 @@ public interface GroupChatActivityContract {
         void setOwnerUid(String id);
 
         void addReceivedMessage(BaseMessage baseMessage);
+
+        void typingStarted(TypingIndicator typingIndicator);
+
+        void typingEnded(TypingIndicator typingIndicator);
+
+        void onMessageDelivered(MessageReceipt messageReceipt);
     }
 
     interface GroupChatPresenter extends BasePresenter<GroupChatView> {
@@ -64,6 +72,10 @@ public interface GroupChatActivityContract {
         void addCallListener(String call_listener);
 
         void removeCallListener(String call_listener);
+
+        void sendTypingIndicator(String groupId);
+
+        void endTypingIndicator(String groupId);
     }
 
 }

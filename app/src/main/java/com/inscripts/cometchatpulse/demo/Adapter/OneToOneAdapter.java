@@ -29,6 +29,7 @@ import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.Call;
 import com.cometchat.pro.models.BaseMessage;
 import com.cometchat.pro.models.MediaMessage;
+import com.cometchat.pro.models.MessageReceipt;
 import com.cometchat.pro.models.TextMessage;
 import com.inscripts.cometchatpulse.demo.Activity.VideoViewActivity;
 import com.inscripts.cometchatpulse.demo.AsyncTask.DownloadFile;
@@ -44,10 +45,12 @@ import com.inscripts.cometchatpulse.demo.Utils.Logger;
 import com.inscripts.cometchatpulse.demo.ViewHolders.LeftAudioViewHolder;
 import com.inscripts.cometchatpulse.demo.ViewHolders.LeftFileViewHolder;
 import com.inscripts.cometchatpulse.demo.ViewHolders.LeftImageVideoViewHolder;
+import com.inscripts.cometchatpulse.demo.ViewHolders.LeftMessageViewHolder;
 import com.inscripts.cometchatpulse.demo.ViewHolders.LeftReplyViewHolder;
 import com.inscripts.cometchatpulse.demo.ViewHolders.RightAudioViewHolder;
 import com.inscripts.cometchatpulse.demo.ViewHolders.RightFileViewHolder;
 import com.inscripts.cometchatpulse.demo.ViewHolders.RightImageVideoViewHolder;
+import com.inscripts.cometchatpulse.demo.ViewHolders.RightMessageViewHolder;
 import com.inscripts.cometchatpulse.demo.ViewHolders.RightReplyViewHolder;
 
 import org.json.JSONException;
@@ -56,6 +59,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.inscripts.cometchatpulse.demo.Utils.FileUtils.getFileExtension;
@@ -100,7 +104,7 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private final String ownerUid;
 
-    private List<BaseMessage> messageArrayList;
+    private LongSparseArray<BaseMessage> messageArrayList=new LongSparseArray<>();
 
     private Context context;
 
@@ -122,13 +126,13 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private RecyclerView.ViewHolder holder;
 
 
-    public OneToOneAdapter(Context context, List<BaseMessage> messageArrayList, String ownerUid) {
-        this.messageArrayList = messageArrayList;
+    public OneToOneAdapter(Context context,List<BaseMessage> messageArrayList, String ownerUid) {
         this.ownerUid = ownerUid;
         this.context = context;
 
+         setList(messageArrayList);
 
-        audioDurations = new LongSparseArray<>();
+         audioDurations = new LongSparseArray<>();
 
         if (null == player) {
             player = new MediaPlayer();
@@ -215,6 +219,14 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
+
+
+    private void setDeliveryIcon(CircleImageView circleImageView,BaseMessage baseMessage){
+        if (baseMessage.getDeliveredAt()!=0){
+            circleImageView.setImageResource(R.drawable.ic_double_tick);
+        }
+    }
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int i) {
 
@@ -223,7 +235,7 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         this.holder=holder;
 
-        BaseMessage baseMessage = messageArrayList.get(i);
+        BaseMessage baseMessage = messageArrayList.get(messageArrayList.keyAt(i));
         TextMessage textMessage = null;
         MediaMessage mediaMessage = null;
 
@@ -266,12 +278,12 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
 
             case RIGHT_TEXT_MESSAGE:
-
                 RightMessageViewHolder rightMessageViewHolder = (RightMessageViewHolder) holder;
                 rightMessageViewHolder.textMessage.setTypeface(FontUtils.openSansRegular);
                 rightMessageViewHolder.textMessage.setText(message);
                 rightMessageViewHolder.messageTimeStamp.setText(timeStampString);
                 rightMessageViewHolder.messageStatus.setImageResource(R.drawable.ic_check_white_24dp);
+                setDeliveryIcon(rightMessageViewHolder.messageStatus,baseMessage);
                 break;
 
             case LEFT_IMAGE_MESSAGE:
@@ -280,14 +292,13 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 leftImageViewHolder.messageTimeStamp.setText(timeStampString);
                 leftImageViewHolder.btnPlayVideo.setVisibility(View.GONE);
                 leftImageViewHolder.avatar.setVisibility(View.GONE);
-                leftImageViewHolder.imageTitle.setVisibility(View.GONE);
                 leftImageViewHolder.fileLoadingProgressBar.setVisibility(View.GONE);
                 if (imageUrl != null && !TextUtils.isEmpty(imageUrl)) {
 
                     RequestOptions requestOptions = new RequestOptions().centerCrop()
                             .placeholder(R.drawable.ic_broken_image_black).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
 
-                    Glide.with(context).load(imageUrl).apply(requestOptions).into(leftImageViewHolder.imageMessage);
+                    Glide.with(context).load(imageUrl).into(leftImageViewHolder.imageMessage);
                     String finalImageUrl1 = imageUrl;
                     leftImageViewHolder.imageMessage.setOnClickListener(view -> startIntent(finalImageUrl1, false));
                 }
@@ -297,17 +308,15 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 RightImageVideoViewHolder rightImageVideoViewHolder = (RightImageVideoViewHolder) holder;
                 rightImageVideoViewHolder.messageTimeStamp.setText(timeStampString);
                 rightImageVideoViewHolder.btnPlayVideo.setVisibility(View.GONE);
-                rightImageVideoViewHolder.imageTitle.setVisibility(View.GONE);
-
                 rightImageVideoViewHolder.fileLoadingProgressBar.setVisibility(View.GONE);
-
+                setDeliveryIcon(rightImageVideoViewHolder.messageStatus,baseMessage);
                 if (imageUrl != null && !TextUtils.isEmpty(imageUrl)) {
                     String url = imageUrl.replace("/", "");
                     Logger.error("Image", url);
                     RequestOptions requestOptions = new RequestOptions().centerCrop()
                             .placeholder(R.drawable.ic_broken_image).diskCacheStrategy(DiskCacheStrategy.ALL);
 
-                    Glide.with(context).load(imageUrl).apply(requestOptions).into(rightImageVideoViewHolder.imageMessage);
+                    Glide.with(context).load(imageUrl).into(rightImageVideoViewHolder.imageMessage);
                     String finalImageUrl = imageUrl;
                     rightImageVideoViewHolder.imageMessage.setOnClickListener(view -> startIntent(finalImageUrl, false));
                 }
@@ -318,7 +327,6 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 final LeftImageVideoViewHolder leftVideoViewHolder = (LeftImageVideoViewHolder) holder;
                 leftVideoViewHolder.messageTimeStamp.setText(timeStampString);
                 leftVideoViewHolder.btnPlayVideo.setVisibility(View.VISIBLE);
-                leftVideoViewHolder.imageTitle.setVisibility(View.GONE);
                 leftVideoViewHolder.senderName.setVisibility(View.GONE);
                 leftVideoViewHolder.avatar.setVisibility(View.GONE);
                 leftVideoViewHolder.fileLoadingProgressBar.setVisibility(View.GONE);
@@ -339,9 +347,8 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 final RightImageVideoViewHolder rightVideoViewHolder = (RightImageVideoViewHolder) holder;
                 rightVideoViewHolder.messageTimeStamp.setText(timeStampString);
                 rightVideoViewHolder.btnPlayVideo.setVisibility(View.VISIBLE);
-                rightVideoViewHolder.imageTitle.setVisibility(View.GONE);
                 rightVideoViewHolder.fileLoadingProgressBar.setVisibility(View.GONE);
-
+                setDeliveryIcon(rightVideoViewHolder.messageStatus,baseMessage);
                 RequestOptions requestOptions2 = new RequestOptions().fitCenter()
                         .placeholder(R.drawable.ic_broken_image);
                 Glide.with(context)
@@ -362,6 +369,7 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 if (!player.isPlaying()) {
                     rightAudioViewHolder.playAudio.setImageResource(R.drawable.ic_play_arrow);
                 }
+                setDeliveryIcon(rightAudioViewHolder.messageStatus,baseMessage);
                 rightAudioViewHolder.audioSeekBar.setProgress(0);
                 String rightAudioPath = null;
                 File rightAudioFile = null;
@@ -631,7 +639,6 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             case RIGHT_FILE_MESSAGE:
                 try {
-
                     RightFileViewHolder rightFileViewHolder = (RightFileViewHolder) holder;
                     Logger.error("OneToOne", mediaFile);
                     assert mediaFile != null;
@@ -642,8 +649,8 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     rightFileViewHolder.fileName.setText(mediaMessage.getAttachment().getFileName());
                     rightFileViewHolder.messageTimeStamp.setText(timeStampString);
                     rightFileViewHolder.fileType.setText(mediaMessage.getAttachment().getFileExtension());
-
                     final String finalMediaFile = mediaFile;
+                    setDeliveryIcon(rightFileViewHolder.messageStatus,baseMessage);
                     rightFileViewHolder.fileName.setOnClickListener(view -> context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(finalMediaFile))));
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -690,7 +697,7 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                         rightTextReplyViewHolder.tvNewMessage.setVisibility(View.VISIBLE);
                         rightTextReplyViewHolder.tvNewMessage.setText(textMessage.getText());
-
+                        setDeliveryIcon(rightTextReplyViewHolder.ivMessageStatus,baseMessage);
                         if (textMessage.getMetadata().has("type")) {
 
                             switch (textMessage.getMetadata().getString("type")) {
@@ -813,7 +820,7 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                                 rightMediaReplyViewHolder.tvNameReply.setText(mediaMessage.getMetadata().getString("senderName"));
                             }
                         }
-
+                        setDeliveryIcon(rightMediaReplyViewHolder.ivMessageStatus,baseMessage);
                         if (mediaMessage.getMetadata().has("type")) {
 
                             switch (mediaMessage.getMetadata().getString("type")) {
@@ -859,7 +866,6 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                                 break;
 
                             case CometChatConstants.MESSAGE_TYPE_VIDEO:
-
                                 rightMediaReplyViewHolder.rlImageContainer.setVisibility(View.VISIBLE);
                                 rightMediaReplyViewHolder.ivPlayVideoButton.setVisibility(View.VISIBLE);
                                 rightMediaReplyViewHolder.tvReplyTextMessage.setVisibility(View.VISIBLE);
@@ -1129,6 +1135,13 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
+
+    private void setList(List<BaseMessage> messageList){
+        for (BaseMessage basemessage:messageList) {
+            messageArrayList.put(basemessage.getId(),basemessage);
+        }
+    }
+
     private void startIntent(String url, boolean isVideo) {
         Intent videoIntent = new Intent(context, VideoViewActivity.class);
         videoIntent.putExtra(StringContract.IntentStrings.MEDIA_URL, url);
@@ -1226,26 +1239,26 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public int getItemViewType(int position) {
 
-        if (messageArrayList.get(position).getCategory().equals(CometChatConstants.CATEGORY_MESSAGE)) {
+        if (messageArrayList.get(messageArrayList.keyAt(position)).getCategory().equals(CometChatConstants.CATEGORY_MESSAGE)) {
 
 
-            if (ownerUid.equalsIgnoreCase(messageArrayList.get(position).getSender().getUid())) {
+            if (ownerUid.equalsIgnoreCase(messageArrayList.get(messageArrayList.keyAt(position)).getSender().getUid())) {
 
-                if (messageArrayList.get(position) instanceof TextMessage &&
-                        messageArrayList.get(position).getMetadata() != null
-                        && messageArrayList.get(position).getMetadata().has("reply")) {
+                if (messageArrayList.get(messageArrayList.keyAt(position)) instanceof TextMessage &&
+                        messageArrayList.get(messageArrayList.keyAt(position)).getMetadata() != null
+                        && messageArrayList.get(messageArrayList.keyAt(position)).getMetadata().has("reply")) {
 
                     return RIGHT_TEXT_REPLY_MESSAGE;
 
-                } else if (messageArrayList.get(position) instanceof MediaMessage &&
-                        messageArrayList.get(position).getMetadata() != null
-                        && messageArrayList.get(position).getMetadata().has("reply")) {
+                } else if (messageArrayList.get(messageArrayList.keyAt(position)) instanceof MediaMessage &&
+                        messageArrayList.get(messageArrayList.keyAt(position)).getMetadata() != null
+                        && messageArrayList.get(messageArrayList.keyAt(position)).getMetadata().has("reply")) {
 
                     return RIGHT_MEDIA_REPLY_MESSAGE;
 
                 } else {
 
-                    switch (messageArrayList.get(position).getType()) {
+                    switch (messageArrayList.get(messageArrayList.keyAt(position)).getType()) {
                         case CometChatConstants.MESSAGE_TYPE_TEXT:
 
                             return RIGHT_TEXT_MESSAGE;
@@ -1268,22 +1281,22 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             } else {
 
-                if (messageArrayList.get(position) instanceof TextMessage &&
-                        ((TextMessage) messageArrayList.get(position)).getMetadata() != null
-                        && ((TextMessage) messageArrayList.get(position)).getMetadata().has("reply")) {
+                if (messageArrayList.get(messageArrayList.keyAt(position)) instanceof TextMessage &&
+                        messageArrayList.get(messageArrayList.keyAt(position)).getMetadata() != null
+                        && messageArrayList.get(messageArrayList.keyAt(position)).getMetadata().has("reply")) {
 
 
                     return LEFT_TEXT_REPLY_MESSAGE;
 
-                } else if (messageArrayList.get(position) instanceof MediaMessage &&
-                        ((MediaMessage) messageArrayList.get(position)).getMetadata() != null
-                        && ((MediaMessage) messageArrayList.get(position)).getMetadata().has("reply")) {
+                } else if (messageArrayList.get(messageArrayList.keyAt(position)) instanceof MediaMessage &&
+                        messageArrayList.get(messageArrayList.keyAt(position)).getMetadata() != null
+                        && messageArrayList.get(messageArrayList.keyAt(position)).getMetadata().has("reply")) {
 
                     return LEFT_MEDIA_REPLY_MESSAGE;
 
                 } else {
 
-                    switch (messageArrayList.get(position).getType()) {
+                    switch (messageArrayList.get(messageArrayList.keyAt(position)).getType()) {
 
                         case CometChatConstants.MESSAGE_TYPE_TEXT:
 
@@ -1306,7 +1319,7 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 }
             }
-        } else if (messageArrayList.get(position).getCategory().equals(CometChatConstants.CATEGORY_CALL)) {
+        } else if (messageArrayList.get(messageArrayList.keyAt(position)).getCategory().equals(CometChatConstants.CATEGORY_CALL)) {
             return CALL_MESSAGE;
         }
 
@@ -1317,13 +1330,12 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public long getItemId(int position) {
-
-        return messageArrayList.get(position).getId();
+        return messageArrayList.get(messageArrayList.keyAt(position)).getId();
     }
 
 
     public void refreshData(List<BaseMessage> userArrayList) {
-        messageArrayList.addAll(0, userArrayList);
+        setList(userArrayList);
         notifyItemRangeInserted(0, userArrayList.size());
         notifyItemChanged(userArrayList.size());
 
@@ -1333,7 +1345,7 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public long getHeaderId(int var1) {
 
-        return Long.parseLong(DateUtils.getDateId(messageArrayList.get(var1).getSentAt() * 1000));
+        return Long.parseLong(DateUtils.getDateId(messageArrayList.get(messageArrayList.keyAt(var1)).getSentAt() * 1000));
     }
 
     @Override
@@ -1347,7 +1359,7 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindHeaderViewHolder(DateItemHolder var1, int var2, long var3) {
 
-        Date date = new Date(messageArrayList.get(var2).getSentAt() * 1000);
+        Date date = new Date(messageArrayList.get(messageArrayList.keyAt(var2)).getSentAt() * 1000);
         String formattedDate = DateUtils.getCustomizeDate(date.getTime());
         var1.txtMessageDate.setBackground(context.getResources().getDrawable(R.drawable.cc_rounded_date_button));
         var1.txtMessageDate.setTypeface(FontUtils.robotoMedium);
@@ -1355,38 +1367,17 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void addMessage(BaseMessage baseMessage) {
-        messageArrayList.add(baseMessage);
+        messageArrayList.put(baseMessage.getId(),baseMessage);
         notifyDataSetChanged();
     }
 
-    public class LeftMessageViewHolder extends RecyclerView.ViewHolder {
-        TextView textMessage;
-        public TextView messageTimeStamp;
-        public TextView senderName;
-        public CircleImageView avatar;
-
-        LeftMessageViewHolder(View leftTextMessageView) {
-
-            super(leftTextMessageView);
-            textMessage = leftTextMessageView.findViewById(R.id.textViewMessage);
-            messageTimeStamp = leftTextMessageView.findViewById(R.id.timeStamp);
-            avatar = leftTextMessageView.findViewById(R.id.imgAvatar);
-            senderName = leftTextMessageView.findViewById(R.id.senderName);
+    public void Delivered(MessageReceipt messageReceipt) {
+        BaseMessage baseMessage=messageArrayList.get(messageReceipt.getMessageId());
+        if (baseMessage!=null) {
+            baseMessage.setDeliveredAt(messageReceipt.getTimestamp());
+            messageArrayList.put(baseMessage.getId(), baseMessage);
+            notifyDataSetChanged();
         }
-    }
-
-    public class RightMessageViewHolder extends RecyclerView.ViewHolder {
-        TextView textMessage;
-        public TextView messageTimeStamp;
-        public CircleImageView messageStatus;
-
-        RightMessageViewHolder(View itemView) {
-            super(itemView);
-            textMessage = itemView.findViewById(R.id.textViewMessage);
-            messageStatus = itemView.findViewById(R.id.img_message_status);
-            messageTimeStamp = itemView.findViewById(R.id.timestamp);
-        }
-
     }
 
     class DateItemHolder extends RecyclerView.ViewHolder {

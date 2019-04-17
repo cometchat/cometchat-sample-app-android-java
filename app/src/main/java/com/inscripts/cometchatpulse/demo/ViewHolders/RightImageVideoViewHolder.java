@@ -40,7 +40,6 @@ public class RightImageVideoViewHolder extends RecyclerView.ViewHolder{
             rightGuideLine.setLayoutParams(params);
         }
         messageTimeStamp = rightImageMessageView.findViewById(R.id.timeStamp);
-        imageTitle = rightImageMessageView.findViewById(R.id.imageTitle);
         imageMessage = rightImageMessageView.findViewById(R.id.imageMessage);
         imageContainer = rightImageMessageView.findViewById(R.id.imageContainer);
         btnPlayVideo = rightImageMessageView.findViewById(R.id.btnPlayVideo);

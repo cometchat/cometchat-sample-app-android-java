@@ -32,11 +32,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.models.BaseMessage;
 import com.cometchat.pro.models.MediaMessage;
+import com.cometchat.pro.models.MessageReceipt;
 import com.cometchat.pro.models.TextMessage;
 import com.cometchat.pro.models.User;
 import com.inscripts.cometchatpulse.demo.Adapter.OneToOneAdapter;
@@ -59,19 +59,17 @@ import com.inscripts.cometchatpulse.demo.Utils.DateUtils;
 import com.inscripts.cometchatpulse.demo.Utils.FileUtils;
 import com.inscripts.cometchatpulse.demo.Utils.FontUtils;
 import com.inscripts.cometchatpulse.demo.Utils.KeyboardVisibilityEvent;
-import com.inscripts.cometchatpulse.demo.Utils.KeyboardVisibilityEventListener;
 import com.inscripts.cometchatpulse.demo.Utils.Logger;
 import com.inscripts.cometchatpulse.demo.Utils.MediaUtils;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class OneToOneChatActivity extends AppCompatActivity
-        implements OneToOneActivityContract.OneToOneView, View.OnClickListener, TextWatcher, ActionMode.Callback {
+public class OneToOneChatActivity extends AppCompatActivity implements OneToOneActivityContract.OneToOneView, View.OnClickListener, TextWatcher, ActionMode.Callback {
 
     private static final int LIMIT = 30;
 
@@ -88,8 +86,6 @@ public class OneToOneChatActivity extends AppCompatActivity
     private int messageCount = -1;
 
     private LinearLayoutManager linearLayoutManager;
-
-    private StickyHeaderDecoration decor;
 
     private TextView toolbarTitle, toolbarSubTitle;
 
@@ -153,7 +149,11 @@ public class OneToOneChatActivity extends AppCompatActivity
 
     private ImageView ivReplyImage;
 
-    public static String contactId;
+    public static  String contactId;
+
+    private User user;
+
+    private Timer timer=new Timer();
 
 
     @Override
@@ -228,23 +228,13 @@ public class OneToOneChatActivity extends AppCompatActivity
         toolbarSubTitle.setTypeface(FontUtils.robotoRegular);
         toolbarSubTitle.setSelected(true);
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            this.recordAudioLayout.setVisibility(View.GONE);
-            this.recordAudioLayout.setClickable(false);
-        }
-
         viewAniamtion = AnimationUtils.loadAnimation(this, R.anim.animate);
         goneAnimation = AnimationUtils.loadAnimation(this, R.anim.gone_animation);
         oneToOnePresenter.setContext(this);
         oneToOnePresenter.getOwnerDetail();
         oneToOnePresenter.handleIntent(getIntent());
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                oneToOnePresenter.fetchPreviousMessage(contactUid, LIMIT);
-            }
-        }).start();
+        new Thread(() -> oneToOnePresenter.fetchPreviousMessage(contactUid, LIMIT)).start();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             setScrollListener();
@@ -602,17 +592,19 @@ public class OneToOneChatActivity extends AppCompatActivity
         if (oneToOneAdapter!=null) {
             oneToOneAdapter.stopPlayer();
         }
+        timer();
         oneToOnePresenter.removeMessageLisenter(getString(R.string.message_listener));
         oneToOnePresenter.removePresenceListener(getString(R.string.presenceListener));
         oneToOnePresenter.removeCallListener(TAG);
     }
+
 
     @Override
     protected void onStop() {
         super.onStop();
 
         stopRecording(false);
-
+        timer();
         Logger.error(TAG, "onStop:");
 
     }
@@ -665,7 +657,7 @@ public class OneToOneChatActivity extends AppCompatActivity
             oneToOneAdapter = new OneToOneAdapter(this, messageArrayList, ownerUid);
             oneToOneAdapter.setHasStableIds(true);
             messageRecyclerView.setAdapter(oneToOneAdapter);
-            decor = new StickyHeaderDecoration(oneToOneAdapter);
+            StickyHeaderDecoration decor = new StickyHeaderDecoration(oneToOneAdapter);
             messageRecyclerView.addItemDecoration(decor);
             if (oneToOneAdapter.getItemCount() != 0) {
                 messageRecyclerView.scrollToPosition(oneToOneAdapter.getItemCount() - 1);
@@ -723,6 +715,7 @@ public class OneToOneChatActivity extends AppCompatActivity
     public void setContactUid(String stringExtra) {
 
         contactUid = stringExtra;
+
     }
 
     @Override
@@ -746,7 +739,9 @@ public class OneToOneChatActivity extends AppCompatActivity
     @Override
     public void setPresence(User user) {
 
+
         if (user != null && user.getUid().equals(contactUid)) {
+            this.user=user;
             if (user.getStatus().equals(CometChatConstants.USER_STATUS_ONLINE)) {
                 userStatus = user.getStatus();
             } else if (user.getStatus().equals(CometChatConstants.USER_STATUS_OFFLINE)) {
@@ -756,6 +751,29 @@ public class OneToOneChatActivity extends AppCompatActivity
 
             toolbarSubTitle.setText(userStatus);
         }
+    }
+
+    @Override
+    public void setTyping() {
+
+        toolbarSubTitle.setText(getString(R.string.typing));
+    }
+
+    @Override
+    public void endTyping() {
+
+        if (user.getStatus().equals(CometChatConstants.USER_STATUS_ONLINE)) {
+            userStatus = user.getStatus();
+        } else if (user.getStatus().equals(CometChatConstants.USER_STATUS_OFFLINE)) {
+            userStatus = DateUtils.getLastSeenDate(user.getLastActiveAt(), this);
+        }
+        toolbarSubTitle.setText(userStatus);
+    }
+
+    @Override
+    public void setMessageDelivered(MessageReceipt messageReceipt) {
+        if (oneToOneAdapter!=null)
+        oneToOneAdapter.Delivered(messageReceipt);
     }
 
     @Override
@@ -771,6 +789,8 @@ public class OneToOneChatActivity extends AppCompatActivity
                 String message = messageField.getText().toString().trim();
 
                 if (!TextUtils.isEmpty(message)) {
+
+                    oneToOnePresenter.endTypingIndicator(contactUid);
                     oneToOnePresenter.sendMessage(message, contactUid);
                     messageField.setText("");
                 }
@@ -818,6 +838,8 @@ public class OneToOneChatActivity extends AppCompatActivity
 
         if (len > 0) {
             sendButton.setTextColor(getResources().getColor(R.color.secondaryDarkColor));
+             oneToOnePresenter.sendTypingIndicator(contactUid);
+
         } else {
             sendButton.setTextColor(getResources().getColor(R.color.secondaryTextColor));
 
@@ -827,7 +849,24 @@ public class OneToOneChatActivity extends AppCompatActivity
 
     @Override
     public void afterTextChanged(Editable editable) {
+        if (timer!=null){
+            timer();
+        }
+        else {
+            timer=new Timer();
+            timer();
+        }
 
+    }
+
+    private void timer(){
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                oneToOnePresenter.endTypingIndicator(contactUid);
+            }
+        },2000);
     }
 
     private void showPopUp() {
@@ -915,13 +954,13 @@ public class OneToOneChatActivity extends AppCompatActivity
 
                     ivReplyImage.setVisibility(View.INVISIBLE);
 
-                    tvTextMessage.setText("Audio Message");
+                    tvTextMessage.setText(getString(R.string.audio_message));
                     break;
                 case CometChatConstants.MESSAGE_TYPE_FILE:
 
                     ivReplyImage.setVisibility(View.INVISIBLE);
 
-                    tvTextMessage.setText("File Message");
+                    tvTextMessage.setText(getString(R.string.file_message));
                     break;
             }
         }

@@ -2,7 +2,10 @@ package com.inscripts.cometchatpulse.demo.Contracts;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.SparseArray;
 
+import com.cometchat.pro.models.MessageReceipt;
+import com.cometchat.pro.models.TypingIndicator;
 import com.inscripts.cometchatpulse.demo.Activity.OneToOneChatActivity;
 import com.inscripts.cometchatpulse.demo.Base.BasePresenter;
 import com.inscripts.cometchatpulse.demo.Base.BaseView;
@@ -11,6 +14,7 @@ import  com.cometchat.pro.models.BaseMessage;
 import  com.cometchat.pro.models.User;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 
 public interface OneToOneActivityContract {
@@ -34,6 +38,12 @@ public interface OneToOneActivityContract {
         void setAvatar(String stringExtra);
 
         void setPresence(User user);
+
+        void setTyping();
+
+        void endTyping();
+
+        void setMessageDelivered(MessageReceipt messageReceipt);
     }
 
     interface OneToOnePresenter extends BasePresenter<OneToOneView> {
@@ -65,5 +75,9 @@ public interface OneToOneActivityContract {
         void removePresenceListener(String listenerId);
 
         void removeCallListener(String listenerId);
+
+        void sendTypingIndicator(String receiverId);
+
+        void endTypingIndicator(String receiverId);
     }
 }
