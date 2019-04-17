@@ -262,20 +262,6 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
 
-    private void setDeliveryIcon(CircleImageView circleImageView,BaseMessage baseMessage){
-        if (baseMessage.getDeliveredAt()!=0){
-            circleImageView.setImageResource(R.drawable.ic_double_tick);
-        }
-    }
-
-    public void Delivered(MessageReceipt messageReceipt) {
-        BaseMessage baseMessage=messageList.get(messageReceipt.getMessageId());
-        if (baseMessage!=null) {
-            baseMessage.setDeliveredAt(messageReceipt.getTimestamp());
-            messageList.put(baseMessage.getId(), baseMessage);
-            notifyDataSetChanged();
-        }
-    }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
@@ -348,7 +334,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 rightMessageViewHolder.messageStatus.setVisibility(View.VISIBLE);
                 rightMessageViewHolder.textMessage.setTypeface(FontUtils.openSansRegular);
                 rightMessageViewHolder.messageStatus.setImageResource(R.drawable.ic_check_white_24dp);
-                setDeliveryIcon(rightMessageViewHolder.messageStatus,baseMessage);
+
                 break;
             case LEFT_IMAGE_MESSAGE:
                 LeftImageVideoViewHolder leftImageViewHolder = (LeftImageVideoViewHolder) viewHolder;
@@ -377,7 +363,6 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 rightImageVideoViewHolder.messageTimeStamp.setText(timeStampString);
                 rightImageVideoViewHolder.btnPlayVideo.setVisibility(View.GONE);
                 rightImageVideoViewHolder.fileLoadingProgressBar.setVisibility(View.GONE);
-                setDeliveryIcon(rightImageVideoViewHolder.messageStatus,baseMessage);
                 if (mediaFile != null) {
 
                     RequestOptions RightrequestOptions = new RequestOptions().centerCrop()
@@ -431,7 +416,6 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 rightVideoViewHolder.messageTimeStamp.setText(timeStampString);
                 rightVideoViewHolder.btnPlayVideo.setVisibility(View.VISIBLE);
                 rightVideoViewHolder.fileLoadingProgressBar.setVisibility(View.GONE);
-                setDeliveryIcon(rightVideoViewHolder.messageStatus,baseMessage);
                 RequestOptions requestOptions2 = new RequestOptions().fitCenter()
                         .placeholder(R.drawable.ic_broken_image);
                 Glide.with(context)
@@ -457,7 +441,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if (!player.isPlaying()) {
                     rightAudioViewHolder.playAudio.setImageResource(R.drawable.ic_play_arrow);
                 }
-                setDeliveryIcon(rightAudioViewHolder.messageStatus,baseMessage);
+
                 rightAudioViewHolder.audioSeekBar.setProgress(0);
                 String rightAudioPath = null;
                 File rightAudioFile = null;
@@ -735,7 +719,6 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     rightFileViewHolder.fileName.setText(mediaMessage.getAttachment().getFileName());
                     rightFileViewHolder.messageTimeStamp.setText(timeStampString);
                     rightFileViewHolder.fileType.setText(mediaMessage.getAttachment().getFileExtension());
-                    setDeliveryIcon(rightFileViewHolder.messageStatus,baseMessage);
                     final String finalMediaFile = mediaFile;
                     rightFileViewHolder.fileName.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -786,7 +769,6 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 rightTextReplyViewHolder.tvNameReply.setText(textMessage.getMetadata().getString("senderName"));
                             }
                         }
-                        setDeliveryIcon(rightTextReplyViewHolder.ivMessageStatus,baseMessage);
                         rightTextReplyViewHolder.tvNewMessage.setVisibility(View.VISIBLE);
                         rightTextReplyViewHolder.tvNewMessage.setText(textMessage.getText());
 
@@ -916,7 +898,6 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 rightMediaReplyViewHolder.tvNameReply.setText(mediaMessage.getMetadata().getString("senderName"));
                             }
                         }
-                        setDeliveryIcon(rightMediaReplyViewHolder.ivMessageStatus,baseMessage);
                         if (mediaMessage.getMetadata().has("type")) {
 
                             switch (mediaMessage.getMetadata().getString("type")) {

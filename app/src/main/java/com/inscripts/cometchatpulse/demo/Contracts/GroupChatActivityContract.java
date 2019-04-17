@@ -40,7 +40,6 @@ public interface GroupChatActivityContract {
 
         void typingEnded(TypingIndicator typingIndicator);
 
-        void onMessageDelivered(MessageReceipt messageReceipt);
     }
 
     interface GroupChatPresenter extends BasePresenter<GroupChatView> {

@@ -677,12 +677,6 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
            toolbarSubTitle.setText(names);
     }
 
-    @Override
-    public void onMessageDelivered(MessageReceipt messageReceipt) {
-        if (groupMessageAdapter!=null)
-            groupMessageAdapter.Delivered(messageReceipt);
-
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

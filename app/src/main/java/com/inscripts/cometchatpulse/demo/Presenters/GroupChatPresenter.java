@@ -116,7 +116,7 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
 
             @Override
             public void onMessageDelivered(MessageReceipt messageReceipt) {
-                getBaseView().onMessageDelivered(messageReceipt);
+
             }
 
         });
