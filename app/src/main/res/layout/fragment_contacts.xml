@@ -1,0 +1,119 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_contacts"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <ImageView
+        android:id="@+id/ivNoContacts"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:src="@drawable/no_friends"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4" />
+
+    <TextView
+        android:id="@+id/tvNoContacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivNoContacts"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/no_contacts_available"
+        android:textSize="@dimen/toolbar_title"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivNoContacts" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/contacts_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/contact_shimmer"
+        android:layout_width="match_parent"
+        app:shimmer_auto_start="true"
+        app:shimmer_duration="1000"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+            <include layout="@layout/contact_placeholder" />
+
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+</RelativeLayout>

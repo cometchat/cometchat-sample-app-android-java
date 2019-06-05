@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:paddingStart="5dp"
+    android:paddingLeft="5dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    style="@style/SelectableItemBackground">
+
+
+
+        <ImageView
+            android:id="@+id/imageViewGroupAvatar"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/cc_circular_background"
+            android:padding="10dp"
+            android:visibility="gone"
+            android:src="@drawable/cc_ic_group" />
+
+        <com.inscripts.cometchatpulse.demo.CustomView.CircleImageView
+            android:id="@+id/imageViewUserAvatar"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:transitionName="profilePic"
+            android:layout_centerVertical="true"
+            android:layout_margin="6dp"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/textviewUserName"
+            android:layout_width="wrap_content"
+            android:transitionName="Name"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/imageViewStatusIcon"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="4dp"
+            android:layout_toStartOf="@+id/textviewSingleChatUnreadCount"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif"
+            android:maxLines="1"
+            android:lineSpacingExtra="0.15dp"
+            android:singleLine="true"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="16sp"
+            tools:text="@tools:sample/full_names" />
+
+
+        <!--todo add emojicompacttextview-->
+
+        <TextView
+            android:id="@+id/textviewLastMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textviewUserName"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toStartOf="@+id/textviewSingleChatUnreadCount"
+            android:layout_toLeftOf="@+id/textviewSingleChatUnreadCount"
+            android:layout_toEndOf="@+id/imageViewUserAvatar"
+            android:layout_toRightOf="@+id/imageViewUserAvatar"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif"
+            android:singleLine="true"
+            android:text="@string/status_message"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/textviewUserStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textviewUserName"
+            android:layout_toStartOf="@+id/textviewSingleChatUnreadCount"
+            android:layout_toEndOf="@+id/imageViewStatusIcon"
+            android:ellipsize="end"
+            android:transitionName="status"
+            android:fontFamily="sans-serif"
+            android:singleLine="true"
+            android:textColor="@color/secondaryTextColor"
+            android:text="@string/status_message"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textviewSingleChatUnreadCount"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/cc_circular_background"
+            android:gravity="center_vertical|center_horizontal"
+            android:padding="1dp"
+            android:singleLine="true"
+            android:text="@string/unread_count"
+            android:textColor="#FFF"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+
+        <ImageView
+            android:id="@+id/imageViewStatusIcon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignTop="@+id/textviewUserStatus"
+            android:layout_alignBottom="@+id/textviewUserStatus"
+            android:layout_marginStart="7dp"
+            android:layout_marginLeft="7dp"
+            android:layout_toEndOf="@+id/imageViewUserAvatar"
+            android:layout_toRightOf="@+id/imageViewUserAvatar"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:paddingEnd="5dp"
+            android:paddingRight="5dp"
+            android:src="@drawable/cc_status_available" />
+
+
+    </RelativeLayout>
+

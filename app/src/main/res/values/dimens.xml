@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="timestampsize">12sp</dimen>
+    <dimen name="custom_dialog_text_size">16sp</dimen>
+    <dimen name="toolbar_title">20sp</dimen>
+    <dimen name="text_header">16sp</dimen>
+    <dimen name="small_text">12sp</dimen>
+    <dimen name="label_size">14sp</dimen>
+    <dimen name="tab_height">40dp</dimen>
+    <dimen name="design_fab_size_normal" tools:override="true">70dp</dimen>
+</resources>

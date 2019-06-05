@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/cc_rounded_border_edittext">
+
+        <include layout="@layout/reply_container"
+            android:id="@+id/rlReply"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"/>
+
+        <RelativeLayout
+            android:layout_below="@id/rlReply"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/iv_attchment"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            android:rotation="90"
+            android:src="@drawable/ic_attachment_black_24dp" />
+
+        <Button
+            android:id="@+id/buttonSendMessage"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:text="Send"
+            android:textColor="@color/secondaryTextColor" />
+
+
+
+
+        <EditText
+            android:id="@+id/editTextChatMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/iv_attchment"
+            android:layout_toStartOf="@id/buttonSendMessage"
+            android:autoLink="web"
+            android:background="@android:color/transparent"
+            android:focusable="true"
+            android:hint="@string/type_your_message"
+            android:inputType="textCapSentences|textMultiLine"
+            android:linksClickable="true"
+            android:maxLines="2"
+            android:padding="10dp"
+            android:scrollbars="vertical"
+            android:textColorHint="#cccccc"/>
+
+
+            <com.inscripts.cometchatpulse.demo.CustomView.RecordMicButton
+                android:id="@+id/record_button"
+                android:layout_width="45dp"
+                android:layout_height="30dp"
+                android:visibility="visible"
+                android:src="@drawable/ic_mic_24dp"
+                android:layout_marginEnd="8dp"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/buttonSendMessage"
+                android:background="@android:color/transparent">
+            </com.inscripts.cometchatpulse.demo.CustomView.RecordMicButton>
+
+
+            <com.inscripts.cometchatpulse.demo.CustomView.RecordAudio
+                android:id="@+id/record_audio_view"
+                android:layout_toStartOf="@id/record_button"
+                android:layout_toEndOf="@id/iv_attchment"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </com.inscripts.cometchatpulse.demo.CustomView.RecordAudio>
+
+    </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
