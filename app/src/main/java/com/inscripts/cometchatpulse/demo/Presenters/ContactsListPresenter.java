@@ -2,6 +2,7 @@ package com.inscripts.cometchatpulse.demo.Presenters;
 
 import android.util.Log;
 
+import com.cometchat.pro.constants.CometChatConstants;
 import com.inscripts.cometchatpulse.demo.Base.Presenter;
 import com.inscripts.cometchatpulse.demo.Contracts.ContactsContract;
 import com.inscripts.cometchatpulse.demo.Utils.Logger;
@@ -29,6 +30,7 @@ public class ContactsListPresenter extends Presenter<ContactsContract.ContactVie
         if (usersRequest==null) {
 
             usersRequest  = new UsersRequest.UsersRequestBuilder().setLimit(30).build();
+
             usersRequest.fetchNext(new CometChat.CallbackListener<List<User>>() {
                 @Override
                 public void onSuccess(List<User> users) {
@@ -89,7 +91,6 @@ public class ContactsListPresenter extends Presenter<ContactsContract.ContactVie
 
     @Override
     public void removePresenceListener(String presenceListener) {
-
         CometChat.removeUserListener(presenceListener);
     }
 
@@ -100,5 +101,44 @@ public class ContactsListPresenter extends Presenter<ContactsContract.ContactVie
         getBaseView().setLoggedInUser(user);
     }
 
+    @Override
+    public void searchUser(String s) {
+
+       UsersRequest usersRequest= new UsersRequest.UsersRequestBuilder().setSearchKeyword(s).setLimit(100).build();
+       HashMap<String ,User> hashMap=new HashMap<>();
+       usersRequest.fetchNext(new CometChat.CallbackListener<List<User>>() {
+           @Override
+           public void onSuccess(List<User> users) {
+                for (User user:users){
+                    Log.d(TAG, "usersRequest onSuccess: "+user.toString());
+                     hashMap.put(user.getUid(),user);
+                }
+               getBaseView().setFilterList(hashMap);
+
+           }
+
+           @Override
+           public void onError(CometChatException e) {
+               Log.d(TAG, "onError: fetchNext "+e.getMessage());
+           }
+       });
+
+
+    }
+
+    public void fetchCount() {
+
+        CometChat.getUnreadMessageCountForAllUsers(new CometChat.CallbackListener<HashMap<String, Integer>>() {
+            @Override
+            public void onSuccess(HashMap<String, Integer> stringIntegerHashMap) {
+                getBaseView().setUnreadMap(stringIntegerHashMap);
+            }
+
+            @Override
+            public void onError(CometChatException e) {
+
+            }
+        });
+    }
 
 }

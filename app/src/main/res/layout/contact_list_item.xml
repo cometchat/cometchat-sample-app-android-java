@@ -96,13 +96,14 @@
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/cc_circular_background"
+            android:layout_alignParentEnd="true"
             android:gravity="center_vertical|center_horizontal"
             android:padding="1dp"
             android:singleLine="true"
             android:text="@string/unread_count"
             android:textColor="#FFF"
             android:textSize="12sp"
-            android:visibility="gone" />
+            android:visibility="invisible" />
 
 
         <ImageView

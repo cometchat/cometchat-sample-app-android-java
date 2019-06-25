@@ -8,6 +8,7 @@ import com.inscripts.cometchatpulse.demo.Base.BasePresenter;
 import com.inscripts.cometchatpulse.demo.Base.BaseView;
 import com.cometchat.pro.models.Group;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface GroupListContract {
@@ -17,8 +18,9 @@ public interface GroupListContract {
 
         void setGroupAdapter(List<Group> groupList);
 
-
         void groupjoinCallback(Group group);
+
+        void setFilterGroup(List<Group> groups);
     }
 
     interface GroupPresenter extends BasePresenter<GroupView>
@@ -28,5 +30,7 @@ public interface GroupListContract {
         void joinGroup(Context context, Group group, ProgressDialog progressDialog, GroupListAdapter groupListAdapter);
 
         void refresh();
+
+        void searchGroup(String s);
     }
 }

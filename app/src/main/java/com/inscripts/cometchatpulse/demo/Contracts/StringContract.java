@@ -11,9 +11,7 @@ public class StringContract {
         public static final String AUDIO_TYPE = "audio/*";
         public static final String DOCUMENT_TYPE = "*/*";
         public static final String[] EXTRA_MIME_TYPE = new String[]{"image/*", "video/*"};
-        public static final String[] EXTRA_MIME_DOC=new String[]{"text/plane","text/html",
-                "application/pdf","application/msword","application/vnd.ms.excel",
-                "application/mspowerpoint","application/zip"};
+        public static final String[] EXTRA_MIME_DOC=new String[]{"text/plane","text/html","application/pdf","application/msword","application/vnd.ms.excel", "application/mspowerpoint","application/zip"};
         public static final String INTENT_CHATROOM = "INTENT_CHATROOM";
         public static final String USER_ID = "uid";
         public static final String USER = "user";
@@ -47,8 +45,7 @@ public class StringContract {
     }
 
     public static class AppDetails{
-
-        public static final String APP_ID  =  "XXXXXXXXXXXXXX";
-        public static final String API_KEY =  "XXXXXXXXXXXXXX";
+        public static final String APP_ID  =  "XXXXXXXXXXXXXXX";
+        public static final String API_KEY =  "XXXXXXXXXXXXXXX";
     }
 }

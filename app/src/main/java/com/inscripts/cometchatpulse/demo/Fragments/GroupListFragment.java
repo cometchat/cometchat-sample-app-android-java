@@ -33,6 +33,7 @@ import com.inscripts.cometchatpulse.demo.Utils.CommonUtils;
 import com.inscripts.cometchatpulse.demo.Utils.Logger;
 import com.cometchat.pro.constants.CometChatConstants;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -230,7 +231,6 @@ public class GroupListFragment extends Fragment implements GroupListContract.Gro
         } else {
             groupListAdapter.refreshData(groupList);
         }
-
         if (groupList.size() == 0) {
             grpNoGroups.setVisibility(View.VISIBLE);
         } else {
@@ -242,6 +242,13 @@ public class GroupListFragment extends Fragment implements GroupListContract.Gro
     public void groupjoinCallback(com.cometchat.pro.models.Group group) {
 
         CommonUtils.startActivityIntent(group, getContext(), false);
+    }
+
+    @Override
+    public void setFilterGroup(List<com.cometchat.pro.models.Group> groups) {
+        if (groupListAdapter!=null){
+             groupListAdapter.setFilterList(groups);
+        }
     }
 
 
@@ -287,4 +294,7 @@ public class GroupListFragment extends Fragment implements GroupListContract.Gro
         }
     }
 
+    public void search(String s) {
+       groupPresenter.searchGroup(s);
+    }
 }

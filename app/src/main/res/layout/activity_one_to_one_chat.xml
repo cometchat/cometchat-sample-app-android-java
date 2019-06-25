@@ -26,8 +26,8 @@
         <RelativeLayout
             android:id="@+id/rl_titlecontainer"
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content">
+
 
             <com.inscripts.cometchatpulse.demo.CustomView.CircleImageView
                 android:id="@+id/contact_pic"
@@ -81,12 +81,16 @@
 
 
 
+
+
+
     <RelativeLayout
         android:id="@+id/rl_container"
         android:layout_below="@id/cometchat_toolbar"
         android:layout_above="@id/ll_chatBox"
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvChatMessages"
@@ -118,6 +122,30 @@
             android:visibility="gone" />
 
     </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/blockBanner"
+        android:orientation="horizontal"
+        android:layout_below="@id/cometchat_toolbar"
+        android:layout_width="match_parent"
+        tools:visibility="visible"
+        android:visibility="gone"
+        android:layout_height="?actionBarSize">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:id="@+id/tvBlock"
+            android:textSize="24sp"
+            android:padding="8dp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:background="@color/bannar"
+            android:layout_height="wrap_content" />
+
+
+    </RelativeLayout>
+
 
     <include
         android:id="@+id/ll_chatBox"

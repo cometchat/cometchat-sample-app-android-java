@@ -38,10 +38,17 @@
 
 
         <activity android:name=".Activity.BlockedUserListActivity"></activity>
+
         <activity
             android:name=".Activity.CometChatActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".Activity.OneToOneChatActivity"
             android:screenOrientation="portrait"

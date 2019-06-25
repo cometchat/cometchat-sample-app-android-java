@@ -3,6 +3,7 @@ package com.inscripts.cometchatpulse.demo.Presenters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -39,6 +40,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupChatPresenter extends Presenter<GroupChatActivityContract.GroupChatView>
@@ -47,6 +49,8 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
     private Context context;
 
     private MessagesRequest messagesRequest;
+
+    private static final String TAG = "GroupChatPresenter";
 
     @Override
     public void getContext(Context context) {
@@ -116,7 +120,14 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
 
             @Override
             public void onMessageDelivered(MessageReceipt messageReceipt) {
+                Log.d(TAG, "onMessageDelivered: "+messageReceipt.toString());
+                   getBaseView().setDeliveryReceipt(messageReceipt);
+            }
 
+            @Override
+            public void onMessageRead(MessageReceipt messageReceipt) {
+                Log.d(TAG, "onMessageRead: "+messageReceipt.toString());
+                    getBaseView().onMessageRead(messageReceipt);
             }
 
         });
@@ -286,20 +297,64 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
     }
 
     @Override
-    public void fetchPreviousMessage(String groupId, int limit) {
+    public void deleteMessage(BaseMessage baseMessage) {
 
+        CometChat.deleteMessage(baseMessage.getId(), new CometChat.CallbackListener<BaseMessage>() {
+            @Override
+            public void onSuccess(BaseMessage baseMessage) {
+                Log.d(TAG, "onSuccess: deleteMessage "+baseMessage.toString());
+                getBaseView().setDeletedMessage(baseMessage);
+            }
+
+            @Override
+            public void onError(CometChatException e) {
+                Log.d(TAG, "onError: deleteMessage");
+            }
+        });
+    }
+
+    @Override
+    public void editMessage(BaseMessage baseMessage, String message) {
+
+        TextMessage textMessage=new TextMessage(baseMessage.getReceiverUid(),message, baseMessage.getType(),baseMessage.getReceiverType());
+        textMessage.setId(baseMessage.getId());
+        CometChat.editMessage(textMessage, new CometChat.CallbackListener<BaseMessage>() {
+            @Override
+            public void onSuccess(BaseMessage baseMessage) {
+                Log.d(TAG, "editMessage onSuccess: "+baseMessage.toString());
+                getBaseView().setEditedMessage(baseMessage);
+            }
+
+            @Override
+            public void onError(CometChatException e) {
+                Log.d(TAG, "editMessage onError: "+e.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void fetchPreviousMessage(String groupId, int limit) {
+        List<BaseMessage> list=new ArrayList<>();
         if (messagesRequest == null) {
             messagesRequest = new MessagesRequest.MessagesRequestBuilder().setGUID(groupId).setLimit(limit).build();
             messagesRequest.fetchPrevious(new CometChat.CallbackListener<List<BaseMessage>>() {
                 @Override
                 public void onSuccess(List<BaseMessage> baseMessages) {
-                    for (BaseMessage baseMessage : baseMessages) {
-                        Logger.error("groupMessage" + baseMessage.getId() + " timestamp : " + baseMessage.getSentAt() + " list size :" + baseMessages.size());
 
-                    }
-                    if (isViewAttached()) {
-                        getBaseView().setAdapter(baseMessages);
-                    }
+                    if (isViewAttached()){
+                        for (BaseMessage baseMessage : baseMessages) {
+                            Log.d(TAG, "onSuccess: fetchPrevious" + baseMessage.toString());
+                            Logger.error("groupMessage" + baseMessage.getId() + " timestamp : " + baseMessage.getSentAt() + " list size :" + baseMessages.size());
+
+                            if (!baseMessage.getCategory().equals(CometChatConstants.CATEGORY_ACTION) && baseMessage.getDeletedAt() == 0) {
+                                list.add(baseMessage);
+                            }
+
+
+                        }
+                    getBaseView().setAdapter(list);
+                }
+
                 }
 
                 @Override
@@ -312,15 +367,19 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
             messagesRequest.fetchPrevious(new CometChat.CallbackListener<List<BaseMessage>>() {
                 @Override
                 public void onSuccess(List<BaseMessage> baseMessages) {
-                    for (BaseMessage baseMessage : baseMessages) {
-                        Logger.error("groupMessage" + baseMessage.getId());
+                    if (isViewAttached()) {
+                        for (BaseMessage baseMessage : baseMessages) {
+                            Log.d(TAG, "onSuccess: fetchPrevious" + baseMessage.toString());
+                            Logger.error("groupMessage" + baseMessage.getId());
 
+                            if (!baseMessage.getCategory().equals(CometChatConstants.CATEGORY_ACTION) && baseMessage.getDeletedAt() == 0) {
+                                list.add(baseMessage);
+                            }
+
+                        }
+                        getBaseView().setAdapter(baseMessages);
                     }
 
-                    if (baseMessages.size() != 0) {
-                        if (isViewAttached())
-                            getBaseView().setAdapter(baseMessages);
-                    }
                 }
 
                 @Override

@@ -59,7 +59,6 @@ import com.inscripts.cometchatpulse.demo.Utils.ColorUtils;
 import com.inscripts.cometchatpulse.demo.Utils.FileUtils;
 import com.inscripts.cometchatpulse.demo.Utils.FontUtils;
 import com.inscripts.cometchatpulse.demo.Utils.KeyboardVisibilityEvent;
-import com.inscripts.cometchatpulse.demo.Utils.KeyboardVisibilityEventListener;
 import com.inscripts.cometchatpulse.demo.Utils.Logger;
 import com.inscripts.cometchatpulse.demo.Utils.MediaUtils;
 import com.cometchat.pro.constants.CometChatConstants;
@@ -154,6 +153,8 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
     private String groupName;
 
     private Timer timer=new Timer();
+
+    private boolean isEditMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -578,11 +579,17 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
 
             case R.id.buttonSendMessage:
                 String message = messageField.getText().toString().trim();
-                if (!TextUtils.isEmpty(message))
+                if (!TextUtils.isEmpty(message)&&!isEditMessage)
                 {
                     groupChatPresenter.sendTextMessage(message, groupId);
                     messageField.setText("");
                 }
+                else if (isEditMessage&&!TextUtils.isEmpty(message)){
+                    isEditMessage=false;
+                    groupChatPresenter.editMessage(baseMessage,message);
+                    messageField.setText("");
+                }
+
                 break;
 
             case R.id.ivClose:
@@ -643,8 +650,6 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
             groupMessageAdapter.add(baseMessage);
             messageRecyclerView.scrollToPosition(groupMessageAdapter.getItemCount() - 1);
         }
-
-
     }
 
     @Override
@@ -675,6 +680,34 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
     @Override
     public void typingEnded(TypingIndicator typingIndicator) {
            toolbarSubTitle.setText(names);
+    }
+
+    @Override
+    public void setDeliveryReceipt(MessageReceipt messageReceipt) {
+         if (groupMessageAdapter!=null){
+             groupMessageAdapter.setDelivered(messageReceipt);
+         }
+    }
+
+    @Override
+    public void onMessageRead(MessageReceipt messageReceipt) {
+        if (groupMessageAdapter!=null){
+            groupMessageAdapter.setRead(messageReceipt);
+        }
+    }
+
+    @Override
+    public void setDeletedMessage(BaseMessage baseMessage) {
+        if (groupMessageAdapter!=null){
+            groupMessageAdapter.deleteMessage(baseMessage);
+        }
+    }
+
+    @Override
+    public void setEditedMessage(BaseMessage baseMessage) {
+        if (groupMessageAdapter!=null){
+            groupMessageAdapter.setEditMessage(baseMessage);
+        }
     }
 
 
@@ -792,78 +825,111 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         getMenuInflater().inflate(R.menu.action_mode, menu);
         mode.setTitle(groupName);
+
+        if (menu!=null&&baseMessage!=null){
+            if (!baseMessage.getSender().getUid().equals(ownerId)) {
+                menu.findItem(R.id.delete).setVisible(false);
+            }
+
+            if (!baseMessage.getSender().getUid().equals(ownerId) && baseMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_TEXT)){
+                menu.findItem(R.id.edit).setVisible(false);
+            }
+
+
+        }
         return true;
     }
 
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 
         mode.finish();
-        isReply = true;
-        metaData = null;
-        metaData = new JSONObject();
-        rlReplyContainer.setVisibility(View.VISIBLE);
-        tvNameReply.setText(baseMessage.getSender().getName());
-        try {
-            metaData.put("reply", "reply");
-            metaData.put("senderName", baseMessage.getSender().getName());
-            metaData.put("senderUid", baseMessage.getSender().getUid());
-            metaData.put("type", baseMessage.getType());
-            metaData.put("id", baseMessage.getId());
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        switch (item.getItemId()) {
 
-        if (baseMessage instanceof TextMessage) {
+            case R.id.reply:
 
-            tvTextMessage.setVisibility(View.VISIBLE);
-            tvTextMessage.setText(((TextMessage) baseMessage).getText());
+            isReply = true;
+            metaData = null;
+            metaData = new JSONObject();
+            rlReplyContainer.setVisibility(View.VISIBLE);
+            tvNameReply.setText(baseMessage.getSender().getName());
             try {
-                metaData.put("text", ((TextMessage) baseMessage).getText());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        } else if (baseMessage instanceof MediaMessage) {
-
-            tvTextMessage.setVisibility(View.GONE);
-
-            try {
-                metaData.put("url", ((MediaMessage) baseMessage).getUrl());
+                metaData.put("reply", "reply");
+                metaData.put("senderName", baseMessage.getSender().getName());
+                metaData.put("senderUid", baseMessage.getSender().getUid());
+                metaData.put("type", baseMessage.getType());
+                metaData.put("id", baseMessage.getId());
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
+            if (baseMessage instanceof TextMessage) {
 
-            switch (baseMessage.getType()) {
-                case CometChatConstants.MESSAGE_TYPE_IMAGE:
-                case CometChatConstants.MESSAGE_TYPE_VIDEO:
+                tvTextMessage.setVisibility(View.VISIBLE);
+                tvTextMessage.setText(((TextMessage) baseMessage).getText());
+                try {
+                    metaData.put("text", ((TextMessage) baseMessage).getText());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-                    ivReplyImage.setVisibility(View.VISIBLE);
+            } else if (baseMessage instanceof MediaMessage) {
 
-                    Glide.with(this).load(((MediaMessage) baseMessage).getUrl()).into(ivReplyImage);
-                    break;
-                case CometChatConstants.MESSAGE_TYPE_AUDIO:
+                tvTextMessage.setVisibility(View.GONE);
 
-                    ivReplyImage.setVisibility(View.INVISIBLE);
+                try {
+                    metaData.put("url", ((MediaMessage) baseMessage).getUrl());
 
-                    tvTextMessage.setText(getString(R.string.audio_message));
-                    break;
-                case CometChatConstants.MESSAGE_TYPE_FILE:
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-                    ivReplyImage.setVisibility(View.INVISIBLE);
 
-                    tvTextMessage.setText(getString(R.string.file_message));
-                    break;
+                switch (baseMessage.getType()) {
+                    case CometChatConstants.MESSAGE_TYPE_IMAGE:
+                    case CometChatConstants.MESSAGE_TYPE_VIDEO:
+
+                        ivReplyImage.setVisibility(View.VISIBLE);
+
+                        Glide.with(this).load(((MediaMessage) baseMessage).getUrl()).into(ivReplyImage);
+                        break;
+                    case CometChatConstants.MESSAGE_TYPE_AUDIO:
+
+                        ivReplyImage.setVisibility(View.INVISIBLE);
+
+                        tvTextMessage.setText(getString(R.string.audio_message));
+                        break;
+                    case CometChatConstants.MESSAGE_TYPE_FILE:
+
+                        ivReplyImage.setVisibility(View.INVISIBLE);
+
+                        tvTextMessage.setText(getString(R.string.file_message));
+                        break;
+                }
             }
+            break;
+
+            case R.id.delete:
+                groupChatPresenter.deleteMessage(baseMessage);
+                break;
+            case R.id.edit:
+                TextMessage textMessage;
+                isEditMessage=true;
+
+                if (baseMessage instanceof TextMessage){
+                    textMessage=(TextMessage)baseMessage;
+                    messageField.setText(textMessage.getText());
+                }
+                break;
         }
+
 
 
         return true;

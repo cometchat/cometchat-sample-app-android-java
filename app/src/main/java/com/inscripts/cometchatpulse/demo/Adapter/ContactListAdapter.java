@@ -28,7 +28,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
     private final Context context;
 
-    private HashMap<String ,User> userHashMap;
+    private HashMap<String, User> userHashMap;
 
     private List<User> userList;
 
@@ -36,12 +36,14 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
     private int resId;
 
-    public ContactListAdapter(HashMap<String ,User> userHashMap, Context context, int resId,boolean isBlockedList) {
+    private HashMap<String, Integer> unreadCountMap;
+
+    public ContactListAdapter(HashMap<String, User> userHashMap, Context context, int resId, boolean isBlockedList) {
         this.userHashMap = userHashMap;
         this.context = context;
-        this.isBlockedList=isBlockedList;
+        this.isBlockedList = isBlockedList;
         this.resId = resId;
-        userList=new ArrayList<>();
+        userList = new ArrayList<>();
         new FontUtils(context);
 
     }
@@ -64,12 +66,29 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         contactViewHolder.userStatus.setTypeface(FontUtils.robotoRegular);
         contactViewHolder.userStatus.setText(user.getStatus());
 
+
+        try {
+            if (!isBlockedList&& unreadCountMap !=null) {
+
+                if (unreadCountMap.containsKey(user.getUid())) {
+                    contactViewHolder.unreadCount.setVisibility(View.VISIBLE);
+                    contactViewHolder.unreadCount.setText(String.valueOf(unreadCountMap.get(user.getUid())));
+                } else {
+                    contactViewHolder.unreadCount.setVisibility(View.INVISIBLE);
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         if (user.getStatus().equals(CometChatConstants.USER_STATUS_ONLINE)) {
             statusDrawable = context.getResources().getDrawable(R.drawable.cc_status_available);
         } else {
             statusDrawable = context.getResources().getDrawable(R.drawable.cc_status_offline);
         }
-        if (isBlockedList){
+        if (isBlockedList) {
             contactViewHolder.statusImage.setVisibility(View.INVISIBLE);
             contactViewHolder.userStatus.setVisibility(View.INVISIBLE);
         }
@@ -97,7 +116,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     }
 
 
-    public void refreshData(HashMap<String ,User> userArrayList) {
+    public void refreshData(HashMap<String, User> userArrayList) {
         this.userHashMap.putAll(userArrayList);
         notifyDataSetChanged();
     }
@@ -114,17 +133,27 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
     public void updateUserPresence(User user) {
         try {
-            userHashMap.put(user.getUid(),user);
+            userHashMap.put(user.getUid(), user);
             notifyDataSetChanged();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void removeUser(String  uid) {
+    public void removeUser(String uid) {
         userHashMap.remove(uid);
         notifyDataSetChanged();
     }
+
+    public void setUnreadCount(HashMap<String, Integer> stringIntegerHashMap) {
+        unreadCountMap =stringIntegerHashMap;
+    }
+
+    public void setFilterList(HashMap<String, User> hashMap) {
+        userHashMap=hashMap;
+        notifyDataSetChanged();
+    }
+
 
     public class ContactViewHolder extends RecyclerView.ViewHolder {
 

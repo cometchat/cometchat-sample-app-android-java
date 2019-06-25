@@ -1,5 +1,6 @@
 package com.inscripts.cometchatpulse.demo.Activity;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -11,6 +12,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -27,9 +29,11 @@ import com.inscripts.cometchatpulse.demo.Helper.ScrollHelper;
 import com.inscripts.cometchatpulse.demo.Presenters.CometChatActivityPresenter;
 import com.inscripts.cometchatpulse.demo.R;
 import com.inscripts.cometchatpulse.demo.Utils.FontUtils;
+import java.util.HashMap;
+
 
 public class CometChatActivity extends AppCompatActivity implements
-        ScrollHelper, CometChatActivityContract.CometChatActivityView {
+        ScrollHelper, CometChatActivityContract.CometChatActivityView,test {
 
     private ViewPager mViewPager; //view pager
 
@@ -52,6 +56,15 @@ public class CometChatActivity extends AppCompatActivity implements
     private ViewPagerAdapter adapter;
 
     private static final String TAG = "CometChatActivity";
+
+
+    public static HashMap<String ,Integer> countMap;
+
+    private MenuItem searchItem;
+
+    private SearchView searchView;
+
+    private int pageNumber=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +118,7 @@ public class CometChatActivity extends AppCompatActivity implements
             @Override
             public void onPageSelected(int i) {
                 adapter.notifyDataSetChanged();
+                pageNumber=i;
             }
 
             @Override
@@ -169,8 +183,61 @@ public class CometChatActivity extends AppCompatActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+
+       searchItem=menu.findItem(R.id.app_bar_search);
+
+       SearchManager searchManager=((SearchManager)getSystemService(Context.SEARCH_SERVICE));
+
+         if (searchItem!=null){
+
+             searchView=((SearchView)searchItem.getActionView());
+
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String s) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String s) {
+                     searchUser(s);
+                    return false;
+                }
+            });
+
+            searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+                @Override
+                public boolean onClose() {
+                     searchUser(null);
+                    return false;
+                }
+            });
+         }
+
+         if (searchView!=null){
+             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+         }
+
         return true;
     }
+
+    private void searchUser(String s) {
+
+        switch (pageNumber){
+
+            case 0:
+                ContactsFragment contactsFragment = (ContactsFragment) adapter.getItem(0);
+                contactsFragment.search(s);
+                break;
+
+            case 1:
+                GroupListFragment groupListFragment= (GroupListFragment) adapter.getItem(1);
+                groupListFragment.search(s);
+                break;
+
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -204,4 +271,20 @@ public class CometChatActivity extends AppCompatActivity implements
         fabIconAnimator.setExtended(isExtended);
     }
 
+
+
+    @Override
+    public void x(String string) {
+
+    }
 }
+
+interface test{
+    /**
+     *
+     * This methods take no parameter
+     * @param string
+     */
+    void x(String string);
+}
+

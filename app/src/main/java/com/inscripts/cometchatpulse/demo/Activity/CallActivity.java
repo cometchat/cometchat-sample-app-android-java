@@ -19,7 +19,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class CallActivity extends AppCompatActivity implements CallActivityContract.CallActivityView {
 
-
     private RelativeLayout callView;
 
     private String sessionId;

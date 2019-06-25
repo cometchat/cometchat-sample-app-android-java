@@ -142,11 +142,15 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
             var1.txtGroupStatus.setText(context.getResources().getText(R.string.other_group));
         }
 
-
     }
 
     public void refreshData(List<Group> groupList) {
         this.groupList.addAll(groupList);
+        notifyDataSetChanged();
+    }
+
+    public void setFilterList(List<Group> groups) {
+        groupList=groups;
         notifyDataSetChanged();
     }
 

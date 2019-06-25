@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.Call;
+import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.models.Action;
 import com.cometchat.pro.models.BaseMessage;
 import com.cometchat.pro.models.MediaMessage;
@@ -110,8 +111,6 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private String groupId;
 
     private String ownerId;
-
-    private BaseMessage baseMessage;
 
     private int position;
 
@@ -266,7 +265,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
 
-        baseMessage = messageList.get(messageList.keyAt(i));
+        BaseMessage baseMessage = messageList.get(messageList.keyAt(i));
         String message = null;
         String mediaFile = null;
         String avatar = baseMessage.getSender().getAvatar();
@@ -326,6 +325,10 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 leftMessageViewHolder.senderName.setTypeface(FontUtils.robotoMedium);
                 setAvatar(leftMessageViewHolder.avatar, avatar);
 
+                  if (baseMessage.getReadByMeAt()==0){
+                      CometChat.markMessageAsRead(baseMessage);
+                  }
+
                 break;
             case RIGHT_TEXT_MESSAGE:
                 RightMessageViewHolder rightMessageViewHolder = (RightMessageViewHolder) viewHolder;
@@ -334,6 +337,8 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 rightMessageViewHolder.messageStatus.setVisibility(View.VISIBLE);
                 rightMessageViewHolder.textMessage.setTypeface(FontUtils.openSansRegular);
                 rightMessageViewHolder.messageStatus.setImageResource(R.drawable.ic_check_white_24dp);
+                setReadIcon(rightMessageViewHolder.messageStatus,baseMessage);
+                setDeliveryIcon(rightMessageViewHolder.messageStatus,baseMessage);
 
                 break;
             case LEFT_IMAGE_MESSAGE:
@@ -356,6 +361,9 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     String finalMediaFile7 = mediaFile;
                     leftImageViewHolder.imageMessage.setOnClickListener(view -> startIntent(finalMediaFile7, false));
                 }
+                 if (baseMessage.getReadByMeAt()==0){
+                     CometChat.markMessageAsRead(baseMessage);
+                 }
 
                 break;
             case RIGHT_IMAGE_MESSAGE:
@@ -372,6 +380,8 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     String finalMediaFile6 = mediaFile;
                     rightImageVideoViewHolder.imageMessage.setOnClickListener(view -> startIntent(finalMediaFile6, false));
                 }
+                setReadIcon(rightImageVideoViewHolder.messageStatus,baseMessage);
+                setDeliveryIcon(rightImageVideoViewHolder.messageStatus,baseMessage);
                 break;
             case ACTION_MESSAGE:
                 DateItemHolder actionHolder = (DateItemHolder) viewHolder;
@@ -409,6 +419,9 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         startIntent(finalMediaFile3, true);
                     }
                 });
+                  if (baseMessage.getReadByMeAt()==0){
+                      CometChat.markMessageAsRead(baseMessage);
+                  }
                 break;
 
             case RIGHT_VIDEO_MESSAGE:
@@ -430,6 +443,10 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         startIntent(finalMediaFile4, true);
                     }
                 });
+
+                setReadIcon(rightVideoViewHolder.messageStatus,baseMessage);
+                setDeliveryIcon(rightVideoViewHolder.messageStatus,baseMessage);
+
                 break;
 
             case RIGHT_AUDIO_MESSAGE:
@@ -441,6 +458,10 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if (!player.isPlaying()) {
                     rightAudioViewHolder.playAudio.setImageResource(R.drawable.ic_play_arrow);
                 }
+
+
+                setReadIcon(rightAudioViewHolder.messageStatus,baseMessage);
+                setDeliveryIcon(rightAudioViewHolder.messageStatus,baseMessage);
 
                 rightAudioViewHolder.audioSeekBar.setProgress(0);
                 String rightAudioPath = null;
@@ -569,6 +590,10 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 String audioPath = FileUtils.getPath(context, CometChatConstants.MESSAGE_TYPE_AUDIO) +
                         FileUtils.getFileName(mediaFile);
+
+                  if (baseMessage.getReadByMeAt()==0){
+                      CometChat.markMessageAsRead(baseMessage);
+                  }
 
                 File audioFile = new File(audioPath);
                 audioFile.setReadable(true,false);
@@ -726,6 +751,9 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(finalMediaFile)));
                         }
                     });
+
+                    setDeliveryIcon(rightFileViewHolder.messageStatus,baseMessage);
+                    setReadIcon(rightFileViewHolder.messageStatus,baseMessage);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -751,6 +779,10 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(finalMediaFile2)));
                         }
                     });
+
+                     if (baseMessage.getReadByMeAt()==0){
+                         CometChat.markMessageAsRead(baseMessage);
+                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -759,6 +791,9 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case RIGHT_TEXT_REPLY_MESSAGE:
                 RightReplyViewHolder rightTextReplyViewHolder = (RightReplyViewHolder) viewHolder;
                 rightTextReplyViewHolder.tvTimeStamp.setText(timeStampString);
+
+                setDeliveryIcon(rightTextReplyViewHolder.ivMessageStatus,baseMessage);
+                setReadIcon(rightTextReplyViewHolder.ivMessageStatus,baseMessage);
                 try {
                     if (textMessage != null) {
                         if (textMessage.getMetadata().has("senderUid")) {
@@ -836,6 +871,10 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             }
                         }
 
+                        if (baseMessage.getReadByMeAt()==0){
+                            CometChat.markMessageAsRead(baseMessage);
+                        }
+
                         leftTextReplyViewHolder.tvNewMessage.setVisibility(View.VISIBLE);
                         leftTextReplyViewHolder.tvNewMessage.setText(textMessage.getText());
 
@@ -888,6 +927,8 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 rightMediaReplyViewHolder.tvTimeStamp.setText(timeStampString);
 
+                setDeliveryIcon(rightMediaReplyViewHolder.ivMessageStatus,baseMessage);
+                setReadIcon(rightMediaReplyViewHolder.ivMessageStatus,baseMessage);
                 try {
                     if (mediaMessage != null) {
                         if (mediaMessage.getMetadata().has("senderUid")) {
@@ -1056,6 +1097,10 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 leftMediaReplyViewHolder.tvTimeStamp.setText(timeStampString);
 
                 setAvatar(leftMediaReplyViewHolder.ivContactImage, avatar);
+
+                  if (baseMessage.getReadByMeAt()==0){
+                      CometChat.markMessageAsRead(baseMessage);
+                  }
 
                 try {
                     if (mediaMessage != null) {
@@ -1448,6 +1493,50 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         setList(messageList);
         notifyItemRangeInserted(0, messageList.size());
         notifyItemChanged(messageList.size());
+    }
+
+
+    private void setDeliveryIcon(CircleImageView circleImageView,BaseMessage baseMessage){
+        if (baseMessage.getDeliveredAt()!=0){
+            circleImageView.setCircleBackgroundColor(context.getResources().getColor(R.color.secondaryColor));
+            circleImageView.setImageResource(R.drawable.ic_double_tick);
+        }
+    }
+
+    private void setReadIcon(CircleImageView circleImageView,BaseMessage baseMessage){
+        if (baseMessage.getReadAt()!=0){
+
+            circleImageView.setImageResource(R.drawable.ic_double_tick_blue);
+            circleImageView.setCircleBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+        }
+    }
+
+    public void setDelivered(MessageReceipt messageReceipt) {
+        BaseMessage baseMessage=messageList.get(messageReceipt.getMessageId());
+        if (baseMessage!=null) {
+            baseMessage.setDeliveredAt(messageReceipt.getTimestamp());
+            messageList.put(baseMessage.getId(), baseMessage);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void setRead(MessageReceipt messageReceipt) {
+        BaseMessage baseMessage=messageList.get(messageReceipt.getMessageId());
+        if (baseMessage!=null) {
+            baseMessage.setReadAt(messageReceipt.getTimestamp());
+            messageList.put(baseMessage.getId(), baseMessage);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void deleteMessage(BaseMessage baseMessage) {
+        messageList.remove(baseMessage.getId());
+        notifyDataSetChanged();
+    }
+
+    public void setEditMessage(BaseMessage baseMessage) {
+        messageList.put(baseMessage.getId(),baseMessage);
+        notifyDataSetChanged();
     }
 
     class DateItemHolder extends RecyclerView.ViewHolder {

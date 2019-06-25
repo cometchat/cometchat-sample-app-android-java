@@ -155,6 +155,12 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
 
     private Timer timer=new Timer();
 
+    private TextView tvBanner;
+
+    private RelativeLayout rvBanner;
+
+    private boolean isEditMessage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,6 +183,10 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
         sendButton.setOnClickListener(this);
         recordMicButton = findViewById(R.id.record_button);
         recordAudioLayout = findViewById(R.id.record_audio_view);
+        tvBanner=findViewById(R.id.tvBlock);
+        rvBanner=findViewById(R.id.blockBanner);
+
+        rvBanner.setOnClickListener(this);
 
         //set recordAudioview
         recordMicButton.setListenForRecord(true, this);
@@ -204,7 +214,7 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
         ImageView ivClose = findViewById(R.id.ivClose);
 
         linearLayoutManager = new LinearLayoutManager(this);
-        //linearLayoutManager.setReverseLayout(true);
+
 
         messageRecyclerView.setLayoutManager(linearLayoutManager);
         messageRecyclerView.getItemAnimator().setChangeDuration(0);
@@ -247,7 +257,6 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
                     if (linearLayoutManager.findFirstVisibleItemPosition() == 0) {
                         Logger.error("slow scroll");
                         oneToOnePresenter.fetchPreviousMessage(contactUid, LIMIT);
-
                     }
 
                     //for toolbar elevation animation i.e stateListAnimator
@@ -278,9 +287,9 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
 
             @Override
             public void onLongClick(View var1, int var2) {
-
-                toolbar.startActionMode(OneToOneChatActivity.this);
                 baseMessage = (BaseMessage) var1.getTag(R.string.message);
+                toolbar.startActionMode(OneToOneChatActivity.this);
+
 
 
             }
@@ -742,17 +751,19 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
     @Override
     public void setPresence(User user) {
 
-
         if (user != null && user.getUid().equals(contactUid)) {
             this.user=user;
             if (user.getStatus().equals(CometChatConstants.USER_STATUS_ONLINE)) {
                 userStatus = user.getStatus();
             } else if (user.getStatus().equals(CometChatConstants.USER_STATUS_OFFLINE)) {
                 userStatus = DateUtils.getLastSeenDate(user.getLastActiveAt(), this);
-
             }
 
             toolbarSubTitle.setText(userStatus);
+        }
+        if (user!=null&&user.isBlockedByMe()){
+                rvBanner.setVisibility(View.VISIBLE);
+                tvBanner.setText("Tab to unblock "+user.getName());
         }
     }
 
@@ -786,6 +797,11 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
     }
 
     @Override
+    public void hideBanner() {
+      rvBanner.setVisibility(View.GONE);
+    }
+
+    @Override
     public void onClick(View view) {
 
         switch (view.getId()) {
@@ -797,12 +813,21 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
 
                 String message = messageField.getText().toString().trim();
 
-                if (!TextUtils.isEmpty(message)) {
+                if (!TextUtils.isEmpty(message)&&!isEditMessage) {
                     oneToOnePresenter.endTypingIndicator(contactUid);
                     oneToOnePresenter.sendMessage(message, contactUid);
                     messageField.setText("");
                 }
+                else if (isEditMessage&&!TextUtils.isEmpty(message)){
+                    isEditMessage=false;
+                    oneToOnePresenter.editMessage(baseMessage,message);
+                    messageField.setText("");
+                }
 
+                break;
+
+            case R.id.blockBanner:
+                  oneToOnePresenter.unBlockUser(user.getUid(),OneToOneChatActivity.this);
                 break;
 
             case R.id.rl_titlecontainer:
@@ -895,6 +920,18 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
 
         mode.setTitle(contactName);
 
+        if (menu!=null&&baseMessage!=null){
+            if (!baseMessage.getSender().getUid().equals(ownerUid)) {
+                menu.findItem(R.id.delete).setVisible(false);
+            }
+
+            if (!baseMessage.getSender().getUid().equals(ownerUid) && baseMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_TEXT)){
+                 menu.findItem(R.id.edit).setVisible(false);
+            }
+
+
+        }
+
         return true;
     }
 
@@ -904,74 +941,106 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
     }
 
     @Override
+    public void setDeletedMessage(BaseMessage baseMessage) {
+         if (oneToOneAdapter!=null){
+            oneToOneAdapter.deleteMessage(baseMessage);
+         }
+    }
+
+    @Override
+    public void setEditedMessage(BaseMessage baseMessage) {
+        if (oneToOneAdapter!=null){
+            oneToOneAdapter.setEditMessage(baseMessage);
+        }
+    }
+
+    @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 
+
         mode.finish();
-        isReply = true;
-        metaData = null;
-        metaData = new JSONObject();
-        rlReplyContainer.setVisibility(View.VISIBLE);
-        tvNameReply.setText(baseMessage.getSender().getName());
 
-        if (baseMessage instanceof TextMessage) {
+        switch (item.getItemId()) {
 
-            try {
-                metaData.put("reply", "reply");
-                metaData.put("senderName", ((TextMessage) baseMessage).getSender().getName());
-                metaData.put("senderUid", ((TextMessage) baseMessage).getSender().getUid());
-                metaData.put("type", ((TextMessage) baseMessage).getType());
-                metaData.put("id", ((TextMessage) baseMessage).getId());
+            case R.id.reply:
+                isReply = true;
+                metaData = null;
+                metaData = new JSONObject();
+                rlReplyContainer.setVisibility(View.VISIBLE);
+                tvNameReply.setText(baseMessage.getSender().getName());
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+                if (baseMessage instanceof TextMessage) {
 
-            tvTextMessage.setVisibility(View.VISIBLE);
-            tvTextMessage.setText(((TextMessage) baseMessage).getText());
-            try {
-                metaData.put("text",((TextMessage)baseMessage).getText());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+                    try {
+                        metaData.put("reply", "reply");
+                        metaData.put("senderName", ((TextMessage) baseMessage).getSender().getName());
+                        metaData.put("senderUid", ((TextMessage) baseMessage).getSender().getUid());
+                        metaData.put("type", ((TextMessage) baseMessage).getType());
+                        metaData.put("id", ((TextMessage) baseMessage).getId());
 
-        } else if (baseMessage instanceof MediaMessage) {
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-            tvTextMessage.setVisibility(View.GONE);
+                    tvTextMessage.setVisibility(View.VISIBLE);
+                    tvTextMessage.setText(((TextMessage) baseMessage).getText());
+                    try {
+                        metaData.put("text", ((TextMessage) baseMessage).getText());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-                try {
-                    metaData.put("reply", "reply");
-                    metaData.put("senderName",  baseMessage.getSender().getName());
-                    metaData.put("senderUid",  baseMessage.getSender().getUid());
-                    metaData.put("type",  baseMessage.getType());
-                    metaData.put("id",  baseMessage.getId());
-                    metaData.put("url",((MediaMessage)baseMessage).getUrl());
+                } else if (baseMessage instanceof MediaMessage) {
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    tvTextMessage.setVisibility(View.GONE);
+
+                    try {
+                        metaData.put("reply", "reply");
+                        metaData.put("senderName", baseMessage.getSender().getName());
+                        metaData.put("senderUid", baseMessage.getSender().getUid());
+                        metaData.put("type", baseMessage.getType());
+                        metaData.put("id", baseMessage.getId());
+                        metaData.put("url", ((MediaMessage) baseMessage).getUrl());
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    switch (baseMessage.getType()) {
+                        case CometChatConstants.MESSAGE_TYPE_IMAGE:
+                        case CometChatConstants.MESSAGE_TYPE_VIDEO:
+
+                            ivReplyImage.setVisibility(View.VISIBLE);
+
+                            Glide.with(this).load(((MediaMessage) baseMessage).getUrl()).into(ivReplyImage);
+                            break;
+                        case CometChatConstants.MESSAGE_TYPE_AUDIO:
+
+                            ivReplyImage.setVisibility(View.INVISIBLE);
+
+                            tvTextMessage.setText(getString(R.string.audio_message));
+                            break;
+                        case CometChatConstants.MESSAGE_TYPE_FILE:
+
+                            ivReplyImage.setVisibility(View.INVISIBLE);
+
+                            tvTextMessage.setText(getString(R.string.file_message));
+                            break;
+                    }
                 }
-
-
-            switch (baseMessage.getType()) {
-                case CometChatConstants.MESSAGE_TYPE_IMAGE:
-                case CometChatConstants.MESSAGE_TYPE_VIDEO:
-
-                    ivReplyImage.setVisibility(View.VISIBLE);
-
-                    Glide.with(this).load(((MediaMessage) baseMessage).getUrl()).into(ivReplyImage);
-                    break;
-                case CometChatConstants.MESSAGE_TYPE_AUDIO:
-
-                    ivReplyImage.setVisibility(View.INVISIBLE);
-
-                    tvTextMessage.setText(getString(R.string.audio_message));
-                    break;
-                case CometChatConstants.MESSAGE_TYPE_FILE:
-
-                    ivReplyImage.setVisibility(View.INVISIBLE);
-
-                    tvTextMessage.setText(getString(R.string.file_message));
-                    break;
-            }
+              break;
+            case R.id.delete:
+                   oneToOnePresenter.deleteMessage(baseMessage);
+                break;
+            case R.id.edit:
+                TextMessage textMessage;
+                    isEditMessage=true;
+                  if (baseMessage instanceof TextMessage){
+                      textMessage=(TextMessage)baseMessage;
+                      messageField.setText(textMessage.getText());
+                  }
+                break;
         }
 
         return true;

@@ -29,7 +29,6 @@ public interface GroupChatActivityContract {
 
         void setGroup(Group group);
 
-
         void setSubTitle(String[] users);
 
         void setOwnerUid(String id);
@@ -40,6 +39,13 @@ public interface GroupChatActivityContract {
 
         void typingEnded(TypingIndicator typingIndicator);
 
+        void setDeliveryReceipt(MessageReceipt messageReceipt);
+
+        void onMessageRead(MessageReceipt messageReceipt);
+
+        void setDeletedMessage(BaseMessage baseMessage);
+
+        void setEditedMessage(BaseMessage baseMessage);
     }
 
     interface GroupChatPresenter extends BasePresenter<GroupChatView> {
@@ -75,6 +81,10 @@ public interface GroupChatActivityContract {
         void sendTypingIndicator(String groupId);
 
         void endTypingIndicator(String groupId);
+
+        void deleteMessage(BaseMessage baseMessage);
+
+        void editMessage(BaseMessage baseMessage, String message);
     }
 
 }

@@ -19,6 +19,11 @@ public interface ContactsContract {
         void updatePresence(User user);
 
         void setLoggedInUser(User user);
+
+        void setUnreadMap(HashMap<String, Integer> stringIntegerHashMap);
+
+        void setFilterList(HashMap<String, User> hashMap);
+
     }
 
     interface ContactPresenter extends BasePresenter<ContactView> {
@@ -31,5 +36,8 @@ public interface ContactsContract {
 
           void getLoggedInUser();
 
+          void searchUser(String s);
+
+          void fetchCount();
     }
 }

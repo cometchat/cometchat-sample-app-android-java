@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.inscripts.cometchatpulse.demo.R;
 import com.inscripts.cometchatpulse.demo.Activity.OneToOneChatActivity;
@@ -27,13 +26,12 @@ import com.inscripts.cometchatpulse.demo.Helper.RecyclerTouchListener;
 import com.inscripts.cometchatpulse.demo.Helper.ScrollHelper;
 import com.inscripts.cometchatpulse.demo.Presenters.ContactsListPresenter;
 import com.cometchat.pro.models.User;
-
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
+
 public class ContactsFragment extends Fragment implements ContactsContract.ContactView{
 
     private ContactListAdapter contactListAdapter;
@@ -80,7 +78,9 @@ public class ContactsFragment extends Fragment implements ContactsContract.Conta
 
         contactPresenter.getLoggedInUser();
 
-        contactPresenter.fetchUsers();
+        new Thread(() -> contactPresenter.fetchUsers()).start();
+
+
 
         contactRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(),
                 contactRecyclerView, new RecyclerTouchListener.ClickListener() {
@@ -107,7 +107,6 @@ public class ContactsFragment extends Fragment implements ContactsContract.Conta
 
             @Override
             public void onLongClick(View var1, int position) {
-
             }
         }));
 
@@ -148,6 +147,18 @@ public class ContactsFragment extends Fragment implements ContactsContract.Conta
     }
 
     @Override
+    public void setUnreadMap(HashMap<String, Integer> stringIntegerHashMap) {
+         if (contactListAdapter!=null) {
+             contactListAdapter.setUnreadCount(stringIntegerHashMap);
+         }
+    }
+
+    @Override
+    public void setFilterList(HashMap<String, User> hashMap) {
+        contactListAdapter.setFilterList(hashMap);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         contactPresenter.removePresenceListener(getString(R.string.presenceListener));
@@ -157,12 +168,19 @@ public class ContactsFragment extends Fragment implements ContactsContract.Conta
     public void onStart() {
         super.onStart();
         contactPresenter.addPresenceListener(getString(R.string.presenceListener));
+        contactPresenter.fetchCount();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         scrollHelper = (ScrollHelper) context;
+
     }
 
     @Override
@@ -189,4 +207,7 @@ public class ContactsFragment extends Fragment implements ContactsContract.Conta
 
     }
 
+    public void search(String s) {
+        contactPresenter.searchUser(s);
+    }
 }

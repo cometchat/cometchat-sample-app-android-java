@@ -18,7 +18,6 @@ public class CometApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-
         CometChat.init(this,StringContract.AppDetails.APP_ID,new CometChat.CallbackListener<String>() {
 
             @Override

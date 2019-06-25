@@ -5,10 +5,11 @@ import android.content.Context;
 import com.inscripts.cometchatpulse.demo.Base.BasePresenter;
 import com.inscripts.cometchatpulse.demo.Base.BaseView;
 
+import java.util.HashMap;
+
 public interface CometChatActivityContract {
 
     interface CometChatActivityView {
-
     }
 
     interface CometChatActivityPresenter extends BasePresenter<CometChatActivityView> {
@@ -24,5 +25,6 @@ public interface CometChatActivityContract {
         void getBlockedUser(Context context);
 
         void logOut(Context context);
+
     }
 }

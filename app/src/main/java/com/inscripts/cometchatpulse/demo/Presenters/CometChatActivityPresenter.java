@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.cometchat.pro.core.BlockedUsersRequest;
+import com.cometchat.pro.core.UsersRequest;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.Group;
 import com.cometchat.pro.models.MediaMessage;
@@ -26,6 +27,7 @@ import com.cometchat.pro.models.BaseMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class CometChatActivityPresenter extends Presenter<CometChatActivityContract.CometChatActivityView>
@@ -147,4 +149,7 @@ implements CometChatActivityContract.CometChatActivityPresenter {
             }
         });
     }
+
+
+
 }

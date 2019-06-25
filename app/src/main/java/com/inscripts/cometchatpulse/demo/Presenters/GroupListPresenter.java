@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 
+import com.cometchat.pro.core.UsersRequest;
+import com.cometchat.pro.models.User;
 import com.inscripts.cometchatpulse.demo.Adapter.GroupListAdapter;
 import com.inscripts.cometchatpulse.demo.Base.Presenter;
 import com.inscripts.cometchatpulse.demo.Contracts.GroupListContract;
@@ -13,12 +15,15 @@ import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.helpers.Logger;
 import com.cometchat.pro.models.Group;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class GroupListPresenter extends Presenter<GroupListContract.GroupView> implements
         GroupListContract.GroupPresenter  {
 
     private GroupsRequest groupsRequest;
+
+    private HashMap<String,Group> groupHashMap=new HashMap<>();
 
     @Override
     public void initGroupView() {
@@ -30,9 +35,12 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
             groupsRequest.fetchNext(new CometChat.CallbackListener<List<Group>>() {
                 @Override
                 public void onSuccess(List<Group> groups) {
-                    if (isViewAttached())
+                    if (isViewAttached()) {
                         Logger.error("Groups List Received : " + groups);
                         getBaseView().setGroupAdapter(groups);
+
+
+                    }
 
                 }
 
@@ -48,7 +56,10 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
                 public void onSuccess(List<Group> groups) {
                     Logger.error("Groups List Received : " + groups);
                     if (isViewAttached()&&groups.size()!=0)
+                    {
+
                         getBaseView().setGroupAdapter(groups);
+                    }
 
 
                 }
@@ -91,6 +102,25 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
     public void refresh() {
            groupsRequest=null;
            initGroupView();
+    }
+
+    @Override
+    public void searchGroup(String s) {
+        GroupsRequest groupsRequest= new GroupsRequest.GroupsRequestBuilder().setSearchKeyWord(s).setLimit(100).build();
+
+        groupsRequest.fetchNext(new CometChat.CallbackListener<List<Group>>() {
+            @Override
+            public void onSuccess(List<Group> groups) {
+                getBaseView().setFilterGroup(groups);
+            }
+
+            @Override
+            public void onError(CometChatException e) {
+
+            }
+        });
+
+
     }
 
 }

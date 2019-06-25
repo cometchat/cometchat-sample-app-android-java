@@ -77,8 +77,7 @@ public class CommonUtils {
 
 
     @SafeVarargs
-    public static void startActivityIntent(com.cometchat.pro.models.Group group,
-                                           Context context, boolean flag, @Nullable Pair<View,String> ...pairs) {
+    public static void startActivityIntent(com.cometchat.pro.models.Group group, Context context, boolean flag, @Nullable Pair<View,String> ...pairs) {
         Intent intent = new Intent(context, GroupChatActivity.class);
         //intent.putExtra(StaticMembers.INTENT_GROUP_ID, chatroomId);
         Logger.error("", "GroupId : " + String.valueOf(group.getGuid()));

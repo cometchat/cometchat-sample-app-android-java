@@ -46,6 +46,12 @@ public interface OneToOneActivityContract {
         void setMessageDelivered(MessageReceipt messageReceipt);
 
         void onMessageRead(MessageReceipt messageReceipt);
+
+        void hideBanner();
+
+        void setDeletedMessage(BaseMessage baseMessage);
+
+        void setEditedMessage(BaseMessage baseMessage);
     }
 
     interface OneToOnePresenter extends BasePresenter<OneToOneView> {
@@ -83,5 +89,11 @@ public interface OneToOneActivityContract {
         void endTypingIndicator(String receiverId);
 
         void blockUser(String contactId);
+
+        void unBlockUser(String uid, Context context);
+
+        void deleteMessage(BaseMessage baseMessage);
+
+        void editMessage(BaseMessage baseMessage,String message);
     }
 }
