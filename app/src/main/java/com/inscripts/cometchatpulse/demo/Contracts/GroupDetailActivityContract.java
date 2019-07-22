@@ -24,6 +24,8 @@ public interface GroupDetailActivityContract {
         void setGroupIcon(String icon);
 
         void setGroupDescription(String description);
+
+        void setUserScope(String scope);
     }
 
     interface GroupDetailPresenter extends BasePresenter<GroupDetailView> {

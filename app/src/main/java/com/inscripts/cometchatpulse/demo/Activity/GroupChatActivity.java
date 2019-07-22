@@ -1,5 +1,6 @@
 package com.inscripts.cometchatpulse.demo.Activity;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,6 +17,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -155,6 +157,10 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
     private Timer timer=new Timer();
 
     private boolean isEditMessage;
+
+    private MenuItem searchItem;
+
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -456,6 +462,41 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.group_chat_menu, menu);
+
+
+        searchItem=menu.findItem(R.id.app_bar_search);
+
+        SearchManager searchManager=((SearchManager)getSystemService(Context.SEARCH_SERVICE));
+
+        if (searchItem!=null){
+
+            searchView=((SearchView)searchItem.getActionView());
+
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String s) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String s) {
+                    groupChatPresenter.searchMessage(s,groupId);
+                    return false;
+                }
+            });
+
+            searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+                @Override
+                public boolean onClose() {
+                    groupChatPresenter.fetchPreviousMessage(groupId,30);
+                    return false;
+                }
+            });
+        }
+
+        if (searchView!=null){
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -707,6 +748,13 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
     public void setEditedMessage(BaseMessage baseMessage) {
         if (groupMessageAdapter!=null){
             groupMessageAdapter.setEditMessage(baseMessage);
+        }
+    }
+
+    @Override
+    public void setFilterList(List<BaseMessage> list) {
+        if (groupMessageAdapter!=null){
+            groupMessageAdapter.setFilteredList(list);
         }
     }
 

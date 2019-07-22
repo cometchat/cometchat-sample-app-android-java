@@ -26,11 +26,11 @@ public class StringContract {
         public static final String ID = "id";
         public static final String AVATAR = "avatar";
         public static final String ISVIDEO ="isvideo";
+        public static final String INTENT_SCOPE = "intent_scope";
     }
 
     public static class PreferenceString{
         public static final String BLOCKED_USERS="blocked_users";
-
     }
 
     public static class RequestCode {
@@ -45,7 +45,7 @@ public class StringContract {
     }
 
     public static class AppDetails{
-        public static final String APP_ID  =  "XXXXXXXXXXXXXXX";
-        public static final String API_KEY =  "XXXXXXXXXXXXXXX";
+        public static final String APP_ID  =  "XXXXXXXXXXXXXX";
+        public static final String API_KEY =  "XXXXXXXXXXXXXX";
     }
 }

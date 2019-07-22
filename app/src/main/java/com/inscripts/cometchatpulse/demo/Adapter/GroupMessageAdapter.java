@@ -165,6 +165,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         for (BaseMessage basemessage:messageList) {
             this.messageList.put(basemessage.getId(),basemessage);
         }
+        notifyDataSetChanged();
     }
     @NonNull
     @Override
@@ -412,6 +413,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         .apply(videoOption)
                         .into(leftVideoViewHolder.imageMessage);
 
+
                 final String finalMediaFile3 = mediaFile;
                 leftVideoViewHolder.btnPlayVideo.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -585,6 +587,8 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if (!player.isPlaying()) {
                     leftAudioViewHolder.playAudio.setImageResource(R.drawable.ic_play_arrow);
                 }
+
+
                 leftAudioViewHolder.audioSeekBar.setProgress(0);
                 final String finalMediaFile1 = mediaFile;
 
@@ -1537,6 +1541,12 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void setEditMessage(BaseMessage baseMessage) {
         messageList.put(baseMessage.getId(),baseMessage);
         notifyDataSetChanged();
+    }
+
+    public void setFilteredList(List<BaseMessage> list) {
+        messageList.clear();
+        setList(list);
+
     }
 
     class DateItemHolder extends RecyclerView.ViewHolder {

@@ -47,7 +47,6 @@
 
 
 
-
         <EditText
             android:id="@+id/editTextChatMessage"
             android:layout_width="wrap_content"

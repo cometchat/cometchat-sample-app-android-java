@@ -32,8 +32,7 @@ import com.inscripts.cometchatpulse.demo.Utils.FontUtils;
 import java.util.HashMap;
 
 
-public class CometChatActivity extends AppCompatActivity implements
-        ScrollHelper, CometChatActivityContract.CometChatActivityView,test {
+public class CometChatActivity extends AppCompatActivity implements ScrollHelper, CometChatActivityContract.CometChatActivityView {
 
     private ViewPager mViewPager; //view pager
 
@@ -271,20 +270,7 @@ public class CometChatActivity extends AppCompatActivity implements
         fabIconAnimator.setExtended(isExtended);
     }
 
-
-
-    @Override
-    public void x(String string) {
-
-    }
 }
 
-interface test{
-    /**
-     *
-     * This methods take no parameter
-     * @param string
-     */
-    void x(String string);
-}
+
 

@@ -1,6 +1,8 @@
 package com.inscripts.cometchatpulse.demo.Activity;
 
 import android.annotation.TargetApi;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -15,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -34,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.cometchat.pro.constants.CometChatConstants;
+import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.models.BaseMessage;
 import com.cometchat.pro.models.MediaMessage;
 import com.cometchat.pro.models.MessageReceipt;
@@ -139,7 +143,7 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
 
     private BaseMessage baseMessage;
 
-    private RelativeLayout rlMain;
+    private  static RelativeLayout rlMain;
 
     private static RelativeLayout rlReplyContainer;
 
@@ -161,6 +165,10 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
 
     private boolean isEditMessage;
 
+    private MenuItem searchItem;
+
+    private SearchView searchView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,10 +185,12 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
 
     private void initViewComponent() {
 
+
         ivAttchament = findViewById(R.id.iv_attchment);
         ivAttchament.setOnClickListener(this);
         sendButton = findViewById(R.id.buttonSendMessage);
         sendButton.setOnClickListener(this);
+
         recordMicButton = findViewById(R.id.record_button);
         recordAudioLayout = findViewById(R.id.record_audio_view);
         tvBanner=findViewById(R.id.tvBlock);
@@ -240,6 +250,7 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
 
         viewAniamtion = AnimationUtils.loadAnimation(this, R.anim.animate);
         goneAnimation = AnimationUtils.loadAnimation(this, R.anim.gone_animation);
+
         oneToOnePresenter.setContext(this);
         oneToOnePresenter.getOwnerDetail();
         oneToOnePresenter.handleIntent(getIntent());
@@ -394,6 +405,42 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.one_to_one_chat_menu, menu);
+
+
+        searchItem=menu.findItem(R.id.app_bar_search);
+
+        SearchManager searchManager=((SearchManager)getSystemService(Context.SEARCH_SERVICE));
+
+        if (searchItem!=null){
+
+            searchView=((SearchView)searchItem.getActionView());
+
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String s) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String s) {
+                    oneToOnePresenter.searchMessage(s,contactUid);
+                    return false;
+                }
+            });
+
+            searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+                @Override
+                public boolean onClose() {
+                    oneToOnePresenter.fetchPreviousMessage(contactUid,30);
+                    return false;
+                }
+            });
+        }
+
+        if (searchView!=null){
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -952,6 +999,13 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
         if (oneToOneAdapter!=null){
             oneToOneAdapter.setEditMessage(baseMessage);
         }
+    }
+
+    @Override
+    public void setFilterList(List<BaseMessage> list) {
+          if (oneToOneAdapter!=null){
+           oneToOneAdapter.setFilterList(list);
+          }
     }
 
     @Override

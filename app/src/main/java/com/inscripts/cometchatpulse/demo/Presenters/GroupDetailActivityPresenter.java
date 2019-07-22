@@ -37,6 +37,7 @@ public class GroupDetailActivityPresenter extends Presenter<GroupDetailActivityC
                         getBaseView().setGroupName(group.getName());
                         getBaseView().setGroupOwnerName(group.getOwner());
                         getBaseView().setGroupIcon(group.getIcon());
+                        getBaseView().setUserScope(group.getScope());
                         getBaseView().setGroupDescription(group.getDescription());
                     }
                 }

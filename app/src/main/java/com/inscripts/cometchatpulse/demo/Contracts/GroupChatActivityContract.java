@@ -46,6 +46,8 @@ public interface GroupChatActivityContract {
         void setDeletedMessage(BaseMessage baseMessage);
 
         void setEditedMessage(BaseMessage baseMessage);
+
+        void setFilterList(List<BaseMessage> list);
     }
 
     interface GroupChatPresenter extends BasePresenter<GroupChatView> {
@@ -85,6 +87,8 @@ public interface GroupChatActivityContract {
         void deleteMessage(BaseMessage baseMessage);
 
         void editMessage(BaseMessage baseMessage, String message);
+
+        void searchMessage(String s, String groupId);
     }
 
 }

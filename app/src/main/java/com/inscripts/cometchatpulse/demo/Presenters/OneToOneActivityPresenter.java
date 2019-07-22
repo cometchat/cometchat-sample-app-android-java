@@ -123,6 +123,7 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
             @Override
             public void onTextMessageReceived(TextMessage message) {
                 if (isViewAttached()) {
+                    Log.d(TAG, "onTextMessageReceived: "+message.toString());
                     if (message.getSender().getUid().equals(contactUid)) {
                         MediaUtils.playSendSound(context, R.raw.receive);
                         Log.d(TAG, "onTextMessageReceived: "+message.toString());
@@ -166,7 +167,18 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
                 getBaseView().onMessageRead(messageReceipt);
             }
 
+            @Override
+            public void onMessageEdited(BaseMessage message) {
+                getBaseView().setEditedMessage(message);
+            }
+
+            @Override
+            public void onMessageDeleted(BaseMessage message) {
+                getBaseView().setDeletedMessage(message);
+            }
+
         });
+
 
 
     }
@@ -209,7 +221,6 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
 
         List<BaseMessage> list=new ArrayList<>();
         if (messagesRequest == null) {
-
 
             messagesRequest = new MessagesRequest.MessagesRequestBuilder().setUID(contactUid).setLimit(limit).build();
             messagesRequest.fetchPrevious(new CometChat.CallbackListener<List<BaseMessage>>() {
@@ -399,7 +410,6 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
                 Log.d(TAG, "onSuccess: deleteMessage "+baseMessage.toString());
                 getBaseView().setDeletedMessage(baseMessage);
             }
-
             @Override
             public void onError(CometChatException e) {
                 Log.d(TAG, "onError: deleteMessage");
@@ -423,6 +433,36 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
               Log.d(TAG, "editMessage onError: "+e.getMessage());
           }
       });
+    }
+
+    @Override
+    public void searchMessage(String s,String UID) {
+        List<BaseMessage> list=new ArrayList<>();
+
+        messagesRequest=null;
+        MessagesRequest searchMessageRequest=new MessagesRequest.MessagesRequestBuilder()
+                .setUID(UID).setSearchKeyword(s).setLimit(30).build();
+
+        searchMessageRequest.fetchPrevious(new CometChat.CallbackListener<List<BaseMessage>>() {
+                @Override
+                public void onSuccess(List<BaseMessage> baseMessages) {
+                    if (isViewAttached()) {
+                        for (BaseMessage baseMessage : baseMessages) {
+                            Log.d(TAG, "onSuccess: delete "+baseMessage.getDeletedAt());
+                            if (!baseMessage.getCategory().equals(CometChatConstants.CATEGORY_ACTION)&&baseMessage.getDeletedAt()==0) {
+                                list.add(baseMessage);
+                            }
+                        }
+                        getBaseView().setFilterList(list);
+                    }
+                }
+
+                @Override
+                public void onError(CometChatException e) {
+                    Log.d(TAG, " onError: "+e.getMessage());
+                }
+            });
+
     }
 
     @Override

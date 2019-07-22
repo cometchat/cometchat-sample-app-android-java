@@ -1224,6 +1224,7 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         for (BaseMessage basemessage:messageList) {
             messageArrayList.put(basemessage.getId(),basemessage);
         }
+        notifyDataSetChanged();
     }
 
     private void startIntent(String url, boolean isVideo) {
@@ -1488,6 +1489,12 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         messageArrayList.put(baseMessage.getId(),baseMessage);
         notifyDataSetChanged();
     }
+
+    public void setFilterList(List<BaseMessage> list) {
+        messageArrayList.clear();
+        setList(list);
+    }
+
 
     class DateItemHolder extends RecyclerView.ViewHolder {
 

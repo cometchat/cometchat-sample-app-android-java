@@ -1,5 +1,6 @@
 package com.inscripts.cometchatpulse.demo.Activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.cometchat.pro.constants.CometChatConstants;
 import com.inscripts.cometchatpulse.demo.R;
 import com.inscripts.cometchatpulse.demo.Adapter.ViewPagerAdapter;
 import com.inscripts.cometchatpulse.demo.Contracts.GroupDetailActivityContract;
@@ -52,7 +55,11 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
 
     private TextView tvGroupDescription;
 
+    private TextView tvAddMembers;
+
     private ViewPagerAdapter adapter;
+
+    private String scope;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +73,7 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
 
     private void initViewComponent() {
         Toolbar toolbar = findViewById(R.id.toolbar);
-//
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setElevation(10);
@@ -81,6 +88,9 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
         collapsingToolbar.setExpandedTitleGravity(Gravity.START | Gravity.BOTTOM);
 
         tvGroupDescription = findViewById(R.id.tv_group_description);
+        tvAddMembers=findViewById(R.id.addMember);
+        tvAddMembers.setVisibility(View.GONE);
+        tvAddMembers.setOnClickListener(this);
         tvGroupDescription.setTypeface(FontUtils.robotoRegular);
 
         tvGroupDescriptionLabel = findViewById(R.id.group_description_labal);
@@ -121,8 +131,22 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public void onClick(View view) {
 
+        switch (view.getId()){
+
+            case R.id.addMember:
+                Intent addMemberIntent=new Intent(this,SelectUserActivity.class);
+                addMemberIntent.putExtra(StringContract.IntentStrings.INTENT_GROUP_ID,groupId);
+                addMemberIntent.putExtra(StringContract.IntentStrings.INTENT_SCOPE,scope);
+                startActivity(addMemberIntent);
+                break;
+        }
     }
 
     @Override
@@ -158,6 +182,16 @@ public class GroupDetailActivity extends AppCompatActivity implements View.OnCli
         ownerUid = user.getUid();
     }
 
+    @Override
+    public void setUserScope(String scope) {
+        this.scope=scope;
+        if (scope.equals(CometChatConstants.SCOPE_ADMIN)||scope.equals(CometChatConstants.SCOPE_MODERATOR)) {
+            tvAddMembers.setVisibility(View.VISIBLE);
+        }
+        else {
+            tvAddMembers.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void setGroupOwnerName(String owner) {

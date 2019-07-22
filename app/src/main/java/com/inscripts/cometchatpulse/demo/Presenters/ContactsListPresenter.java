@@ -19,6 +19,7 @@ public class ContactsListPresenter extends Presenter<ContactsContract.ContactVie
         implements ContactsContract.ContactPresenter{
 
     private UsersRequest usersRequest;
+
     HashMap<String,User> userHashMap=new HashMap<>();
 
     private static final String TAG = "ContactsListPresenter";
@@ -37,6 +38,7 @@ public class ContactsListPresenter extends Presenter<ContactsContract.ContactVie
                     Logger.error(TAG," "+users.size());
 
                         for (int i = 0; i < users.size(); i++) {
+                            Log.d(TAG, "fetchNext onSuccess: "+users.get(i).toString());
                             userHashMap.put(users.get(i).getUid(), users.get(i));
                         }
                         getBaseView().setContactAdapter(userHashMap);
@@ -45,7 +47,7 @@ public class ContactsListPresenter extends Presenter<ContactsContract.ContactVie
 
                 @Override
                 public void onError(CometChatException e) {
-                    Log.d(TAG, "fetchNext onError: ");
+                    Log.d(TAG, "fetchNext onError: "+e.getMessage());
                 }
             });
         }
@@ -54,10 +56,10 @@ public class ContactsListPresenter extends Presenter<ContactsContract.ContactVie
                 @Override
                 public void onSuccess(List<User> users) {
                     if (users != null) {
-                        Logger.error("old user list request obj");
-                        Logger.error(TAG," "+users.size());
-
                             for (int i = 0; i < users.size(); i++) {
+
+                                Log.d(TAG, "fetchNext onSuccess: "+users.toString());
+
                                 userHashMap.put(users.get(i).getUid(), users.get(i));
                             }
                             getBaseView().setContactAdapter(userHashMap);
@@ -114,15 +116,12 @@ public class ContactsListPresenter extends Presenter<ContactsContract.ContactVie
                      hashMap.put(user.getUid(),user);
                 }
                getBaseView().setFilterList(hashMap);
-
            }
-
            @Override
            public void onError(CometChatException e) {
                Log.d(TAG, "onError: fetchNext "+e.getMessage());
            }
        });
-
 
     }
 

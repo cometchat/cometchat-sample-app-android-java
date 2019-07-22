@@ -23,5 +23,6 @@
     <color name="green_100">#C8E6C9</color>
     <color name="red_100">#FFCDD2</color>
     <color name="red_600">#E53935</color>
+    <color name="selection">#dddddd</color>
 
 </resources>

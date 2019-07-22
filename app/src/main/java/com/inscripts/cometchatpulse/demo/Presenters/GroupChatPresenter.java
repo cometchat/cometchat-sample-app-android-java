@@ -92,8 +92,7 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
         CometChat.addMessageListener(listenerId, new CometChat.MessageListener() {
             @Override
             public void onTextMessageReceived(TextMessage message) {
-                if (groupId != null && groupId.equals(message.getReceiverUid()) &&
-                        !message.getSender().getUid().equals(ownerId)) {
+                if (groupId != null && groupId.equals(message.getReceiverUid()) && !message.getSender().getUid().equals(ownerId)) {
                     MediaUtils.playSendSound(context,R.raw.receive);
                     getBaseView().addReceivedMessage(message);
                 }
@@ -128,6 +127,16 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
             public void onMessageRead(MessageReceipt messageReceipt) {
                 Log.d(TAG, "onMessageRead: "+messageReceipt.toString());
                     getBaseView().onMessageRead(messageReceipt);
+            }
+
+            @Override
+            public void onMessageEdited(BaseMessage message) {
+                getBaseView().setEditedMessage(message);
+            }
+
+            @Override
+            public void onMessageDeleted(BaseMessage message) {
+                getBaseView().setDeletedMessage(message);
             }
 
         });
@@ -188,13 +197,13 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
                 }
             }
 
-            @Override
-            public void onGroupMemberScopeChanged(Action action, User user, String scopeChangedTo, String scopeChangedFrom, Group group) {
-                if (groupId != null && groupId.equals(action.getReceiverUid())){
-                    if (isViewAttached())
-                        getBaseView().addSentMessage(action);
-                }
-            }
+//            @Override
+//            public void onGroupMemberScopeChanged(Action action, User user, String scopeChangedTo, String scopeChangedFrom, Group group) {
+//                if (groupId != null && groupId.equals(action.getReceiverUid())){
+//                    if (isViewAttached())
+//                        getBaseView().addSentMessage(action);
+//                }
+//            }
 
         });
     }
@@ -333,10 +342,40 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
     }
 
     @Override
+    public void searchMessage(String s,String GUID) {
+        List<BaseMessage> list=new ArrayList<>();
+
+        messagesRequest=null;
+        MessagesRequest searchMessageRequest=new MessagesRequest.MessagesRequestBuilder()
+                .setGUID(GUID).setSearchKeyword(s).setLimit(30).build();
+
+        searchMessageRequest.fetchPrevious(new CometChat.CallbackListener<List<BaseMessage>>() {
+            @Override
+            public void onSuccess(List<BaseMessage> baseMessages) {
+                if (isViewAttached()) {
+                    for (BaseMessage baseMessage : baseMessages) {
+                        Log.d(TAG, "onSuccess: delete "+baseMessage.getDeletedAt());
+                        if (!baseMessage.getCategory().equals(CometChatConstants.CATEGORY_ACTION)&&baseMessage.getDeletedAt()==0) {
+                            list.add(baseMessage);
+                        }
+                    }
+                    getBaseView().setFilterList(list);
+                }
+            }
+
+            @Override
+            public void onError(CometChatException e) {
+                Log.d(TAG, " onError: "+e.getMessage());
+            }
+        });
+
+    }
+
+    @Override
     public void fetchPreviousMessage(String groupId, int limit) {
         List<BaseMessage> list=new ArrayList<>();
         if (messagesRequest == null) {
-            messagesRequest = new MessagesRequest.MessagesRequestBuilder().setGUID(groupId).setLimit(limit).build();
+            messagesRequest = new MessagesRequest.MessagesRequestBuilder().setGUID(groupId).setLimit(limit).hideMessagesFromBlockedUsers(true).build();
             messagesRequest.fetchPrevious(new CometChat.CallbackListener<List<BaseMessage>>() {
                 @Override
                 public void onSuccess(List<BaseMessage> baseMessages) {
@@ -346,10 +385,9 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
                             Log.d(TAG, "onSuccess: fetchPrevious" + baseMessage.toString());
                             Logger.error("groupMessage" + baseMessage.getId() + " timestamp : " + baseMessage.getSentAt() + " list size :" + baseMessages.size());
 
-                            if (!baseMessage.getCategory().equals(CometChatConstants.CATEGORY_ACTION) && baseMessage.getDeletedAt() == 0) {
+                            if (baseMessage.getDeletedAt() == 0) {
                                 list.add(baseMessage);
                             }
-
 
                         }
                     getBaseView().setAdapter(list);
@@ -372,7 +410,7 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
                             Log.d(TAG, "onSuccess: fetchPrevious" + baseMessage.toString());
                             Logger.error("groupMessage" + baseMessage.getId());
 
-                            if (!baseMessage.getCategory().equals(CometChatConstants.CATEGORY_ACTION) && baseMessage.getDeletedAt() == 0) {
+                            if (baseMessage.getDeletedAt() == 0) {
                                 list.add(baseMessage);
                             }
 

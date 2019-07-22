@@ -88,6 +88,7 @@
     <string name="decline">Decline</string>
     <string name="typing">Typing..</string>
     <string name="is_typing"> is Typing...</string>
+    <string name="add_members">Add Members</string>
 
 
 </resources>

@@ -52,6 +52,8 @@ public interface OneToOneActivityContract {
         void setDeletedMessage(BaseMessage baseMessage);
 
         void setEditedMessage(BaseMessage baseMessage);
+
+        void setFilterList(List<BaseMessage> list);
     }
 
     interface OneToOnePresenter extends BasePresenter<OneToOneView> {
@@ -95,5 +97,7 @@ public interface OneToOneActivityContract {
         void deleteMessage(BaseMessage baseMessage);
 
         void editMessage(BaseMessage baseMessage,String message);
+
+        void searchMessage(String s,String UID);
     }
 }

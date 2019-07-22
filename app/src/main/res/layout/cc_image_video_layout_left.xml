@@ -107,5 +107,4 @@
         android:textSize="@dimen/small_text"
         tools:text="Sender Name" />
 
-
 </RelativeLayout>

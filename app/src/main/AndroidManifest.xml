@@ -82,6 +82,7 @@
         <activity android:name=".Activity.VideoViewActivity" />
         <activity android:name=".Activity.IncomingCallActivity" />
         <activity android:name=".Activity.CallActivity" />
+        <activity android:name=".Activity.SelectUserActivity" />
     </application>
 
 </manifest>
