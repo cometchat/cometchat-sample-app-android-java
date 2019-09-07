@@ -642,6 +642,7 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
         Logger.error(TAG, "onResume: ");
         oneToOnePresenter.addPresenceListener(getString(R.string.presenceListener));
         oneToOnePresenter.addMessageReceiveListener(contactUid);
+        oneToOnePresenter.refreshList(contactUid,LIMIT);
         oneToOnePresenter.addCallEventListener(TAG);
     }
 
@@ -923,7 +924,6 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
 
         } else {
             sendButton.setTextColor(getResources().getColor(R.color.secondaryTextColor));
-
         }
 
     }

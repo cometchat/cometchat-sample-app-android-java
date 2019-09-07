@@ -34,18 +34,15 @@ public class IncomingCallActivityPresenter extends Presenter<IncomingCallActivit
         if (intent.hasExtra(StringContract.IntentStrings.ID)) {
             getBaseView().setContactUserId(intent.getStringExtra(StringContract.IntentStrings.ID));
         }
-
         if (intent.hasExtra(StringContract.IntentStrings.SESSION_ID)) {
             getBaseView().setSessionId(intent.getStringExtra(StringContract.IntentStrings.SESSION_ID));
         }
         if (intent.hasExtra(StringContract.IntentStrings.AVATAR)) {
             getBaseView().setUserImage(intent.getStringExtra(StringContract.IntentStrings.AVATAR));
         }
-
         if (intent.hasExtra(StringContract.IntentStrings.NAME)) {
             getBaseView().setUserName(intent.getStringExtra(StringContract.IntentStrings.NAME));
         }
-
         try {
             boolean isVideo = intent.getAction().equals(CometChatConstants.CALL_TYPE_VIDEO);
 
@@ -160,8 +157,6 @@ public class IncomingCallActivityPresenter extends Presenter<IncomingCallActivit
     private void setContactImage(ImageView ivUserPic, String stringExtra) {
          if (stringExtra!=null) {
              Glide.with(context).load(stringExtra).into(ivUserPic);
-         }else {
-
          }
     }
 }

@@ -7,11 +7,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.FileUriExposedException;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.cometchat.pro.constants.CometChatConstants;
@@ -22,11 +25,20 @@ import com.inscripts.cometchatpulse.demo.Utils.FileUtils;
 import com.inscripts.cometchatpulse.demo.Utils.Logger;
 import com.inscripts.cometchatpulse.demo.Utils.MediaUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AttachmentHelper {
 
+
+    private static final String TAG = "AttachmentHelper";
+
+    public static String  pictureImagePath = "";
 
     public static void selectMedia(Activity activity,
                                    String Type, String[] extraMimeType, int requestCode) {
@@ -127,16 +139,11 @@ public class AttachmentHelper {
     }
 
     public static <P> void handleCameraImage(Context context, P presenter, Intent data, String contactId) {
-        File file = null;
-        Logger.error("uri", String.valueOf(data.getData()));
-        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-        Uri fileUri = MediaUtils.getImageUri(context, bitmap);
-
-        Logger.error("", "fileUri: " + fileUri);
-        file = new File(MediaUtils.ImagePath(fileUri, context));
+        File file = new File(pictureImagePath);
+//
 
         if (file.exists()) {
-
+              BitmapFactory.decodeFile(file.getAbsolutePath());
             if (presenter instanceof OneToOneActivityPresenter) {
                 ((OneToOneActivityPresenter) presenter).sendMediaMessage(file, contactId, CometChatConstants.MESSAGE_TYPE_IMAGE);
             } else if (presenter instanceof GroupChatPresenter) {
@@ -144,6 +151,26 @@ public class AttachmentHelper {
             }
         }
 
+    }
+
+    private static File persistImage(Context context,Bitmap bitmap) {
+        File filesDir = context.getFilesDir();
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File imageFile = new File(filesDir, timeStamp + ".jpg");
+
+        OutputStream os;
+        try {
+            os = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 0, os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+
+        }
+        finally {
+
+            return imageFile;
+        }
     }
 
     public static <P> void handleCameraVideo(Context context, P presenter, Intent data, String contactId) {
@@ -257,8 +284,23 @@ public class AttachmentHelper {
     }
 
     public static void captureImage(Activity activity, int code) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        activity.startActivityForResult(intent, code);
+
+         try {
+             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+             String imageFileName = timeStamp + ".jpg";
+             File storageDir = Environment.getExternalStoragePublicDirectory(
+                     Environment.DIRECTORY_PICTURES);
+             pictureImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
+             File file = new File(pictureImagePath);
+             Uri outputFileUri;
+//             if ()
+             outputFileUri= Uri.fromFile(file);
+             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+             intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+             activity.startActivityForResult(intent, code);
+         }catch (Exception e){
+             e.printStackTrace();
+         }
     }
 
     public static void captureVideo(Activity activity, int code) {

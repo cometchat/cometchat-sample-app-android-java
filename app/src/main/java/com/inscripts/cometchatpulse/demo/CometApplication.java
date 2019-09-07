@@ -1,14 +1,14 @@
 package com.inscripts.cometchatpulse.demo;
 
 import android.app.Application;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.os.Build;
+import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.inscripts.cometchatpulse.demo.Contracts.StringContract;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CometApplication extends Application {
 
@@ -16,8 +16,10 @@ public class CometApplication extends Application {
 
     @Override
     public void onCreate() {
-
         super.onCreate();
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
 
         CometChat.init(this,StringContract.AppDetails.APP_ID,new CometChat.CallbackListener<String>() {
 
@@ -28,9 +30,10 @@ public class CometApplication extends Application {
 
             @Override
             public void onError(CometChatException e) {
+                Toast.makeText(CometApplication.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "onError: "+e.getMessage());
             }
-            
+
         });
 
     }

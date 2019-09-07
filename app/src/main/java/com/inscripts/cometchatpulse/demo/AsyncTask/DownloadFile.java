@@ -9,9 +9,6 @@ import android.view.View;
 import com.inscripts.cometchatpulse.demo.R;
 import com.inscripts.cometchatpulse.demo.Utils.FileUtils;
 import com.inscripts.cometchatpulse.demo.ViewHolders.LeftAudioViewHolder;
-
-import org.jivesoftware.smack.util.Async;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

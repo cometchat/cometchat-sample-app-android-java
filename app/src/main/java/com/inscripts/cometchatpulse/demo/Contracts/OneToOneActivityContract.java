@@ -99,5 +99,7 @@ public interface OneToOneActivityContract {
         void editMessage(BaseMessage baseMessage,String message);
 
         void searchMessage(String s,String UID);
+
+        void refreshList(String contactUid, int limit);
     }
 }

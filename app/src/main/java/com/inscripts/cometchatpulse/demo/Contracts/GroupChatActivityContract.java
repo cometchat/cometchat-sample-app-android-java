@@ -89,6 +89,8 @@ public interface GroupChatActivityContract {
         void editMessage(BaseMessage baseMessage, String message);
 
         void searchMessage(String s, String groupId);
+
+        void refreshList(String groupId, String ownerId, int limit);
     }
 
 }

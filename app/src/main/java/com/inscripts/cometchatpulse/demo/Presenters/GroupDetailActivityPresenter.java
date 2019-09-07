@@ -2,6 +2,7 @@ package com.inscripts.cometchatpulse.demo.Presenters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -21,6 +22,8 @@ public class GroupDetailActivityPresenter extends Presenter<GroupDetailActivityC
 
 
     private Context context;
+
+    private static final String TAG = "GroupDetailActivityPres";
 
     @Override
     public void handleIntent(Intent data, Context context) {
@@ -44,7 +47,8 @@ public class GroupDetailActivityPresenter extends Presenter<GroupDetailActivityC
 
                 @Override
                 public void onError(CometChatException e) {
-
+                    Log.d(TAG, "getGroup onError: "+e.getMessage());
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
             });
@@ -68,7 +72,7 @@ public class GroupDetailActivityPresenter extends Presenter<GroupDetailActivityC
 
             @Override
             public void onError(CometChatException e) {
-
+                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

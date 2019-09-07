@@ -210,7 +210,7 @@ public class GroupListFragment extends Fragment implements GroupListContract.Gro
     @Override
     public void onResume() {
         super.onResume();
-
+        groupPresenter.refresh();
 
     }
 

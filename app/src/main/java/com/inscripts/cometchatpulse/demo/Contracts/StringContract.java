@@ -25,7 +25,7 @@ public class StringContract {
         public static final String NAME = "name";
         public static final String ID = "id";
         public static final String AVATAR = "avatar";
-        public static final String ISVIDEO ="isvideo";
+        public static final String ISVIDEO ="isVideo";
         public static final String INTENT_SCOPE = "intent_scope";
     }
 
@@ -45,7 +45,8 @@ public class StringContract {
     }
 
     public static class AppDetails{
-        public static final String APP_ID  =  "XXXXXXXXXXXXXX";
-        public static final String API_KEY =  "XXXXXXXXXXXXXX";
+        public static final String APP_ID  =  "XXXXXXXXXXXXXXX";
+        public static final String API_KEY =  "XXXXXXXXXXXXXXXXXXXXX";
+
     }
 }

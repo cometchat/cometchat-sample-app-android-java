@@ -122,8 +122,9 @@ public class UserProfileViewPresenter extends Presenter<UserProfileViewActivityC
                               }
                         }
                     }
-
-                    getBaseView().setAdapter(messageList);
+                     if (isViewAttached()) {
+                         getBaseView().setAdapter(messageList);
+                     }
                 }
 
                 @Override

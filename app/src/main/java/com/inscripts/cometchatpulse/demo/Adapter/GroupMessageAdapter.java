@@ -326,10 +326,6 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 leftMessageViewHolder.senderName.setTypeface(FontUtils.robotoMedium);
                 setAvatar(leftMessageViewHolder.avatar, avatar);
 
-                  if (baseMessage.getReadByMeAt()==0){
-                      CometChat.markMessageAsRead(baseMessage);
-                  }
-
                 break;
             case RIGHT_TEXT_MESSAGE:
                 RightMessageViewHolder rightMessageViewHolder = (RightMessageViewHolder) viewHolder;
@@ -362,10 +358,6 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     String finalMediaFile7 = mediaFile;
                     leftImageViewHolder.imageMessage.setOnClickListener(view -> startIntent(finalMediaFile7, false));
                 }
-                 if (baseMessage.getReadByMeAt()==0){
-                     CometChat.markMessageAsRead(baseMessage);
-                 }
-
                 break;
             case RIGHT_IMAGE_MESSAGE:
                 RightImageVideoViewHolder rightImageVideoViewHolder = (RightImageVideoViewHolder) viewHolder;
@@ -421,9 +413,6 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         startIntent(finalMediaFile3, true);
                     }
                 });
-                  if (baseMessage.getReadByMeAt()==0){
-                      CometChat.markMessageAsRead(baseMessage);
-                  }
                 break;
 
             case RIGHT_VIDEO_MESSAGE:
@@ -594,10 +583,6 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 String audioPath = FileUtils.getPath(context, CometChatConstants.MESSAGE_TYPE_AUDIO) +
                         FileUtils.getFileName(mediaFile);
-
-                  if (baseMessage.getReadByMeAt()==0){
-                      CometChat.markMessageAsRead(baseMessage);
-                  }
 
                 File audioFile = new File(audioPath);
                 audioFile.setReadable(true,false);
@@ -784,9 +769,6 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         }
                     });
 
-                     if (baseMessage.getReadByMeAt()==0){
-                         CometChat.markMessageAsRead(baseMessage);
-                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -874,11 +856,6 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 leftTextReplyViewHolder.tvNameReply.setText(textMessage.getMetadata().getString("senderName"));
                             }
                         }
-
-                        if (baseMessage.getReadByMeAt()==0){
-                            CometChat.markMessageAsRead(baseMessage);
-                        }
-
                         leftTextReplyViewHolder.tvNewMessage.setVisibility(View.VISIBLE);
                         leftTextReplyViewHolder.tvNewMessage.setText(textMessage.getText());
 
@@ -1102,10 +1079,6 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 setAvatar(leftMediaReplyViewHolder.ivContactImage, avatar);
 
-                  if (baseMessage.getReadByMeAt()==0){
-                      CometChat.markMessageAsRead(baseMessage);
-                  }
-
                 try {
                     if (mediaMessage != null) {
                         if (mediaMessage.getMetadata().has("senderUid")) {
@@ -1318,8 +1291,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 public void onCompletion(MediaPlayer mp) {
                     currentPlayingSong = "";
                     currentlyPlayingId = 0l;
-                    seekHandler
-                            .removeCallbacks(timerRunnable);
+                    seekHandler.removeCallbacks(timerRunnable);
                     timerRunnable = null;
                     mp.stop();
                     audioLength.setText(DateUtils.convertTimeStampToDurationTime(duration));
@@ -1509,7 +1481,6 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private void setReadIcon(CircleImageView circleImageView,BaseMessage baseMessage){
         if (baseMessage.getReadAt()!=0){
-
             circleImageView.setImageResource(R.drawable.ic_double_tick_blue);
             circleImageView.setCircleBackgroundColor(context.getResources().getColor(android.R.color.transparent));
         }

@@ -24,7 +24,7 @@ public class BlockedUserListActivityPresenter extends Presenter<BlockedUserListA
     @Override
     public void getBlockedUsers() {
 
-       BlockedUsersRequest blockedUsersRequest = new BlockedUsersRequest.BlockedUsersRequestBuilder().setLimit(50).build();
+       BlockedUsersRequest blockedUsersRequest = new BlockedUsersRequest.BlockedUsersRequestBuilder().setDirection(BlockedUsersRequest.DIRECTION_BLOCKED_BY_ME).setLimit(100).build();
 
         blockedUsersRequest.fetchNext(new CometChat.CallbackListener<List<User>>() {
             @Override

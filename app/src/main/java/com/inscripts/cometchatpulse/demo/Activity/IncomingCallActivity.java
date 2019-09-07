@@ -279,8 +279,7 @@ public class IncomingCallActivity extends AppCompatActivity implements
 
         switch (requestCode) {
             case CAMERA_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
-                        grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
 
                     camera = MediaUtils.openFrontCam();
                     cameraPreview = new CameraPreview(this, camera);

@@ -30,7 +30,7 @@ public class ContactsListPresenter extends Presenter<ContactsContract.ContactVie
 
         if (usersRequest==null) {
 
-            usersRequest  = new UsersRequest.UsersRequestBuilder().setLimit(30).build();
+            usersRequest  = new UsersRequest.UsersRequestBuilder().setLimit(100).build();
 
             usersRequest.fetchNext(new CometChat.CallbackListener<List<User>>() {
                 @Override
@@ -42,7 +42,6 @@ public class ContactsListPresenter extends Presenter<ContactsContract.ContactVie
                             userHashMap.put(users.get(i).getUid(), users.get(i));
                         }
                         getBaseView().setContactAdapter(userHashMap);
-
                 }
 
                 @Override
@@ -81,11 +80,13 @@ public class ContactsListPresenter extends Presenter<ContactsContract.ContactVie
         CometChat.addUserListener(presenceListener, new CometChat.UserListener() {
             @Override
             public void onUserOnline(User user) {
+                Log.d(TAG, "onUserOnline: "+user.toString());
                    getBaseView().updatePresence(user);
             }
 
             @Override
             public void onUserOffline(User user) {
+                Log.d(TAG, "onUserOffline: "+user.toString());
                   getBaseView().updatePresence(user);
             }
         });

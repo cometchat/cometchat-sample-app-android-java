@@ -1,1 +1,1 @@
-include ':app', ':pro-android-chat-sdk'
+include ':app'

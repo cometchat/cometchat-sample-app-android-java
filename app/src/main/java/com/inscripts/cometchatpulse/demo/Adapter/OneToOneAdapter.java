@@ -283,9 +283,7 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 leftMessageViewHolder.messageTimeStamp.setText(timeStampString);
                 leftMessageViewHolder.senderName.setVisibility(View.GONE);
                 leftMessageViewHolder.avatar.setVisibility(View.GONE);
-                if (baseMessage.getReadAt()==0){
-                    CometChat.markMessageAsRead(baseMessage);
-                }
+
                 break;
 
             case RIGHT_TEXT_MESSAGE:
@@ -295,12 +293,6 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 rightMessageViewHolder.messageTimeStamp.setText(timeStampString);
                 setDeliveryIcon(rightMessageViewHolder.messageStatus,baseMessage);
                 setReadIcon(rightMessageViewHolder.messageStatus,baseMessage);
-
-//                  if (baseMessage.getDeletedAt()!=0){
-//                      rightMessageViewHolder.messageStatus.setVisibility(View.GONE);
-//                      rightMessageViewHolder.textMessage.setVisibility(View.GONE);
-//                      rightMessageViewHolder.messageTimeStamp.setVisibility(View.GONE);
-//                  }
                 break;
 
             case LEFT_IMAGE_MESSAGE:
@@ -318,9 +310,6 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     Glide.with(context).load(imageUrl).into(leftImageViewHolder.imageMessage);
                     String finalImageUrl1 = imageUrl;
                     leftImageViewHolder.imageMessage.setOnClickListener(view -> startIntent(finalImageUrl1, false));
-                }
-                if (baseMessage.getReadAt()==0){
-                    CometChat.markMessageAsRead(baseMessage);
                 }
                 break;
 
@@ -343,12 +332,6 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 setReadIcon(rightImageVideoViewHolder.messageStatus,baseMessage);
 
-//                if (baseMessage.getDeletedAt()!=0){
-//                    rightImageVideoViewHolder.messageTimeStamp.setVisibility(View.GONE);
-//                    rightImageVideoViewHolder.messageStatus.setVisibility(View.GONE);
-//                    rightImageVideoViewHolder.imageMessage.setVisibility(View.GONE);
-//                }
-
                 break;
 
 
@@ -369,9 +352,6 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 final String finalMediaFile3 = mediaFile;
                 leftVideoViewHolder.btnPlayVideo.setOnClickListener(view -> startIntent(finalMediaFile3, true));
-                if (baseMessage.getReadAt()==0){
-                    CometChat.markMessageAsRead(baseMessage);
-                }
                 break;
 
             case RIGHT_VIDEO_MESSAGE:
@@ -391,13 +371,6 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 rightVideoViewHolder.btnPlayVideo.setOnClickListener(view -> startIntent(finalMediaFile4, true));
 
                 setReadIcon(rightVideoViewHolder.messageStatus,baseMessage);
-
-//                  if (baseMessage.getDeletedAt()!=0){
-//                      rightVideoViewHolder.btnPlayVideo.setVisibility(View.GONE);
-//                      rightVideoViewHolder.messageTimeStamp.setVisibility(View.GONE);
-//                      rightVideoViewHolder.fileLoadingProgressBar.setVisibility(View.GONE);
-//                      rightVideoViewHolder.messageStatus.setVisibility(View.GONE);
-//                  }
                 break;
 
             case RIGHT_AUDIO_MESSAGE:
@@ -410,13 +383,6 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     rightAudioViewHolder.playAudio.setImageResource(R.drawable.ic_play_arrow);
                 }
 
-//                if (baseMessage.getDeletedAt()!=0){
-//                    rightAudioViewHolder.audioContainer.setVisibility(View.GONE);
-//                    rightAudioViewHolder.messageTimeStamp.setVisibility(View.GONE);
-//                    rightAudioViewHolder.audioSeekBar.setVisibility(View.GONE);
-//                    rightAudioViewHolder.fileLoadingProgressBar.setVisibility(View.GONE);
-//                    rightAudioViewHolder.messageStatus.setVisibility(View.GONE);
-//                }
                 setDeliveryIcon(rightAudioViewHolder.messageStatus,baseMessage);
                 rightAudioViewHolder.audioSeekBar.setProgress(0);
                 String rightAudioPath = null;
@@ -545,9 +511,6 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 leftAudioViewHolder.audioSeekBar.setProgress(0);
                 final String finalMediaFile1 = mediaFile;
 
-                if (baseMessage.getReadAt()==0){
-                    CometChat.markMessageAsRead(baseMessage);
-                }
 
                 String audioPath = FileUtils.getPath(context, CometChatConstants.MESSAGE_TYPE_AUDIO)+
                         FileUtils.getFileName(mediaFile);
@@ -706,12 +669,7 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     setReadIcon(rightFileViewHolder.messageStatus,baseMessage);
                     rightFileViewHolder.fileName.setOnClickListener(view -> context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(finalMediaFile))));
 
-//                      if (baseMessage.getDeletedAt()!=0){
-//                          rightFileViewHolder.fileContainer.setVisibility(View.GONE);
-//                          rightFileViewHolder.fileName.setVisibility(View.GONE);
-//                          rightFileViewHolder.messageTimeStamp.setVisibility(View.GONE);
-//                          rightFileViewHolder.fileType.setVisibility(View.GONE);
-//                      }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -730,9 +688,7 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     leftFileViewHolder.fileType.setText(mediaMessage.getAttachment().getFileExtension());
                     final String finalMediaFile2 = mediaFile;
 
-                    if (baseMessage.getReadAt()==0){
-                        CometChat.markMessageAsRead(baseMessage);
-                    }
+
                     leftFileViewHolder.fileName.setOnClickListener(view -> context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(finalMediaFile2))));
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -750,10 +706,6 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 rightTextReplyViewHolder.tvTimeStamp.setText(timeStampString);
                 try {
 
-//                      if (baseMessage.getDeletedAt()!=0){
-//                          rightTextReplyViewHolder.rlMain.setVisibility(View.GONE);
-//                          rightTextReplyViewHolder.tvTimeStamp.setVisibility(View.GONE);
-//                      }
                     if (textMessage != null) {
                         if (textMessage.getMetadata().has("senderUid")) {
 
@@ -829,9 +781,6 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                             }
                         }
 
-                        if (baseMessage.getReadAt()==0){
-                            CometChat.markMessageAsRead(baseMessage);
-                        }
                         leftTextReplyViewHolder.tvNewMessage.setVisibility(View.VISIBLE);
                         leftTextReplyViewHolder.tvNewMessage.setText(textMessage.getText());
 
@@ -1057,10 +1006,6 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 leftMediaReplyViewHolder.ivContactImage.setVisibility(View.GONE);
 
-
-                if (baseMessage.getReadAt()==0){
-                    CometChat.markMessageAsRead(baseMessage);
-                }
 
                 try {
                     if (mediaMessage != null) {
@@ -1467,7 +1412,10 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void setRead(MessageReceipt messageReceipt) {
         BaseMessage baseMessage=messageArrayList.get(messageReceipt.getMessageId());
         if (baseMessage!=null) {
-            baseMessage.setReadAt(messageReceipt.getTimestamp());
+            baseMessage.setReadAt(messageReceipt.getReadAt());
+            Log.d(TAG, "setRead:getTimestamp "+messageReceipt.getTimestamp()+" Id "+messageReceipt.getMessageId());
+            Log.d(TAG, "setRead: getReadAt "+messageReceipt.getReadAt()+" Id "+messageReceipt.getMessageId());
+            Log.d(TAG, "setRead: baseMessage "+baseMessage.toString());
             messageArrayList.put(baseMessage.getId(), baseMessage);
             notifyDataSetChanged();
         }

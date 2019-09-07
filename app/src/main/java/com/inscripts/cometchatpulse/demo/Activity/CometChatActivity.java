@@ -18,6 +18,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.cometchat.pro.core.CometChat;
+import com.cometchat.pro.models.Action;
+import com.cometchat.pro.models.Group;
 import com.cometchat.pro.models.User;
 import com.inscripts.cometchatpulse.demo.Adapter.ViewPagerAdapter;
 import com.inscripts.cometchatpulse.demo.Contracts.CometChatActivityContract;
@@ -55,7 +57,6 @@ public class CometChatActivity extends AppCompatActivity implements ScrollHelper
     private ViewPagerAdapter adapter;
 
     private static final String TAG = "CometChatActivity";
-
 
     public static HashMap<String ,Integer> countMap;
 
@@ -132,6 +133,20 @@ public class CometChatActivity extends AppCompatActivity implements ScrollHelper
     @Override
     protected void onStart() {
         super.onStart();
+
+        CometChat.addGroupListener(TAG, new CometChat.GroupListener() {
+            @Override
+            public void onMemberAddedToGroup(Action action, User addedby, User userAdded, Group addedTo) {
+                super.onMemberAddedToGroup(action, addedby, userAdded, addedTo);
+                Log.d(TAG, "onMemberAddedToGroup: "+"action \n"+action+" \n addedby "+addedby+ " \n userAdded "+userAdded + " \n addedTo "+addedTo);
+            }
+
+            @Override
+            public void onAddedToGroup(Action action, User addedby, User userAdded, Group addedTo) {
+                super.onAddedToGroup(action, addedby, userAdded, addedTo);
+                Log.d(TAG, "onAddedToGroup: "+"action \n"+action+" \n addedby "+addedby+ " \n userAdded "+userAdded + " \n addedTo "+addedTo);
+            }
+        });
     }
 
     @Override
@@ -219,6 +234,8 @@ public class CometChatActivity extends AppCompatActivity implements ScrollHelper
 
         return true;
     }
+
+
 
     private void searchUser(String s) {
 

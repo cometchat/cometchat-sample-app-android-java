@@ -37,6 +37,7 @@ public class CreateGroupActivityPresenter extends Presenter<CreateGroupActivityC
             @Override
             public void onError(CometChatException e) {
                 Log.d("createGroup", "onError: "+e.getMessage());
+                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
         });

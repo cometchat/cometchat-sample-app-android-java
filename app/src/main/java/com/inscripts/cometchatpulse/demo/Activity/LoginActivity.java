@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityCon
 
         if (!uid.isEmpty()) {
             Toast.makeText(LoginActivity.this, getString(R.string.wait), Toast.LENGTH_SHORT).show();
-                    loginActivityPresenter.Login(uid);
+                    loginActivityPresenter.Login(this,uid);
         } else {
             Toast.makeText(LoginActivity.this, getString(R.string.enter_uid_toast), Toast.LENGTH_SHORT).show();
         }

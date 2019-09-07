@@ -78,7 +78,7 @@ import java.util.TimerTask;
 
 public class GroupChatActivity extends AppCompatActivity implements GroupChatActivityContract.GroupChatView, TextWatcher, View.OnClickListener, ActionMode.Callback {
 
-    private static final int LIMIT = 30;
+    private static final int LIMIT = 100;
 
     private static final String TAG = "GroupChatActivity";
 
@@ -566,7 +566,6 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
 
@@ -576,6 +575,7 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
         super.onResume();
         groupChatPresenter.addMessageReceiveListener(getResources().getString(R.string.group_message_listener), groupId, ownerId);
         groupChatPresenter.addGroupEventListener("action_message", groupId, ownerId);
+        groupChatPresenter.refreshList(groupId,ownerId,LIMIT);
         groupChatPresenter.addCallListener("call_listener");
     }
 

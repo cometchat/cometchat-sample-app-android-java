@@ -1,9 +1,13 @@
 package com.inscripts.cometchatpulse.demo.Utils;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.media.AudioManager;
@@ -13,12 +17,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Vibrator;
 import android.provider.MediaStore;
-
 import com.inscripts.cometchatpulse.demo.ViewHolders.LeftImageVideoViewHolder;
 import com.inscripts.cometchatpulse.demo.ViewHolders.RightImageVideoViewHolder;
-
-import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
+
 
 public class MediaUtils {
 
@@ -47,13 +49,6 @@ public class MediaUtils {
         bitmap=outputImage;
 
         return bitmap;
-    }
-
-    public static Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
     }
 
     public static String ImagePath(Uri uri, Context context) {

@@ -25,6 +25,8 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
 
     private HashMap<String,Group> groupHashMap=new HashMap<>();
 
+    private static final String TAG = "GroupListPresenter";
+
     @Override
     public void initGroupView() {
 
@@ -36,7 +38,7 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
                 @Override
                 public void onSuccess(List<Group> groups) {
                     if (isViewAttached()) {
-                        Logger.error("Groups List Received : " + groups);
+                        Log.d(TAG, "onSuccess: "+groups.toString());
                         getBaseView().setGroupAdapter(groups);
 
 
@@ -46,7 +48,7 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
 
                 @Override
                 public void onError(CometChatException e) {
-
+                    Log.d(TAG, "onError: "+e.getMessage());
                 }
 
             });
@@ -54,10 +56,9 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
             groupsRequest.fetchNext(new CometChat.CallbackListener<List<Group>>() {
                 @Override
                 public void onSuccess(List<Group> groups) {
-                    Logger.error("Groups List Received : " + groups);
+                    Log.d(TAG, "onSuccess: "+groups.toString());
                     if (isViewAttached()&&groups.size()!=0)
                     {
-
                         getBaseView().setGroupAdapter(groups);
                     }
 
@@ -66,7 +67,7 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
 
                 @Override
                 public void onError(CometChatException e) {
-
+                    Log.d(TAG, "onError: "+e.getMessage());
                 }
 
             });
