@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
+import com.cometchat.pro.core.CometChat;
 import com.inscripts.cometchatpulse.demo.R;
 import com.inscripts.cometchatpulse.demo.Utils.AnimUtil;
 import com.inscripts.cometchatpulse.demo.Utils.KeyboardVisibilityEvent;
@@ -58,8 +59,6 @@ public class AttachmentTypeSelector extends PopupWindow {
     ImageView closeButton;
     private final @NonNull
     ImageView videoButton;
-
-
     private @Nullable
     View currentAnchor;
     private @Nullable
@@ -80,7 +79,6 @@ public class AttachmentTypeSelector extends PopupWindow {
         this.cameraButton = ViewUtil.findById(layout, R.id.camera_button);
         this.closeButton = ViewUtil.findById(layout, R.id.close_button);
         this.videoButton = ViewUtil.findById(layout, R.id.video);
-
 
         Drawable imageDrawable = context.getResources().getDrawable(R.drawable.ic_image_black_24dp);
 

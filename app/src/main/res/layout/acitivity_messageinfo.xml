@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.MessageInfoActivity">
+
+    <RelativeLayout
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:id="@+id/rlContainer"
+        android:layout_height="wrap_content">
+
+    <include
+
+        android:id="@+id/textMessage"
+        layout="@layout/cc_text_layout_right"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <include android:id="@+id/ivimageMessage"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_height="220dp"
+        layout="@layout/cc_image_video_layout_right"/>
+
+    <include android:id="@+id/audioMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:visibility="visible"
+        layout="@layout/cc_audionote_layout_right"
+        android:visibility="gone"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_below="@id/rlContainer"
+        android:id="@+id/tvDivider"
+        android:background="#C1BED0"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvReceipts"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/rlContainer"
+        tools:listitem="@layout/receipts_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>

@@ -12,24 +12,18 @@
     <string name="contact_id">contactId</string>
     <string name="group_id">groupId</string>
 
-    <string-array name="group_type">
-        <item>Select Type</item>
-        <item>public</item>
-        <item>private</item>
-        <item>password</item>
-    </string-array>
-
-
     <string name="contact_name">contactName</string>
-    <string name="clear_conversation">Clear conversation</string>
 
+
+    <string name="clear_conversation">Clear conversation</string>
     <string name="image_preview">Image preview</string>
 
     <string name="create_chatroom">New Group</string>
+
     <string name="password_hint">Password</string>
     <string name="default_status_message">I\'m Available</string>
-
     <string name="joined_group">Joined Group</string>
+
     <string name="other_group">Other Group</string>
     <string name="group_owner">groupOwner</string>
     <string name="popup_gallary">Gallary</string>
@@ -89,6 +83,12 @@
     <string name="typing">Typing..</string>
     <string name="is_typing"> is Typing...</string>
     <string name="add_members">Add Members</string>
+    <string-array name="group_type">
+        <item>Select Type</item>
+        <item>public</item>
+        <item>private</item>
+        <item>password</item>
+    </string-array>
 
 
 </resources>

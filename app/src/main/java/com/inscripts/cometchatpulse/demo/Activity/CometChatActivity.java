@@ -133,20 +133,6 @@ public class CometChatActivity extends AppCompatActivity implements ScrollHelper
     @Override
     protected void onStart() {
         super.onStart();
-
-        CometChat.addGroupListener(TAG, new CometChat.GroupListener() {
-            @Override
-            public void onMemberAddedToGroup(Action action, User addedby, User userAdded, Group addedTo) {
-                super.onMemberAddedToGroup(action, addedby, userAdded, addedTo);
-                Log.d(TAG, "onMemberAddedToGroup: "+"action \n"+action+" \n addedby "+addedby+ " \n userAdded "+userAdded + " \n addedTo "+addedTo);
-            }
-
-            @Override
-            public void onAddedToGroup(Action action, User addedby, User userAdded, Group addedTo) {
-                super.onAddedToGroup(action, addedby, userAdded, addedTo);
-                Log.d(TAG, "onAddedToGroup: "+"action \n"+action+" \n addedby "+addedby+ " \n userAdded "+userAdded + " \n addedTo "+addedTo);
-            }
-        });
     }
 
     @Override

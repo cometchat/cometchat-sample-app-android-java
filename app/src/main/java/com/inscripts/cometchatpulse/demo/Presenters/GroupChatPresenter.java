@@ -92,11 +92,7 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
             @Override
             public void onTextMessageReceived(TextMessage message) {
                 if (groupId != null && groupId.equals(message.getReceiverUid()) && !message.getSender().getUid().equals(ownerId)) {
-
-                    if (message.getReadByMeAt()==0){
-                        CometChat.markMessageAsRead(message);
-                    }
-
+                    CometChat.markAsRead(message.getId(),message.getReceiverUid(),message.getReceiverType());
                     MediaUtils.playSendSound(context,R.raw.receive);
                     getBaseView().addReceivedMessage(message);
                 }
@@ -104,12 +100,10 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
 
             @Override
             public void onMediaMessageReceived(MediaMessage message) {
-                if (groupId != null && groupId.equals(message.getReceiverUid()) &&
-                        !message.getSender().getUid().equals(ownerId)) {
+                if (groupId != null && groupId.equals(message.getReceiverUid()) && !message.getSender().getUid().equals(ownerId)) {
 
-                    if (message.getReadByMeAt()==0){
-                        CometChat.markMessageAsRead(message);
-                    }
+                    CometChat.markAsRead(message.getId(),message.getReceiverUid(),message.getReceiverType());
+
                     MediaUtils.playSendSound(context,R.raw.receive);
                     getBaseView().addReceivedMessage(message);
                 }
@@ -123,18 +117,6 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
             @Override
             public void onTypingEnded(TypingIndicator typingIndicator) {
                 getBaseView().typingEnded(typingIndicator);
-            }
-
-            @Override
-            public void onMessageDelivered(MessageReceipt messageReceipt) {
-                Log.d(TAG, "onMessageDelivered: "+messageReceipt.toString());
-                   getBaseView().setDeliveryReceipt(messageReceipt);
-            }
-
-            @Override
-            public void onMessageRead(MessageReceipt messageReceipt) {
-                Log.d(TAG, "onMessageRead: "+messageReceipt.toString());
-                    getBaseView().onMessageRead(messageReceipt);
             }
 
             @Override
@@ -221,15 +203,7 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
 
             @Override
             public void onMemberAddedToGroup(Action action, User addedby, User userAdded, Group addedTo) {
-                if (groupId != null && groupId.equals(action.getReceiverUid())){
-                    if (isViewAttached())
-                        getBaseView().addSentMessage(action);
-                }
-            }
-
-            @Override
-            public void onAddedToGroup(Action action, User addedby, User userAdded, Group addedTo) {
-                if (groupId != null && groupId.equals(action.getReceiverUid())){
+                if (groupId != null && groupId.equals(action.getReceiverUid())) {
                     if (isViewAttached())
                         getBaseView().addSentMessage(action);
                 }
@@ -242,7 +216,7 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
     @Override
     public void sendTextMessage(final String message, String groupId) {
 
-        TextMessage textMessage = new TextMessage(groupId, message, CometChatConstants.MESSAGE_TYPE_TEXT,CometChatConstants.RECEIVER_TYPE_GROUP);
+        TextMessage textMessage = new TextMessage(groupId, message,CometChatConstants.RECEIVER_TYPE_GROUP);
 
         if (GroupChatActivity.isReply){
             textMessage.setMetadata(GroupChatActivity.metaData);
@@ -356,7 +330,7 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
     @Override
     public void editMessage(BaseMessage baseMessage, String message) {
 
-        TextMessage textMessage=new TextMessage(baseMessage.getReceiverUid(),message,CometChatConstants.MESSAGE_TYPE_TEXT,baseMessage.getReceiverType());
+        TextMessage textMessage=new TextMessage(baseMessage.getReceiverUid(),message,baseMessage.getReceiverType());
         textMessage.setId(baseMessage.getId());
         CometChat.editMessage(textMessage, new CometChat.CallbackListener<BaseMessage>() {
             @Override
@@ -416,15 +390,14 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
                             Log.d(TAG, "onSuccess: fetchPrevious" + baseMessage.toString());
                             Logger.error("groupMessage" + baseMessage.getId() + " timestamp : " + baseMessage.getSentAt() + " list size :" + baseMessages.size());
 
-                            if (!baseMessage.getSender().getUid().equals(CometChat.getLoggedInUser().getUid())) {
-                                if (baseMessage.getReadByMeAt() == 0) {
-                                    CometChat.markMessageAsRead(baseMessage);
-                                }
-                            }
                             if (baseMessage.getDeletedAt() == 0) {
                                 list.add(baseMessage);
                             }
 
+                        }
+                        if (baseMessages.size()!=0) {
+                            BaseMessage baseMessage=baseMessages.get(baseMessages.size()-1);
+                            CometChat.markAsRead(baseMessage.getId(),baseMessage.getReceiverUid(),baseMessage.getReceiverType());
                         }
                     getBaseView().setAdapter(list);
                 }
@@ -449,13 +422,10 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
                             if (baseMessage.getDeletedAt() == 0) {
                                 list.add(baseMessage);
                             }
-                            if (!baseMessage.getSender().getUid().equals(CometChat.getLoggedInUser().getUid())) {
-                                if (baseMessage.getReadByMeAt() == 0) {
-                                    CometChat.markMessageAsRead(baseMessage);
-                                }
-                            }
-
-
+                        }
+                        if (baseMessages.size()!=0) {
+                            BaseMessage baseMessage=baseMessages.get(baseMessages.size()-1);
+                            CometChat.markAsRead(baseMessage.getId(),baseMessage.getReceiverUid(),baseMessage.getReceiverType());
                         }
                         getBaseView().setAdapter(baseMessages);
                     }

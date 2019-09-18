@@ -113,7 +113,6 @@ public class GroupListFragment extends Fragment implements GroupListContract.Gro
             }
         });
 
-
         groupsRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), groupsRecyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View var1, int var2) {
@@ -210,6 +209,9 @@ public class GroupListFragment extends Fragment implements GroupListContract.Gro
     @Override
     public void onResume() {
         super.onResume();
+        if (groupListAdapter!=null){
+            groupListAdapter.resetList();
+        }
         groupPresenter.refresh();
 
     }

@@ -966,7 +966,7 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
         getMenuInflater().inflate(R.menu.action_mode, menu);
 
         mode.setTitle(contactName);
-
+        menu.findItem(R.id.info).setVisible(false);
         if (menu!=null&&baseMessage!=null){
             if (!baseMessage.getSender().getUid().equals(ownerUid)) {
                 menu.findItem(R.id.delete).setVisible(false);

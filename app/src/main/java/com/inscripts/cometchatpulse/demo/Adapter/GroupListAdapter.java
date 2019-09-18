@@ -119,12 +119,15 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
     @Override
     public long getHeaderId(int var1) {
 
-        if (groupList.get(var1).isJoined()) {
-            return 1;
-        } else {
-            return 0;
-        }
-
+          if (groupList.size()!=0) {
+              if (groupList.get(var1).isJoined()) {
+                  return 1;
+              } else {
+                  return 0;
+              }
+          }else {
+              return 0;
+          }
     }
 
     @Override
@@ -154,12 +157,16 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
         notifyDataSetChanged();
     }
 
+    public void resetList() {
+        groupList.clear();
+    }
+
 
     public class GroupHolder extends RecyclerView.ViewHolder {
 
         public TextView groupNameField, unreadCount, usersOnline, usersOnlineMessage;
         public CircleImageView imageViewGroupAvatar;
-        public ImageView protectedStatus;
+         ImageView protectedStatus;
         public RelativeLayout container;
 
         GroupHolder(@NonNull View itemView) {

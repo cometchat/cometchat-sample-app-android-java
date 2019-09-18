@@ -4,11 +4,11 @@ import android.app.Application;
 import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
+import com.cometchat.pro.core.AppSettings;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.inscripts.cometchatpulse.demo.Contracts.StringContract;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class CometApplication extends Application {
 
@@ -21,7 +21,9 @@ public class CometApplication extends Application {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
-        CometChat.init(this,StringContract.AppDetails.APP_ID,new CometChat.CallbackListener<String>() {
+        AppSettings appSettings=new AppSettings.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion(StringContract.AppDetails.REGION).build();
+
+        CometChat.init(this,StringContract.AppDetails.APP_ID,appSettings,new CometChat.CallbackListener<String>() {
 
             @Override
             public void onSuccess(String s) {

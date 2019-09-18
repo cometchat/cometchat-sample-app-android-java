@@ -481,16 +481,13 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
                 @Override
                 public boolean onQueryTextChange(String s) {
                     groupChatPresenter.searchMessage(s,groupId);
-                    return false;
+                       return false;
                 }
             });
 
-            searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-                @Override
-                public boolean onClose() {
-                    groupChatPresenter.fetchPreviousMessage(groupId,30);
-                    return false;
-                }
+            searchView.setOnCloseListener(() -> {
+                groupChatPresenter.fetchPreviousMessage(groupId,30);
+                return false;
             });
         }
 
@@ -567,7 +564,6 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
     protected void onStart() {
         super.onStart();
     }
-
 
 
     @Override
@@ -877,6 +873,7 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
         if (menu!=null&&baseMessage!=null){
             if (!baseMessage.getSender().getUid().equals(ownerId)) {
                 menu.findItem(R.id.delete).setVisible(false);
+                menu.findItem(R.id.info).setVisible(false);
             }
 
             if (!baseMessage.getSender().getUid().equals(ownerId) && baseMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_TEXT)){
@@ -975,6 +972,24 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
                     textMessage=(TextMessage)baseMessage;
                     messageField.setText(textMessage.getText());
                 }
+                break;
+
+            case R.id.info:
+                Intent intent =new Intent(this,MessageInfoActivity.class);
+                intent.putExtra("category",baseMessage.getCategory());
+                intent.putExtra("type",baseMessage.getType());
+                intent.putExtra("id",baseMessage.getId());
+                intent.putExtra("timestamp",baseMessage.getSentAt());
+                intent.putExtra("senderUID",baseMessage.getSender().getUid());
+                intent.putExtra("receiverUID",baseMessage.getReceiverUid());
+
+                if (baseMessage instanceof TextMessage){
+                    intent.putExtra("text",((TextMessage)baseMessage).getText());
+                }
+                if (baseMessage instanceof MediaMessage){
+                    intent.putExtra("url",((MediaMessage)baseMessage).getUrl());
+                }
+                startActivity(intent);
                 break;
         }
 

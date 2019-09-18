@@ -6,6 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.test.runner.AndroidJUnitRunner;
 import android.util.Log;
 import com.cometchat.pro.constants.CometChatConstants;
+import com.cometchat.pro.core.AppSettings;
 import com.cometchat.pro.core.BannedGroupMembersRequest;
 import com.cometchat.pro.core.BlockedUsersRequest;
 import com.cometchat.pro.core.CometChat;
@@ -64,8 +65,8 @@ public class ExampleInstrumentedTest {
     @Test
     public void init() {
         CountDownLatch countDownLatch = new CountDownLatch(1);
-
-        CometChat.init(appContext, StringContract.AppDetails.API_KEY, new CometChat.CallbackListener<String>() {
+        AppSettings appSettings=new AppSettings.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion("us").build();
+        CometChat.init(appContext, StringContract.AppDetails.API_KEY,appSettings, new CometChat.CallbackListener<String>() {
             @Override
             public void onSuccess(String s) {
                 Log.d(TAG, "init onSuccess: " + s);
@@ -188,7 +189,7 @@ public class ExampleInstrumentedTest {
 
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
-        TextMessage textMessage = new TextMessage("superhero1", "Hello",CometChatConstants.MESSAGE_TYPE_TEXT, CometChatConstants.RECEIVER_TYPE_USER);
+        TextMessage textMessage = new TextMessage("superhero1", "Hello", CometChatConstants.RECEIVER_TYPE_USER);
 
         CometChat.sendMessage(textMessage, new CometChat.CallbackListener<TextMessage>() {
             @Override
@@ -222,7 +223,7 @@ public class ExampleInstrumentedTest {
 
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
-        TextMessage textMessage = new TextMessage("", "hello",CometChatConstants.MESSAGE_TYPE_TEXT, CometChatConstants.RECEIVER_TYPE_USER);
+        TextMessage textMessage = new TextMessage("", "hello", CometChatConstants.RECEIVER_TYPE_USER);
 
         CometChat.sendMessage(textMessage, new CometChat.CallbackListener<TextMessage>() {
             @Override
@@ -253,7 +254,7 @@ public class ExampleInstrumentedTest {
     public void sendTextMessageWithImageType() {
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
-        TextMessage textMessage = new TextMessage(UID, "Hello",CometChatConstants.MESSAGE_TYPE_TEXT, CometChatConstants.RECEIVER_TYPE_USER);
+        TextMessage textMessage = new TextMessage(UID, "Hello", CometChatConstants.RECEIVER_TYPE_USER);
 
         CometChat.sendMessage(textMessage, new CometChat.CallbackListener<TextMessage>() {
             @Override
@@ -284,7 +285,7 @@ public class ExampleInstrumentedTest {
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
 
-        TextMessage textMessage = new TextMessage(UID, null, CometChatConstants.MESSAGE_TYPE_TEXT, CometChatConstants.RECEIVER_TYPE_USER);
+        TextMessage textMessage = new TextMessage(UID, null, CometChatConstants.RECEIVER_TYPE_USER);
 
         CometChat.sendMessage(textMessage, new CometChat.CallbackListener<TextMessage>() {
             @Override
@@ -316,7 +317,7 @@ public class ExampleInstrumentedTest {
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
 
-        TextMessage textMessage = new TextMessage(UID, null,CometChatConstants.MESSAGE_TYPE_TEXT,CometChatConstants.CATEGORY_MESSAGE);
+        TextMessage textMessage = new TextMessage(UID, null,CometChatConstants.CATEGORY_MESSAGE);
 
         CometChat.sendMessage(textMessage, new CometChat.CallbackListener<TextMessage>() {
             @Override
@@ -348,7 +349,7 @@ public class ExampleInstrumentedTest {
     public void sendTextMessageWithGroupType() {
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
-        TextMessage textMessage = new TextMessage(UID, "Hello", CometChatConstants.MESSAGE_TYPE_TEXT,CometChatConstants.RECEIVER_TYPE_GROUP);
+        TextMessage textMessage = new TextMessage(UID, "Hello",CometChatConstants.RECEIVER_TYPE_GROUP);
 
         CometChat.sendMessage(textMessage, new CometChat.CallbackListener<TextMessage>() {
             @Override
@@ -378,7 +379,7 @@ public class ExampleInstrumentedTest {
 
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
-        TextMessage textMessage = new TextMessage(UID, "",CometChatConstants.MESSAGE_TYPE_TEXT, CometChatConstants.RECEIVER_TYPE_GROUP);
+        TextMessage textMessage = new TextMessage(UID, "", CometChatConstants.RECEIVER_TYPE_GROUP);
 
         CometChat.sendMessage(textMessage, new CometChat.CallbackListener<TextMessage>() {
             @Override
@@ -612,7 +613,7 @@ public class ExampleInstrumentedTest {
 //            customData.put("lattitue","19.0760");
 //            customData.put("longitude","72.8777");
 
-            TextMessage textMessage = new TextMessage(null, null, CometChatConstants.MESSAGE_TYPE_TEXT,null);
+            TextMessage textMessage = new TextMessage(null, null, null);
 
             CometChat.sendMessage(textMessage, new CometChat.CallbackListener<TextMessage>() {
                 @Override
@@ -685,7 +686,7 @@ public class ExampleInstrumentedTest {
 
             CountDownLatch countDownLatch = new CountDownLatch(1);
 
-            TextMessage textMessage = new TextMessage(UID, "Hello", CometChatConstants.MESSAGE_TYPE_TEXT,null);
+            TextMessage textMessage = new TextMessage(UID, "Hello", null);
 
             CometChat.sendMessage(textMessage, new CometChat.CallbackListener<TextMessage>() {
                 @Override
@@ -719,7 +720,7 @@ public class ExampleInstrumentedTest {
         try {
             CountDownLatch countDownLatch = new CountDownLatch(1);
 
-            TextMessage textMessage = new TextMessage(UID, "Hello",CometChatConstants.MESSAGE_TYPE_TEXT, CometChatConstants.RECEIVER_TYPE_USER);
+            TextMessage textMessage = new TextMessage(UID, "Hello", CometChatConstants.RECEIVER_TYPE_USER);
 
             JSONObject customData = new JSONObject();
             customData.put("lattitue", "19.0760");
@@ -759,7 +760,7 @@ public class ExampleInstrumentedTest {
         try {
             CountDownLatch countDownLatch = new CountDownLatch(1);
 
-            TextMessage textMessage = new TextMessage(UID, "Hello",CometChatConstants.MESSAGE_TYPE_TEXT, CometChatConstants.RECEIVER_TYPE_USER);
+            TextMessage textMessage = new TextMessage(UID, "Hello", CometChatConstants.RECEIVER_TYPE_USER);
 
             textMessage.setMetadata(null);
 
@@ -795,7 +796,7 @@ public class ExampleInstrumentedTest {
         try {
             CountDownLatch countDownLatch = new CountDownLatch(1);
 
-            TextMessage textMessage = new TextMessage(GUID, "Hello", CometChatConstants.MESSAGE_TYPE_TEXT,CometChatConstants.RECEIVER_TYPE_GROUP);
+            TextMessage textMessage = new TextMessage(GUID, "Hello",CometChatConstants.RECEIVER_TYPE_GROUP);
 
             JSONObject customData = new JSONObject();
 
@@ -837,7 +838,7 @@ public class ExampleInstrumentedTest {
         try {
             CountDownLatch countDownLatch = new CountDownLatch(1);
 
-            TextMessage textMessage = new TextMessage(GUID, "Hello",CometChatConstants.MESSAGE_TYPE_TEXT, CometChatConstants.RECEIVER_TYPE_GROUP);
+            TextMessage textMessage = new TextMessage(GUID, "Hello", CometChatConstants.RECEIVER_TYPE_GROUP);
 
             JSONObject customData = new JSONObject();
 
@@ -1176,7 +1177,7 @@ public class ExampleInstrumentedTest {
         try {
             CountDownLatch countDownLatch = new CountDownLatch(1);
 
-            TextMessage message = new TextMessage(UID, "text",CometChatConstants.MESSAGE_TYPE_TEXT, CometChatConstants.RECEIVER_TYPE_USER);
+            TextMessage message = new TextMessage(UID, "text", CometChatConstants.RECEIVER_TYPE_USER);
             message.setId(MESSAGE_ID);
 
             CometChat.editMessage(message, new CometChat.CallbackListener<BaseMessage>() {
@@ -1210,7 +1211,7 @@ public class ExampleInstrumentedTest {
         try {
             CountDownLatch countDownLatch = new CountDownLatch(1);
 
-            TextMessage message = new TextMessage(UID, "Hey", CometChatConstants.MESSAGE_TYPE_TEXT, CometChatConstants.RECEIVER_TYPE_USER);
+            TextMessage message = new TextMessage(UID, "Hey", CometChatConstants.RECEIVER_TYPE_USER);
             message.setId(398);
 
             CometChat.editMessage(message, new CometChat.CallbackListener<BaseMessage>() {
@@ -1245,7 +1246,7 @@ public class ExampleInstrumentedTest {
         try {
             CountDownLatch countDownLatch = new CountDownLatch(1);
 
-            TextMessage message = new TextMessage(UID, "Edit text Message ", CometChatConstants.MESSAGE_TYPE_TEXT,CometChatConstants.RECEIVER_TYPE_GROUP);
+            TextMessage message = new TextMessage(UID, "Edit text Message ", CometChatConstants.RECEIVER_TYPE_GROUP);
             message.setId(489);
 
             CometChat.editMessage(message, new CometChat.CallbackListener<BaseMessage>() {
@@ -1280,7 +1281,7 @@ public class ExampleInstrumentedTest {
         try {
             CountDownLatch countDownLatch = new CountDownLatch(1);
 
-            TextMessage message = new TextMessage(UID, null,CometChatConstants.MESSAGE_TYPE_TEXT, CometChatConstants.RECEIVER_TYPE_USER);
+            TextMessage message = new TextMessage(UID, null, CometChatConstants.RECEIVER_TYPE_USER);
             message.setId(489);
 
             CometChat.editMessage(message, new CometChat.CallbackListener<BaseMessage>() {
@@ -1315,7 +1316,7 @@ public class ExampleInstrumentedTest {
         try {
             CountDownLatch countDownLatch = new CountDownLatch(1);
 
-            TextMessage message = new TextMessage(UID, "h",CometChatConstants.MESSAGE_TYPE_TEXT,CometChatConstants.RECEIVER_TYPE_USER);
+            TextMessage message = new TextMessage(UID, "h",CometChatConstants.RECEIVER_TYPE_USER);
             message.setId(48);
 
             CometChat.editMessage(message, new CometChat.CallbackListener<BaseMessage>() {
@@ -1352,7 +1353,7 @@ public class ExampleInstrumentedTest {
         try {
             CountDownLatch countDownLatch = new CountDownLatch(1);
 
-            TextMessage message = new TextMessage(UID, "", CometChatConstants.MESSAGE_TYPE_TEXT,CometChatConstants.RECEIVER_TYPE_USER);
+            TextMessage message = new TextMessage(UID, "",CometChatConstants.RECEIVER_TYPE_USER);
             message.setId(489);
 
             CometChat.editMessage(message, new CometChat.CallbackListener<BaseMessage>() {
@@ -3535,7 +3536,7 @@ public class ExampleInstrumentedTest {
                 @Override
                 public void onSuccess(List<GroupMember> groupMembers) {
                     Log.d(TAG, "test_GroupMemberRequestWithZeroLimit onSuccess: "+groupMembers.size());
-                    assertEquals(3,groupMembers.size());
+                    assertEquals(5,groupMembers.size());
                     countDownLatch.countDown();
                 }
 

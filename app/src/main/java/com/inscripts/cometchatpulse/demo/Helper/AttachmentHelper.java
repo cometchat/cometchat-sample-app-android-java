@@ -140,7 +140,6 @@ public class AttachmentHelper {
 
     public static <P> void handleCameraImage(Context context, P presenter, Intent data, String contactId) {
         File file = new File(pictureImagePath);
-//
 
         if (file.exists()) {
               BitmapFactory.decodeFile(file.getAbsolutePath());
@@ -293,7 +292,6 @@ public class AttachmentHelper {
              pictureImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
              File file = new File(pictureImagePath);
              Uri outputFileUri;
-//             if ()
              outputFileUri= Uri.fromFile(file);
              Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
              intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);

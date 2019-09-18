@@ -40,6 +40,7 @@ public class UserProfileViewPresenter extends Presenter<UserProfileViewActivityC
             String uid = data.getStringExtra(StringContract.IntentStrings.USER_ID);
             getBaseView().setUserId(uid);
 
+
         }
         if (data.hasExtra(StringContract.IntentStrings.USER_NAME)) {
             String name = data.getStringExtra(StringContract.IntentStrings.USER_NAME);
