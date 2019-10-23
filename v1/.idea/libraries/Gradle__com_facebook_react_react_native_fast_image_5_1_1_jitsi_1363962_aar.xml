@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.facebook.react:react-native-fast-image:5.1.1-jitsi-1363962@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fdfe98d06125d9a12188fb71df23fb22/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fdfe98d06125d9a12188fb71df23fb22/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.facebook.react/react-native-fast-image/5.1.1-jitsi-1363962/7dc3d999fb2aaacecaefffb1e86fed23f15dbb6b/react-native-fast-image-5.1.1-jitsi-1363962-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
