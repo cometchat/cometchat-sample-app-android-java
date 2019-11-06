@@ -921,7 +921,7 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
                     intent.putExtra("text",((TextMessage)baseMessage).getText());
                 }
                 if (baseMessage instanceof MediaMessage){
-                    intent.putExtra("url",((MediaMessage)baseMessage).getUrl());
+                    intent.putExtra("url",((MediaMessage)baseMessage).getAttachment().getFileUrl());
                 }
                 startActivity(intent);
                 break;

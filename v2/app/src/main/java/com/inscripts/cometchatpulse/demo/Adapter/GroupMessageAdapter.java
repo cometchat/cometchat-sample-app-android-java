@@ -296,7 +296,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             textMessage = ((TextMessage) baseMessage);
         }
         if (baseMessage instanceof MediaMessage) {
-            mediaFile = ((MediaMessage) baseMessage).getUrl();
+            mediaFile = ((MediaMessage) baseMessage).getAttachment().getFileUrl();
             mediaMessage = ((MediaMessage) baseMessage);
 
         }
@@ -963,7 +963,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             case CometChatConstants.MESSAGE_TYPE_IMAGE:
                                 rightMediaReplyViewHolder.rlImageContainer.setVisibility(View.VISIBLE);
 
-                                Glide.with(context).load(mediaMessage.getUrl()).into(rightMediaReplyViewHolder.ivNewImage);
+                                Glide.with(context).load(mediaMessage.getAttachment().getFileUrl()).into(rightMediaReplyViewHolder.ivNewImage);
                                 break;
 
                             case CometChatConstants.MESSAGE_TYPE_VIDEO:
@@ -971,17 +971,17 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 rightMediaReplyViewHolder.rlImageContainer.setVisibility(View.VISIBLE);
                                 rightMediaReplyViewHolder.ivPlayVideoButton.setVisibility(View.VISIBLE);
                                 rightMediaReplyViewHolder.tvReplyTextMessage.setVisibility(View.VISIBLE);
-                                String finalMediaFile5 = mediaMessage.getUrl();
+                                String finalMediaFile5 = mediaMessage.getAttachment().getFileUrl();
                                 rightMediaReplyViewHolder.ivPlayVideoButton.setOnClickListener(v -> startIntent(finalMediaFile5, true));
-                                Glide.with(context).load(mediaMessage.getUrl()).into(rightMediaReplyViewHolder.ivNewImage);
+                                Glide.with(context).load(mediaMessage.getAttachment().getFileUrl()).into(rightMediaReplyViewHolder.ivNewImage);
 
                                 break;
 
                             case CometChatConstants.MESSAGE_TYPE_FILE:
                                 rightMediaReplyViewHolder.rlFileContainer.setVisibility(View.VISIBLE);
-                                rightMediaReplyViewHolder.tvFileName.setText(getFileName(mediaMessage.getUrl()));
-                                rightMediaReplyViewHolder.tvFileType.setText(getFileExtension(mediaMessage.getUrl()));
-                                String media_File = mediaMessage.getUrl();
+                                rightMediaReplyViewHolder.tvFileName.setText(getFileName(mediaMessage.getAttachment().getFileUrl()));
+                                rightMediaReplyViewHolder.tvFileType.setText(getFileExtension(mediaMessage.getAttachment().getFileUrl()));
+                                String media_File = mediaMessage.getAttachment().getFileUrl();
                                 rightMediaReplyViewHolder.tvFileName.setOnClickListener(v -> context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(media_File))));
                                 break;
 
@@ -1125,7 +1125,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             case CometChatConstants.MESSAGE_TYPE_IMAGE:
                                 leftMediaReplyViewHolder.rlImageContainer.setVisibility(View.VISIBLE);
 
-                                Glide.with(context).load(mediaMessage.getUrl()).into(leftMediaReplyViewHolder.ivNewImage);
+                                Glide.with(context).load(mediaMessage.getAttachment().getFileUrl()).into(leftMediaReplyViewHolder.ivNewImage);
                                 break;
 
                             case CometChatConstants.MESSAGE_TYPE_VIDEO:
@@ -1133,17 +1133,17 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 leftMediaReplyViewHolder.rlImageContainer.setVisibility(View.VISIBLE);
                                 leftMediaReplyViewHolder.ivPlayVideoButton.setVisibility(View.VISIBLE);
                                 leftMediaReplyViewHolder.tvReplyTextMessage.setVisibility(View.VISIBLE);
-                                String finalMediaFile5 = mediaMessage.getUrl();
+                                String finalMediaFile5 = mediaMessage.getAttachment().getFileUrl();
                                 leftMediaReplyViewHolder.ivPlayVideoButton.setOnClickListener(v -> startIntent(finalMediaFile5, true));
-                                Glide.with(context).load(mediaMessage.getUrl()).into(leftMediaReplyViewHolder.ivNewImage);
+                                Glide.with(context).load(mediaMessage.getAttachment().getFileUrl()).into(leftMediaReplyViewHolder.ivNewImage);
 
                                 break;
 
                             case CometChatConstants.MESSAGE_TYPE_FILE:
                                 leftMediaReplyViewHolder.rlFileContainer.setVisibility(View.VISIBLE);
-                                leftMediaReplyViewHolder.tvFileName.setText(getFileName(mediaMessage.getUrl()));
-                                leftMediaReplyViewHolder.tvFileType.setText(getFileExtension(mediaMessage.getUrl()));
-                                String media_File = mediaMessage.getUrl();
+                                leftMediaReplyViewHolder.tvFileName.setText(getFileName(mediaMessage.getAttachment().getFileUrl()));
+                                leftMediaReplyViewHolder.tvFileType.setText(getFileExtension(mediaMessage.getAttachment().getFileUrl()));
+                                String media_File = mediaMessage.getAttachment().getFileUrl();
                                 leftMediaReplyViewHolder.tvFileName.setOnClickListener(v -> context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(media_File))));
                                 break;
 

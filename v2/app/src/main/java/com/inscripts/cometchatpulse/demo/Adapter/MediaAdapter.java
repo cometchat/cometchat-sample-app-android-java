@@ -37,7 +37,7 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaHolder>
 
         try {
 
-            Glide.with(context).load(messageList.get(i).getUrl()).into(mediaHolder.imageView);
+            Glide.with(context).load(messageList.get(i).getAttachment().getFileUrl()).into(mediaHolder.imageView);
 
         } catch (Exception e) {
             e.printStackTrace();
