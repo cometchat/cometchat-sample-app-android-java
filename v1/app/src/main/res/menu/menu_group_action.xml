@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/menu_view_profile"
+        android:title="View Profile"/>
+
+    <item
+        android:id="@+id/menu_item_Reinstate"
+        android:title="Unban user" />
+
+    <item
+        android:id="@+id/menu_item_kick"
+        android:title="Kick user" />
+
+    <item
+        android:id="@+id/menu_item_outcast"
+        android:title="Ban user" />
+
+    <item android:id="@+id/menu_item_updateScope"
+        android:icon="@drawable/ic_play_arrow"
+        android:title="Update Scope">
+
+        <menu>
+            <item android:title="Admin"
+                android:id="@+id/subMenu_admin"/>
+            <item android:title="Moderator"
+                android:id="@+id/subMenu_moderator"/>
+            <item android:title="Participant"
+                android:id="@+id/subMenu_participant"/>
+        </menu>
+
+    </item>
+
+</menu>

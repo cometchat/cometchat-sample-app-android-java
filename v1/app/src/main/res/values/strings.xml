@@ -1,0 +1,94 @@
+<resources>
+    <string name="app_name">CometChat Pro</string>
+
+    <string name="unread_count">1</string>
+    <string name="status_message">I\'m available</string>
+
+    <string name="group_name">Group Name</string>
+
+    <string name="users_online">Users Online: </string>
+
+
+    <string name="contact_id">contactId</string>
+    <string name="group_id">groupId</string>
+
+    <string name="contact_name">contactName</string>
+
+
+    <string name="clear_conversation">Clear conversation</string>
+    <string name="image_preview">Image preview</string>
+
+    <string name="create_chatroom">New Group</string>
+
+    <string name="password_hint">Password</string>
+    <string name="default_status_message">I\'m Available</string>
+    <string name="joined_group">Joined Group</string>
+
+    <string name="other_group">Other Group</string>
+    <string name="group_owner">groupOwner</string>
+    <string name="popup_gallary">Gallary</string>
+    <string name="popup_camera">Camera</string>
+    <string name="popup_audio">Audio</string>
+    <string name="popup_document">Document</string>
+    <string name="message_listener">message_listener</string>
+    <string name="group_message_listener">group_message</string>
+    <string name="leave_group">Leave Group</string>
+    <string name="user">user</string>
+    <string name="group_description">Group Description</string>
+    <string name="video">Video</string>
+    <string name="group_member">groupMember</string>
+    <string name="settings">Settings</string>
+    <string name="today_last_seen">Last seen today at </string>
+    <string name="yesterday_last_seen">Last seen yesterday at </string>
+    <string name="cancel">Cancel</string>
+    <string name="accept">Ok</string>
+    <string name="user_avatar">userAvatar</string>
+    <string name="presenceListener">presenceListener</string>
+    <string name="userHolder">holder</string>
+    <string name="type_your_message">Type your message</string>
+    <string name="slide_to_cancel">Slide to cancel</string>
+    <string name="message_hint">Type your message</string>
+    <string name="you">You</string>
+    <string name="groupHolder">groupHolder</string>
+    <string name="no_contacts_available">No contacts available</string>
+    <string name="group">Group</string>
+    <string name="contacts">Contacts</string>
+    <string name="joining">Joining</string>
+    <string name="group_password">Group Password</string>
+    <string name="warning">Can Not Join Group No Internet</string>
+    <string name="incorrect_password">Incorrect password</string>
+    <string name="required">Required*</string>
+    <string name="valid_group">Select Valid Group Type</string>
+    <string name="new_message">New Message</string>
+    <string name="pemssion_warning">PERMISSION NOT GRANTED</string>
+    <string name="member">Members</string>
+    <string name="outcasted_member">Outcasted Members</string>
+    <string name="created_by">Created by</string>
+    <string name="jump_to_latest">Jump to latest</string>
+    <string name="enter_uid_toast">Please Enter Uid</string>
+    <string name="wait">Please Wait</string>
+    <string name="groupid">GroupId</string>
+    <string name="incoming_call">Incoming Call</string>
+    <string name="calling">Calling</string>
+    <string name="swipe_up_to_answer">Swipe up to answer</string>
+    <string name="swipe_down_to_reject">Swipe down to reject</string>
+    <string name="message">message</string>
+    <string name="enter_uid">Enter Uid</string>
+    <string name="haven_t_created_a_user_yet_select_one_of_our_default_users_for_testing">Haven\'t created a user yet? Select one of our default users for testing:</string>
+    <string name="photo">Photo</string>
+    <string name="file_message">File Message</string>
+    <string name="audio_message">Audio Message</string>
+    <string name="ban_member">Ban Member</string>
+    <string name="decline">Decline</string>
+    <string name="typing">Typing..</string>
+    <string name="is_typing"> is Typing...</string>
+    <string name="add_members">Add Members</string>
+    <string-array name="group_type">
+        <item>Select Type</item>
+        <item>public</item>
+        <item>private</item>
+        <item>password</item>
+    </string-array>
+
+
+</resources>
