@@ -104,17 +104,17 @@ To run our open source app with CometChat Pro v1, follow these steps:
 
 ## Screenshots
 
-   <img align="left" width="185" height="331" src="https://github.com/CometChat-Pulse/android-java-chat-app/blob/master/v2/ScreenShots/gif1.gif">
+   <img align="left" width="185" height="331" src="https://github.com/CometChat-Pulse/android-java-chat-app/blob/master/ScreenShots/gif1.gif">
 
 
-   <img align="left" width="185" height="331" src="https://github.com/CometChat-Pulse/android-java-chat-app/blob/master/v2/ScreenShots/gif2.gif">
+   <img align="left" width="185" height="331" src="https://github.com/CometChat-Pulse/android-java-chat-app/blob/master/ScreenShots/gif2.gif">
 
 
-   <img align="left" width="185" height="331" src="https://github.com/CometChat-Pulse/android-java-chat-app/blob/master/v2/ScreenShots/gif3.gif">
+   <img align="left" width="185" height="331" src="https://github.com/CometChat-Pulse/android-java-chat-app/blob/master/ScreenShots/gif3.gif">
 
 
 
-   <img align="left" width="185" height="331" src="https://github.com/CometChat-Pulse/android-java-chat-app/blob/master/v2/ScreenShots/gif4.gif">
+   <img align="left" width="185" height="331" src="https://github.com/CometChat-Pulse/android-java-chat-app/blob/master/ScreenShots/gif4.gif">
 
 `            `<br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br></br>
 
