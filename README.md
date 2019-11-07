@@ -35,7 +35,7 @@ CometChat Android Demo app (built using **CometChat Pro**) is a fully functional
 
 To run our open source app with CometChat Pro v2, follow these steps:
 
-1. Navigate to v2 folder
+1. Check out to branch v2
 
 -  modify *APP_ID* and *API_KEY* with your own **ApiKey** , **AppId** and **REGION**
 
@@ -51,7 +51,7 @@ To run our open source app with CometChat Pro v2, follow these steps:
 
 To run our open source app with CometChat Pro v1, follow these steps:
 
-1. Navigate to v1 folder
+1. Check out to branch v1
 
 -  modify *APP_ID* and *API_KEY* with your own **ApiKey** and **AppId**
 
