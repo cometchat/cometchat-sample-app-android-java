@@ -90,72 +90,23 @@ public class RecentsFragment extends Fragment implements RecentsContract.Recents
 
         new Thread(() -> recentPresenter.fetchConversations(getContext())).start();
 
-
-
-        recentsRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(),
-                recentsRecyclerView, new RecyclerTouchListener.ClickListener() {
+        recentsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onClick(View var1, int position) {
-//                if (var1.getTag(R.string.user) instanceof User) {
-//                    String recentID = (String) var1.getTag(R.string.contact_id);
-//                    String recentName = (String) var1.getTag(R.string.contact_name);
-//                    String userAvatar = (String) var1.getTag(R.string.user_avatar);
-//                    User user = (User) var1.getTag(R.string.user);
-//                    RecentsListAdapter.RecentsViewHolder recentViewHolder = (RecentsListAdapter.RecentsViewHolder) var1.getTag(R.string.userHolder);
-//                    Log.e("onUserClick: ", recentID+"-"+recentName);
-//                    Pair<View, String> p1 = Pair.create(((View) recentViewHolder.avatar), "profilePic");
-//                    Pair<View, String> p2 = Pair.create(((View) recentViewHolder.userName), "Name");
-//                    Pair<View, String> p3 = Pair.create(((View) recentViewHolder.lastMessage), "lastMessage");
-//                    ((View) recentViewHolder.unreadCount).setVisibility(View.GONE);
-//                    Intent intent = new Intent(getContext(), OneToOneChatActivity.class);
-//                    intent.putExtra(StringContract.IntentStrings.USER_ID, recentID);
-//                    intent.putExtra(StringContract.IntentStrings.USER_AVATAR, userAvatar);
-//                    intent.putExtra(StringContract.IntentStrings.USER_NAME, recentName);
-//                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), p1, p2, p3);
-//                    startActivity(intent, optionsCompat.toBundle());
-//                } else
-//                {
-//                    String recentID = (String) var1.getTag(R.string.group_id);
-//                    String recentName = (String) var1.getTag(R.string.group_name);
-//                    String userAvatar = (String) var1.getTag(R.string.group_icon);
-
-//                    Log.e("onGroupClick: ", recentID+"-"+recentName);
-//                    Group user = (Group) var1.getTag(R.string.group);
-                    RecentsListAdapter.RecentsViewHolder recentViewHolder = (RecentsListAdapter.RecentsViewHolder) var1.getTag(R.string.groupHolder);
-//                    ((View) recentViewHolder.unreadCount).setVisibility(View.GONE);
-//                    Intent intent = new Intent(getContext(), GroupChatActivity.class);
-//                    intent.putExtra(StringContract.IntentStrings.INTENT_GROUP_ID, recentID);
-//                    intent.putExtra(StringContract.IntentStrings.INTENT_GROUP_NAME, recentName);
-//                    intent.putExtra()
-//                    startActivity(intent);
-//                }
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                if (!recyclerView.canScrollVertically(1)) {
+                    recentPresenter.fetchConversations(getContext());
+                }
             }
 
             @Override
-            public void onLongClick(View var1, int position) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy < 0) {
+                    scrollHelper.setFab(true);
+                } else
+                    scrollHelper.setFab(false);
             }
-        }));
-
-             recentsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                 @Override
-                 public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-
-                     if (!recyclerView.canScrollVertically(1)) {
-                         recentPresenter.fetchConversations(getContext());
-                     }
-
-                 }
-
-                 @Override
-                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                     super.onScrolled(recyclerView, dx, dy);
-                     if (dy < 0) {
-                         scrollHelper.setFab(true);
-                     } else
-                         scrollHelper.setFab(false);
-                 }
-             });
-
+        });
 
         return view;
     }
@@ -235,6 +186,6 @@ public class RecentsFragment extends Fragment implements RecentsContract.Recents
 
 
     public void search(String s) {
-        recentPresenter.searchUser(s);
+//        recentPresenter.searchConversation(s);
     }
 }

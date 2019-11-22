@@ -35,8 +35,6 @@ public class RecentsListPresenter extends Presenter<RecentsContract.RecentsView>
 
     private ConversationsRequest conversationRequest;
 
-    LinkedHashMap<String, Conversation> userHashMap = new LinkedHashMap<>();
-
     private static final String TAG = "ContactsListPresenter";
 
     @Override
@@ -86,42 +84,41 @@ public class RecentsListPresenter extends Presenter<RecentsContract.RecentsView>
     }
 
 
-    @Override
-    public void searchUser(String s) {
-
-       ConversationsRequest conversationsRequest= new ConversationsRequest.ConversationsRequestBuilder().setLimit(100).build();
-       List<Conversation> hashMap = new ArrayList<>();
-       conversationsRequest.fetchNext(new CometChat.CallbackListener<List<Conversation>>() {
-           @Override
-           public void onSuccess(List<Conversation> conversations) {
-                for (Conversation conversation :conversations) {
-                    if (s!=null) {
-                        if (conversation.getConversationId().contains(s)) {
-                            hashMap.add(conversation);
-                        } else {
-                            if (conversation.getConversationType().equals(CometChatConstants.CONVERSATION_TYPE_USER) && ((User) conversation.getConversationWith()).getName().toLowerCase().contains(s)) {
-                                Log.e(TAG, "onSuccess: " + s + "=" + ((User) conversation.getConversationWith()).getName().toLowerCase());
-                                hashMap.add(conversation);
-                            } else if (conversation.getConversationType().equals(CometChatConstants.CONVERSATION_TYPE_GROUP) && ((Group) conversation.getConversationWith()).getName().toLowerCase().contains(s)) {
-                                Log.e(TAG, "Group: " + ((Group) conversation.getConversationWith()).getName().toLowerCase() + "=" + s);
-                                hashMap.add(conversation);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        hashMap.add(conversation);
-                    }
-                }
-               getBaseView().setFilterList(hashMap);
-           }
-           @Override
-           public void onError(CometChatException e) {
-               Timber.d("onError: fetchNext %s", e.getMessage());
-           }
-       });
+//    @Override
+//    public void searchConversation(String s) {
 //
-    }
+//       ConversationsRequest conversationsRequest= new ConversationsRequest.ConversationsRequestBuilder().setLimit(100).build();
+//       List<Conversation> hashMap = new ArrayList<>();
+//       conversationsRequest.fetchNext(new CometChat.CallbackListener<List<Conversation>>() {
+//           @Override
+//           public void onSuccess(List<Conversation> conversations) {
+//                for (Conversation conversation :conversations) {
+//                    if (s!=null) {
+//                        if (conversation.getConversationId().contains(s)) {
+//                            hashMap.add(conversation);
+//                        } else {
+//                            if (conversation.getConversationType().equals(CometChatConstants.CONVERSATION_TYPE_USER) && ((User) conversation.getConversationWith()).getName().toLowerCase().contains(s)) {
+//                                Log.e(TAG, "onSuccess: " + s + "=" + ((User) conversation.getConversationWith()).getName().toLowerCase());
+//                                hashMap.add(conversation);
+//                            } else if (conversation.getConversationType().equals(CometChatConstants.CONVERSATION_TYPE_GROUP) && ((Group) conversation.getConversationWith()).getName().toLowerCase().contains(s)) {
+//                                Log.e(TAG, "Group: " + ((Group) conversation.getConversationWith()).getName().toLowerCase() + "=" + s);
+//                                hashMap.add(conversation);
+//                            }
+//                        }
+//                    }
+//                    else
+//                    {
+//                        hashMap.add(conversation);
+//                    }
+//                }
+//               getBaseView().setFilterList(hashMap);
+//           }
+//           @Override
+//           public void onError(CometChatException e) {
+//               Timber.d("onError: fetchNext %s", e.getMessage());
+//           }
+//       });
+//    }
 
     @Override
     public void updateConversation() {

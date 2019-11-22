@@ -120,6 +120,14 @@ public class CometChatActivity extends AppCompatActivity implements ScrollHelper
             public void onPageSelected(int i) {
                 adapter.notifyDataSetChanged();
                 pageNumber=i;
+                if (i==0)
+                {
+                    searchItem.setVisible(false);
+                }
+                else
+                {
+                    searchItem.setVisible(true);
+                }
             }
 
             @Override
@@ -187,6 +195,7 @@ public class CometChatActivity extends AppCompatActivity implements ScrollHelper
         getMenuInflater().inflate(R.menu.main_menu, menu);
 
        searchItem=menu.findItem(R.id.app_bar_search);
+       searchItem.setVisible(false);
        SearchManager searchManager=((SearchManager)getSystemService(Context.SEARCH_SERVICE));
 
          if (searchItem!=null){

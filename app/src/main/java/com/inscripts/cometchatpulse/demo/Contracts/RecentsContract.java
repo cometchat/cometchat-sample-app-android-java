@@ -35,7 +35,7 @@ public interface RecentsContract {
 
           void removeMessageListener(String string);
 
-          void searchUser(String s);
+//          void searchConversation(String s);
 
           void updateConversation();
     }
