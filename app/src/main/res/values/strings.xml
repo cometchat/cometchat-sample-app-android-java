@@ -13,6 +13,7 @@
     <string name="group_id">groupId</string>
 
     <string name="contact_name">contactName</string>
+    <string name="recent_name">conversation with</string>
 
 
     <string name="image_preview">Image preview</string>
@@ -40,6 +41,7 @@
     <string name="cancel">Cancel</string>
     <string name="accept">Ok</string>
     <string name="user_avatar">userAvatar</string>
+    <string name="group_icon">groupIcon</string>
     <string name="presenceListener">presenceListener</string>
     <string name="userHolder">holder</string>
     <string name="type_your_message">Type your message</string>
@@ -48,8 +50,10 @@
     <string name="you">You</string>
     <string name="groupHolder">groupHolder</string>
     <string name="no_contacts_available">No contacts available</string>
+    <string name="no_recents_available">No Conversation available</string>
     <string name="group">Group</string>
-    <string name="contacts">Contacts</string>
+    <string name="conversation">Conversations</string>
+    <string name="users">Users</string>
     <string name="joining">Joining</string>
     <string name="group_password">Group Password</string>
     <string name="warning">Can Not Join Group No Internet</string>

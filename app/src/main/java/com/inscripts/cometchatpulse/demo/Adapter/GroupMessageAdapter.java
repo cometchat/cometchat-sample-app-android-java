@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.LongSparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,6 +71,11 @@ import static com.inscripts.cometchatpulse.demo.Utils.FileUtils.getFileName;
 public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements
         StickyHeaderAdapter<GroupMessageAdapter.DateItemHolder> {
 
+
+    private static final int LEFT_CUSTOM_MESSAGE = 1034;
+
+    private static final int RIGHT_CUSTOM_MESSAGE = 934;
+    
     private static final int RIGHT_TEXT_MESSAGE = 940;
 
     private static final int LEFT_TEXT_MESSAGE = 489;
@@ -175,6 +181,15 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         RecyclerView.ViewHolder groupHolder = null;
 
         switch (i) {
+            case RIGHT_CUSTOM_MESSAGE:
+                View rightCustomMessageView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cc_text_layout_right, viewGroup, false);
+                groupHolder = new RightMessageViewHolder(rightCustomMessageView);
+                break;
+            case LEFT_CUSTOM_MESSAGE:
+                View leftCustomMessageView = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.cc_text_layout_left, viewGroup, false);
+                groupHolder = new LeftMessageViewHolder(leftCustomMessageView);
+                break;
             case LEFT_TEXT_MESSAGE:
                 View leftTextMessage = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cc_text_layout_left, viewGroup, false);
                 groupHolder = new LeftMessageViewHolder(leftTextMessage);
@@ -316,6 +331,29 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         viewHolder.itemView.setTag(R.string.message, baseMessage);
 
         switch (viewHolder.getItemViewType()) {
+            case LEFT_CUSTOM_MESSAGE:
+                LeftMessageViewHolder leftCustomMessageViewHolder = (LeftMessageViewHolder) viewHolder;
+                leftCustomMessageViewHolder.textMessage.setText("CUSTOM MESSAGE");
+                leftCustomMessageViewHolder.messageTimeStamp.setText(timeStampString);
+                leftCustomMessageViewHolder.avatar.setVisibility(View.VISIBLE);
+                leftCustomMessageViewHolder.textMessage.setTypeface(FontUtils.openSansRegular);
+                leftCustomMessageViewHolder.senderName.setVisibility(View.VISIBLE);
+                leftCustomMessageViewHolder.senderName.setText(senderName);
+                leftCustomMessageViewHolder.senderName.setTypeface(FontUtils.robotoMedium);
+                setAvatar(leftCustomMessageViewHolder.avatar, avatar);
+
+                break;
+            case RIGHT_CUSTOM_MESSAGE:
+                RightMessageViewHolder rightCustomMessageViewHolder = (RightMessageViewHolder) viewHolder;
+                rightCustomMessageViewHolder.textMessage.setText("CUSTOM MESSAGE");
+                rightCustomMessageViewHolder.messageTimeStamp.setText(timeStampString);
+                rightCustomMessageViewHolder.messageStatus.setVisibility(View.VISIBLE);
+                rightCustomMessageViewHolder.textMessage.setTypeface(FontUtils.openSansRegular);
+                rightCustomMessageViewHolder.messageStatus.setImageResource(R.drawable.ic_check_white_24dp);
+                setReadIcon(rightCustomMessageViewHolder.messageStatus,baseMessage);
+                setDeliveryIcon(rightCustomMessageViewHolder.messageStatus,baseMessage);
+
+                break;
             case LEFT_TEXT_MESSAGE:
                 LeftMessageViewHolder leftMessageViewHolder = (LeftMessageViewHolder) viewHolder;
                 leftMessageViewHolder.textMessage.setText(message);
@@ -1422,6 +1460,13 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             case CometChatConstants.CATEGORY_ACTION:
                 return ACTION_MESSAGE;
+                
+            case CometChatConstants.CATEGORY_CUSTOM:
+                if (ownerId.equalsIgnoreCase(messageList.get(messageList.keyAt(position)).getSender().getUid())) {
+                    return RIGHT_CUSTOM_MESSAGE;
+                } else {
+                    return LEFT_CUSTOM_MESSAGE;
+                }
         }
         return 0;
     }
@@ -1479,6 +1524,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private void setReadIcon(CircleImageView circleImageView,BaseMessage baseMessage){
         if (baseMessage.getReadAt()!=0){
+            Log.e(TAG, "setReadIcon: "+baseMessage);
             circleImageView.setImageResource(R.drawable.ic_double_tick_blue);
             circleImageView.setCircleBackgroundColor(context.getResources().getColor(android.R.color.transparent));
         }
@@ -1493,12 +1539,11 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public void setDelivered(MessageReceipt messageReceipt) {
-
-        for (int i = messageList.size() - 1; i >= 0; i--) {
+        for (int i = messageList.size() - 1; i >0; i--) {
             if (messageList.get(messageList.keyAt(i)).getReadAt() > 0) {
                 break;
             } else {
-                BaseMessage baseMessage = messageList.get(messageReceipt.getMessageId());
+                BaseMessage baseMessage = messageList.get(messageList.keyAt(i));
                 if (baseMessage!=null){
                     baseMessage.setDeliveredAt(messageReceipt.getDeliveredAt());
                     messageList.put(baseMessage.getId(),baseMessage);
@@ -1511,11 +1556,11 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public void setRead(MessageReceipt messageReceipt) {
 
-        for (int i = messageList.size() - 1; i >= 0; i--) {
+        for (int i = messageList.size() - 1; i > 0; i--) {
             if (messageList.get(messageList.keyAt(i)).getReadAt() > 0) {
                 break;
             } else {
-                BaseMessage baseMessage = messageList.get(messageReceipt.getMessageId());
+                BaseMessage baseMessage = messageList.get(messageList.keyAt(i));
                 if (baseMessage!=null){
                     baseMessage.setReadAt(messageReceipt.getReadAt());
                     messageList.put(baseMessage.getId(),baseMessage);

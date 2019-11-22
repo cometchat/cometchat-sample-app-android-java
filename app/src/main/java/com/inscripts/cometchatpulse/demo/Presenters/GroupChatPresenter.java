@@ -295,17 +295,17 @@ public class GroupChatPresenter extends Presenter<GroupChatActivityContract.Grou
 
             @Override
             public void onOutgoingCallAccepted(Call call) {
-
+                Log.e(TAG, "onOutgoingCallAccepted: "+call.getCallStatus());
             }
 
             @Override
             public void onOutgoingCallRejected(Call call) {
-
+                Log.e(TAG, "onOutgoingCallRejected"+call.getCallStatus());
             }
 
             @Override
             public void onIncomingCallCancelled(Call call) {
-
+                Log.e(TAG, "onIncomingCallCancelled: "+call.getCallStatus());
 
             }
         });

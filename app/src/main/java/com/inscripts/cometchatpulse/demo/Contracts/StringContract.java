@@ -45,9 +45,9 @@ public class StringContract {
     }
 
     public static class AppDetails{
-        public static final String APP_ID  =  "XXXXXXXXX"; // your app_id
-        public static final String API_KEY =  "XXXXXXXXXXXX"; // your api_key
-        public static final String REGION = "XX";  // your app region
+        public static final String APP_ID  =  "106354a1acdb9b2"; // your app_id
+        public static final String API_KEY =  "51ac9441c95f879e92c88ee19412905e52ec1e29"; // your api_key
+        public static final String REGION = "us";  // your app region
 
     }
 }

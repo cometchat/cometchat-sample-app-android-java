@@ -2,6 +2,7 @@ package com.inscripts.cometchatpulse.demo.Presenters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
@@ -10,6 +11,7 @@ import com.cometchat.pro.models.MessageReceipt;
 import com.inscripts.cometchatpulse.demo.Base.Presenter;
 import com.inscripts.cometchatpulse.demo.Contracts.MessageInfoActivityContract;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class MessageInfoActivityPresenter extends Presenter<MessageInfoActivityContract.MessageInfoActivityView>
@@ -41,10 +43,15 @@ public class MessageInfoActivityPresenter extends Presenter<MessageInfoActivityC
         }
 
         if (intent.hasExtra("id")){
+            getBaseView().setMessageId(intent.getIntExtra("id",0));
             CometChat.getMessageReceipts(intent.getIntExtra("id", 0), new CometChat.CallbackListener<List<MessageReceipt>>() {
                 @Override
                 public void onSuccess(List<MessageReceipt> messageReceipts) {
-                     getBaseView().setReceiptsAdapter(messageReceipts);
+                    HashMap recieptMap = new HashMap();
+                    for (MessageReceipt messageReceipt : messageReceipts) {
+                        recieptMap.put(messageReceipt.getSender().getUid(),messageReceipt);
+                    }
+                    getBaseView().setReceiptsAdapter(recieptMap);
                 }
 
                 @Override
@@ -53,5 +60,35 @@ public class MessageInfoActivityPresenter extends Presenter<MessageInfoActivityC
                 }
             });
         }
+    }
+
+    @Override
+    public void addmessagelistener(String tag,int id) {
+        CometChat.addMessageListener(tag, new CometChat.MessageListener() {
+            @Override
+            public void onMessagesDelivered(MessageReceipt messageReceipt) {
+                if (messageReceipt.getMessageId()==id)
+                {
+                    Log.e( "onMessagesDelivered: ",messageReceipt.toString());
+                    getBaseView().updateReciept(messageReceipt);
+                }
+                super.onMessagesDelivered(messageReceipt);
+            }
+
+            @Override
+            public void onMessagesRead(MessageReceipt messageReceipt) {
+                if (messageReceipt.getMessageId()==id)
+                {
+                    Log.e( "onMessagesRead: ",messageReceipt.toString() );
+                    getBaseView().updateReciept(messageReceipt);
+                }
+                super.onMessagesRead(messageReceipt);
+            }
+        });
+    }
+
+    @Override
+    public void removemessagelistener(String tag) {
+
     }
 }
