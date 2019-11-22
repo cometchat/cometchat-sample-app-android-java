@@ -253,71 +253,39 @@ public class OneToOneActivityPresenter extends Presenter<OneToOneActivityContrac
 
     @Override
     public void fetchPreviousMessage(String contactUid, int limit) {
-
+        Log.e(TAG, "Fetch Previous called");
         List<BaseMessage> list=new ArrayList<>();
         if (messagesRequest == null) {
 
             messagesRequest = new MessagesRequest.MessagesRequestBuilder().setUID(contactUid).setLimit(limit).build();
 
-            messagesRequest.fetchPrevious(new CometChat.CallbackListener<List<BaseMessage>>() {
-                @Override
-                public void onSuccess(List<BaseMessage> baseMessages) {
+        }
+        messagesRequest.fetchPrevious(new CometChat.CallbackListener<List<BaseMessage>>() {
+            @Override
+            public void onSuccess(List<BaseMessage> baseMessages) {
+                Logger.error("old message request obj");
+                if (baseMessages.size() != 0) {
                     if (isViewAttached()) {
                         for (BaseMessage baseMessage : baseMessages) {
-
-                            Log.d(TAG, "fetchPreviousMessage onSuccess: delete "+baseMessage.getDeletedAt());
-
-                            Log.d(TAG, "fetchPreviousMessage onSuccess: "+baseMessage.toString());
                             if (!baseMessage.getCategory().equals(CometChatConstants.CATEGORY_ACTION)&&baseMessage.getDeletedAt()==0) {
-
                                 list.add(baseMessage);
                             }
                         }
                         if (baseMessages.size()!=0) {
-                            BaseMessage baseMessage=baseMessages.get(baseMessages.size()-1);
-                            CometChat.markAsRead(baseMessage.getId(),baseMessage.getSender().getUid(),baseMessage.getReceiverType());
+                            BaseMessage baseMessage = baseMessages.get(baseMessages.size() - 1);
+                            if (!baseMessage.getSender().getUid().equals(CometChat.getLoggedInUser().getUid())) {
+                                CometChat.markAsRead(baseMessage.getId(), baseMessage.getSender().getUid(), baseMessage.getReceiverType());
+                            }
                         }
                         getBaseView().setAdapter(list);
                     }
                 }
-
-                @Override
-                public void onError(CometChatException e) {
-                    Log.d(TAG, "fetchPreviousMessage onError: "+e.getMessage());
-                    showToast(e.getMessage());
-                }
-
-            });
-        } else {
-            messagesRequest.fetchPrevious(new CometChat.CallbackListener<List<BaseMessage>>() {
-                @Override
-                public void onSuccess(List<BaseMessage> baseMessages) {
-
-                    Logger.error("old message request obj");
-
-                    if (baseMessages.size() != 0) {
-                        if (isViewAttached()) {
-                            for (BaseMessage baseMessage : baseMessages) {
-                                if (!baseMessage.getCategory().equals(CometChatConstants.CATEGORY_ACTION)&&baseMessage.getDeletedAt()==0) {
-                                    list.add(baseMessage);
-                                }
-                            }
-                            if (baseMessages.size()!=0) {
-                                BaseMessage baseMessage=baseMessages.get(baseMessages.size()-1);
-                                CometChat.markAsRead(baseMessage.getId(),baseMessage.getSender().getUid(),baseMessage.getReceiverType());
-                            }
-                            getBaseView().setAdapter(list);
-                        }
-                    }
-                }
-
-                @Override
-                public void onError(CometChatException e) {
+            }
+            @Override
+            public void onError(CometChatException e) {
                    showToast(e.getMessage());
                 }
-
-            });
-        }
+        });
     }
 
     @Override

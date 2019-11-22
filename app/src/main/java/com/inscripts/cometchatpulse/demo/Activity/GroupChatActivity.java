@@ -75,7 +75,7 @@ import java.util.TimerTask;
 
 public class GroupChatActivity extends AppCompatActivity implements GroupChatActivityContract.GroupChatView, TextWatcher, View.OnClickListener, ActionMode.Callback {
 
-    private static final int LIMIT = 100;
+    private static final int LIMIT = 10;
 
     private static final String TAG = "GroupChatActivity";
 

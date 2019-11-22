@@ -17,6 +17,8 @@ import androidx.viewpager.widget.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.models.User;
 import com.google.android.material.appbar.AppBarLayout;
@@ -26,6 +28,7 @@ import com.inscripts.cometchatpulse.demo.Contracts.CometChatActivityContract;
 import com.inscripts.cometchatpulse.demo.Contracts.StringContract;
 import com.inscripts.cometchatpulse.demo.Fragments.ContactsFragment;
 import com.inscripts.cometchatpulse.demo.Fragments.GroupListFragment;
+import com.inscripts.cometchatpulse.demo.Fragments.RecentsFragment;
 import com.inscripts.cometchatpulse.demo.Helper.FabIconAnimator;
 import com.inscripts.cometchatpulse.demo.Helper.ScrollHelper;
 import com.inscripts.cometchatpulse.demo.Presenters.CometChatActivityPresenter;
@@ -96,7 +99,6 @@ public class CometChatActivity extends AppCompatActivity implements ScrollHelper
         fabIconAnimator = new FabIconAnimator(container);
         fabIconAnimator.update(groupDrawable, R.string.group);
         fabIconAnimator.setExtended(true);
-
         new Thread(() -> cometChatActivityPresenter.getBlockedUser(CometChatActivity.this)).start();
 
         tabs = findViewById(R.id.tabs);
@@ -108,7 +110,6 @@ public class CometChatActivity extends AppCompatActivity implements ScrollHelper
         mViewPager.setOffscreenPageLimit(2);
 
         setViewPager();
-
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
@@ -119,6 +120,14 @@ public class CometChatActivity extends AppCompatActivity implements ScrollHelper
             public void onPageSelected(int i) {
                 adapter.notifyDataSetChanged();
                 pageNumber=i;
+                if (i==0)
+                {
+                    searchItem.setVisible(false);
+                }
+                else
+                {
+                    searchItem.setVisible(true);
+                }
             }
 
             @Override
@@ -166,13 +175,14 @@ public class CometChatActivity extends AppCompatActivity implements ScrollHelper
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         new GroupListFragment().onActivityResult(requestCode, resultCode, data);
-        mViewPager.setCurrentItem(2);
+        mViewPager.setCurrentItem(3);
     }
 
     private void setViewPager() {
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ContactsFragment(), getString(R.string.contacts));
+        adapter.addFragment(new RecentsFragment(), getString(R.string.conversation));
+        adapter.addFragment(new ContactsFragment(), getString(R.string.users));
         adapter.addFragment(new GroupListFragment(), getString(R.string.group));
         mViewPager.setAdapter(adapter);
         tabs.setupWithViewPager(mViewPager);
@@ -185,13 +195,12 @@ public class CometChatActivity extends AppCompatActivity implements ScrollHelper
         getMenuInflater().inflate(R.menu.main_menu, menu);
 
        searchItem=menu.findItem(R.id.app_bar_search);
-
+       searchItem.setVisible(false);
        SearchManager searchManager=((SearchManager)getSystemService(Context.SEARCH_SERVICE));
 
          if (searchItem!=null){
 
              searchView=((SearchView)searchItem.getActionView());
-
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String s) {
@@ -225,12 +234,16 @@ public class CometChatActivity extends AppCompatActivity implements ScrollHelper
         switch (pageNumber){
 
             case 0:
-                ContactsFragment contactsFragment = (ContactsFragment) adapter.getItem(0);
+                RecentsFragment recentsFragment = (RecentsFragment) adapter.getItem(0);
+                recentsFragment.search(s);
+                break;
+            case 1:
+                ContactsFragment contactsFragment = (ContactsFragment) adapter.getItem(1);
                 contactsFragment.search(s);
                 break;
 
-            case 1:
-                GroupListFragment groupListFragment= (GroupListFragment) adapter.getItem(1);
+            case 2:
+                GroupListFragment groupListFragment= (GroupListFragment) adapter.getItem(2);
                 groupListFragment.search(s);
                 break;
 

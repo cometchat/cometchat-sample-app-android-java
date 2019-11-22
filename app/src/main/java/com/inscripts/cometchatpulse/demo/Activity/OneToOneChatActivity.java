@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -57,6 +58,7 @@ import com.inscripts.cometchatpulse.demo.CustomView.RecordMicButton;
 import com.inscripts.cometchatpulse.demo.CustomView.StickyHeaderDecoration;
 import com.inscripts.cometchatpulse.demo.Helper.AttachmentHelper;
 import com.inscripts.cometchatpulse.demo.Helper.CCPermissionHelper;
+import com.inscripts.cometchatpulse.demo.Helper.OnTopReachedListener;
 import com.inscripts.cometchatpulse.demo.Helper.RecordListener;
 import com.inscripts.cometchatpulse.demo.Helper.RecyclerTouchListener;
 import com.inscripts.cometchatpulse.demo.Presenters.OneToOneActivityPresenter;
@@ -263,26 +265,27 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
 
         new Thread(() -> oneToOnePresenter.fetchPreviousMessage(contactUid, LIMIT)).start();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            setScrollListener();
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            setScrollListener();
+//
+//        } else {
+//            messageRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//                @Override
+//                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//
+//                    if (linearLayoutManager.findFirstVisibleItemPosition() == 0) {
+//                        Logger.error("slow scroll");
+//                        oneToOnePresenter.fetchPreviousMessage(contactUid, LIMIT);
+//                    }
+//
+//                    //for toolbar elevation animation i.e stateListAnimator
+//                    toolbar.setSelected(messageRecyclerView.canScrollVertically(-1));
+//
+//
+//                }
+//            });
+//        }
 
-        } else {
-            messageRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-
-                    if (linearLayoutManager.findFirstVisibleItemPosition() == 0) {
-                        Logger.error("slow scroll");
-                        oneToOnePresenter.fetchPreviousMessage(contactUid, LIMIT);
-                    }
-
-                    //for toolbar elevation animation i.e stateListAnimator
-                    toolbar.setSelected(messageRecyclerView.canScrollVertically(-1));
-
-
-                }
-            });
-        }
 
 
         KeyboardVisibilityEvent.setEventListener(this, var1 -> {
@@ -321,7 +324,7 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
 
             int temp = linearLayoutManager.findFirstVisibleItemPosition();
 
-            if (temp < 5) {
+            if (temp < 5 ) {
                 Logger.error("Fast scroll");
                 oneToOnePresenter.fetchPreviousMessage(contactUid, LIMIT);
 
@@ -670,7 +673,8 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
         Logger.error(TAG, "onResume: ");
         oneToOnePresenter.addPresenceListener(getString(R.string.presenceListener));
         oneToOnePresenter.addMessageReceiveListener(contactUid);
-        oneToOnePresenter.refreshList(contactUid,LIMIT);
+        if (oneToOneAdapter!=null)
+            oneToOnePresenter.refreshList(contactUid,LIMIT);
         oneToOnePresenter.addCallEventListener(TAG);
     }
 
@@ -746,6 +750,14 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
         if (oneToOneAdapter == null) {
             oneToOneAdapter = new OneToOneAdapter(this, messageArrayList, ownerUid);
             oneToOneAdapter.setHasStableIds(true);
+            oneToOneAdapter.setTopReachedListener(new OnTopReachedListener() {
+                @Override
+                public void onTopReached(int pos) {
+                    Log.e(TAG, "onTopReached: " + pos);
+                    oneToOnePresenter.fetchPreviousMessage(contactUid, LIMIT);
+                    messageRecyclerView.scrollToPosition(LIMIT);
+                }
+            });
             messageRecyclerView.setAdapter(oneToOneAdapter);
             StickyHeaderDecoration decor = new StickyHeaderDecoration(oneToOneAdapter);
             messageRecyclerView.addItemDecoration(decor);
@@ -832,7 +844,8 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
             if (user.getStatus().equals(CometChatConstants.USER_STATUS_ONLINE)) {
                 userStatus = user.getStatus();
             } else if (user.getStatus().equals(CometChatConstants.USER_STATUS_OFFLINE)) {
-                userStatus = DateUtils.getLastSeenDate(user.getLastActiveAt(), this);
+                Log.e(TAG, "setPresence: "+user+"\nlastactive:"+DateUtils.getTimeStringFromTimestamp(user.getLastActiveAt(),"dd/MM hh:mm"));
+                userStatus = DateUtils.getTimeStringFromTimestamp(user.getLastActiveAt(), "dd/MM/yyyy hh:mm a");
             }
 
             toolbarSubTitle.setText(userStatus);
