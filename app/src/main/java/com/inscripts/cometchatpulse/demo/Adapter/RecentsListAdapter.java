@@ -144,6 +144,7 @@ public class RecentsListAdapter extends RecyclerView.Adapter<RecentsListAdapter.
         contactViewHolder.userName.setTypeface(FontUtils.robotoRegular);
         contactViewHolder.lastMessage.setTypeface(FontUtils.robotoRegular);
         if (conversation.getLastMessage()!=null) {
+            Log.e("LastMessage: ",conversation.getLastMessage().toString());
             if (conversation.getLastMessage().getType().equals(CometChatConstants.MESSAGE_TYPE_TEXT)) {
                 contactViewHolder.lastMessage.setText(((TextMessage) conversation.getLastMessage()).getText());
             } else if (conversation.getLastMessage().getType().equals(CometChatConstants.MESSAGE_TYPE_IMAGE)) {
@@ -183,9 +184,13 @@ public class RecentsListAdapter extends RecyclerView.Adapter<RecentsListAdapter.
 
 
     public void refreshData(List<Conversation> conversationsList) {
-        this.conversationList.clear();
-        this.conversationList.addAll(conversationsList);
-        notifyDataSetChanged();
+        if (conversationsList!=null) {
+            this.conversationList.addAll(conversationsList);
+            if (conversationsList.size()!=0)
+                notifyItemInserted(conversationsList.size() - 1);
+            else
+            notifyDataSetChanged();
+        }
     }
 
     public void setFilterList(List<Conversation> hashMap) {
@@ -207,8 +212,11 @@ public class RecentsListAdapter extends RecyclerView.Adapter<RecentsListAdapter.
             newConversation.setUnreadMessageCount(oldConversation.getUnreadMessageCount()+1);
             Log.e( "updateConversation: ",newConversation.toString());
             conversationList.add(0,newConversation);
+            notifyItemMoved(conversationList.indexOf(newConversation),0);
+        }else {
+            conversationList.add(0,newConversation);
+            notifyItemInserted(0);
         }
-        notifyDataSetChanged();
     }
 
 

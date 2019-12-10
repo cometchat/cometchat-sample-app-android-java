@@ -64,7 +64,11 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 
     //cometchat sdk
+<<<<<<< Updated upstream
     implementation 'com.cometchat:pro-android-chat-sdk:2.0.0-beta8'
+=======
+    implementation 'com.cometchat:pro-android-chat-sdk:2.0.0'
+>>>>>>> Stashed changes
 
     implementation 'androidx.recyclerview:recyclerview-selection:1.0.0'
 

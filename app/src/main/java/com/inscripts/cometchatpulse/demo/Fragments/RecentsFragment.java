@@ -159,7 +159,7 @@ public class RecentsFragment extends Fragment implements RecentsContract.Recents
             recentShimmer.setVisibility(View.GONE);
 
         } else {
-            if (this.conversationList != null) {
+            if (this.conversationList != null&&conversationList.size()!=0) {
                 recentsListAdapter.refreshData(conversationList);
             }
         }
