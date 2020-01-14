@@ -63,7 +63,7 @@ public class RecentsListPresenter extends Presenter<RecentsContract.RecentsView>
         CometChat.addMessageListener(messageListener, new CometChat.MessageListener() {
             @Override
             public void onTextMessageReceived(TextMessage message) {
-                   getBaseView().refreshConversation(message);
+                getBaseView().refreshConversation(message);
 
             }
 
@@ -89,5 +89,12 @@ public class RecentsListPresenter extends Presenter<RecentsContract.RecentsView>
     @Override
     public void updateConversation() {
 
+    }
+
+    @Override
+    public void refreshConversations(Context context) {
+        conversationRequest=null;
+        getBaseView().clearConversations();
+        fetchConversations(context);
     }
 }

@@ -18,8 +18,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.cometchat.pro.core.CometChat;
+import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
@@ -30,11 +32,15 @@ import com.inscripts.cometchatpulse.demo.Fragments.ContactsFragment;
 import com.inscripts.cometchatpulse.demo.Fragments.GroupListFragment;
 import com.inscripts.cometchatpulse.demo.Fragments.RecentsFragment;
 import com.inscripts.cometchatpulse.demo.Helper.FabIconAnimator;
+import com.inscripts.cometchatpulse.demo.Helper.MyFirebaseMessagingService;
 import com.inscripts.cometchatpulse.demo.Helper.ScrollHelper;
 import com.inscripts.cometchatpulse.demo.Presenters.CometChatActivityPresenter;
 import com.inscripts.cometchatpulse.demo.R;
+import com.inscripts.cometchatpulse.demo.Utils.CommonUtils;
 import com.inscripts.cometchatpulse.demo.Utils.FontUtils;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class CometChatActivity extends AppCompatActivity implements ScrollHelper, CometChatActivityContract.CometChatActivityView {
@@ -74,9 +80,11 @@ public class CometChatActivity extends AppCompatActivity implements ScrollHelper
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comet_chat);
         context = this;
+        MyFirebaseMessagingService.subscribeUser(CometChat.getLoggedInUser().getUid());
         cometChatActivityPresenter = new CometChatActivityPresenter();
         cometChatActivityPresenter.attach(this);
         initViewComponents();
+
     }
 
     private void initViewComponents() {
@@ -121,13 +129,10 @@ public class CometChatActivity extends AppCompatActivity implements ScrollHelper
                 adapter.notifyDataSetChanged();
                 pageNumber=i;
                 if (i==0)
-                {
                     searchItem.setVisible(false);
-                }
                 else
-                {
                     searchItem.setVisible(true);
-                }
+
             }
 
             @Override
@@ -136,12 +141,12 @@ public class CometChatActivity extends AppCompatActivity implements ScrollHelper
             }
         });
 
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
     }
 
     @Override
@@ -155,7 +160,6 @@ public class CometChatActivity extends AppCompatActivity implements ScrollHelper
         cometChatActivityPresenter.addCallEventListener(context, TAG);
         Log.d(TAG, "onResume: ");
         cometChatActivityPresenter.addMessageListener(CometChatActivity.this,TAG);
-
     }
 
     @Override

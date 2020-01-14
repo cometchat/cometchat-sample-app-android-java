@@ -100,7 +100,6 @@
             android:divider="@null"
             android:dividerHeight="0dp"
             android:paddingBottom="2dp"
-            android:overScrollMode="never"
             android:scrollbars="vertical" />
 
         <Button

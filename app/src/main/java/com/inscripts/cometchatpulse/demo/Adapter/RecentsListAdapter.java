@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.Call;
+import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.models.Action;
 import com.cometchat.pro.models.Conversation;
 import com.cometchat.pro.models.CustomMessage;
@@ -27,11 +28,13 @@ import com.inscripts.cometchatpulse.demo.Contracts.StringContract;
 import com.inscripts.cometchatpulse.demo.CustomView.CircleImageView;
 import com.inscripts.cometchatpulse.demo.R;
 import com.inscripts.cometchatpulse.demo.Utils.ColorUtils;
+import com.inscripts.cometchatpulse.demo.Utils.DateUtils;
 import com.inscripts.cometchatpulse.demo.Utils.FontUtils;
 import com.inscripts.cometchatpulse.demo.Utils.MediaUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import static java.security.AccessController.getContext;
@@ -47,7 +50,7 @@ public class RecentsListAdapter extends RecyclerView.Adapter<RecentsListAdapter.
 
     private int resId;
 
-    private String guid,icon,groupName;
+    private String guid,icon,groupName,str="";
 
     private String uid,avatar,username;
 
@@ -62,7 +65,6 @@ public class RecentsListAdapter extends RecyclerView.Adapter<RecentsListAdapter.
 
     }
 
-
     @NonNull
     @Override
     public RecentsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -75,48 +77,23 @@ public class RecentsListAdapter extends RecyclerView.Adapter<RecentsListAdapter.
 
         Conversation conversation =conversationList.get(contactViewHolder.getAdapterPosition());
         Drawable statusDrawable;
+//        contactViewHolder.messageTime.setText(DateUtils.getLastMessageDate(conversation.getLastMessage().getSentAt()));
         if (conversation.getConversationType().equals(CometChatConstants.CONVERSATION_TYPE_GROUP))
         {
 
+//            str = conversation.getLastMessage().getSender().getName()+": ";
             guid = ((Group)conversation.getConversationWith()).getGuid();
             groupName = ((Group)conversation.getConversationWith()).getName();
             contactViewHolder.userName.setText(groupName);
-            if (((Group)conversation.getConversationWith()).getIcon() != null && !((Group)conversation.getConversationWith()).getIcon().isEmpty()) {
-                icon = ((Group)conversation.getConversationWith()).getIcon();
-                Glide.with(context).load(icon).into(contactViewHolder.avatar);
-                contactViewHolder.avatar.setCircleBackgroundColor(context.getResources().getColor(android.R.color.white));
-            }
-            else {
-                Drawable drawable = context.getResources().getDrawable(R.drawable.default_avatar);
-                try {
-                    contactViewHolder.avatar.setCircleBackgroundColor(ColorUtils.getMaterialColor(context));
-                    contactViewHolder.avatar.setImageBitmap(MediaUtils.getPlaceholderImage(context, drawable));
-                } catch (Exception e) {
-                    contactViewHolder.avatar.setCircleBackgroundColor(context.getResources().getColor(R.color.secondaryDarkColor));
-                    contactViewHolder.avatar.setImageDrawable(drawable);
-                }
-            }
-
+            setIcon(((Group) conversation.getConversationWith()).getIcon(),R.drawable.cc_ic_group,contactViewHolder.avatar);
         }
         else
         {
+            str = "";
             uid = ((User)conversation.getConversationWith()).getUid();
             username = ((User)conversation.getConversationWith()).getName();
             contactViewHolder.userName.setText(username);
-            if (((User)conversation.getConversationWith()).getAvatar() != null && !((User)conversation.getConversationWith()).getAvatar().isEmpty()) {
-               avatar = ((User)conversation.getConversationWith()).getAvatar();
-                Glide.with(context).load(avatar).into(contactViewHolder.avatar);
-                contactViewHolder.avatar.setCircleBackgroundColor(context.getResources().getColor(android.R.color.white));
-            } else {
-                Drawable drawable = context.getResources().getDrawable(R.drawable.default_avatar);
-                try {
-                    contactViewHolder.avatar.setCircleBackgroundColor(ColorUtils.getMaterialColor(context));
-                    contactViewHolder.avatar.setImageBitmap(MediaUtils.getPlaceholderImage(context, drawable));
-                } catch (Exception e) {
-                    contactViewHolder.avatar.setCircleBackgroundColor(context.getResources().getColor(R.color.secondaryDarkColor));
-                    contactViewHolder.avatar.setImageDrawable(drawable);
-                }
-            }
+             setIcon(((User) conversation.getConversationWith()).getAvatar(),R.drawable.default_avatar,contactViewHolder.avatar);
         }
         contactViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,7 +126,7 @@ public class RecentsListAdapter extends RecyclerView.Adapter<RecentsListAdapter.
                 contactViewHolder.lastMessage.setText(((TextMessage) conversation.getLastMessage()).getText());
             } else if (conversation.getLastMessage().getType().equals(CometChatConstants.MESSAGE_TYPE_IMAGE)) {
                 contactViewHolder.lastMessage.setText("Image File");
-            } else if (conversation.getLastMessage().getType().equals(CometChatConstants.MESSAGE_TYPE_AUDIO)) {
+            } else if (conversation.getLastMessage().getType().equals(CometChatConstants.MESSAGE_TYPE_AUDIO) && conversation.getLastMessage().getCategory().equals(CometChatConstants.CATEGORY_MESSAGE)) {
                 contactViewHolder.lastMessage.setText("Audio File");
             } else if (conversation.getLastMessage().getType().equals(CometChatConstants.MESSAGE_TYPE_VIDEO)) {
                 contactViewHolder.lastMessage.setText("Video File");
@@ -182,13 +159,30 @@ public class RecentsListAdapter extends RecyclerView.Adapter<RecentsListAdapter.
         contactViewHolder.unreadCount.setText(conversation.getUnreadMessageCount()+"");
     }
 
+    private void setIcon(String url,int drawableRes,CircleImageView circleImageView){
+
+        if (url!= null && !url.trim().isEmpty()) {
+            Glide.with(context).load(url).into(circleImageView);
+            circleImageView.setCircleBackgroundColor(context.getResources().getColor(android.R.color.white));
+        } else {
+            Drawable drawable = context.getResources().getDrawable(drawableRes);
+            circleImageView.setCircleBackgroundColor(context.getResources().getColor(R.color.secondaryColor));
+            circleImageView.setImageBitmap(MediaUtils.getPlaceholderImage(context, drawable));
+
+        }
+    }
+
 
     public void refreshData(List<Conversation> conversationsList) {
         if (conversationsList!=null) {
+            for (Conversation conversation : conversationsList)
+            {
+                if (this.conversationList.contains(conversation))
+                {
+                    this.conversationList.remove(conversation);
+                }
+            }
             this.conversationList.addAll(conversationsList);
-            if (conversationsList.size()!=0)
-                notifyItemInserted(conversationsList.size() - 1);
-            else
             notifyDataSetChanged();
         }
     }
@@ -200,7 +194,7 @@ public class RecentsListAdapter extends RecyclerView.Adapter<RecentsListAdapter.
 
     @Override
     public int getItemCount() {
-     return conversationList.size();
+        return conversationList.size();
     }
 
 
@@ -210,13 +204,18 @@ public class RecentsListAdapter extends RecyclerView.Adapter<RecentsListAdapter.
             Conversation oldConversation=conversationList.get(conversationList.indexOf(newConversation));
             conversationList.remove(oldConversation);
             newConversation.setUnreadMessageCount(oldConversation.getUnreadMessageCount()+1);
-            Log.e( "updateConversation: ",newConversation.toString());
+            Log.e( "updateConversation: ",oldConversation.toString()+"\n"+newConversation.toString());
             conversationList.add(0,newConversation);
-            notifyItemMoved(conversationList.indexOf(newConversation),0);
+            notifyDataSetChanged();
         }else {
             conversationList.add(0,newConversation);
             notifyItemInserted(0);
         }
+    }
+
+    public void clear() {
+        conversationList.clear();
+        notifyDataSetChanged();
     }
 
 
@@ -225,6 +224,7 @@ public class RecentsListAdapter extends RecyclerView.Adapter<RecentsListAdapter.
         public TextView userName;
         public TextView lastMessage;
         public TextView unreadCount;
+        public TextView messageTime;
         public CircleImageView avatar;
         public View view;
 
@@ -235,7 +235,7 @@ public class RecentsListAdapter extends RecyclerView.Adapter<RecentsListAdapter.
             userName = (TextView) view.findViewById(R.id.textviewUserName);
             lastMessage = (TextView) view.findViewById(R.id.textviewLastMessage);
             unreadCount = (TextView) view.findViewById(R.id.textviewSingleChatUnreadCount);
-
+            messageTime = (TextView)view.findViewById(R.id.textviewSingleChatTime);
 
         }
     }

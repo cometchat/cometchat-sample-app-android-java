@@ -15,6 +15,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import com.cometchat.pro.models.Group;
 import com.cometchat.pro.models.User;
@@ -24,9 +25,14 @@ import com.inscripts.cometchatpulse.demo.Activity.CreateGroupActivity;
 import com.inscripts.cometchatpulse.demo.Activity.GroupChatActivity;
 import com.inscripts.cometchatpulse.demo.Contracts.StringContract;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class CommonUtils {
 
     static ConnectivityManager cm = null;
+    private static final String TAG = "CommonUtils";
 
     public static boolean isConnected(Context context) {
 
@@ -36,6 +42,32 @@ public class CommonUtils {
 
         NetworkInfo var0 = cm.getActiveNetworkInfo();
         return null != var0 && var0.isConnectedOrConnecting();
+    }
+
+    public static String getRandomElement() {
+        List<String> list=new ArrayList<>();
+        list.add("superhero1");
+        list.add("superhero2");
+        list.add("superhero3");
+        list.add("superhero4");
+        list.add("superhero5");
+        list.add("testuser128");
+        list.add("testuser12");
+        list.add("testuser13");
+        list.add("testuser11");
+        list.add("testuser15");
+        list.add("testuser25");
+        list.add("testuser26");
+        list.add("testuser28");
+        list.add("testuser27");
+        list.add("testuser30");
+        list.add("testuser31");
+        list.add("testuser33");
+
+        Random rand = new Random();
+        String  s=list.get(rand.nextInt(list.size()));
+        Log.d(TAG, "getRandomElement: "+s);
+        return s;
     }
 
     public static void startCallIntent(Context context, User user, String type,

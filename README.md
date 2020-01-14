@@ -10,7 +10,7 @@
 </br>
 </div>
 
-CometChat Android Demo app (built using **CometChat Pro**) is a fully functional messaging app capable of **one-on-one** (private) and **group** messaging along with recent conversations. The app enables users to send **text** and **multimedia messages like audio, video, images, documents.**
+CometChat Android Demo app (built using **CometChat Pro**) is a fully functional messaging app capable of **one-on-one** (private) and **group** messaging. The app enables users to send **text** and **multimedia messages like audio, video, images, documents.**
 
 [![Platform](https://img.shields.io/badge/Platform-Android-brightgreen.svg)](#)      [![Platform](https://img.shields.io/badge/Language-Java-yellowgreen.svg)](#)
 
@@ -81,15 +81,17 @@ To run our open source app with CometChat Pro v1, follow these steps:
 
        ` public static final String API_KEY = "XXXXXXXXX";`
        
+   - add `google-service.json` file for push notification
+       
 
 ## Note
 
 
 
 
-   You can Obtain your  *APP_ID* and *API_KEY* from [CometChat-Pro Dashboard](https://app.cometchat.com/)
+   You can Obtain your  *APP_ID* and *API_KEY* from [CometChat-Pulse Dashboard](https://app.cometchat.com/)
 
-   For more information read [CometChat-Pro Android SDK](https://prodocs.cometchat.com/docs/android-quick-start) Documentation
+   For more information read [CometChat-Pulse Android SDK](https://prodocs.cometchat.com/docs/android-quick-start) Documentation
 
 
 
@@ -97,6 +99,12 @@ To run our open source app with CometChat Pro v1, follow these steps:
   ![Studio Guide](https://github.com/CometChat-Pulse/android-java-chat-app/blob/master/ScreenShots/guide.png)                                    
 
 
+## Push Notification
+
+The Push Notification extension allows you to send push notifications to mobile apps and desktop browsers. 
+	
+For more information read [Android-Push-Notification](https://prodocs.cometchat.com/docs/android-extensions-push-notification) Documentation.
+	
 
 
 
@@ -104,17 +112,17 @@ To run our open source app with CometChat Pro v1, follow these steps:
 
 ## Screenshots
 
-   <img align="left" width="185" height="331" src="https://github.com/CometChat-Pulse/android-java-chat-app/blob/master/ScreenShots/gif1.gif">
+   <img align="left" width="185" height="331" src="https://github.com/CometChat-Pulse/android-java-chat-app/blob/master/ScreenShots/gif_1.gif">
 
 
-   <img align="left" width="185" height="331" src="https://github.com/CometChat-Pulse/android-java-chat-app/blob/master/ScreenShots/gif2.gif">
+   <img align="left" width="185" height="331" src="https://github.com/CometChat-Pulse/android-java-chat-app/blob/master/ScreenShots/gif_2.gif">
 
 
-   <img align="left" width="185" height="331" src="https://github.com/CometChat-Pulse/android-java-chat-app/blob/master/ScreenShots/gif3.gif">
+   <img align="left" width="185" height="331" src="https://github.com/CometChat-Pulse/android-java-chat-app/blob/CP-31/ScreenShots/gif_3.gif">
 
 
 
-   <img align="left" width="185" height="331" src="https://github.com/CometChat-Pulse/android-java-chat-app/blob/master/ScreenShots/gif4.gif">
+   <img align="left" width="185" height="331" src="https://github.com/CometChat-Pulse/android-java-chat-app/blob/CP-31/ScreenShots/gif_4.gif">
 
 `            `<br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br></br>
 

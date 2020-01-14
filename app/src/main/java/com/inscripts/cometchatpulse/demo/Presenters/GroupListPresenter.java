@@ -34,9 +34,7 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
     public void initGroupView() {
 
         if (groupsRequest == null) {
-
             groupsRequest = new GroupsRequest.GroupsRequestBuilder().setLimit(50).build();
-
         }
         setGroupsRequest(groupsRequest);
     }
@@ -83,7 +81,11 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
             @Override
             public void onError(CometChatException e) {
                 Log.d("joinGroup", "onError: " + e.getMessage());
-                progressDialog.dismiss();
+                if (e.getCode().equals("ERR_ALREADY_JOINED")){
+                    if (isViewAttached())
+                        getBaseView().groupjoinCallback(group);
+                }
+               progressDialog.dismiss();
                 Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 

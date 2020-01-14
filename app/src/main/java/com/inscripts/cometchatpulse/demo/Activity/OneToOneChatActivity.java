@@ -81,7 +81,7 @@ import java.util.TimerTask;
 
 public class OneToOneChatActivity extends AppCompatActivity implements OneToOneActivityContract.OneToOneView, View.OnClickListener, TextWatcher, ActionMode.Callback {
 
-    private static final int LIMIT = 30;
+    private static final int LIMIT = 10;
 
     public static final int RECORD_CODE = 22;
 
@@ -177,6 +177,7 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
 
     private AlertDialog.Builder alertDialog;
 
+    private boolean searchbox = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -263,28 +264,30 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
         oneToOnePresenter.getOwnerDetail();
         oneToOnePresenter.handleIntent(getIntent());
 
-        new Thread(() -> oneToOnePresenter.fetchPreviousMessage(contactUid, LIMIT)).start();
+        oneToOnePresenter.fetchPreviousMessage(contactUid, LIMIT);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            setScrollListener();
-//
-//        } else {
-//            messageRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//                @Override
-//                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//
-//                    if (linearLayoutManager.findFirstVisibleItemPosition() == 0) {
-//                        Logger.error("slow scroll");
-//                        oneToOnePresenter.fetchPreviousMessage(contactUid, LIMIT);
-//                    }
-//
-//                    //for toolbar elevation animation i.e stateListAnimator
-//                    toolbar.setSelected(messageRecyclerView.canScrollVertically(-1));
-//
-//
-//                }
-//            });
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!searchbox)
+                setScrollListener();
+
+        } else {
+            messageRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+
+                    if (!messageRecyclerView.canScrollVertically(-1)) {
+                        Logger.error("slow scroll");
+                        if (!searchbox)
+                            oneToOnePresenter.fetchPreviousMessage(contactUid, LIMIT);
+                    }
+
+                    //for toolbar elevation animation i.e stateListAnimator
+                    toolbar.setSelected(messageRecyclerView.canScrollVertically(-1));
+
+
+                }
+            });
+        }
 
 
 
@@ -324,9 +327,10 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
 
             int temp = linearLayoutManager.findFirstVisibleItemPosition();
 
-            if (temp < 5 ) {
+            if (!messageRecyclerView.canScrollVertically(-1)) {
                 Logger.error("Fast scroll");
-                oneToOnePresenter.fetchPreviousMessage(contactUid, LIMIT);
+                if (!searchbox)
+                    oneToOnePresenter.fetchPreviousMessage(contactUid, LIMIT);
 
             }
 
@@ -432,6 +436,7 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
 
                 @Override
                 public boolean onQueryTextChange(String s) {
+                    searchbox = true;
                     oneToOnePresenter.searchMessage(s,contactUid);
                     return false;
                 }
@@ -440,6 +445,7 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
             searchView.setOnCloseListener(new SearchView.OnCloseListener() {
                 @Override
                 public boolean onClose() {
+                    searchbox = false;
                     oneToOnePresenter.fetchPreviousMessage(contactUid,30);
                     return false;
                 }
@@ -673,8 +679,7 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
         Logger.error(TAG, "onResume: ");
         oneToOnePresenter.addPresenceListener(getString(R.string.presenceListener));
         oneToOnePresenter.addMessageReceiveListener(contactUid);
-        if (oneToOneAdapter!=null)
-            oneToOnePresenter.refreshList(contactUid,LIMIT);
+
         oneToOnePresenter.addCallEventListener(TAG);
     }
 
@@ -750,22 +755,17 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
         if (oneToOneAdapter == null) {
             oneToOneAdapter = new OneToOneAdapter(this, messageArrayList, ownerUid);
             oneToOneAdapter.setHasStableIds(true);
-            oneToOneAdapter.setTopReachedListener(new OnTopReachedListener() {
-                @Override
-                public void onTopReached(int pos) {
-                    Log.e(TAG, "onTopReached: " + pos);
-                    oneToOnePresenter.fetchPreviousMessage(contactUid, LIMIT);
-                    messageRecyclerView.scrollToPosition(LIMIT);
-                }
-            });
             messageRecyclerView.setAdapter(oneToOneAdapter);
             StickyHeaderDecoration decor = new StickyHeaderDecoration(oneToOneAdapter);
             messageRecyclerView.addItemDecoration(decor);
-            if (oneToOneAdapter.getItemCount() != 0) {
-                messageRecyclerView.scrollToPosition(oneToOneAdapter.getItemCount() - 1);
-            }
+//            if (oneToOneAdapter.getItemCount() != 0) {
+//                messageRecyclerView.scrollToPosition(oneToOneAdapter.getItemCount() - 1);
+//            }
         } else if (messageArrayList != null && messageArrayList.size() != 0) {
             oneToOneAdapter.refreshData(messageArrayList);
+            if (oneToOneAdapter.getItemCount() != 0) {
+                messageRecyclerView.scrollToPosition(LIMIT);
+            }
         }
 
     }
@@ -811,6 +811,15 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
                 messageRecyclerView.scrollToPosition(oneToOneAdapter.getItemCount() - 1);
             }
         }
+        else
+        {
+            oneToOneAdapter = new OneToOneAdapter(this,ownerUid);
+            oneToOneAdapter.setHasStableIds(true);
+            messageRecyclerView.setAdapter(oneToOneAdapter);
+            StickyHeaderDecoration decor = new StickyHeaderDecoration(oneToOneAdapter);
+            messageRecyclerView.addItemDecoration(decor);
+            oneToOneAdapter.addMessage(baseMessage);
+        }
     }
 
     @Override
@@ -851,8 +860,8 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
             toolbarSubTitle.setText(userStatus);
         }
         if (user!=null&&user.isBlockedByMe()){
-                rvBanner.setVisibility(View.VISIBLE);
-                tvBanner.setText("Tab to unblock "+user.getName());
+            rvBanner.setVisibility(View.VISIBLE);
+            tvBanner.setText("Tab to unblock "+user.getName());
         }
     }
 
@@ -876,7 +885,7 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
     @Override
     public void setMessageDelivered(MessageReceipt messageReceipt) {
         if (oneToOneAdapter!=null)
-        oneToOneAdapter.Delivered(messageReceipt);
+            oneToOneAdapter.Delivered(messageReceipt);
     }
 
     @Override
@@ -920,7 +929,7 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
                 break;
 
             case R.id.blockBanner:
-                  oneToOnePresenter.unBlockUser(user.getUid(),OneToOneChatActivity.this);
+                oneToOnePresenter.unBlockUser(user.getUid(),OneToOneChatActivity.this);
                 break;
 
             case R.id.rl_titlecontainer:
@@ -965,7 +974,7 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
 
         if (len > 0) {
             sendButton.setTextColor(getResources().getColor(R.color.secondaryDarkColor));
-             oneToOnePresenter.sendTypingIndicator(contactUid);
+            oneToOnePresenter.sendTypingIndicator(contactUid);
 
         } else {
             sendButton.setTextColor(getResources().getColor(R.color.secondaryTextColor));
@@ -1018,7 +1027,7 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
             }
 
             if (!baseMessage.getSender().getUid().equals(ownerUid) && baseMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_TEXT)){
-                 menu.findItem(R.id.edit).setVisible(false);
+                menu.findItem(R.id.edit).setVisible(false);
             }
 
 
@@ -1034,9 +1043,9 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
 
     @Override
     public void setDeletedMessage(BaseMessage baseMessage) {
-         if (oneToOneAdapter!=null){
+        if (oneToOneAdapter!=null){
             oneToOneAdapter.deleteMessage(baseMessage);
-         }
+        }
     }
 
     @Override
@@ -1048,9 +1057,9 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
 
     @Override
     public void setFilterList(List<BaseMessage> list) {
-          if (oneToOneAdapter!=null){
-           oneToOneAdapter.setFilterList(list);
-          }
+        if (oneToOneAdapter!=null){
+            oneToOneAdapter.setFilterList(list);
+        }
     }
 
     @Override
@@ -1062,15 +1071,15 @@ public class OneToOneChatActivity extends AppCompatActivity implements OneToOneA
         switch (item.getItemId()) {
 
             case R.id.delete:
-               oneToOnePresenter.deleteMessage(baseMessage);
+                oneToOnePresenter.deleteMessage(baseMessage);
                 break;
             case R.id.edit:
                 TextMessage textMessage;
-                    isEditMessage=true;
-                  if (baseMessage instanceof TextMessage){
-                      textMessage=(TextMessage)baseMessage;
-                      messageField.setText(textMessage.getText());
-                  }
+                isEditMessage=true;
+                if (baseMessage instanceof TextMessage){
+                    textMessage=(TextMessage)baseMessage;
+                    messageField.setText(textMessage.getText());
+                }
                 break;
         }
 

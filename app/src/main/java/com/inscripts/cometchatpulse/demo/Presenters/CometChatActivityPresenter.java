@@ -17,6 +17,7 @@ import com.inscripts.cometchatpulse.demo.Activity.LoginActivity;
 import com.inscripts.cometchatpulse.demo.Base.Presenter;
 import com.inscripts.cometchatpulse.demo.Contracts.CometChatActivityContract;
 import com.inscripts.cometchatpulse.demo.Contracts.StringContract;
+import com.inscripts.cometchatpulse.demo.Helper.MyFirebaseMessagingService;
 import com.inscripts.cometchatpulse.demo.Helper.PreferenceHelper;
 import com.inscripts.cometchatpulse.demo.Utils.CommonUtils;
 import com.cometchat.pro.constants.CometChatConstants;
@@ -141,6 +142,7 @@ implements CometChatActivityContract.CometChatActivityPresenter {
         CometChat.logout(new CometChat.CallbackListener<String>() {
             @Override
             public void onSuccess(String s) {
+                Log.e(TAG, "onSuccess: "+s );
                 Intent intent=new Intent(context, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);

@@ -29,9 +29,9 @@ public class UserProfileViewPresenter extends Presenter<UserProfileViewActivityC
         UserProfileViewActivityContract.UserProfileActivityPresenter {
 
 
-    private MessagesRequest messagesRequest=null;
+    private MessagesRequest messagesRequest = null;
 
-    private List<MediaMessage> messageList=new ArrayList<>();
+    private List<MediaMessage> messageList = new ArrayList<>();
 
     @Override
     public void handleIntent(Intent data) {
@@ -90,11 +90,11 @@ public class UserProfileViewPresenter extends Presenter<UserProfileViewActivityC
     @Override
     public void sendCallRequest(Context context, String contactUid, String receiverType, String callTyp) {
 
-        Call call=new Call(contactUid,receiverType,callTyp);
+        Call call = new Call(contactUid, receiverType, callTyp);
         CometChat.initiateCall(call, new CometChat.CallbackListener<Call>() {
             @Override
             public void onSuccess(Call call) {
-                CommonUtils.startCallIntent(context,((User) call.getCallReceiver()),call.getType(),true,call.getSessionId());
+                CommonUtils.startCallIntent(context, ((User) call.getCallReceiver()), call.getType(), true, call.getSessionId());
             }
 
             @Override
@@ -105,57 +105,24 @@ public class UserProfileViewPresenter extends Presenter<UserProfileViewActivityC
     }
 
     @Override
-    public void getMediaMessage(String contactUid,int limit) {
+    public void getMediaMessage(String contactUid, int limit) {
 
-        if (messagesRequest==null)
-        {
-            messagesRequest=new MessagesRequest.MessagesRequestBuilder().setUID(contactUid).setLimit(limit).build();
-
-            messagesRequest.fetchPrevious(new CometChat.CallbackListener<List<BaseMessage>>() {
-                @Override
-                public void onSuccess(List<BaseMessage> baseMessages) {
-
-                    for (BaseMessage message:baseMessages){
-
-                        if (message instanceof MediaMessage){
-                              if (message.getType().equals(CometChatConstants.MESSAGE_TYPE_IMAGE)) {
-                                  messageList.add((MediaMessage) message);
-                              }
-                        }
-                    }
-                     if (isViewAttached()) {
-                         getBaseView().setAdapter(messageList);
-                     }
-                }
-
-                @Override
-                public void onError(CometChatException e) {
-
-                }
-            });
+        if (messagesRequest == null) {
+            messagesRequest = new MessagesRequest.MessagesRequestBuilder().setUID(contactUid)
+                    .setCategory(CometChatConstants.CATEGORY_MESSAGE).setType(CometChatConstants.MESSAGE_TYPE_IMAGE).setLimit(limit).build();
         }
-        else {
-            messagesRequest.fetchPrevious(new CometChat.CallbackListener<List<BaseMessage>>() {
-                @Override
-                public void onSuccess(List<BaseMessage> baseMessages) {
 
-                    for (BaseMessage message:baseMessages){
+        messagesRequest.fetchPrevious(new CometChat.CallbackListener<List<BaseMessage>>() {
+            @Override
+            public void onSuccess(List<BaseMessage> baseMessages) {
+                getBaseView().setAdapter(messageList);
 
-                        if (message instanceof MediaMessage){
-                            if (message.getType().equals(CometChatConstants.MESSAGE_TYPE_IMAGE)) {
-                                messageList.add((MediaMessage) message);
-                            }
-                        }
-                    }
+            }
 
-                    getBaseView().setAdapter(messageList);
-                }
+            @Override
+            public void onError(CometChatException e) {
 
-                @Override
-                public void onError(CometChatException e) {
-
-                }
-            });
-        }
+            }
+        });
     }
 }

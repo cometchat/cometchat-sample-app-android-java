@@ -13,6 +13,8 @@ import com.inscripts.cometchatpulse.demo.Pojo.Option;
 import com.inscripts.cometchatpulse.demo.R;
 import com.inscripts.cometchatpulse.demo.Contracts.LoginActivityContract;
 import com.inscripts.cometchatpulse.demo.Presenters.LoginAcitivityPresenter;
+import com.inscripts.cometchatpulse.demo.Utils.CommonUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,6 +94,6 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityCon
     public void startCometChatActivity() {
 
         startActivity(new Intent(LoginActivity.this, CometChatActivity.class));
-        finish();
+           finish();
     }
 }
