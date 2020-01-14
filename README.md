@@ -61,6 +61,19 @@ To run our open source app with CometChat Pro v1, follow these steps:
        
 2. Build and run the Sample App.
 
+ - To Run the app you also need to include **google-services.json** from your firebase console ,To connect the app to     
+    firebase follow the instruction below :
+     
+      [Add Firebase to your Android project](https://firebase.google.com/docs/android/setup)
+      
+  - To enable push notification in your app you also need to enable push notification extension in your app from CometChat       DashBoard.To enable push notification extension follow the below steps:
+         
+      * Go to your app in [CometChat Dashboard ](https://app.cometchat.io/)
+      * Go to Extension section 
+      * Add Push Notification Extension
+      * Add **FCM Server Key** in Push Notification Extension    
+      
+  - To send location message Add your google API Key in `google_maps_api.xml`     
 
 
 ## Run the Sample App
