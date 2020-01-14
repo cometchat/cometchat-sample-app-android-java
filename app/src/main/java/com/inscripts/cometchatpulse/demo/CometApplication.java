@@ -48,11 +48,6 @@ public class CometApplication extends Application {
         });
 
 
-        FirebaseOptions.Builder fcmbuilder = new FirebaseOptions.Builder()
-                .setApplicationId(StringContract.Firebase.FCM_APPLICATION_ID)
-                .setApiKey(StringContract.Firebase.FCM_WEB_API_KEY);
-        FirebaseApp.initializeApp(this, fcmbuilder.build());
-
 
         createNotificationChannel();
     }
