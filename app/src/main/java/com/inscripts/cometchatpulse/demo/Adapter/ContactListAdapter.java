@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.inscripts.cometchatpulse.demo.R;
 import com.inscripts.cometchatpulse.demo.CustomView.CircleImageView;
@@ -81,13 +82,9 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
             Glide.with(context).load(user.getAvatar()).into(contactViewHolder.avatar);
         } else {
             Drawable drawable = context.getResources().getDrawable(R.drawable.default_avatar);
-            try {
-                contactViewHolder.avatar.setCircleBackgroundColor(ColorUtils.getMaterialColor(context));
-                contactViewHolder.avatar.setImageBitmap(MediaUtils.getPlaceholderImage(context, drawable));
-            } catch (Exception e) {
-                contactViewHolder.avatar.setCircleBackgroundColor(context.getResources().getColor(R.color.secondaryDarkColor));
-                contactViewHolder.avatar.setImageDrawable(drawable);
-            }
+            contactViewHolder.avatar.setCircleBackgroundColor(context.getResources().getColor(R.color.secondaryColor));
+            contactViewHolder.avatar.setImageBitmap(MediaUtils.getPlaceholderImage(context, drawable));
+
         }
 
         contactViewHolder.view.setTag(R.string.user_avatar, user.getAvatar());
@@ -129,11 +126,11 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     }
 
     public void setUnreadCount(HashMap<String, Integer> stringIntegerHashMap) {
-        unreadCountMap =stringIntegerHashMap;
+        unreadCountMap = stringIntegerHashMap;
     }
 
     public void setFilterList(HashMap<String, User> hashMap) {
-        userHashMap=hashMap;
+        userHashMap = hashMap;
         notifyDataSetChanged();
     }
 

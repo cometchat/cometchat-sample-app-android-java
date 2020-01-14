@@ -88,7 +88,7 @@ public class RecentsFragment extends Fragment implements RecentsContract.Recents
 
         recentPresenter.attach(this);
 
-        new Thread(() -> recentPresenter.fetchConversations(getContext())).start();
+//        recentPresenter.fetchConversations(getContext());
 
         recentsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -112,10 +112,6 @@ public class RecentsFragment extends Fragment implements RecentsContract.Recents
     }
 
 
-    @Override
-    public void setFilterList(List<Conversation> hashMap) {
-        recentsListAdapter.setFilterList(hashMap);
-    }
 
     @Override
     public void onDestroy() {
@@ -133,7 +129,7 @@ public class RecentsFragment extends Fragment implements RecentsContract.Recents
     public void onResume() {
         super.onResume();
         recentPresenter.addMessageListener(getString(R.string.presenceListener));
-        recentPresenter.fetchConversations(getContext());
+        recentPresenter.refreshConversations(getContext());
     }
 
     @Override
@@ -148,6 +144,14 @@ public class RecentsFragment extends Fragment implements RecentsContract.Recents
         Conversation newConversation= CometChatHelper.getConversationFromMessage(message);
          recentsListAdapter.updateConversation(newConversation);
     }
+
+    @Override
+    public void clearConversations() {
+        if (recentsListAdapter != null) {
+            recentsListAdapter.clear();
+        }
+    }
+
     @Override
     public void setRecentAdapter(List<Conversation> conversationList) {
         this.conversationList.addAll(conversationList);
@@ -159,7 +163,7 @@ public class RecentsFragment extends Fragment implements RecentsContract.Recents
             recentShimmer.setVisibility(View.GONE);
 
         } else {
-            if (this.conversationList != null) {
+            if (this.conversationList != null&&conversationList.size()!=0) {
                 recentsListAdapter.refreshData(conversationList);
             }
         }

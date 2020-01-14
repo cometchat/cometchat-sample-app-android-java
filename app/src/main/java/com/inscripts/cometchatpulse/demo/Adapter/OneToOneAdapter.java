@@ -61,9 +61,12 @@ import org.json.JSONException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.inscripts.cometchatpulse.demo.Utils.FileUtils.getFileExtension;
 import static com.inscripts.cometchatpulse.demo.Utils.FileUtils.getFileName;
@@ -114,7 +117,7 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private final String ownerUid;
 
-    private LongSparseArray<BaseMessage> messageArrayList=new LongSparseArray<>();
+    private LinkedHashMap<Integer,BaseMessage> messageArrayList=new LinkedHashMap<>();
 
     private Context context;
 
@@ -136,13 +139,18 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private RecyclerView.ViewHolder holder;
 
 
+    public OneToOneAdapter(Context context,String ownerUid)
+    {
+        this.context = context;
+        this.ownerUid = ownerUid;
+    }
     public OneToOneAdapter(Context context,List<BaseMessage> messageArrayList, String ownerUid) {
         this.ownerUid = ownerUid;
         this.context = context;
 
-         setList(messageArrayList);
+        setList(messageArrayList);
 
-         audioDurations = new LongSparseArray<>();
+        audioDurations = new LongSparseArray<>();
 
         if (null == player) {
             player = new MediaPlayer();
@@ -263,10 +271,7 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int i) {
 
         this.holder=holder;
-        if (i == 0) {
-            this.topReachedListener.onTopReached(i);
-        }
-        BaseMessage baseMessage = messageArrayList.get(messageArrayList.keyAt(i));
+        BaseMessage baseMessage = new ArrayList<BaseMessage>(messageArrayList.values()).get(i);
         TextMessage textMessage = null;
         MediaMessage mediaMessage = null;
 
@@ -1204,11 +1209,13 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
-
     private void setList(List<BaseMessage> messageList){
+        LinkedHashMap<Integer,BaseMessage> oldmessageArray = (LinkedHashMap<Integer, BaseMessage>) messageArrayList.clone();
+        messageArrayList.clear();
         for (BaseMessage basemessage:messageList) {
             messageArrayList.put(basemessage.getId(),basemessage);
         }
+        messageArrayList.putAll(oldmessageArray);
         notifyDataSetChanged();
     }
 
@@ -1308,27 +1315,27 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
+        BaseMessage message = new ArrayList<BaseMessage>(messageArrayList.values()).get(position);
+        if (message.getCategory().equals(CometChatConstants.CATEGORY_MESSAGE)) {
 
-        if (messageArrayList.get(messageArrayList.keyAt(position)).getCategory().equals(CometChatConstants.CATEGORY_MESSAGE)) {
 
+            if (ownerUid.equalsIgnoreCase(message.getSender().getUid())) {
 
-            if (ownerUid.equalsIgnoreCase(messageArrayList.get(messageArrayList.keyAt(position)).getSender().getUid())) {
-
-                if (messageArrayList.get(messageArrayList.keyAt(position)) instanceof TextMessage &&
-                        messageArrayList.get(messageArrayList.keyAt(position)).getMetadata() != null
-                        && messageArrayList.get(messageArrayList.keyAt(position)).getMetadata().has("reply")) {
+                if (message instanceof TextMessage &&
+                        message.getMetadata() != null
+                        && message.getMetadata().has("reply")) {
 
                     return RIGHT_TEXT_REPLY_MESSAGE;
 
-                } else if (messageArrayList.get(messageArrayList.keyAt(position)) instanceof MediaMessage &&
-                        messageArrayList.get(messageArrayList.keyAt(position)).getMetadata() != null
-                        && messageArrayList.get(messageArrayList.keyAt(position)).getMetadata().has("reply")) {
+                } else if (message instanceof MediaMessage &&
+                        message.getMetadata() != null
+                        && message.getMetadata().has("reply")) {
 
                     return RIGHT_MEDIA_REPLY_MESSAGE;
 
                 } else {
 
-                    switch (messageArrayList.get(messageArrayList.keyAt(position)).getType()) {
+                    switch (message.getType()) {
                         case CometChatConstants.MESSAGE_TYPE_TEXT:
 
                             return RIGHT_TEXT_MESSAGE;
@@ -1351,22 +1358,22 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             } else {
 
-                if (messageArrayList.get(messageArrayList.keyAt(position)) instanceof TextMessage &&
-                        messageArrayList.get(messageArrayList.keyAt(position)).getMetadata() != null
-                        && messageArrayList.get(messageArrayList.keyAt(position)).getMetadata().has("reply")) {
+                if (message instanceof TextMessage &&
+                        message.getMetadata() != null
+                        && message.getMetadata().has("reply")) {
 
 
                     return LEFT_TEXT_REPLY_MESSAGE;
 
-                } else if (messageArrayList.get(messageArrayList.keyAt(position)) instanceof MediaMessage &&
-                        messageArrayList.get(messageArrayList.keyAt(position)).getMetadata() != null
-                        && messageArrayList.get(messageArrayList.keyAt(position)).getMetadata().has("reply")) {
+                } else if (message instanceof MediaMessage &&
+                        message.getMetadata() != null
+                        && message.getMetadata().has("reply")) {
 
                     return LEFT_MEDIA_REPLY_MESSAGE;
 
                 } else {
 
-                    switch (messageArrayList.get(messageArrayList.keyAt(position)).getType()) {
+                    switch (message.getType()) {
 
                         case CometChatConstants.MESSAGE_TYPE_TEXT:
 
@@ -1389,13 +1396,13 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 }
             }
-        } else if (messageArrayList.get(messageArrayList.keyAt(position)).getCategory().equals(CometChatConstants.CATEGORY_CUSTOM)) {
-            if (ownerUid.equalsIgnoreCase(messageArrayList.get(messageArrayList.keyAt(position)).getSender().getUid())) {
+        } else if (message.getCategory().equals(CometChatConstants.CATEGORY_CUSTOM)) {
+            if (ownerUid.equalsIgnoreCase(message.getSender().getUid())) {
                 return RIGHT_CUSTOM_MESSAGE;
             } else {
                 return LEFT_CUSTOM_MESSAGE;
             }
-        } else if (messageArrayList.get(messageArrayList.keyAt(position)).getCategory().equals(CometChatConstants.CATEGORY_CALL)) {
+        } else if (message.getCategory().equals(CometChatConstants.CATEGORY_CALL)) {
             return CALL_MESSAGE;
         }
         return super.getItemViewType(position);
@@ -1405,22 +1412,23 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public long getItemId(int position) {
-        return messageArrayList.get(messageArrayList.keyAt(position)).getId();
+        BaseMessage message = new ArrayList<BaseMessage>(messageArrayList.values()).get(position);
+        return message.getId();
     }
 
 
     public void refreshData(List<BaseMessage> userArrayList) {
         setList(userArrayList);
-        notifyItemRangeInserted(0, userArrayList.size());
-        notifyItemChanged(userArrayList.size());
+//        notifyItemRangeInserted(0, userArrayList.size());
+//        notifyItemChanged(userArrayList.size());
 
     }
 
 
     @Override
     public long getHeaderId(int var1) {
-
-        return Long.parseLong(DateUtils.getDateId(messageArrayList.get(messageArrayList.keyAt(var1)).getSentAt() * 1000));
+        BaseMessage message = new ArrayList<BaseMessage>(messageArrayList.values()).get(var1);
+        return Long.parseLong(DateUtils.getDateId(message.getSentAt() * 1000));
     }
 
     @Override
@@ -1433,8 +1441,8 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindHeaderViewHolder(DateItemHolder var1, int var2, long var3) {
-
-        Date date = new Date(messageArrayList.get(messageArrayList.keyAt(var2)).getSentAt() * 1000);
+        BaseMessage message = new ArrayList<BaseMessage>(messageArrayList.values()).get(var2);
+        Date date = new Date(message.getSentAt() * 1000);
         String formattedDate = DateUtils.getCustomizeDate(date.getTime());
         var1.txtMessageDate.setBackground(context.getResources().getDrawable(R.drawable.cc_rounded_date_button));
         var1.txtMessageDate.setTypeface(FontUtils.robotoMedium);
@@ -1447,34 +1455,37 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void Delivered(MessageReceipt messageReceipt) {
+
         BaseMessage baseMessage=messageArrayList.get(messageReceipt.getMessageId());
         if (baseMessage!=null) {
             for (int i=messageArrayList.size()-1;i>0;i--) {
-                if (messageArrayList.get(messageArrayList.keyAt(i)).getDeliveredAt() > 0) {
+                BaseMessage arraymessage = new ArrayList<BaseMessage>(messageArrayList.values()).get(i);
+                if (arraymessage.getDeliveredAt() > 0) {
                     break;
                 } else {
-                    BaseMessage message = messageArrayList.get(messageArrayList.keyAt(i));
-                    message.setDeliveredAt(messageReceipt.getTimestamp());
-                    messageArrayList.put(message.getId(), message);
+                    arraymessage.setDeliveredAt(messageReceipt.getTimestamp());
+                    messageArrayList.put(arraymessage.getId(), arraymessage);
                 }
             }
             notifyDataSetChanged();
         }
+
     }
 
     public void setRead(MessageReceipt messageReceipt) {
+
         BaseMessage baseMessage=messageArrayList.get(messageReceipt.getMessageId());
         if (baseMessage!=null) {
             for (int i = messageArrayList.size() - 1; i > 0; i--) {
-                if (messageArrayList.get(messageArrayList.keyAt(i)).getReadAt() > 0) {
+                BaseMessage arraymessage = new ArrayList<BaseMessage>(messageArrayList.values()).get(i);
+                if (arraymessage.getReadAt() > 0) {
                     break;
                 } else {
-                    BaseMessage message = messageArrayList.get(messageArrayList.keyAt(i));
-                    message.setReadAt(messageReceipt.getReadAt());
+                    arraymessage.setReadAt(messageReceipt.getReadAt());
                     Log.d(TAG, "setRead:getTimestamp " + messageReceipt.getTimestamp() + " Id " + messageReceipt.getMessageId());
                     Log.d(TAG, "setRead: getReadAt " + messageReceipt.getReadAt() + " Id " + messageReceipt.getMessageId());
-                    Log.d(TAG, "setRead: baseMessage " + message.toString());
-                    messageArrayList.put(message.getId(), message);
+                    Log.d(TAG, "setRead: baseMessage " + arraymessage.toString());
+                    messageArrayList.put(arraymessage.getId(), arraymessage);
                 }
             }
             notifyDataSetChanged();
@@ -1483,8 +1494,8 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public void updateMessage(BaseMessage baseMessage) {
         Log.d(TAG, "updateMessage: "+baseMessage.toString());
-         messageArrayList.put(baseMessage.getId(),baseMessage);
-         notifyDataSetChanged();
+        messageArrayList.put(baseMessage.getId(),baseMessage);
+        notifyDataSetChanged();
 
     }
 
@@ -1514,10 +1525,6 @@ public class OneToOneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             txtMessageDate = itemView.findViewById(R.id.txt_message_date);
 
         }
-    }
-    public void setTopReachedListener(OnTopReachedListener topReachedListener) {
-
-        this.topReachedListener = topReachedListener;
     }
 
 }

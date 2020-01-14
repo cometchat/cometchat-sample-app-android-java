@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -102,7 +101,7 @@ public class IncomingCallActivityPresenter extends Presenter<IncomingCallActivit
 
             @Override
             public void onError(CometChatException e) {
-                Log.e( "onError: ",e.getMessage() );
+
             }
 
         });
@@ -139,7 +138,6 @@ public class IncomingCallActivityPresenter extends Presenter<IncomingCallActivit
 
             @Override
             public void onOutgoingCallRejected(Call call) {
-                Log.e( "onOutgoingCallRejected",call.getCallStatus() );
                 ((IncomingCallActivity) context).finish();
             }
 

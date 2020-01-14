@@ -45,9 +45,15 @@ public class StringContract {
     }
 
     public static class AppDetails{
-        public static final String APP_ID  =  "XXXXXXXXXXX"; // your app_id
-        public static final String API_KEY =  "XXXXXXXXXXXXXXXXXXXXX"; // your api_key
-        public static final String REGION = "XX";  // your app region
 
+        public static final String APP_ID  =  "XXXXXXXXXXXX"; // your app_id
+        public static final String API_KEY =  "XXXXXXXXXXX"; // your api_key
+        public static final String REGION = "XXXX";  // your app region
+
+    }
+
+    public static class Firebase {
+        public static final String FCM_APPLICATION_ID = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; // Firebase Application ID
+        public static final String FCM_WEB_API_KEY = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX" ; //Firebase Web API Key
     }
 }

@@ -9,6 +9,7 @@ import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.Group;
 import com.inscripts.cometchatpulse.demo.Base.Presenter;
 import com.inscripts.cometchatpulse.demo.Contracts.CreateGroupActivityContract;
+import com.inscripts.cometchatpulse.demo.Helper.MyFirebaseMessagingService;
 import com.inscripts.cometchatpulse.demo.Utils.CommonUtils;
 
 import org.json.JSONException;
@@ -26,6 +27,8 @@ public class CreateGroupActivityPresenter extends Presenter<CreateGroupActivityC
         CometChat.createGroup(group, new CometChat.CallbackListener<Group>() {
             @Override
             public void onSuccess(Group group) {
+
+                MyFirebaseMessagingService.subscribeGroup(group.getGuid());
 
                 CommonUtils.startActivityIntent(group, context, true, null);
 

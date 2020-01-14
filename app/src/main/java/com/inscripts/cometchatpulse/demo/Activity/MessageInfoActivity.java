@@ -18,7 +18,6 @@ import com.inscripts.cometchatpulse.demo.Contracts.MessageInfoActivityContract;
 import com.inscripts.cometchatpulse.demo.Presenters.MessageInfoActivityPresenter;
 import com.inscripts.cometchatpulse.demo.R;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class MessageInfoActivity extends AppCompatActivity implements MessageInfoActivityContract.MessageInfoActivityView {
@@ -33,8 +32,6 @@ public class MessageInfoActivity extends AppCompatActivity implements MessageInf
 
     private View rlText;
 
-    private int id;
-
     private View rlImage;
 
     private String type;
@@ -44,8 +41,6 @@ public class MessageInfoActivity extends AppCompatActivity implements MessageInf
     private String text;
 
     private String url;
-
-    private String TAG = "MessageInfoActivity";
 
     private RecyclerView rvMessageReceipts;
 
@@ -126,39 +121,12 @@ public class MessageInfoActivity extends AppCompatActivity implements MessageInf
     }
 
     @Override
-    public void setReceiptsAdapter(HashMap<String,MessageReceipt> messageReceipts) {
+    public void setReceiptsAdapter(List<MessageReceipt> messageReceipts) {
         runOnUiThread(() -> {
             if (messageReceipts!=null) {
                 messageReceiptsAdapter = new MessageReceiptsAdapter(MessageInfoActivity.this, messageReceipts);
                 rvMessageReceipts.setAdapter(messageReceiptsAdapter);
             }
         });
-    }
-
-    @Override
-    public void updateReciept(MessageReceipt messageReceipt) {
-        messageReceiptsAdapter.updateReciept(messageReceipt);
-    }
-
-    @Override
-    public void setMessageId(int id) {
-        this.id = id;
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        messageInfoActivityPresenter.addmessagelistener(TAG,id);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        messageInfoActivityPresenter.removemessagelistener(TAG);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 }

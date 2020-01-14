@@ -41,6 +41,7 @@ import com.cometchat.pro.models.MediaMessage;
 import com.cometchat.pro.models.MessageReceipt;
 import com.cometchat.pro.models.TextMessage;
 import com.cometchat.pro.models.TypingIndicator;
+import com.inscripts.cometchatpulse.demo.Helper.MyFirebaseMessagingService;
 import com.inscripts.cometchatpulse.demo.Helper.RecyclerTouchListener;
 import com.inscripts.cometchatpulse.demo.R;
 import com.inscripts.cometchatpulse.demo.Adapter.GroupMessageAdapter;
@@ -75,7 +76,7 @@ import java.util.TimerTask;
 
 public class GroupChatActivity extends AppCompatActivity implements GroupChatActivityContract.GroupChatView, TextWatcher, View.OnClickListener, ActionMode.Callback {
 
-    private static final int LIMIT = 10;
+    private static final int LIMIT = 30;
 
     private static final String TAG = "GroupChatActivity";
 
@@ -159,6 +160,8 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
 
     private SearchView searchView;
 
+    private boolean searchBox = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
@@ -169,6 +172,7 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
         groupChatPresenter = new GroupChatPresenter();
         groupChatPresenter.attach(this);
         initViewComponent();
+        MyFirebaseMessagingService.subscribeGroup(groupId);
 
     }
 
@@ -274,25 +278,27 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
 
         new Thread(() -> groupChatPresenter.fetchGroupMembers(groupId)).start();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            setScrollListener();
-        } else {
-            messageRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+        if (!searchBox) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                setScrollListener();
+            } else {
+                messageRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
 
-                    if (linearLayoutManager.findFirstVisibleItemPosition() == 0) {
+                        if (!messageRecyclerView.canScrollVertically(-1)) {
 
-                        groupChatPresenter.fetchPreviousMessage(groupId, LIMIT);
+                            groupChatPresenter.fetchPreviousMessage(groupId, LIMIT);
+
+                        }
+
+                        //for toolbar elevation animation i.e stateListAnimator
+                        toolbar.setSelected(recyclerView.canScrollVertically(-1));
+
 
                     }
-
-                    //for toolbar elevation animation i.e stateListAnimator
-                    toolbar.setSelected(recyclerView.canScrollVertically(-1));
-
-
-                }
-            });
+                });
+            }
         }
 
         KeyboardVisibilityEvent.setEventListener(this, var1 -> {
@@ -340,7 +346,7 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 int temp = linearLayoutManager.findFirstVisibleItemPosition();
 
-                if (temp < 5) {
+                if (!messageRecyclerView.canScrollVertically(-1)) {
 
                     groupChatPresenter.fetchPreviousMessage(groupId, LIMIT);
 
@@ -477,12 +483,14 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
 
                 @Override
                 public boolean onQueryTextChange(String s) {
+                    searchBox = true;
                     groupChatPresenter.searchMessage(s,groupId);
-                       return false;
+                    return false;
                 }
             });
 
             searchView.setOnCloseListener(() -> {
+                searchBox = false;
                 groupChatPresenter.fetchPreviousMessage(groupId,30);
                 return false;
             });
@@ -568,16 +576,16 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
         super.onResume();
         groupChatPresenter.addMessageReceiveListener(getResources().getString(R.string.group_message_listener), groupId, ownerId);
         groupChatPresenter.addGroupEventListener("action_message", groupId, ownerId);
-        groupChatPresenter.refreshList(groupId,ownerId,LIMIT);
+//        groupChatPresenter.refreshList(groupId,ownerId,LIMIT);
         groupChatPresenter.addCallListener("call_listener");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-         if (groupMessageAdapter!=null) {
-             groupMessageAdapter.stopPlayer();
-         }
+        if (groupMessageAdapter!=null) {
+            groupMessageAdapter.stopPlayer();
+        }
         groupChatPresenter.removeMessageReceiveListener(getResources().getString(R.string.group_message_listener));
         groupChatPresenter.removeMessageReceiveListener("action_message");
         groupChatPresenter.removeCallListener("call_listener");
@@ -668,6 +676,7 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
         }
         if (groupMessageAdapter == null) {
             groupMessageAdapter = new GroupMessageAdapter(messageList, context, groupId, ownerId);
+
             messageRecyclerView.setAdapter(groupMessageAdapter);
             decor = new StickyHeaderDecoration(groupMessageAdapter);
             messageRecyclerView.addItemDecoration(decor, 0);
@@ -709,26 +718,26 @@ public class GroupChatActivity extends AppCompatActivity implements GroupChatAct
 
     @Override
     public void typingStarted(TypingIndicator typingIndicator) {
-       toolbarSubTitle.setText(typingIndicator.getSender().getName()+" "+getString(R.string.is_typing));
+        toolbarSubTitle.setText(typingIndicator.getSender().getName()+" "+getString(R.string.is_typing));
     }
 
     @Override
     public void typingEnded(TypingIndicator typingIndicator) {
-           toolbarSubTitle.setText(names);
+        toolbarSubTitle.setText(names);
     }
 
     @Override
     public void setDeliveryReceipt(MessageReceipt messageReceipt) {
-         if (groupMessageAdapter!=null){
-             groupMessageAdapter.setDelivered(messageReceipt);
-         }
+//         if (groupMessageAdapter!=null){
+//             groupMessageAdapter.setDelivered(messageReceipt);
+//         }
     }
 
     @Override
     public void onMessageRead(MessageReceipt messageReceipt) {
-        if (groupMessageAdapter!=null){
-            groupMessageAdapter.setRead(messageReceipt);
-        }
+//        if (groupMessageAdapter!=null){
+//            groupMessageAdapter.setRead(messageReceipt);
+//        }
     }
 
     @Override

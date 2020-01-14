@@ -80,6 +80,7 @@
     <string name="typing">Typing..</string>
     <string name="is_typing"> is Typing...</string>
     <string name="add_members">Add Members</string>
+    <string name="channel_description">channel</string>
     <string-array name="group_type">
         <item>Select Type</item>
         <item>public</item>
