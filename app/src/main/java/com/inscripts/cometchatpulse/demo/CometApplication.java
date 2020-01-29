@@ -47,7 +47,6 @@ public class CometApplication extends Application {
 
         });
 
-
         createNotificationChannel();
     }
     private void createNotificationChannel() {
