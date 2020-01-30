@@ -15,6 +15,7 @@ import com.cometchat.pro.core.GroupsRequest;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.helpers.Logger;
 import com.cometchat.pro.models.Group;
+import com.inscripts.cometchatpulse.demo.Helper.MyFirebaseMessagingService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,9 +35,7 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
     public void initGroupView() {
 
         if (groupsRequest == null) {
-
             groupsRequest = new GroupsRequest.GroupsRequestBuilder().setLimit(50).build();
-
         }
         setGroupsRequest(groupsRequest);
     }
@@ -83,7 +82,11 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
             @Override
             public void onError(CometChatException e) {
                 Log.d("joinGroup", "onError: " + e.getMessage());
-                progressDialog.dismiss();
+                if (e.getCode().equals("ERR_ALREADY_JOINED")){
+                    if (isViewAttached())
+                        getBaseView().groupjoinCallback(group);
+                }
+               progressDialog.dismiss();
                 Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
@@ -129,6 +132,7 @@ public class GroupListPresenter extends Presenter<GroupListContract.GroupView> i
             @Override
             public void onSuccess(String s) {
                 groupListAdapter.removeGroup(guid);
+                MyFirebaseMessagingService.unsubscribeGroup(guid);
                 Timber.d("onSuccess: %s" , s);
             }
 

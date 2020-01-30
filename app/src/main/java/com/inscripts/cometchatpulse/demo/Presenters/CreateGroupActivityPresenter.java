@@ -11,9 +11,6 @@ import com.inscripts.cometchatpulse.demo.Base.Presenter;
 import com.inscripts.cometchatpulse.demo.Contracts.CreateGroupActivityContract;
 import com.inscripts.cometchatpulse.demo.Utils.CommonUtils;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 
 public class CreateGroupActivityPresenter extends Presenter<CreateGroupActivityContract.CreateGroupView>
         implements CreateGroupActivityContract.CreateGroupPresenter {
@@ -26,6 +23,7 @@ public class CreateGroupActivityPresenter extends Presenter<CreateGroupActivityC
         CometChat.createGroup(group, new CometChat.CallbackListener<Group>() {
             @Override
             public void onSuccess(Group group) {
+
 
                 CommonUtils.startActivityIntent(group, context, true, null);
 

@@ -14,12 +14,14 @@
         app:showAsAction="never"
         android:id="@+id/menu_settings"/>
 
-    <item android:title="Log out"
-        android:id="@+id/menu_log_out"
-        app:showAsAction="never" />
 
     <item android:title="Blocked User"
         android:id="@+id/menu_blocked_user"
         app:showAsAction="never"/>
+
+    <item android:title="Log out"
+        android:id="@+id/menu_log_out"
+        app:showAsAction="never" />
+
 
 </menu>

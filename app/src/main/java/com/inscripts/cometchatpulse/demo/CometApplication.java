@@ -1,14 +1,17 @@
 package com.inscripts.cometchatpulse.demo;
 
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
 import com.cometchat.pro.core.AppSettings;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
-import com.cometchat.pro.helpers.Logger;
 import com.inscripts.cometchatpulse.demo.Contracts.StringContract;
+import com.inscripts.cometchatpulse.demo.Utils.FontUtils;
 
 import timber.log.Timber;
 
@@ -23,13 +26,15 @@ public class CometApplication extends Application {
 
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-//        Logger.enableLogs("4ddd5d736cf33ca31a0b4c72ae64b6d5");
+        new FontUtils(this);
+
         AppSettings appSettings=new AppSettings.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion(StringContract.AppDetails.REGION).build();
         CometChat.init(this,StringContract.AppDetails.APP_ID,appSettings,new CometChat.CallbackListener<String>() {
 
             @Override
             public void onSuccess(String s) {
                 Toast.makeText(CometApplication.this, "SetUp Complete", Toast.LENGTH_SHORT).show();
+//
             }
 
             @Override
@@ -39,6 +44,24 @@ public class CometApplication extends Application {
             }
 
         });
+
+
+        createNotificationChannel();
+    }
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.app_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel("2", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
 
     }
 }

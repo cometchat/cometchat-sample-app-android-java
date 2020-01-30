@@ -38,11 +38,12 @@ public class BannedMemberListPresenter extends Presenter<BannedMemberListContrac
                 public void onSuccess(List<GroupMember> groupMembers) {
                     if (groupMembers != null && groupMembers.size() != 0) {
                         Logger.error("OutcastMembersRequest", " " + groupMembers.size());
-                        if (isViewAttached())
+                        if (isViewAttached()){
                             for (GroupMember groupMember :groupMembers) {
                                 groupMemberHashMap.put(groupMember.getUid(),groupMember);
                             }
-                        getBaseView().setAdapter(groupMemberHashMap);
+                            getBaseView().setAdapter(groupMemberHashMap);
+                        }
                     }
                 }
 

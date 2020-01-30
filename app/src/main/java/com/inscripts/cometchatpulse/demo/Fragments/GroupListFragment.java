@@ -299,6 +299,7 @@ public class GroupListFragment extends Fragment implements GroupListContract.Gro
                 if (groupPassword.length() == 0) {
                     groupPasswordInput.setText("");
                     groupPasswordInput.setError(getString(R.string.incorrect_password));
+                    alertDialog.dismiss();
 
                 } else {
                     try {

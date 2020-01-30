@@ -10,9 +10,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.inscripts.cometchatpulse.demo.Adapter.AutoCompleteAdapter;
 import com.inscripts.cometchatpulse.demo.Pojo.Option;
+import com.inscripts.cometchatpulse.demo.Presenters.LoginActivityPresenter;
 import com.inscripts.cometchatpulse.demo.R;
 import com.inscripts.cometchatpulse.demo.Contracts.LoginActivityContract;
-import com.inscripts.cometchatpulse.demo.Presenters.LoginAcitivityPresenter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityCon
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        loginActivityPresenter = new LoginAcitivityPresenter();
+        loginActivityPresenter = new LoginActivityPresenter();
         loginActivityPresenter.attach(this);
         loginActivityPresenter.loginCheck();
         initComponentView();
@@ -92,6 +93,6 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityCon
     public void startCometChatActivity() {
 
         startActivity(new Intent(LoginActivity.this, CometChatActivity.class));
-        finish();
+           finish();
     }
 }

@@ -67,20 +67,14 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
         groupHolder.usersOnline.setTypeface(FontUtils.robotoRegular);
 
         Drawable drawable = context.getResources().getDrawable(R.drawable.cc_ic_group);
+
         if (group.getIcon() != null && !group.getIcon().isEmpty()) {
 
             Glide.with(context).load(group.getIcon()).into(groupHolder.imageViewGroupAvatar);
+
         } else {
-            try {
-                groupHolder.imageViewGroupAvatar.setCircleBackgroundColor(ColorUtils.getMaterialColor(context));
+                groupHolder.imageViewGroupAvatar.setCircleBackgroundColor(context.getResources().getColor(R.color.secondaryColor));
                 groupHolder.imageViewGroupAvatar.setImageBitmap(MediaUtils.getPlaceholderImage(context, drawable));
-            } catch (Exception e) {
-                groupHolder.imageViewGroupAvatar.setCircleBackgroundColor(context.getResources().
-                        getColor(R.color.secondaryDarkColor));
-
-                groupHolder.imageViewGroupAvatar.setImageDrawable(drawable);
-            }
-
         }
 
         if (group.getGroupType().equals(CometChatConstants.GROUP_TYPE_PASSWORD)) {

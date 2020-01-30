@@ -2,6 +2,7 @@ package com.inscripts.cometchatpulse.demo.Utils;
 
 import android.content.Context;
 import android.text.format.DateFormat;
+import android.util.Log;
 
 import com.inscripts.cometchatpulse.demo.R;
 
@@ -29,7 +30,29 @@ public class DateUtils {
         String str = format.format(timestamp);
         return str;
     }
+    public static String getLastMessageDate(long timestamp) {
+        String lastMessageTime = new SimpleDateFormat("h:mm a").format(new java.util.Date(timestamp*1000));
+        String lastMessageDate = new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date(timestamp*1000));
+        String lastMessageWeek = new SimpleDateFormat("EEE").format(new java.util.Date(timestamp*1000));
+        long currentTimeStamp = System.currentTimeMillis();
 
+        long diffTimeStamp = currentTimeStamp - timestamp*1000;
+
+        if (diffTimeStamp < 24 * 60 * 60 * 1000) {
+            return lastMessageTime;
+
+        } else if (diffTimeStamp < 48 * 60 * 60 * 1000) {
+
+            return "Yesterday";
+        } else if  (diffTimeStamp < 7 * 24 * 60 * 60 * 1000)
+        {
+            return lastMessageWeek;
+        }
+        else {
+            return lastMessageDate;
+        }
+
+    }
     public static String convertTimeStampToDurationTime(long var0) {
         long var2 = var0 / 1000L;
         long var4 = var2 / 60L % 60L;

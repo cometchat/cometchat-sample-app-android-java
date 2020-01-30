@@ -6,7 +6,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.cometchat.pro.core.BlockedUsersRequest;
-import com.cometchat.pro.core.UsersRequest;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.Group;
 import com.cometchat.pro.models.MediaMessage;
@@ -17,18 +16,16 @@ import com.inscripts.cometchatpulse.demo.Activity.LoginActivity;
 import com.inscripts.cometchatpulse.demo.Base.Presenter;
 import com.inscripts.cometchatpulse.demo.Contracts.CometChatActivityContract;
 import com.inscripts.cometchatpulse.demo.Contracts.StringContract;
+import com.inscripts.cometchatpulse.demo.Helper.MyFirebaseMessagingService;
 import com.inscripts.cometchatpulse.demo.Helper.PreferenceHelper;
 import com.inscripts.cometchatpulse.demo.Utils.CommonUtils;
 import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.Call;
 import com.cometchat.pro.core.CometChat;
-import com.cometchat.pro.models.Action;
-import com.cometchat.pro.models.BaseMessage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class CometChatActivityPresenter extends Presenter<CometChatActivityContract.CometChatActivityView>
@@ -138,9 +135,11 @@ implements CometChatActivityContract.CometChatActivityPresenter {
 
     @Override
     public void logOut(Context context) {
+        MyFirebaseMessagingService.unsubscribeUser(CometChat.getLoggedInUser().getUid());
         CometChat.logout(new CometChat.CallbackListener<String>() {
             @Override
             public void onSuccess(String s) {
+                Log.e(TAG, "onSuccess: "+s );
                 Intent intent=new Intent(context, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
