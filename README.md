@@ -49,6 +49,10 @@ CometChat Android Demo app (built using **CometChat Pro**) is a fully functional
 
 2. Add Push Notifications to the Sample App.
 
+       Add your own `google-services.json` to start receiving Push Notification.
+       
+       For more deatail follow the below steps:
+
      
       [Add Push Notification to your Android project](https://prodocs.cometchat.com/docs/android-extensions-push-notification)
       
@@ -57,7 +61,10 @@ CometChat Android Demo app (built using **CometChat Pro**) is a fully functional
       * Go to your app in [CometChat Dashboard ](https://app.cometchat.io/)
       * Go to Extension section 
       * Add Push Notification Extension
-      * Add **FCM Server Key** in Push Notification Extension    
+      * Add **FCM Server Key** in Push Notification Extension   
+      
+      
+       
 
      
 ## Note
