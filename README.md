@@ -40,7 +40,7 @@ Build and run the Sample App.
 
 # Learn more about UI-Kit
 
-Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/android-java-chat-app/blob/master/README.md) inside your app.
+Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/android-chat-ui-kit/blob/master/README.md) inside your app.
 
 
 # Troubleshooting
