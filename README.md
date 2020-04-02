@@ -1,9 +1,9 @@
 <div>
-<img align="left" src="https://https://github.com/cometchat-pro-samples/android-java-chat-app/blob/master/Screenshot/main.png">  </div>
+<img align="left" src="https://github.com/cometchat-pro-samples/android-java-chat-app/blob/master/Screenshot/main.png">  </div>
 
-<br></br><br></br>
+<br/><br/><br/>
 
-CometChat Kitchen Sink Sample App (built using CometChat UIKit) is a fully functional messaging app capable of one-on-one (private) and group messaging as well as Calling. This sample app enables users to send text and multimedia messages like images, videos, documents. Also, users can make Audio and Video calls to other users or groups.**
+CometChat Kitchen Sink Sample App (built using <b>CometChat UIKit</b>) is a fully functional messaging app capable of <b>one-on-one</b> (private) and <b>group messaging</b> as well as <b>Calling</b>. This sample app enables users to send <b>text</b> and <b>multimedia messages</b> like <b>images, videos, documents</b>. Also, users can make <b>Audio calls</b> and <b>Video calls</b> to other users or groups.**
 
 ## Table of Contents
 
