@@ -1,115 +1,50 @@
-<div style="width:100%">
-<div style="width:100%">
-	<div style="width:50%; display:inline-block">
-		<p align="center">
-		<img align="center" width="180" height="180" alt="" src="https://github.com/cometchat-pro/ios-swift-chat-app/blob/master/Screenshots/CometChat%20Logo.png">	
-		</p>	
-	</div>	
-</div>
-</br>
-</br>
-</div>
+<div>
+<img align="left" src="https://https://github.com/cometchat-pro-samples/android-java-chat-app/blob/master/Screenshot/main.png">  </div>
 
-CometChat Android Demo app (built using **CometChat Pro**) is a fully functional messaging app capable of **one-on-one** (private) and **group** messaging. The app enables users to send **text** and **multimedia messages like audio, video, images, documents.**
+<br></br><br></br>
 
-[![Platform](https://img.shields.io/badge/Platform-Android-brightgreen.svg)](#)      [![Platform](https://img.shields.io/badge/Language-Java-yellowgreen.svg)](#)
+CometChat Kitchen Sink Sample App (built using CometChat UIKit) is a fully functional messaging app capable of one-on-one (private) and group messaging as well as Calling. This sample app enables users to send text and multimedia messages like images, videos, documents. Also, users can make Audio and Video calls to other users or groups.**
 
 ## Table of Contents
 
-1. [Set up and Run](#set-up-and-run)
+1. [Installation](#installation)
 
-2. [Screenshots ](#screenshots)
+2. [Running the sample app](rRunning-the-sample-app)
 
-2. [Contribute](#contribute)
+3. [Learn more about UI-Kit](#learn-more-about-ui-kit)
 
-
-
-## Set up and Run
-
-   Simply Clone the project from android-java-chat-app repository and open in Android Studio.
-   Build the Demo App and it will be ready to Run
+4. [Troubleshooting](#troubleshooting)
 
 
-   To run our open source app with CometChat Pro, follow these steps:
+# Installation
+
+1. Simply clone the project from [android-chat-ui-kit-app](https://github.com/cometchat-pro-samples/android-java-chat-app/archive/master.zip) repository. After cloning the repository:
 
 
-1. modify *APP_ID* and *API_KEY* with your own **ApiKey** , **AppId** and **REGION**
+# Running the sample app
 
-   - Open the Project in Android Mode in Android Studio
+To Run to sample app you have to do the following changes by Adding **APP_ID**, **API_KEY** and  **REGION_CODE**
 
-   - Go to Under java --> com\inscripts\cometchatpulse\demo --> Contracts --> StringContract
+   You can obtain your  *APP_ID*, *API_KEY* and *REGION_CODE* from [CometChat-Pro Dashboard](https://app.cometchat.io/)
 
-   - Under class `StringContract.class`  go to static `class` named `AppDetails`
+   - Open the project in Android Studio.
 
-        `public static final String APP_ID  = "XXXXXXXXX";`
+   - Modify `APP_ID` and `API_KEY` and `REGION` with your own .
 
-       ` public static final String API_KEY = "XXXXXXXXX";`
-       
-        `public static final String REGION  = "XXXXXXXXX";`
+   -  Select demo users or enter the **UID** at the time of login once the app is launched.
 
-2. Add Push Notifications to the Sample App.
+<img align="center" width="100%" height="auto"
+src="https://github.com/cometchat-pro-samples/android-java-chat-app/blob/master/Screenshot/Screen%20Shot%202020-01-30%20at%206.39.08%20PM.png">
 
-       Add your own `google-services.json` to start receiving Push Notification.
-       
-       For more deatail follow the below steps:
+Build and run the Sample App.
 
-     
-      [Add Push Notification to your Android project](https://prodocs.cometchat.com/docs/android-extensions-push-notification)
-      
-  - To enable push notification in your app you also need to enable push notification extension in your app from CometChat       DashBoard.To enable push notification extension follow the below steps:
-         
-      * Go to your app in [CometChat Dashboard ](https://app.cometchat.io/)
-      * Go to Extension section 
-      * Add Push Notification Extension
-      * Add **FCM Server Key** in Push Notification Extension   
-      
-      
-       
+# Learn more about UI-Kit
 
-     
-## Note
+Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/android-java-chat-app/blob/master/README.md) inside your app.
 
 
-   You can Obtain your  *APP_ID* and *API_KEY* from [CometChat-Pro Dashboard](https://app.cometchat.com/)
+# Troubleshooting
 
-   For more information read [CometChat-Pro Android SDK](https://prodocs.cometchat.com/docs/android-quick-start) Documentation
-
-
+Facing any issues while integrating or installing the UI Kit please <a href="https://forum.cometchat.com/"> visit our forum</a>.
 
 
-  ![Studio Guide](https://github.com/CometChat-Pulse/android-java-chat-app/blob/master/ScreenShots/guide.png)                                    
-
-
-## Push Notification
-
-The Push Notification extension allows you to send push notifications to mobile apps and desktop browsers. 
-	
-For more information read [Android-Push-Notification](https://prodocs.cometchat.com/docs/android-extensions-push-notification) Documentation.
-	
-
-
-
-
-
-## Screenshots
-
-   <img align="left" width="185" height="331" src="https://github.com/CometChat-Pulse/android-java-chat-app/blob/master/ScreenShots/gif_1.gif">
-
-
-   <img align="left" width="185" height="331" src="https://github.com/CometChat-Pulse/android-java-chat-app/blob/master/ScreenShots/gif_2.gif">
-
-
-   <img align="left" width="185" height="331" src="https://github.com/cometchat-pro-samples/android-java-chat-app/blob/master/ScreenShots/gif3.gif">
-
-
-
-   <img align="left" width="185" height="331" src="https://github.com/cometchat-pro-samples/android-java-chat-app/blob/master/ScreenShots/gif_4.gif">
-
-`            `<br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br></br>
-
-
-## Contribute
-   
-   
-   Feel free to make Pull Request. 
-   

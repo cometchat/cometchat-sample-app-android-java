@@ -1,89 +1,100 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context="com.inscripts.cometchatpulse.demo.Activity.LoginActivity">
+    android:orientation="vertical"
+    android:fillViewport="true"
+    tools:context="screen.CometChatGroupListScreen">
 
-
-    <ImageView
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="20dp"
-        android:layout_width="150dp"
-        android:src="@drawable/cc"
-        android:elevation="10dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_height="150dp" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/input_layout_uid"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:hint="@string/enter_uid"
-        app:boxStrokeColor="@color/secondaryDarkColor"
-        app:boxStrokeWidth="1dp"
-        app:counterOverflowTextAppearance="@color/error"
-        app:counterTextAppearance="@style/AppTheme.HelpText"
-        app:errorEnabled="true"
-        app:errorTextAppearance="@color/error"
-        app:helperText="Required*"
-        app:helperTextEnabled="true"
-        app:helperTextTextAppearance="@style/AppTheme.HelpText"
-        app:hintAnimationEnabled="true">
+        android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/guid"
-            android:layout_width="match_parent"
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:imeOptions="actionDone"
-            android:inputType="text|textCapSentences"
-            android:maxLines="1"
-            android:hint="@string/enter_uid"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:textSize="16sp" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:padding="4dp"
+            android:text="SignIn"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="40sp"
+            android:textStyle="bold" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitle"
+            android:id="@+id/tvDes1"
+            android:layout_marginStart="16dp"
+            android:padding="4dp"
+            android:text="Welcome to CometChat"
+            android:textColor="@color/colorPrimary"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDes1"
+            android:id="@+id/tvDes2"
+            android:layout_marginStart="16dp"
+            android:padding="4dp"
+            android:text="Please Enter UID to Continue"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:animateLayoutChanges="true"
+            android:layout_below="@id/tvDes2"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginEnd="32dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputUID"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter UID"
+                android:textColorHint="@color/secondaryTextColor"
+                app:boxCornerRadiusBottomEnd="24dp"
+                app:boxCornerRadiusBottomStart="24dp"
+                app:boxCornerRadiusTopEnd="24dp"
+                app:boxCornerRadiusTopStart="24dp"
+                app:boxStrokeColor="@color/secondaryTextColor"
+                app:boxStrokeWidth="1dp"
+                app:endIconDrawable="@drawable/ic_arrow_right_24dp"
+                app:endIconMode="custom"
+                app:endIconTint="@color/primaryTextColor">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etUID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:maxLines="1"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:textColor="@color/primaryTextColor" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <ProgressBar
+                android:id="@+id/loginProgress"
+                android:visibility="gone"
+                android:indeterminateTint="@color/primaryTextColor"
+                android:layout_alignEnd="@+id/inputUID"
+                android:layout_alignBottom="@+id/inputUID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 
-    <Button
-        android:id="@+id/btn_login"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:text="Login"
-        android:textStyle="bold"
-        android:textAllCaps="false"
-        android:textSize="16sp"
-        android:background="@drawable/button_background"
-        android:textColor="@color/primaryLightColor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/primaryTextColor"
-        android:text="@string/haven_t_created_a_user_yet_select_one_of_our_default_users_for_testing"
-        android:layout_height="wrap_content" />
-
-    <GridView
-        android:id="@+id/sample_list"
-        android:layout_width="match_parent"
-        android:numColumns="2"
-        android:overScrollMode="never"
-        android:scrollbars="none"
-        android:layout_height="wrap_content"/>
-
-</LinearLayout>
+</ScrollView>
