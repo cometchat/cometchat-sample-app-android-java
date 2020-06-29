@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import utils.FontUtils;
+import utils.Utils;
 
 /**
  * Purpose - GroupListAdapter is a subclass of RecyclerView Adapter which is used to display
@@ -86,6 +87,13 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
         groupViewHolder.groupListRowBinding.txtUserMessage.setTypeface(fontUtils.getTypeFace(FontUtils.robotoRegular));
         groupViewHolder.groupListRowBinding.txtUserName.setTypeface(fontUtils.getTypeFace(FontUtils.robotoMedium));
 
+        if(Utils.isDarkMode(context)) {
+            groupViewHolder.groupListRowBinding.txtUserName.setTextColor(context.getResources().getColor(R.color.textColorWhite));
+            groupViewHolder.groupListRowBinding.tvSeprator.setBackgroundColor(context.getResources().getColor(R.color.grey));
+        } else {
+            groupViewHolder.groupListRowBinding.txtUserName.setTextColor(context.getResources().getColor(R.color.primaryTextColor));
+            groupViewHolder.groupListRowBinding.tvSeprator.setBackgroundColor(context.getResources().getColor(R.color.light_grey));
+        }
     }
 
     /**
@@ -95,11 +103,8 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
     public void updateGroupList(List<Group> groupList) {
 
         for (int i = 0; i <groupList.size() ; i++) {
-            if (!this.groupList.contains(groupList.get(i))) {
-                this.groupList.add(groupList.get(i));
-            }
+                updateGroup(groupList.get(i));
         }
-        notifyDataSetChanged();
     }
 
     /**

@@ -1,21 +1,33 @@
 package adapter;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.LongSparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,6 +41,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.Call;
 import com.cometchat.pro.core.CometChat;
+import com.cometchat.pro.helpers.Logger;
 import com.cometchat.pro.models.Action;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.Avatar;
@@ -38,13 +51,23 @@ import com.cometchat.pro.models.MessageReceipt;
 import com.cometchat.pro.models.TextMessage;
 import com.cometchat.pro.models.User;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import constant.StringContract;
 import listeners.StickyHeaderAdapter;
 import screen.messagelist.CometChatMessageListActivity;
 import utils.FontUtils;
@@ -67,7 +90,6 @@ import utils.ZoomIv;
 
 public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements StickyHeaderAdapter<MessageAdapter.DateItemHolder> {
 
-
     private static final int RIGHT_IMAGE_MESSAGE = 56;
 
     private static final int LEFT_IMAGE_MESSAGE = 89;
@@ -75,6 +97,10 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int RIGHT_VIDEO_MESSAGE = 78;
 
     private static final int LEFT_VIDEO_MESSAGE = 87;
+
+    private static final int RIGHT_AUDIO_MESSAGE = 39;
+
+    private static final int LEFT_AUDIO_MESSAGE = 93;
 
     private static final int CALL_MESSAGE = 234;
 
@@ -114,6 +140,10 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private FontUtils fontUtils;
 
+    private MediaPlayer mediaPlayer;
+
+    private int messagePosition=0;
+
     private OnMessageLongClick messageLongClick;
 
     private boolean isUserDetailVisible;
@@ -125,7 +155,6 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private boolean isTextMessageClick;
 
     private boolean isImageMessageClick;
-
     /**
      * It is used to initialize the adapter wherever we needed. It has parameter like messageList
      * which contains list of messages and it will be used in adapter and paramter type is a String
@@ -146,6 +175,11 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }catch (Exception e) {
             e.printStackTrace();
         }
+
+        if (null == mediaPlayer) {
+            mediaPlayer = new MediaPlayer();
+        }
+
         fontUtils=FontUtils.getInstance(context);
     }
 
@@ -214,6 +248,16 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_left_link_item,parent,false);
                 view.setTag(LEFT_LINK_MESSAGE);
                 return new LinkMessageViewHolder(view);
+
+            case RIGHT_AUDIO_MESSAGE:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cometchat_audio_layout_right,parent,false);
+                view.setTag(RIGHT_AUDIO_MESSAGE);
+                return new AudioMessageViewHolder(view);
+
+            case LEFT_AUDIO_MESSAGE:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cometchat_audio_layout_left,parent,false);
+                view.setTag(LEFT_AUDIO_MESSAGE);
+                return new AudioMessageViewHolder(view);
 
             case LEFT_IMAGE_MESSAGE:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_left_list_image_item, parent, false);
@@ -346,6 +390,10 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case RIGHT_IMAGE_MESSAGE:
                 setImageData((ImageMessageViewHolder) viewHolder, i);
                 break;
+            case LEFT_AUDIO_MESSAGE:
+            case RIGHT_AUDIO_MESSAGE:
+                setAudioData((AudioMessageViewHolder) viewHolder,i);
+                break;
             case LEFT_VIDEO_MESSAGE:
             case RIGHT_VIDEO_MESSAGE:
                 setVideoData((VideoMessageViewHolder) viewHolder,i);
@@ -369,6 +417,82 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    private void setAudioData(AudioMessageViewHolder viewHolder, int i) {
+        BaseMessage baseMessage = messageList.get(i);
+        if (baseMessage!=null&&baseMessage.getDeletedAt()==0) {
+            if (!baseMessage.getSender().getUid().equals(loggedInUser.getUid())) {
+                viewHolder.playBtn.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.textColorWhite)));
+                if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_USER)) {
+                    viewHolder.tvUser.setVisibility(View.GONE);
+                    viewHolder.ivUser.setVisibility(View.GONE);
+                } else if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP)) {
+                    if (isUserDetailVisible) {
+                        viewHolder.tvUser.setVisibility(View.VISIBLE);
+                        viewHolder.ivUser.setVisibility(View.VISIBLE);
+                    } else {
+                        viewHolder.tvUser.setVisibility(View.GONE);
+                        viewHolder.ivUser.setVisibility(View.INVISIBLE);
+                    }
+                    setAvatar(viewHolder.ivUser, baseMessage.getSender().getAvatar(), baseMessage.getSender().getName());
+                    viewHolder.tvUser.setText(baseMessage.getSender().getName());
+                }
+            }
+            showMessageTime(viewHolder,baseMessage);
+            if (selectedItemList.contains(baseMessage.getId()))
+                viewHolder.txtTime.setVisibility(View.VISIBLE);
+            else
+                viewHolder.txtTime.setVisibility(View.GONE);
+            viewHolder.length.setText(Utils.getFileSize(((MediaMessage)baseMessage).getAttachment().getFileSize()));
+            viewHolder.playBtn.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+            viewHolder.playBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    MediaUtils.openFile(((MediaMessage) baseMessage).getAttachment().getFileUrl(),context);
+                    mediaPlayer.reset();
+                    if (messagePosition!=i) {
+                        notifyItemChanged(messagePosition);
+                        messagePosition = i;
+                    }
+                    try {
+                        mediaPlayer.setDataSource(((MediaMessage)baseMessage).getAttachment().getFileUrl());
+                        mediaPlayer.prepare();
+                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                viewHolder.playBtn.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+                            }
+                        });
+                    } catch (Exception e) {
+                        Log.e(TAG, "MediaPlayerError: "+e.getMessage());
+                    }
+                    if (!mediaPlayer.isPlaying()) {
+                        mediaPlayer.start();
+                        viewHolder.playBtn.setImageResource(R.drawable.ic_pause_24dp);
+                    } else {
+                        mediaPlayer.pause();
+                        viewHolder.playBtn.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+                    }
+                }
+            });
+            viewHolder.rlMessageBubble.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (!isLongClickEnabled && !isTextMessageClick) {
+                        isImageMessageClick = true;
+                        setLongClickSelectedItem(baseMessage);
+                        messageLongClick.setLongMessageClick(longselectedItemList);
+                        notifyDataSetChanged();
+                    }
+                    return true;
+                }
+            });
+        }
+    }
+
+    public void stopPlayingAudio() {
+        if (mediaPlayer!=null)
+            mediaPlayer.stop();
+    }
     /**
      * This method is called whenever viewType of item is file. It is used to bind FileMessageViewHolder
      * contents with MediaMessage at a given position.
@@ -415,15 +539,27 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
               viewHolder.rlMessageBubble.setOnClickListener(view -> {
-                  if (isLongClickEnabled && !isTextMessageClick) {
-//                          setLongClickSelectedItem(baseMessage.getId());
-                  }
-                  else {
+//                  if (isLongClickEnabled && !isTextMessageClick) {
+//                          setLongClickSelectedItem(baseMessage);
+//                  }
+//                  else {
                       setSelectedMessage(baseMessage.getId());
-                  }
+//                  }
                   notifyDataSetChanged();
               });
               viewHolder.fileName.setOnClickListener(view -> MediaUtils.openFile(((MediaMessage) baseMessage).getAttachment().getFileUrl(),context));
+              viewHolder.rlMessageBubble.setOnLongClickListener(new View.OnLongClickListener() {
+                  @Override
+                  public boolean onLongClick(View v) {
+                      if (!isLongClickEnabled && !isTextMessageClick) {
+                          isImageMessageClick = true;
+                          setLongClickSelectedItem(baseMessage);
+                          messageLongClick.setLongMessageClick(longselectedItemList);
+                          notifyDataSetChanged();
+                      }
+                      return true;
+                  }
+              });
           }
     }
 
@@ -622,7 +758,11 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      */
     private void setActionData(ActionMessageViewHolder viewHolder, int i) {
         BaseMessage baseMessage = messageList.get(i);
-        viewHolder.textView.setTextColor(context.getResources().getColor(R.color.primaryTextColor));
+        if(Utils.isDarkMode(context))
+            viewHolder.textView.setTextColor(context.getResources().getColor(R.color.textColorWhite));
+        else
+            viewHolder.textView.setTextColor(context.getResources().getColor(R.color.primaryTextColor));
+
         viewHolder.textView.setTypeface(fontUtils.getTypeFace(FontUtils.robotoMedium));
         if (baseMessage instanceof Action)
             viewHolder.textView.setText(((Action) baseMessage).getMessage());
@@ -1052,6 +1192,12 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             else
                                 return LEFT_TEXT_MESSAGE;
                         }
+                    case CometChatConstants.MESSAGE_TYPE_AUDIO:
+                        if (baseMessage.getSender().getUid().equals(loggedInUser.getUid())) {
+                            return RIGHT_AUDIO_MESSAGE;
+                        } else {
+                            return LEFT_AUDIO_MESSAGE;
+                        }
                     case CometChatConstants.MESSAGE_TYPE_IMAGE:
                         if (baseMessage.getSender().getUid().equals(loggedInUser.getUid())) {
                             return RIGHT_IMAGE_MESSAGE;
@@ -1203,7 +1349,6 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public int getPosition(BaseMessage baseMessage){
         return messageList.indexOf(baseMessage);
     }
-
 
     class ImageMessageViewHolder extends RecyclerView.ViewHolder {
 
@@ -1438,6 +1583,60 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    public class AudioMessageViewHolder extends RecyclerView.ViewHolder {
+
+//        private TextView audioLength;
+//
+//        private TextView tvUser;
+//
+//        private Avatar ivUser;
+//
+//        private RelativeLayout rlMessageBubble;
+//
+//        private SeekBar audioSeekBar;
+//
+//        private ImageView downloadBtn;
+//
+//        private ImageView playBtn;
+//
+//        private ProgressBar downloadProgress;
+//
+//        private TextView txtTime;
+//        private int type;
+//
+//        public AudioMessageViewHolder(@NonNull View itemView) {
+//            super(itemView);
+//
+//            type = (int)itemView.getTag();
+//            audioLength = itemView.findViewById(R.id.audioLength);
+//            rlMessageBubble = itemView.findViewById(R.id.cv_message_container);
+//            tvUser = itemView.findViewById(R.id.tv_user);
+//            ivUser = itemView.findViewById(R.id.iv_user);
+//            txtTime = itemView.findViewById(R.id.txt_time);
+//            audioSeekBar = itemView.findViewById(R.id.audioSeekBar);
+//            playBtn = itemView.findViewById(R.id.playBtn);
+//            downloadBtn = itemView.findViewById(R.id.download);
+//            downloadProgress = itemView.findViewById(R.id.progressBar);
+//        }
+
+        private TextView length;
+        private ImageView playBtn;
+        private int type;
+        private TextView tvUser;
+        private Avatar ivUser;
+        private RelativeLayout rlMessageBubble;
+        private TextView txtTime;
+        public AudioMessageViewHolder(@NonNull View itemView) {
+            super(itemView);
+            type = (int)itemView.getTag();
+            length = itemView.findViewById(R.id.audiolength_tv);
+            playBtn = itemView.findViewById(R.id.playBtn);
+            rlMessageBubble = itemView.findViewById(R.id.cv_message_container);
+            tvUser = itemView.findViewById(R.id.tv_user);
+            ivUser = itemView.findViewById(R.id.iv_user);
+            txtTime = itemView.findViewById(R.id.txt_time);
+        }
+    }
     public class LinkMessageViewHolder extends RecyclerView.ViewHolder {
 
         private TextView linkTitle;

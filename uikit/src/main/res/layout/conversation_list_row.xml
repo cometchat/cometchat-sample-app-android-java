@@ -40,7 +40,6 @@
                     android:layout_alignTop="@id/av_user"
                     android:layout_toStartOf="@+id/messageTime"
                     android:layout_marginStart="8dp"
-                    android:textColor="@color/primaryTextColor"
                     android:layout_toEndOf="@id/av_user"
                     android:layout_height="wrap_content"
                     tools:text="@tools:sample/full_names"

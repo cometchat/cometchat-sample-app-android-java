@@ -1,8 +1,8 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light" />
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge" />
 
-    <style name="TransparentCompat" parent="@style/Theme.MaterialComponents.Light">
+    <style name="TransparentCompat" parent="AppTheme">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>

@@ -1,11 +1,15 @@
 package com.cometchat.pro.androiduikit;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
+
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
@@ -13,6 +17,8 @@ import java.util.ArrayList;
 import com.cometchat.pro.androiduikit.constants.AppConfig;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+
+import utils.Utils;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -28,15 +34,19 @@ public class MainActivity extends AppCompatActivity {
     private MaterialCardView superhero3;
 
     private MaterialCardView superhero4;
+
+    private AppCompatImageView ivLogo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         loginBtn = findViewById(R.id.login);
         superhero1 = findViewById(R.id.superhero1);
         superhero2 = findViewById(R.id.superhero2);
         superhero3 = findViewById(R.id.superhero3);
         superhero4 = findViewById(R.id.superhero4);
+        ivLogo = findViewById(R.id.ivLogo);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
                 public void onClick(View view) {
@@ -61,10 +71,15 @@ public class MainActivity extends AppCompatActivity {
                 login("superhero4");
         });
 
+        if(Utils.isDarkMode(this)) {
+            ivLogo.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.textColorWhite)));
+        }
+        else {
+            ivLogo.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.primaryTextColor)));
+        }
     }
 
     private void login(String uid) {
-
         CometChat.login(uid, AppConfig.AppDetails.API_KEY, new CometChat.CallbackListener<User>() {
             @Override
             public void onSuccess(User user) {
@@ -80,5 +95,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

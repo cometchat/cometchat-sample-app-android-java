@@ -49,6 +49,12 @@ public class SelectActivity extends AppCompatActivity {
                 logoutUser(v);
             }
         });
+        if (Utils.isDarkMode(this)) {
+            logout.setBackgroundColor(getResources().getColor(R.color.darkModeBackground));
+        } else {
+            logout.setBackgroundColor(getResources().getColor(R.color.textColorWhite));
+        }
+
         unifiedLaunch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,7 +118,10 @@ public class SelectActivity extends AppCompatActivity {
                 screenLaunch.setText("Make Call");
             }
             if (audioCallRb.isChecked()) {
-                audioCallRb.setBackground(getResources().getDrawable(R.drawable.radiobuttonbackground));
+                if(Utils.isDarkMode(SelectActivity.this))
+                    audioCallRb.setBackground(getResources().getDrawable(R.drawable.darkmode_radiobuttonbackground));
+                else
+                    audioCallRb.setBackground(getResources().getDrawable(R.drawable.radiobuttonbackground));
                 conversationRb.setBackground(null);
                 videoCallRb.setBackground(null);
                 userRb.setBackground(null);
@@ -120,7 +129,10 @@ public class SelectActivity extends AppCompatActivity {
                 groupRb.setBackground(null);
                 moreInfoRb.setBackground(null);
             } else if (videoCallRb.isChecked()) {
-                videoCallRb.setBackground(getResources().getDrawable(R.drawable.radiobuttonbackground));
+                if(Utils.isDarkMode(SelectActivity.this))
+                    videoCallRb.setBackground(getResources().getDrawable(R.drawable.darkmode_radiobuttonbackground));
+                else
+                    videoCallRb.setBackground(getResources().getDrawable(R.drawable.radiobuttonbackground));
                 conversationRb.setBackground(null);
                 audioCallRb.setBackground(null);
                 userRb.setBackground(null);
@@ -142,7 +154,10 @@ public class SelectActivity extends AppCompatActivity {
 
             }
             if (userRb.isChecked()) {
-                userRb.setBackground(getResources().getDrawable(R.drawable.radiobuttonbackground));
+                if(Utils.isDarkMode(SelectActivity.this))
+                    userRb.setBackground(getResources().getDrawable(R.drawable.darkmode_radiobuttonbackground));
+                else
+                    userRb.setBackground(getResources().getDrawable(R.drawable.radiobuttonbackground));
                 groupRb.setBackground(null);
                 callsRb.setBackground(null);
                 conversationRb.setBackground(null);
@@ -150,7 +165,10 @@ public class SelectActivity extends AppCompatActivity {
                 audioCallRb.setBackground(null);
                 videoCallRb.setBackground(null);
             } else if (callsRb.isChecked()) {
-                callsRb.setBackground(getResources().getDrawable(R.drawable.radiobuttonbackground));
+                if (Utils.isDarkMode(SelectActivity.this))
+                    callsRb.setBackground(getResources().getDrawable(R.drawable.darkmode_radiobuttonbackground));
+                else
+                    callsRb.setBackground(getResources().getDrawable(R.drawable.radiobuttonbackground));
                 userRb.setBackground(null);
                 groupRb.setBackground(null);
                 conversationRb.setBackground(null);
@@ -158,7 +176,10 @@ public class SelectActivity extends AppCompatActivity {
                 audioCallRb.setBackground(null);
                 videoCallRb.setBackground(null);
             } else if (conversationRb.isChecked()) {
-                conversationRb.setBackground(getResources().getDrawable(R.drawable.radiobuttonbackground));
+                if(Utils.isDarkMode(SelectActivity.this))
+                    conversationRb.setBackground(getResources().getDrawable(R.drawable.darkmode_radiobuttonbackground));
+                else
+                    conversationRb.setBackground(getResources().getDrawable(R.drawable.radiobuttonbackground));
                 userRb.setBackground(null);
                 callsRb.setBackground(null);
                 groupRb.setBackground(null);
@@ -166,7 +187,10 @@ public class SelectActivity extends AppCompatActivity {
                 audioCallRb.setBackground(null);
                 videoCallRb.setBackground(null);
             } else if (groupRb.isChecked()) {
-                groupRb.setBackground(getResources().getDrawable(R.drawable.radiobuttonbackground));
+                if(Utils.isDarkMode(SelectActivity.this))
+                    groupRb.setBackground(getResources().getDrawable(R.drawable.darkmode_radiobuttonbackground));
+                else
+                    groupRb.setBackground(getResources().getDrawable(R.drawable.radiobuttonbackground));
                 userRb.setBackground(null);
                 conversationRb.setBackground(null);
                 moreInfoRb.setBackground(null);
@@ -174,7 +198,10 @@ public class SelectActivity extends AppCompatActivity {
                 videoCallRb.setBackground(null);
                 callsRb.setBackground(null);
             } else {
-                moreInfoRb.setBackground(getResources().getDrawable(R.drawable.radiobuttonbackground));
+                if(Utils.isDarkMode(SelectActivity.this))
+                    moreInfoRb.setBackground(getResources().getDrawable(R.drawable.darkmode_radiobuttonbackground));
+                else
+                    moreInfoRb.setBackground(getResources().getDrawable(R.drawable.radiobuttonbackground));
                 userRb.setBackground(null);
                 groupRb.setBackground(null);
                 conversationRb.setBackground(null);

@@ -1,5 +1,6 @@
 package com.cometchat.pro.androiduikit.ComponentFragments;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,10 +16,15 @@ import com.cometchat.pro.androiduikit.R;
 import com.cometchat.pro.uikit.BadgeCount;
 import com.cometchat.pro.uikit.StatusIndicator;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
+import utils.Utils;
 
 public class BadgeCountFragment extends Fragment {
 
     private int count=1;
+    private TextInputLayout badgeCountLayout,badgeCountSizeLayout;
+    private TextInputEditText badgeCountEdt,countSize;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,11 +36,13 @@ public class BadgeCountFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_badge_count, container, false);
         BadgeCount badgeCount = view.findViewById(R.id.badgeCount);
-        TextInputEditText badgecountedt = view.findViewById(R.id.badgeCount_edt);
-        TextInputEditText countSize = view.findViewById(R.id.countSize);
+        badgeCountLayout = view.findViewById(R.id.badgeCount_layout);
+        badgeCountSizeLayout = view.findViewById(R.id.badgeCountSize_layout);
+        badgeCountEdt = view.findViewById(R.id.badgeCount_edt);
+        countSize = view.findViewById(R.id.countSize);
         countSize.setText(String.valueOf(12));
-        badgecountedt.setText(String.valueOf(1));
-        badgecountedt.addTextChangedListener(new TextWatcher() {
+        badgeCountEdt.setText(String.valueOf(1));
+        badgeCountEdt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 
@@ -160,7 +168,28 @@ public class BadgeCountFragment extends Fragment {
                 refreshbadgeCount(badgeCount);
             }
         });
+        checkDarkMode();
         return view;
+    }
+
+    private void checkDarkMode() {
+        if(Utils.isDarkMode(getContext())) {
+            badgeCountLayout.setBoxStrokeColor(getResources().getColor(R.color.textColorWhite));
+            badgeCountLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.textColorWhite)));
+            badgeCountLayout.setDefaultHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.textColorWhite)));
+
+            badgeCountSizeLayout.setBoxStrokeColor(getResources().getColor(R.color.textColorWhite));
+            badgeCountSizeLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.textColorWhite)));
+            badgeCountSizeLayout.setDefaultHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.textColorWhite)));
+        } else {
+            badgeCountLayout.setBoxStrokeColor(getResources().getColor(R.color.primaryTextColor));
+            badgeCountLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.primaryTextColor)));
+            badgeCountLayout.setDefaultHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.primaryTextColor)));
+
+            badgeCountSizeLayout.setBoxStrokeColor(getResources().getColor(R.color.primaryTextColor));
+            badgeCountSizeLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.primaryTextColor)));
+            badgeCountSizeLayout.setDefaultHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.primaryTextColor)));
+        }
     }
 
     private void refreshbadgeCount(BadgeCount badgeCount) {

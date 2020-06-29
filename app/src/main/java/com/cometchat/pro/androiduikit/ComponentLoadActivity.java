@@ -144,7 +144,11 @@ public class ComponentLoadActivity extends AppCompatActivity implements  OnAlert
         intent.putExtra(StringContract.IntentStrings.GROUP_OWNER,group.getOwner());
         intent.putExtra(StringContract.IntentStrings.AVATAR, group.getIcon());
         intent.putExtra(StringContract.IntentStrings.NAME, group.getName());
+        intent.putExtra(StringContract.IntentStrings.GROUP_TYPE,group.getGroupType());
         intent.putExtra(StringContract.IntentStrings.TYPE, CometChatConstants.RECEIVER_TYPE_GROUP);
+        intent.putExtra(StringContract.IntentStrings.MEMBER_COUNT,group.getMembersCount());
+        intent.putExtra(StringContract.IntentStrings.GROUP_DESC,group.getDescription());
+        intent.putExtra(StringContract.IntentStrings.GROUP_PASSWORD,group.getPassword());
         startActivity(intent);
     }
 

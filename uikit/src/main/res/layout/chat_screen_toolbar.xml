@@ -1,6 +1,5 @@
 <androidx.appcompat.widget.Toolbar android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/textColorWhite"
     android:stateListAnimator="@animator/toolbar_elevation"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">

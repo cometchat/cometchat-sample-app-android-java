@@ -111,8 +111,7 @@
             android:textColor="@color/secondaryTextColor"
             android:textStyle="bold"
             tools:visibility="visible"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
     </RelativeLayout>
 

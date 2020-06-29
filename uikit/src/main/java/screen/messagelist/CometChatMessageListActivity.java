@@ -72,6 +72,10 @@ public class CometChatMessageListActivity extends AppCompatActivity implements M
               }else {
                   bundle.putString(StringContract.IntentStrings.GUID, getIntent().getStringExtra(StringContract.IntentStrings.GUID));
                   bundle.putString(StringContract.IntentStrings.GROUP_OWNER,getIntent().getStringExtra(StringContract.IntentStrings.GROUP_OWNER));
+                  bundle.putInt(StringContract.IntentStrings.MEMBER_COUNT,getIntent().getIntExtra(StringContract.IntentStrings.MEMBER_COUNT,0));
+                  bundle.putString(StringContract.IntentStrings.GROUP_TYPE,getIntent().getStringExtra(StringContract.IntentStrings.GROUP_TYPE));
+                  bundle.putString(StringContract.IntentStrings.GROUP_DESC,getIntent().getStringExtra(StringContract.IntentStrings.GROUP_DESC));
+                  bundle.putString(StringContract.IntentStrings.GROUP_PASSWORD,getIntent().getStringExtra(StringContract.IntentStrings.GROUP_PASSWORD));
               }
               fragment.setArguments(bundle);
              getSupportFragmentManager().beginTransaction().replace(R.id.ChatFragment, fragment).commit();

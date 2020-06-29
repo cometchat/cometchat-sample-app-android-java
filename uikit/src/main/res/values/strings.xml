@@ -22,7 +22,7 @@
     <string name="owner">Owner</string>
     <string name="admin">Admin</string>
     <string name="create_group">Create Group</string>
-    <string name="kindly_enter_group_name_to_proceed">Kindly, enter group name to proceed</string>
+    <string name="kindly_enter_group_details_to_proceed">Kindly, enter group details to proceed</string>
     <string name="enter_group_name">Enter Group Name</string>
     <array name="privacySettings">
         <item>Everybody</item>
@@ -150,5 +150,44 @@
     <string name="custom_message">Custom Message not supported</string>
     <string name="no_block_users">No Block Users</string>
     <string name="no_missedcall_message">You dont have any missed calls</string>
+    <string name="ongoing_call">Call is Ongoing</string>
+    <string name="ongoing_call_message">There is already Call ongoing. Would you like to join ?</string>
+    <string name="tap_to_join_call">Tap to join Ongoing Call</string>
+    <string name="slide_to_cancel">Slide To Cancel</string>
+    <string name="enter_avatar_url">Enter Url for avatar</string>
+    <string name="enter_user_name">Enter user name</string>
+    <string name="update_user">Update User</string>
+    <string name="banned_members">Banned Members</string>
+    <string name="ban_list_fetch_error">Unable to fetch Banned Members List</string>
+    <string name="ban_member_of_group">Banned Members of %1$s</string>
+    <string name="member_unbanned_success">%1$s unbanned from %2$s</string>
+    <string name="unban_error">Unable to unban %1$s</string>
 
+    <string name="enter_group_desc">Enter Group Description</string>
+    <string name="enter_group_pwd">Enter Group Password</string>
+    <string name="enter_group_cnf_pwd">Confirm Password</string>
+    <string name="password_not_matched">Password not matched</string>
+    <string name="enter_password_to_join">Enter Password to join %1$s</string>
+    <string name="no_ban_members">No Banned Members</string>
+    <string name="moderators">Moderators</string>
+    <string name="modertor_list_retrieve_error">Unable to retrieve moderator list.</string>
+    <string name="remove_from_moderator">Remove %1$s from Moderator</string>
+    <string name="removed_from_moderator">%1$s is removed from moderator privilege</string>
+    <string name="make_moderator">Make Moderator</string>
+    <string name="make_moderator_question">Do you like to make %1$s as a Moderator</string>
+    <string name="user_is_moderator">%1$s is now Moderator</string>
+    <string name="add_as_moderator">Add as Moderator</string>
+    <string name="only_admin_removes_moderator">Only Admin can remove moderator</string>
+    <string name="moderator">Moderator</string>
+    <string name="update_group">Update Group</string>
+    <string name="enter_groupicon_url">Enter Group Icon Url</string>
+    <string name="group_updated">Group Successfully Updated</string>
+    <string name="group_update_failed">Group not updated</string>
+    <string name="enter_old_group_pwd">Enter Old Password</string>
+    <string name="enter_new_password">Enter new password</string>
+    <array name="groupType">
+        <item>Public Group</item>
+        <item>Private Group</item>
+        <item>Password Protected Group</item>
+    </array>
 </resources>

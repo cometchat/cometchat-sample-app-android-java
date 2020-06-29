@@ -35,8 +35,8 @@ android {
     }
     lintOptions {
         checkReleaseBuilds false
-            // Or, if you prefer, you can continue to check for errors in release builds,
-           // but continue the build even when errors are found:
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
         abortOnError false
     }
 }
@@ -57,8 +57,6 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.2.0-alpha05'
     implementation 'com.facebook.shimmer:shimmer:0.4.0'
-
-    implementation 'com.cometchat:pro-android-chat-sdk:2.0.4-beta1'
-
+//
+    implementation 'com.cometchat:pro-android-chat-sdk:2.0.6'
 }
-

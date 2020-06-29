@@ -3,6 +3,8 @@
 
     <item android:id="@+id/item_remove"
         android:title="Remove" />
+    <item android:id="@+id/item_ban"
+        android:title="Ban" />
 
     <item android:id="@+id/item_make_admin"
         android:title="Make Admin"/>

@@ -17,7 +17,6 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/directIntent"
                 android:layout_margin="8dp"
-                app:cardBackgroundColor="@android:color/white"
                 android:layout_width="match_parent"
                 app:rippleColor="@color/colorAccent"
                 app:cardCornerRadius="16dp"
@@ -36,7 +35,6 @@
                         android:layout_height="48dp"/>
                     <TextView
                         android:drawablePadding="10dp"
-                        android:textColor="@color/primaryTextColor"
                         android:layout_marginTop="16dp"
                         android:layout_gravity="center_horizontal"
                         android:text="UI Unified"
@@ -70,7 +68,6 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/usingScreen"
             android:layout_margin="8dp"
-            app:cardBackgroundColor="@color/textColorWhite"
             android:layout_width="match_parent"
             app:cardCornerRadius="16dp"
             app:cardElevation="4dp"
@@ -91,7 +88,6 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:drawablePadding="10dp"
                     style="@style/TextAppearance.MaterialComponents.Headline5"
-                    android:textColor="@color/primaryTextColor"
                     android:layout_marginTop="16dp"
                     android:layout_gravity="center_horizontal"
                     android:text="UI Screens"
@@ -104,10 +100,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <HorizontalScrollView
+                    android:layout_marginBottom="8dp"
                     android:scrollbars="none"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <LinearLayout
+                        android:layout_gravity="center"
                         android:orientation="vertical"
                         android:background="@drawable/search_box"
                         android:backgroundTint="@color/light_grey"
@@ -149,7 +147,7 @@
                             <RadioButton
                                 android:id="@+id/conversations"
                                 android:padding="8dp"
-                                android:text="Conversations"
+                                android:text="Chats"
                                 android:ellipsize="end"
                                 android:button="@android:color/transparent"
                                 android:maxLines="1"
@@ -215,7 +213,6 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/usingComponent"
             android:layout_margin="8dp"
-            app:cardBackgroundColor="@android:color/white"
             android:layout_width="match_parent"
             app:rippleColor="@color/colorAccent"
             app:cardCornerRadius="16dp"
@@ -234,7 +231,6 @@
                     android:layout_height="48dp"/>
                 <TextView
                     android:drawablePadding="10dp"
-                    android:textColor="@color/primaryTextColor"
                     android:layout_marginTop="16dp"
                     android:layout_gravity="center_horizontal"
                     android:text="UI Components"

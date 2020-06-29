@@ -1,5 +1,7 @@
 package constant;
 
+import android.graphics.Color;
+
 public class StringContract {
 
     public static class IntentStrings {
@@ -43,6 +45,26 @@ public class StringContract {
         public static final String INCOMING = "incoming";
 
         public static final String FROM_CALL_LIST = "from_call_list" ;
+
+        public static final String JOIN_ONGOING = "join_ongoing_call";
+
+        public static final String MESSAGE_TYPE_IMAGE_NAME = "file_name" ;
+
+        public static final String MESSAGE_TYPE_IMAGE_URL = "file_url" ;
+
+        public static final String MESSAGE_TYPE_IMAGE_MIME_TYPE = "file_mime";
+
+        public static final String MESSAGE_TYPE_IMAGE_EXTENSION = "file_extension";
+
+        public static final String MESSAGE_TYPE_IMAGE_SIZE = "file_size";
+
+        public static final String SHOW_MODERATORLIST = "is_moderator";
+
+        public static final String GROUP_DESC = "group_description";
+
+        public static final String GROUP_PASSWORD = "group_password" ;
+
+        public static final String GROUP_TYPE = "group_type" ;
     }
 
     public static class Tab {
@@ -63,7 +85,12 @@ public class StringContract {
         public static final int BLOCK_USER = 7;
 
         public static final int DELETE_GROUP = 8;
-    }
 
+        public static final int AUDIO = 3;
+
+        public static final int READ_STORAGE = 001;
+
+        public static final int RECORD = 003;
+    }
 
 }

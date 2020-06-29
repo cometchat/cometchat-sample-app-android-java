@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.material.card.MaterialCardView;
 
@@ -17,11 +18,18 @@ public class ComponentListActivity extends AppCompatActivity {
     MaterialCardView cometchatGroupList;
     MaterialCardView cometchatConversationList;
     MaterialCardView cometchatCallList;
-
+    ImageView backIcon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_component_list);
+        backIcon = findViewById(R.id.backIcon);
+        backIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         cometchatAvatar = findViewById(R.id.cometchat_avatar);
         cometchatAvatar.setOnClickListener(view -> {
             Intent intent = new Intent(ComponentListActivity.this, ComponentLoadActivity.class);
@@ -64,10 +72,5 @@ public class ComponentListActivity extends AppCompatActivity {
             intent.putExtra("screen",R.id.cometchat_callList);
             startActivity(intent);
         });
-    }
-
-    public void backClick(View view)
-    {
-        super.onBackPressed();
     }
 }

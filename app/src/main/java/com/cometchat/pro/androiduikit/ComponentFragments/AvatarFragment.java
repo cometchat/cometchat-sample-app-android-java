@@ -2,6 +2,7 @@ package com.cometchat.pro.androiduikit.ComponentFragments;
 
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,12 +20,17 @@ import com.cometchat.pro.androiduikit.R;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.uikit.Avatar;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Random;
+
+import utils.Utils;
 
 public class AvatarFragment extends Fragment implements ColorPickerDialog.OnColorChangedListener {
 
     private Context context;
+
+    private TextInputLayout borderWidthLayout;
 
     public AvatarFragment() {
         // Required empty public constructor
@@ -44,6 +50,7 @@ public class AvatarFragment extends Fragment implements ColorPickerDialog.OnColo
         avatar.setBorderColor(getResources().getColor(R.color.colorPrimaryDark));
         avatar.setAvatar(CometChat.getLoggedInUser().getAvatar());
         TextInputEditText borderWidth = view.findViewById(R.id.borderWidth);
+        borderWidthLayout = view.findViewById(R.id.borderWidth_layout);
         borderWidth.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -119,8 +126,20 @@ public class AvatarFragment extends Fragment implements ColorPickerDialog.OnColo
                 refreshAvatar(avatar);
             }
         });
-
+        checkDarkMode();
         return view;
+    }
+
+    private void checkDarkMode() {
+        if(Utils.isDarkMode(getContext())) {
+            borderWidthLayout.setDefaultHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.textColorWhite)));
+            borderWidthLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.textColorWhite)));
+            borderWidthLayout.setBoxStrokeColor(getResources().getColor(R.color.textColorWhite));
+        } else {
+            borderWidthLayout.setDefaultHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.primaryTextColor)));
+            borderWidthLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.primaryTextColor)));
+            borderWidthLayout.setBoxStrokeColor(getResources().getColor(R.color.primaryTextColor));
+        }
     }
 
 

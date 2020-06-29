@@ -29,6 +29,7 @@ import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.core.ConversationsRequest;
 import com.cometchat.pro.exceptions.CometChatException;
+import com.cometchat.pro.models.Attachment;
 import com.cometchat.pro.models.Conversation;
 import com.cometchat.pro.models.Group;
 import com.cometchat.pro.models.MediaMessage;
@@ -41,6 +42,9 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import org.json.JSONObject;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -88,7 +92,9 @@ public class CometChatForwardMessageScreenActivity extends AppCompatActivity {
 
     private String messageType;
 
-    private String mediaMessageUrl;
+    private String mediaMessageUrl,mediaMessageExtension,mediaMessageName,mediaMessageMime;
+
+    private int mediaMessageSize;
 
     private int id;
     @Override
@@ -110,8 +116,20 @@ public class CometChatForwardMessageScreenActivity extends AppCompatActivity {
         if (getIntent().hasExtra(CometChatConstants.MESSAGE_TYPE_TEXT)){
             textMessage = getIntent().getStringExtra(CometChatConstants.MESSAGE_TYPE_TEXT);
         }
-        if (getIntent().hasExtra(CometChatConstants.MESSAGE_TYPE_IMAGE)) {
-            mediaMessageUrl = getIntent().getStringExtra(CometChatConstants.MESSAGE_TYPE_IMAGE);
+        if (getIntent().hasExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_URL)) {
+            mediaMessageUrl = getIntent().getStringExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_URL);
+        }
+        if (getIntent().hasExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_SIZE)) {
+            mediaMessageSize = getIntent().getIntExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_SIZE,0);
+        }
+        if (getIntent().hasExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_EXTENSION)) {
+            mediaMessageExtension = getIntent().getStringExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_EXTENSION);
+        }
+        if (getIntent().hasExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_NAME)) {
+            mediaMessageName = getIntent().getStringExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_NAME);
+        }
+        if (getIntent().hasExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_MIME_TYPE)) {
+            mediaMessageMime = getIntent().getStringExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_MIME_TYPE);
         }
         if (getIntent().hasExtra(StringContract.IntentStrings.ID)) {
             id = getIntent().getIntExtra(StringContract.IntentStrings.ID,0);
@@ -253,8 +271,41 @@ public class CometChatForwardMessageScreenActivity extends AppCompatActivity {
                         }
 
                     }).start();
-                }
+                } else if (messageType!=null) {
+                    new Thread(() -> {
+                        for (int i = 0; i <= userList.size() - 1; i++) {
+                            Conversation conversation = new ArrayList<>(userList.values()).get(i);
+                            MediaMessage message;
+                            String uid;
+                            String type;
+                            Log.e(TAG, "run: " + conversation.getConversationId());
+                            if (conversation.getConversationType().equals(CometChatConstants.CONVERSATION_TYPE_USER)) {
+                                uid = ((User) conversation.getConversationWith()).getUid();
+                                type = CometChatConstants.RECEIVER_TYPE_USER;
+                            } else {
+                                uid = ((Group) conversation.getConversationWith()).getGuid();
+                                type = CometChatConstants.RECEIVER_TYPE_GROUP;
+                            }
+                            message = new MediaMessage(uid,null,messageType,type);
+                            Attachment attachment = new Attachment();
+                            attachment.setFileUrl(mediaMessageUrl);
+                            attachment.setFileMimeType(mediaMessageMime);
+                            attachment.setFileSize(mediaMessageSize);
+                            attachment.setFileExtension(mediaMessageExtension);
+                            attachment.setFileName(mediaMessageName);
+                            message.setAttachment(attachment);
+                            Log.e(TAG, "onClick: "+attachment.toString());
+                            sendMediaMessage(message);
+                            if (i == userList.size() - 1) {
+                                Intent intent = new Intent(CometChatForwardMessageScreenActivity.this, CometChatUnified.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
 
+                    }).start();
+                }
             }
         });
         rvConversationList.addOnScrollListener(new RecyclerView.OnScrollListener() {

@@ -1,18 +1,22 @@
 package screen.messagelist;
 
 import android.Manifest;
-import android.app.Dialog;
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.res.ColorStateList;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -24,10 +28,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,20 +45,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.core.GroupMembersRequest;
 import com.cometchat.pro.core.MessagesRequest;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.Action;
+import com.cometchat.pro.uikit.ComposeBox;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.models.Group;
 import com.cometchat.pro.models.GroupMember;
 import com.cometchat.pro.uikit.Avatar;
-import com.cometchat.pro.uikit.ComposeBox;
 import com.cometchat.pro.models.BaseMessage;
 import com.cometchat.pro.models.MediaMessage;
 import com.cometchat.pro.models.MessageReceipt;
@@ -64,9 +67,11 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,17 +80,19 @@ import java.util.TimerTask;
 
 import adapter.MessageAdapter;
 import constant.StringContract;
+import listeners.ComposeActionListener;
 import listeners.OnItemClickListener;
 import listeners.StickyHeaderDecoration;
 import screen.CometChatForwardMessageScreenActivity;
 import screen.CometChatGroupDetailScreenActivity;
 import screen.CometChatUserDetailScreenActivity;
+import utils.AudioVisualizer.AudioRecordView;
 import utils.FontUtils;
-import utils.FooterDecoration;
 import utils.MediaUtils;
 import utils.KeyBoardUtils;
 import utils.Utils;
-import utils.ZoomIv;
+
+import static android.view.View.GONE;
 
 /**
  * Purpose - CometChatMessageScreen class is a fragment used to display list of messages and perform certain action on click of message.
@@ -106,7 +113,6 @@ import utils.ZoomIv;
 
 public class CometChatMessageScreen extends Fragment implements View.OnClickListener, CometChatMessageListActivity.OnMessageLongClick {
 
-    private static FooterDecoration footerDecoration;
     private static final String TAG = "CometChatMessageScreen";
 
     private static final int LIMIT = 30;
@@ -117,23 +123,13 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
 
     private MessagesRequest messagesRequest;    //Used to fetch messages.
 
-    private RelativeLayout composeBox;
+    private ComposeBox composeBox;
 
-    private EditText etComposeBox;
+    private MediaRecorder mediaRecorder;
 
-    private ImageView ivSend;
+    private MediaPlayer mediaPlayer;
 
-    private ImageView ivArrow;
-
-    private ImageView ivCamera;
-
-    private ImageView ivGallery;
-
-    private ImageView ivFile;
-
-    private RelativeLayout rlContainer;
-
-    private boolean isOpen;
+    private String audioFileNameWithPath;
 
     private RecyclerView rvChatListView;    //Used to display list of messages.
 
@@ -170,6 +166,8 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
 
     private String type;
 
+    private String groupType;
+
     private boolean isBlockedByMe;
 
     private String loggedInUserScope;
@@ -190,7 +188,6 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
 
     private TextView tvMessageTitle;
 
-
     private TextView tvMessageSubTitle;
 
     private BaseMessage baseMessage;
@@ -203,9 +200,17 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
 
     private String groupOwnerId;
 
+    private int memberCount;
+
     private String memberNames;
 
+    private String groupDesc;
+
+    private String groupPassword;
+
     private Timer timer = new Timer();
+
+    private Timer typingTimer = new Timer();
 
     private View view;
 
@@ -221,6 +226,13 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
 
     private boolean isSmartReplyClicked;
 
+    private RelativeLayout onGoingCallView;
+
+    private TextView onGoingCallTxt;
+
+    private ImageView onGoingCallClose;
+
+    public int count = 0;
 
     public CometChatMessageScreen() {
         // Required empty public constructor
@@ -244,8 +256,13 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
             status = getArguments().getString(StringContract.IntentStrings.STATUS);
             name = getArguments().getString(StringContract.IntentStrings.NAME);
             type = getArguments().getString(StringContract.IntentStrings.TYPE);
-            if (type != null && type.equals(CometChatConstants.RECEIVER_TYPE_GROUP))
+            if (type != null && type.equals(CometChatConstants.RECEIVER_TYPE_GROUP)) {
                 Id = getArguments().getString(StringContract.IntentStrings.GUID);
+                memberCount = getArguments().getInt(StringContract.IntentStrings.MEMBER_COUNT);
+                groupDesc = getArguments().getString(StringContract.IntentStrings.GROUP_DESC);
+                groupPassword = getArguments().getString(StringContract.IntentStrings.GROUP_PASSWORD);
+                groupType = getArguments().getString(StringContract.IntentStrings.GROUP_TYPE);
+            }
         }
     }
 
@@ -253,7 +270,6 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_chat_screen, container, false);
-
         initViewComponent(view);
         return view;
     }
@@ -269,18 +285,8 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         setHasOptionsMenu(true);
         composeBox = view.findViewById(R.id.message_box);
         messageShimmer = view.findViewById(R.id.shimmer_layout);
-        etComposeBox = view.findViewById(R.id.etComposeBox);
-        ivSend = view.findViewById(R.id.ivSend);
-        ivSend.setOnClickListener(this);
-        ivCamera = view.findViewById(R.id.ivCamera);
-        ivCamera.setOnClickListener(this);
-        ivGallery = view.findViewById(R.id.ivImage);
-        ivGallery.setOnClickListener(this);
-        ivFile = view.findViewById(R.id.ivFile);
-        ivFile.setOnClickListener(this);
-        rlContainer = view.findViewById(R.id.rlActionContainers);
-        ivArrow = view.findViewById(R.id.ivArrow);
-        ivArrow.setOnClickListener(this);
+        composeBox = view.findViewById(R.id.message_box);
+
         setComposeBoxListener();
 
         rvSmartReply = view.findViewById(R.id.rv_smartReply);
@@ -315,16 +321,40 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         tvName.setText(name);
         setAvatar();
 
-
+//        barVisualizer = view.findViewById(R.id.barVisualizer);
         rvChatListView.setLayoutManager(linearLayoutManager);
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        if (Utils.isDarkMode(context)) {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.grey));
+            editMessageLayout.setBackground(getResources().getDrawable(R.drawable.left_border_dark));
+            composeBox.setBackgroundColor(getResources().getColor(R.color.darkModeBackground));
+            rvChatListView.setBackgroundColor(getResources().getColor(R.color.darkModeBackground));
+            rlMessageAction.setBackgroundColor(getResources().getColor(R.color.darkModeBackground));
+            tvName.setTextColor(getResources().getColor(R.color.textColorWhite));
+        } else {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.textColorWhite));
+            editMessageLayout.setBackground(getResources().getDrawable(R.drawable.left_border));
+            composeBox.setBackgroundColor(getResources().getColor(R.color.textColorWhite));
+            rvChatListView.setBackgroundColor(getResources().getColor(R.color.textColorWhite));
+            rlMessageAction.setBackgroundColor(getResources().getColor(R.color.textColorWhite));
+            tvName.setTextColor(getResources().getColor(R.color.primaryTextColor));
+        }
 
         KeyBoardUtils.setKeyboardVisibilityListener(getActivity(), (View) rvChatListView.getParent(), keyboardVisible -> {
             if (keyboardVisible) {
                 scrollToBottom();
+                composeBox.ivMic.setVisibility(GONE);
+                composeBox.ivSend.setVisibility(View.VISIBLE);
+            } else {
+                if (isEdit) {
+                    composeBox.ivMic.setVisibility(GONE);
+                    composeBox.ivSend.setVisibility(View.VISIBLE);
+                }else {
+                    composeBox.ivMic.setVisibility(View.VISIBLE);
+                    composeBox.ivSend.setVisibility(GONE);;
+                }
             }
         });
 
@@ -356,29 +386,58 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
             public void OnItemClick(String var, int position) {
                 if (!isSmartReplyClicked) {
                     isSmartReplyClicked = true;
-                    rvSmartReply.setVisibility(View.GONE);
+                    rvSmartReply.setVisibility(GONE);
                     sendMessage(var);
                 }
             }
         });
 
+        //Check Ongoing Call
+        onGoingCallView = view.findViewById(R.id.ongoing_call_view);
+        onGoingCallClose = view.findViewById(R.id.close_ongoing_view);
+        onGoingCallTxt = view.findViewById(R.id.ongoing_call);
+        checkOnGoingCall();
+    }
 
-
-
+    private void checkOnGoingCall() {
+            if(CometChat.getActiveCall()!=null && CometChat.getActiveCall().getCallStatus().equals(CometChatConstants.CALL_STATUS_ONGOING) && CometChat.getActiveCall().getSessionId()!=null) {
+                if(onGoingCallView!=null)
+                    onGoingCallView.setVisibility(View.VISIBLE);
+                if(onGoingCallTxt!=null) {
+                    onGoingCallTxt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onGoingCallView.setVisibility(View.GONE);
+                            Utils.joinOnGoingCall(getContext());
+                        }
+                    });
+                }
+                if(onGoingCallClose!=null) {
+                    onGoingCallClose.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onGoingCallView.setVisibility(GONE);
+                        }
+                    });
+                }
+            } else if (CometChat.getActiveCall()!=null){
+                if (onGoingCallView!=null)
+                    onGoingCallView.setVisibility(GONE);
+                Log.e(TAG, "checkOnGoingCall: "+CometChat.getActiveCall().toString());
+            }
     }
 
     private void setComposeBoxListener() {
 
-        etComposeBox.addTextChangedListener(new TextWatcher() {
+        composeBox.setComposeBoxListener(new ComposeActionListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length()>0) {
                     sendTypingIndicator(false);
                 } else {
                     sendTypingIndicator(true);
@@ -386,11 +445,68 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                if (timer == null) {
-                    timer = new Timer();
+            public void afterTextChanged(Editable editable) {
+                if (typingTimer == null) {
+                    typingTimer = new Timer();
                 }
                 endTypingTimer();
+            }
+
+            @Override
+            public void onAudioActionClicked(ImageView audioIcon) {
+                if (Utils.hasPermissions(getContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    startActivityForResult(MediaUtils.openAudio(getActivity()),StringContract.RequestCode.AUDIO);
+                } else {
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},StringContract.RequestCode.AUDIO);
+                }
+            }
+
+            @Override
+            public void onCameraActionClicked(ImageView cameraIcon) {
+                if (Utils.hasPermissions(getContext(), CAMERA_PERMISSION)) {
+                    startActivityForResult(MediaUtils.openCamera(getContext()), StringContract.RequestCode.CAMERA);
+                } else {
+                    requestPermissions(CAMERA_PERMISSION, StringContract.RequestCode.CAMERA);
+                }
+            }
+
+
+            @Override
+            public void onGalleryActionClicked(ImageView galleryIcon) {
+                if (Utils.hasPermissions(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    startActivityForResult(MediaUtils.openGallery(getActivity()), StringContract.RequestCode.GALLERY);
+                } else {
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, StringContract.RequestCode.GALLERY);
+                }
+            }
+
+            @Override
+            public void onFileActionClicked(ImageView fileIcon) {
+                if (Utils.hasPermissions(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    startActivityForResult(MediaUtils.getFileIntent(StringContract.IntentStrings.EXTRA_MIME_DOC), StringContract.RequestCode.FILE);
+                } else {
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, StringContract.RequestCode.FILE);
+                }
+            }
+
+            @Override
+            public void onSendActionClicked(EditText editText) {
+                String message = editText.getText().toString().trim();
+                editText.setText("");
+                editText.setHint(getString(R.string.message));
+                if (isEdit) {
+                    editMessage(baseMessage, message);
+                    editMessageLayout.setVisibility(GONE);
+                } else if (!message.isEmpty())
+                    sendMessage(message);
+            }
+
+            @Override
+            public void onVoiceNoteComplete(String string) {
+                if (string != null) {
+                    File audioFile = new File(string);
+                    sendMediaMessage(audioFile, CometChatConstants.MESSAGE_TYPE_AUDIO);
+                }
             }
         });
     }
@@ -491,7 +607,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
             @Override
             public void onSuccess(HashMap<String, String> stringStringHashMap) {
                 Snackbar.make(rvChatListView,String.format(getResources().getString(R.string.user_unblocked),name),Snackbar.LENGTH_LONG).show();
-                blockUserLayout.setVisibility(View.GONE);
+                blockUserLayout.setVisibility(GONE);
                 isBlockedByMe = false;
                 messagesRequest=null;
             }
@@ -571,7 +687,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
 
     private void stopHideShimmer() {
         messageShimmer.stopShimmer();
-        messageShimmer.setVisibility(View.GONE);
+        messageShimmer.setVisibility(GONE);
     }
 
 
@@ -579,6 +695,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         List<BaseMessage> tempList = new ArrayList<>();
         for(BaseMessage baseMessage : baseMessages)
         {
+            Log.e(TAG, "filterBaseMessages: "+baseMessage.getSentAt());
             if (baseMessage.getCategory().equals(CometChatConstants.CATEGORY_ACTION)) {
                 Action action = ((Action)baseMessage);
                 if (action.getAction().equals(CometChatConstants.ActionKeys.ACTION_MESSAGE_DELETED) ||
@@ -611,7 +728,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
             }
             setSmartReplyAdapter(replyList);
         } else {
-            rvSmartReply.setVisibility(View.GONE);
+            rvSmartReply.setVisibility(GONE);
         }
     }
 
@@ -639,7 +756,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
             messageAdapter.updateList(messageList);
 
         }
-        if (!isBlockedByMe && rvSmartReply.getAdapter().getItemCount()==0&&rvSmartReply.getVisibility() == View.GONE) {
+        if (!isBlockedByMe && rvSmartReply.getAdapter().getItemCount()==0&&rvSmartReply.getVisibility() == GONE) {
             BaseMessage lastMessage = messageAdapter.getLastMessage();
             checkSmartReply(lastMessage);
         }
@@ -669,8 +786,8 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
     }
 
     private void endTypingTimer() {
-        if (timer!=null) {
-            timer.schedule(new TimerTask() {
+        if (typingTimer!=null) {
+            typingTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     sendTypingIndicator(true);
@@ -685,6 +802,13 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         Log.d(TAG, "onActivityResult: ");
 
         switch (requestCode) {
+            case StringContract.RequestCode.AUDIO:
+                if (data!=null) {
+                    File file = MediaUtils.getRealPath(getContext(),data.getData());
+                    ContentResolver cr = getActivity().getContentResolver();
+                    sendMediaMessage(file,CometChatConstants.MESSAGE_TYPE_AUDIO);
+                }
+                break;
             case StringContract.RequestCode.GALLERY:
                 if (data != null) {
 
@@ -747,6 +871,13 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         else
             mediaMessage = new MediaMessage(Id, file, filetype, CometChatConstants.RECEIVER_TYPE_GROUP);
 
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("path", file.getAbsolutePath());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mediaMessage.setMetadata(jsonObject);
 
         CometChat.sendMediaMessage(mediaMessage, new CometChat.CallbackListener<MediaMessage>() {
             @Override
@@ -781,13 +912,13 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                 if (getActivity() != null) {
                     if (user.isBlockedByMe()) {
                         isBlockedByMe = true;
-                        rvSmartReply.setVisibility(View.GONE);
+                        rvSmartReply.setVisibility(GONE);
                         toolbar.setSelected(false);
                         blockedUserName.setText("You've blocked " + user.getName());
                         blockUserLayout.setVisibility(View.VISIBLE);
                     } else {
                         isBlockedByMe = false;
-                        blockUserLayout.setVisibility(View.GONE);
+                        blockUserLayout.setVisibility(GONE);
                         avatarUrl = user.getAvatar();
                         if (user.getStatus().equals(CometChatConstants.USER_STATUS_ONLINE)) {
                             tvStatus.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
@@ -966,23 +1097,20 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
             @Override
             public void onGroupMemberJoined(Action action, User joinedUser, Group joinedGroup) {
                 super.onGroupMemberJoined(action, joinedUser, joinedGroup);
-                tvStatus.setText(memberNames + "," + joinedUser.getName());
-                if (messageAdapter != null) {
-                    messageAdapter.addMessage(action);
-                }
+                if (joinedGroup.getGuid().equals(Id))
+                    tvStatus.setText(memberNames + "," + joinedUser.getName());
+                onMessageReceived(action);
             }
 
             @Override
             public void onGroupMemberLeft(Action action, User leftUser, Group leftGroup) {
                 super.onGroupMemberLeft(action, leftUser, leftGroup);
                 Log.d(TAG, "onGroupMemberLeft: " + leftUser.getName());
-                if (memberNames != null)
-                    tvStatus.setText(memberNames.replace("," + leftUser.getName(), ""));
-                if (messageAdapter != null) {
-                    messageAdapter.addMessage(action);
-                    if (linearLayoutManager != null && linearLayoutManager.findLastVisibleItemPosition() < 10)
-                        scrollToBottom();
+                if (leftGroup.getGuid().equals(Id)) {
+                    if (memberNames != null)
+                        tvStatus.setText(memberNames.replace("," + leftUser.getName(), ""));
                 }
+                onMessageReceived(action);
             }
 
             @Override
@@ -992,14 +1120,11 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                 if (kickedUser.getUid().equals(CometChat.getLoggedInUser().getUid())) {
                     if (getActivity() != null)
                         getActivity().finish();
-//                        ((Activity) getActivity()).onBackPressed();
 
                 }
-                tvStatus.setText(memberNames.replace("," + kickedUser.getName(), ""));
-                if (messageAdapter != null) {
-                    messageAdapter.addMessage(action);
-                    scrollToBottom();
-                }
+                if (kickedFrom.getGuid().equals(Id))
+                    tvStatus.setText(memberNames.replace("," + kickedUser.getName(), ""));
+                onMessageReceived(action);
             }
 
             @Override
@@ -1010,37 +1135,25 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                         Toast.makeText(getActivity(), "You have been banned", Toast.LENGTH_SHORT).show();
                     }
                 }
-                if (messageAdapter != null) {
-                    messageAdapter.addMessage(action);
-                    scrollToBottom();
-                }
+                onMessageReceived(action);
 
             }
 
             @Override
             public void onGroupMemberUnbanned(Action action, User unbannedUser, User unbannedBy, Group unbannedFrom) {
-                if (messageAdapter != null) {
-                    messageAdapter.addMessage(action);
-                    scrollToBottom();
-                }
+                onMessageReceived(action);
             }
 
             @Override
             public void onGroupMemberScopeChanged(Action action, User updatedBy, User updatedUser, String scopeChangedTo, String scopeChangedFrom, Group group) {
-                if (messageAdapter != null) {
-                    messageAdapter.addMessage(action);
-                    scrollToBottom();
-                }
+                onMessageReceived(action);
             }
 
             @Override
             public void onMemberAddedToGroup(Action action, User addedby, User userAdded, Group addedTo) {
-                tvStatus.setText(memberNames + "," + userAdded.getName());
-                if (messageAdapter != null) {
-                    messageAdapter.addMessage(action);
-                    if (linearLayoutManager != null && linearLayoutManager.findLastVisibleItemPosition() < 10)
-                        scrollToBottom();
-                }
+                if (addedTo.getGuid().equals(Id))
+                    tvStatus.setText(memberNames + "," + userAdded.getName());
+                onMessageReceived(action);
             }
         });
     }
@@ -1066,7 +1179,10 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                 public void onUserOffline(User user) {
                     Log.d(TAG, "onUserOffline: " + user.toString());
                     if (user.getUid().equals(Id)) {
-                        tvStatus.setTextColor(getResources().getColor(android.R.color.black));
+                        if (Utils.isDarkMode(getContext()))
+                            tvStatus.setTextColor(getResources().getColor(R.color.textColorWhite));
+                        else
+                            tvStatus.setTextColor(getResources().getColor(android.R.color.black));
                         tvStatus.setText(user.getStatus());
                     }
                 }
@@ -1178,6 +1294,8 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         if (message.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_USER)) {
             if (Id != null && Id.equalsIgnoreCase(message.getSender().getUid())) {
                 setMessage(message);
+            } else if(Id != null && Id.equalsIgnoreCase(message.getReceiverUid()) && message.getSender().getUid().equalsIgnoreCase(loggedInUser.getUid())) {
+                setMessage(message);
             }
         } else {
             if (Id != null && Id.equalsIgnoreCase(message.getReceiverUid())) {
@@ -1271,13 +1389,12 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
     public void onPause() {
         Log.d(TAG, "onPause: ");
         super.onPause();
+        if (messageAdapter!=null)
+            messageAdapter.stopPlayingAudio();
         removeMessageListener();
         removeUserListener();
         removeGroupListener();
-        timer = null;
         sendTypingIndicator(true);
-
-
     }
 
     private void removeGroupListener() {
@@ -1292,6 +1409,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         rvChatListView.removeItemDecoration(stickyHeaderDecoration);
         messageAdapter = null;
         messagesRequest = null;
+        checkOnGoingCall();
         fetchMessage();
         addMessageListener();
 
@@ -1312,10 +1430,10 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         if (messageAdapter != null)
             messageAdapter.clearLongClickSelectedItem();
         composeBox.setVisibility(View.VISIBLE);
-        rlMessageAction.setVisibility(View.GONE);
+        rlMessageAction.setVisibility(GONE);
         userAvatar.setVisibility(View.VISIBLE);
-        ivCloseMessageAction.setVisibility(View.GONE);
-        ivCopyMessageAction.setVisibility(View.GONE);
+        ivCloseMessageAction.setVisibility(GONE);
+        ivCopyMessageAction.setVisibility(GONE);
         if (getActivity() != null && ((AppCompatActivity) getActivity()).getSupportActionBar() != null)
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -1349,6 +1467,16 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
             if (baseMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_TEXT)){
                 intent.putExtra(CometChatConstants.MESSAGE_TYPE_TEXT, ((TextMessage) baseMessage).getText());
                 intent.putExtra(StringContract.IntentStrings.TYPE, CometChatConstants.MESSAGE_TYPE_TEXT);
+            } else if(baseMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_IMAGE) ||
+                    baseMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_AUDIO) ||
+                    baseMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_VIDEO) ||
+                    baseMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_FILE)) {
+                intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_NAME, ((MediaMessage)baseMessage).getAttachment().getFileName());
+                intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_URL, ((MediaMessage)baseMessage).getAttachment().getFileUrl());
+                intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_MIME_TYPE, ((MediaMessage)baseMessage).getAttachment().getFileMimeType());
+                intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_EXTENSION, ((MediaMessage)baseMessage).getAttachment().getFileExtension());
+                intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_SIZE, ((MediaMessage)baseMessage).getAttachment().getFileSize());
+                intent.putExtra(StringContract.IntentStrings.TYPE,baseMessage.getType());
             }
             startActivity(intent);
         }
@@ -1357,8 +1485,8 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                 isEdit = true;
                 tvMessageTitle.setText(getResources().getString(R.string.edit_message));
                 tvMessageSubTitle.setText(((TextMessage) baseMessage).getText());
-                etComposeBox.setText(((TextMessage) baseMessage).getText());
-
+                composeBox.ivMic.setVisibility(GONE);
+                composeBox.ivSend.setVisibility(View.VISIBLE);
                 editMessageLayout.setVisibility(View.VISIBLE);
                 if (messageAdapter != null) {
                     messageAdapter.setSelectedMessage(baseMessage.getId());
@@ -1371,7 +1499,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
             String message = "";
             for (BaseMessage bMessage : baseMessages) {
                 if (bMessage.getDeletedAt() == 0 && bMessage instanceof TextMessage) {
-                    message = message + "[" + Utils.getLastMessageDate(bMessage.getSentAt()) + "] " + bMessage.getSender().getName() + ": " + ((TextMessage) bMessage).getText() + "\n\n";
+                    message = message + "[" + Utils.getLastMessageDate(bMessage.getSentAt()) + "] " + bMessage.getSender().getName() + ": " + ((TextMessage) bMessage).getText();
                 }
             }
             Log.e(TAG, "onCopy: " + message);
@@ -1399,55 +1527,9 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
             }
             isEdit = false;
             baseMessage = null;
-            editMessageLayout.setVisibility(View.GONE);
-            etComposeBox.setText("");
+            editMessageLayout.setVisibility(GONE);
         }
-        else if(id == R.id.ivCamera) {
-            if (Utils.hasPermissions(getContext(), CAMERA_PERMISSION)) {
-                startActivityForResult(MediaUtils.openCamera(getContext()), StringContract.RequestCode.CAMERA);
-            } else {
-                requestPermissions(CAMERA_PERMISSION, StringContract.RequestCode.CAMERA);
-            }
-        }
-        else if (id == R.id.ivImage) {
-            if (Utils.hasPermissions(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                startActivityForResult(MediaUtils.openGallery(getActivity()), StringContract.RequestCode.GALLERY);
-            } else {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, StringContract.RequestCode.GALLERY);
-            }
-        }
-        else if (id == R.id.ivFile) {
-            if (Utils.hasPermissions(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                startActivityForResult(MediaUtils.getFileIntent(StringContract.IntentStrings.EXTRA_MIME_DOC), StringContract.RequestCode.FILE);
-            } else {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, StringContract.RequestCode.FILE);
-            }
-        }
-        else if (id == R.id.ivSend) {
-            String message = etComposeBox.getText().toString().trim();
-            etComposeBox.setText("");
-            if (isEdit) {
-                editMessage(baseMessage, message);
-                editMessageLayout.setVisibility(View.GONE);
-            } else
-            if(!message.isEmpty())
-                sendMessage(message);
-        }
-        else if (id == R.id.ivArrow) {
-            if (isOpen) {
-                ivArrow.setRotation(0);
-                isOpen = false;
-                Animation leftAnim = AnimationUtils.loadAnimation(getContext(), R.anim.animate_left_slide);
-                rlContainer.startAnimation(leftAnim);
-                rlContainer.setVisibility(View.GONE);
-            } else {
-                ivArrow.setRotation(45f);
-                isOpen = true;
-                Animation rightAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.animate_right_slide);
-                rlContainer.startAnimation(rightAnimate);
-                rlContainer.setVisibility(View.VISIBLE);
-            }
-        }
+
         else if (id == R.id.btn_unblock_user) {
             unblockUser();
         }
@@ -1467,8 +1549,12 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                 intent.putExtra(StringContract.IntentStrings.NAME, name);
                 intent.putExtra(StringContract.IntentStrings.AVATAR, avatarUrl);
                 intent.putExtra(StringContract.IntentStrings.TYPE, type);
+                intent.putExtra(StringContract.IntentStrings.GROUP_TYPE,groupType);
                 intent.putExtra(StringContract.IntentStrings.MEMBER_SCOPE, loggedInUserScope);
                 intent.putExtra(StringContract.IntentStrings.GROUP_OWNER, groupOwnerId);
+                intent.putExtra(StringContract.IntentStrings.MEMBER_COUNT,memberCount);
+                intent.putExtra(StringContract.IntentStrings.GROUP_DESC,groupDesc);
+                intent.putExtra(StringContract.IntentStrings.GROUP_PASSWORD,groupPassword);
                 startActivity(intent);
             }
         }
@@ -1494,7 +1580,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                     ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                     ivCloseMessageAction.setVisibility(View.VISIBLE);
                     ivCopyMessageAction.setVisibility(View.VISIBLE);
-                    userAvatar.setVisibility(View.GONE);
+                    userAvatar.setVisibility(GONE);
                     if (basemessage.getSender().getUid().equals(CometChat.getLoggedInUser().getUid())) {
                         tvDeleteMessage.setVisibility(View.VISIBLE);
                         tvEditMessage.setVisibility(View.VISIBLE);
@@ -1503,8 +1589,13 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                         rlMessageAction.setVisibility(View.VISIBLE);
                     } else {
                         tvForwardMessage.setVisibility(View.VISIBLE);
-                        tvDeleteMessage.setVisibility(View.GONE);
-                        tvEditMessage.setVisibility(View.GONE);
+                        if (loggedInUserScope!=null && (loggedInUserScope.equals(CometChatConstants.SCOPE_ADMIN) || loggedInUserScope.equals(CometChatConstants.SCOPE_MODERATOR))) {
+                            tvDeleteMessage.setVisibility(View.VISIBLE);
+                            tvEditMessage.setVisibility(View.VISIBLE);
+                        } else {
+                            tvDeleteMessage.setVisibility(GONE);
+                            tvEditMessage.setVisibility(GONE);
+                        }
                         rlMessageAction.setVisibility(View.VISIBLE);
                     }
                 }
@@ -1515,9 +1606,9 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                 messageAdapter.clearLongClickSelectedItem();
         } else {
             ivCopyMessageAction.setVisibility(View.VISIBLE);
-            tvEditMessage.setVisibility(View.GONE);
-            tvDeleteMessage.setVisibility(View.GONE);
-            tvForwardMessage.setVisibility(View.GONE);
+            tvEditMessage.setVisibility(GONE);
+            tvDeleteMessage.setVisibility(GONE);
+            tvForwardMessage.setVisibility(GONE);
         }
 
         if (mediaMessageList.size() == 1) {
@@ -1527,19 +1618,23 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                     baseMessage = basemessage;
                     ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                     ivCloseMessageAction.setVisibility(View.VISIBLE);
-                    ivCopyMessageAction.setVisibility(View.GONE);
-                    userAvatar.setVisibility(View.GONE);
+                    ivCopyMessageAction.setVisibility(GONE);
+                    userAvatar.setVisibility(GONE);
                     if (basemessage.getSender().getUid().equals(CometChat.getLoggedInUser().getUid())) {
                         tvDeleteMessage.setVisibility(View.VISIBLE);
-                        tvEditMessage.setVisibility(View.GONE);
-                        tvForwardMessage.setVisibility(View.GONE);
+                        tvEditMessage.setVisibility(GONE);
+                        tvForwardMessage.setVisibility(View.VISIBLE);
                         rlMessageAction.setVisibility(View.VISIBLE);
                     } else {
-                        tvForwardMessage.setVisibility(View.GONE);
-                        tvEditMessage.setVisibility(View.GONE);
-                        tvDeleteMessage.setVisibility(View.GONE);
-                        rlMessageAction.setVisibility(View.GONE);
-                        ivCloseMessageAction.setVisibility(View.GONE);
+                        if (loggedInUserScope!=null && (loggedInUserScope.equals(CometChatConstants.SCOPE_ADMIN) || loggedInUserScope.equals(CometChatConstants.SCOPE_MODERATOR))){
+                            tvDeleteMessage.setVisibility(View.VISIBLE);
+                        } else {
+                            tvDeleteMessage.setVisibility(GONE);
+                        }
+                        tvForwardMessage.setVisibility(View.VISIBLE);
+                        tvEditMessage.setVisibility(GONE);
+                        rlMessageAction.setVisibility(View.VISIBLE);
+                        ivCloseMessageAction.setVisibility(View.VISIBLE);
                     }
                 }
             }

@@ -155,6 +155,13 @@ public class ConversationListAdapter extends RecyclerView.Adapter<ConversationLi
             conversationViewHolder.conversationListRowBinding.avUser.setInitials(name);
         }
 
+        if(Utils.isDarkMode(context)) {
+            conversationViewHolder.conversationListRowBinding.txtUserName.setTextColor(context.getResources().getColor(R.color.textColorWhite));
+            conversationViewHolder.conversationListRowBinding.tvSeprator.setBackgroundColor(context.getResources().getColor(R.color.grey));
+        } else {
+            conversationViewHolder.conversationListRowBinding.txtUserName.setTextColor(context.getResources().getColor(R.color.primaryTextColor));
+            conversationViewHolder.conversationListRowBinding.tvSeprator.setBackgroundColor(context.getResources().getColor(R.color.light_grey));
+        }
         conversationViewHolder.conversationListRowBinding.getRoot().setTag(R.string.conversation, conversation);
 
     }

@@ -7,6 +7,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -15,6 +16,7 @@ import android.media.AudioManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
@@ -68,11 +70,41 @@ import java.util.List;
 import java.util.Locale;
 
 import constant.StringContract;
+import kotlin.ranges.RangesKt;
 import screen.CometChatCallActivity;
 
 public class Utils {
 
     private static final String TAG = "Utils";
+
+    public static boolean isDarkMode(Context context)
+    {
+        int nightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        if (nightMode== Configuration.UI_MODE_NIGHT_YES)
+            return true;
+        else
+            return false;
+    }
+
+    public static final float softTransition(float $this$softTransition, float compareWith, float allowedDiff, float scaleFactor) {
+        if (scaleFactor == 0.0F) {
+            return $this$softTransition;
+        } else {
+            float result = $this$softTransition;
+            float diff;
+            if (compareWith > $this$softTransition) {
+                if (compareWith / $this$softTransition > allowedDiff) {
+                    diff = RangesKt.coerceAtLeast($this$softTransition, compareWith) - RangesKt.coerceAtMost($this$softTransition, compareWith);
+                    result = $this$softTransition + diff / scaleFactor;
+                }
+            } else if ($this$softTransition > compareWith && $this$softTransition / compareWith > allowedDiff) {
+                diff = RangesKt.coerceAtLeast($this$softTransition, compareWith) - RangesKt.coerceAtMost($this$softTransition, compareWith);
+                result = $this$softTransition - diff / scaleFactor;
+            }
+
+            return result;
+        }
+    }
 
     public static AudioManager getAudioManager(Context context) {
         return (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
@@ -88,6 +120,13 @@ public class Utils {
     public static void initiatecall(Context context,String recieverID,String receiverType,String callType)
     {
         Call call = new Call(recieverID,receiverType,callType);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("bookingId", 6);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        call.setMetadata(jsonObject);
         CometChat.initiateCall(call, new CometChat.CallbackListener<Call>() {
             @Override
             public void onSuccess(Call call) {
@@ -101,6 +140,13 @@ public class Utils {
             }
         });
     }
+    public static String convertTimeStampToDurationTime(long var0) {
+        long var2 = var0 / 1000L;
+        long var4 = var2 / 60L % 60L;
+        long var6 = var2 / 60L / 60L % 24L;
+        return var6 == 0L ? String.format(Locale.getDefault(), "%02d:%02d", var4, var2 % 60L) : String.format(Locale.getDefault(), "%02d:%02d:%02d", var6, var4, var2 % 60L);
+    }
+
     public static String getDateId(long var0) {
         Calendar var2 = Calendar.getInstance(Locale.ENGLISH);
         var2.setTimeInMillis(var0);
@@ -176,16 +222,7 @@ public class Utils {
 
                 break;
             case CometChatConstants.CATEGORY_ACTION:
-
-                if (isLoggedInUser(lastMessage.getSender())) {
-                    if (((Action) lastMessage).getActionOn()!=null)
-                        message = "You " + ((Action) lastMessage).getAction() + " " + ((User) ((Action) lastMessage).getActionOn()).getName();
-                    else
-                        message = ((Action) lastMessage).getMessage();
-                } else {
-                    message = ((Action) lastMessage).getMessage();
-                }
-
+                message = ((Action) lastMessage).getMessage();
                 break;
 
             case CometChatConstants.CATEGORY_CALL:
@@ -225,7 +262,6 @@ public class Utils {
         return groupMember;
     }
 
-    @BindingAdapter(value = {"app:deliveredAt"})
     public static String getHeaderDate(TextView textView, long timestamp) {
         Calendar messageTimestamp = Calendar.getInstance();
         messageTimestamp.setTimeInMillis(timestamp);
@@ -271,6 +307,22 @@ public class Utils {
 
     }
 
+    public static Boolean checkDirExistence(Context context,String type) {
+
+        File  audioDir = new File(Environment.getExternalStorageDirectory().toString() + "/" +
+                context.getResources().getString(R.string.app_name) + "/" + type + "/");
+
+        return audioDir.isDirectory();
+
+    }
+
+    public static void  makeDirectory(Context context,String type) {
+
+        String  audioDir = Environment.getExternalStorageDirectory().toString() + "/" +
+                context.getResources().getString(R.string.app_name) + "/" + type + "/";
+
+        createDirectory(audioDir);
+    }
     public static boolean hasPermissions(Context context, String... permissions) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null
                 && permissions != null) {
@@ -459,6 +511,12 @@ public class Utils {
         return dir;
     }
 
+    public static String  getPath(Context context, String folder) {
+
+        return Environment.getExternalStorageDirectory().toString() + "/" +
+                context.getResources().getString(R.string.app_name) + "/" + folder + "/";
+    }
+
     public static String getPath(final Context context, final Uri uri) {
         String absolutePath = getImagePathFromUri(context, uri);
         return absolutePath != null ? absolutePath : uri.toString();
@@ -472,6 +530,11 @@ public class Utils {
         return filename.substring(index + 1);
     }
 
+
+    public static String getFileName(String mediaFile) {
+        String t1[] = mediaFile.substring(mediaFile.lastIndexOf("/")).split("_");
+        return t1[2];
+    }
 
     public static String getFileName(@NonNull Context context, Uri uri) {
         String mimeType = context.getContentResolver().getType(uri);
@@ -517,8 +580,24 @@ public class Utils {
         return null;
     }
 
+    public static String getOutputMediaFile(Context context) {
+        File var0 = new File(Environment.getExternalStorageDirectory(), context.getResources().getString(R.string.app_name));
+        if (!var0.exists() && !var0.mkdirs()) {
+            return null;
+        } else {
+            String var1 = Environment.getExternalStorageDirectory() + "/" + context.getResources().getString(R.string.app_name) + "/"
+                    + "audio/";
+            createDirectory(var1);
+            return var1 + (new SimpleDateFormat("yyyyMMddHHmmss")).format(new Date()) + ".mp3";
+        }
+    }
 
+    public static void createDirectory(String var0) {
+        if (!(new File(var0)).exists()) {
+            (new File(var0)).mkdirs();
+        }
 
+    }
     public static List<String> checkSmartReply(BaseMessage lastMessage) {
         if (lastMessage!=null && !lastMessage.getSender().getUid().equals(CometChat.getLoggedInUser().getUid())) {
             if (lastMessage.getMetadata()!=null) {
@@ -711,10 +790,6 @@ public class Utils {
 
             @Override
             public void onUserLeft(User user) {
-                if (call.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_USER))
-                {
-                    activity.finish();
-                }
                 Snackbar.make(activity.getWindow().getDecorView().getRootView(),"User Left: "+user.getName(),Snackbar.LENGTH_LONG).show();
                 Log.e( "onUserLeft: ",user.getUid() );
             }
@@ -726,8 +801,15 @@ public class Utils {
 
             @Override
             public void onCallEnded(Call call) {
+                Log.e(TAG, "onCallEnded: "+call.toString() );
                 activity.finish();
             }
         });
+    }
+
+    public static void joinOnGoingCall(Context context) {
+        Intent intent = new Intent(context,CometChatCallActivity.class);
+        intent.putExtra(StringContract.IntentStrings.JOIN_ONGOING,true);
+        context.startActivity(intent);
     }
 }

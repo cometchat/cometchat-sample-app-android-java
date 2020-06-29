@@ -56,7 +56,10 @@ public class ConversationListViewFragment extends Fragment {
                     intent.putExtra(StringContract.IntentStrings.GUID,((Group)conversation.getConversationWith()).getGuid());
                     intent.putExtra(StringContract.IntentStrings.GROUP_OWNER,((Group)conversation.getConversationWith()).getOwner());
                     intent.putExtra(StringContract.IntentStrings.AVATAR,((Group)conversation.getConversationWith()).getIcon());
-
+                    intent.putExtra(StringContract.IntentStrings.GROUP_TYPE,((Group)conversation.getConversationWith()).getGroupType());
+                    intent.putExtra(StringContract.IntentStrings.MEMBER_COUNT,((Group)conversation.getConversationWith()).getMembersCount());
+                    intent.putExtra(StringContract.IntentStrings.GROUP_DESC,((Group)conversation.getConversationWith()).getDescription());
+                    intent.putExtra(StringContract.IntentStrings.GROUP_PASSWORD,((Group)conversation.getConversationWith()).getPassword());
                 }
                 else
                 {

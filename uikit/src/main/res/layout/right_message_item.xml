@@ -52,7 +52,6 @@
             android:layout_marginEnd="20dp"
             android:textSize="12sp"
             android:layout_below="@+id/cv_message_container"
-            android:textColor="@color/secondaryTextColor"
             android:textStyle="bold"
             tools:visibility="visible"
             android:visibility="gone" />
