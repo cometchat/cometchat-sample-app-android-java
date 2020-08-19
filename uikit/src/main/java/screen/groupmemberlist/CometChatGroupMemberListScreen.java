@@ -214,7 +214,8 @@ public class CometChatGroupMemberListScreen extends Fragment {
             public void onSuccess(String s) {
                 Log.d(TAG, "onSuccess: "+s);
                 groupMemberListAdapter.removeGroupMember(groupMember);
-                Snackbar.make(rvUserList,String.format(getResources().getString(R.string.user_is_moderator),groupMember.getName()), Snackbar.LENGTH_LONG).show();
+                if (rvUserList!=null)
+                    Snackbar.make(rvUserList,String.format(getResources().getString(R.string.user_is_moderator),groupMember.getName()), Snackbar.LENGTH_LONG).show();
             }
 
             @Override

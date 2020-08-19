@@ -65,7 +65,6 @@ public class CreateUserActivity extends AppCompatActivity {
 
                         @Override
                         public void onError(CometChatException e) {
-                            progressBar.setVisibility(View.GONE);
                             createUserBtn.setClickable(true);
                             Toast.makeText(CreateUserActivity.this,"Failed to create user",Toast.LENGTH_LONG).show();
                         }
@@ -111,7 +110,6 @@ public class CreateUserActivity extends AppCompatActivity {
 
             @Override
             public void onError(CometChatException e) {
-                progressBar.setVisibility(View.GONE);
                 if (uid!=null)
                     Snackbar.make(uid.getRootView(),"Unable to login",Snackbar.LENGTH_INDEFINITE).setAction("Try Again", new View.OnClickListener() {
                         @Override

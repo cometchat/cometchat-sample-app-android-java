@@ -62,7 +62,7 @@ public class ComposeBox extends RelativeLayout implements View.OnClickListener {
 
     private Chronometer recordTime;
 
-    private EditText etComposeBox;
+    public EditText etComposeBox;
 
     private RelativeLayout composeBox;
 
@@ -278,28 +278,16 @@ public class ComposeBox extends RelativeLayout implements View.OnClickListener {
         }
         if(view.getId()==R.id.ivArrow) {
             if (isOpen) {
-                ivArrow.setRotation(0);
-                isOpen = false;
-                Animation leftAnim = AnimationUtils.loadAnimation(getContext(), R.anim.animate_left_slide);
-                rlActionContainer.startAnimation(leftAnim);
-                rlActionContainer.setVisibility(GONE);
+               closeActionContainer();
             } else {
-                ivArrow.setRotation(45f);
-                isOpen = true;
-                Animation rightAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.animate_right_slide);
-                rlActionContainer.startAnimation(rightAnimate);
-                rlActionContainer.setVisibility(View.VISIBLE);
+                openActionContainer();
             }
         }
         if (view.getId()==R.id.ivMic) {
             if (Utils.hasPermissions(context, new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE})) {
 
                 if (isOpen) {
-                    ivArrow.setRotation(0);
-                    isOpen = false;
-                    Animation leftAnim = AnimationUtils.loadAnimation(getContext(), R.anim.animate_left_slide);
-                    rlActionContainer.startAnimation(leftAnim);
-                    rlActionContainer.setVisibility(GONE);
+                    closeActionContainer();
                 }
                 if (!isRecording) {
                     startRecord();
@@ -330,6 +318,22 @@ public class ComposeBox extends RelativeLayout implements View.OnClickListener {
                 }
             }
         }
+    }
+
+    public void openActionContainer() {
+        ivArrow.setRotation(45f);
+        isOpen = true;
+        Animation rightAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.animate_right_slide);
+        rlActionContainer.startAnimation(rightAnimate);
+        rlActionContainer.setVisibility(View.VISIBLE);
+    }
+
+    public void closeActionContainer() {
+        ivArrow.setRotation(0);
+        isOpen = false;
+        Animation leftAnim = AnimationUtils.loadAnimation(getContext(), R.anim.animate_left_slide);
+        rlActionContainer.startAnimation(leftAnim);
+        rlActionContainer.setVisibility(GONE);
     }
 
     public void startRecord() {

@@ -151,9 +151,7 @@ public class CometChatUserInfoScreen extends Fragment {
     }
 
     private void updateUser(User user) {
-        PreferenceUtil preferenceUtil = PreferenceUtil.getInstance(getContext());
-        String apikey = preferenceUtil.getString("apikey");
-        CometChat.updateUser(user, apikey, new CometChat.CallbackListener<User>() {
+        CometChat.updateUser(user, StringContract.AppInfo.API_KEY, new CometChat.CallbackListener<User>() {
             @Override
             public void onSuccess(User user) {
                 if (getContext()!=null)

@@ -4,6 +4,9 @@ import android.graphics.Color;
 
 public class StringContract {
 
+    public static class AppInfo {
+        public static String API_KEY = "";
+    }
     public static class IntentStrings {
 
         public static final String IMAGE_TYPE = "image/*";
@@ -65,6 +68,21 @@ public class StringContract {
         public static final String GROUP_PASSWORD = "group_password" ;
 
         public static final String GROUP_TYPE = "group_type" ;
+
+        public static final String TEXTMESSAGE = "text_message";
+
+        public static final String SENTAT = "sent_at";
+
+        public static final String MESSAGE_TYPE = "message_type" ;
+
+        public static final String PARENT_ID = "parent_id";
+
+        public static final String REPLY_COUNT = "reply_count";
+
+        public static final String CONVERSATION_NAME = "conversation_name";
+
+
+        public static final String INTENT_MEDIA_MESSAGE = "intent_media_message" ;
     }
 
     public static class Tab {
@@ -92,5 +110,4 @@ public class StringContract {
 
         public static final int RECORD = 003;
     }
-
 }

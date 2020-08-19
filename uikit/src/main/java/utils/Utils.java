@@ -33,6 +33,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.databinding.BindingAdapter;
+import androidx.renderscript.Allocation;
+import androidx.renderscript.Element;
+import androidx.renderscript.RenderScript;
+import androidx.renderscript.ScriptIntrinsicBlur;
 
 import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.Call;
@@ -58,6 +62,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -68,6 +73,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import constant.StringContract;
 import kotlin.ranges.RangesKt;
@@ -77,6 +84,22 @@ public class Utils {
 
     private static final String TAG = "Utils";
 
+    public static String removeEmojiAndSymbol(String content) {
+        String utf8tweet = "";
+        try {
+            byte[] utf8Bytes = content.getBytes("UTF-8");
+            utf8tweet = new String(utf8Bytes, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        Pattern unicodeOutliers = Pattern.compile(
+                "[\ud83c\udc00-\ud83c\udfff]|[\ud83d\udc00-\ud83d\udfff]|[\u2600-\u27ff]",
+                        Pattern.UNICODE_CASE |
+                                Pattern.CASE_INSENSITIVE);
+        Matcher unicodeOutlierMatcher = unicodeOutliers.matcher(utf8tweet);
+        utf8tweet = unicodeOutlierMatcher.replaceAll(" ");
+        return utf8tweet;
+    }
     public static boolean isDarkMode(Context context)
     {
         int nightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
@@ -198,7 +221,8 @@ public class Utils {
                 if (lastMessage instanceof TextMessage) {
 
                     if (isLoggedInUser(lastMessage.getSender()))
-                        message = "You: " + ((TextMessage) lastMessage).getText();
+                        message = "You: " + (((TextMessage) lastMessage).getText()==null
+                                ?"This message was deleted":((TextMessage) lastMessage).getText());
                     else
                         message = lastMessage.getSender().getName() + ": " + ((TextMessage) lastMessage).getText();
 
@@ -262,15 +286,9 @@ public class Utils {
         return groupMember;
     }
 
-    public static String getHeaderDate(TextView textView, long timestamp) {
-        Calendar messageTimestamp = Calendar.getInstance();
-        messageTimestamp.setTimeInMillis(timestamp);
-        Calendar now = Calendar.getInstance();
-//        if (now.get(5) == messageTimestamp.get(5)) {
-        return DateFormat.format("hh:mm a", messageTimestamp).toString();
-//        } else {
-//            return now.get(5) - messageTimestamp.get(5) == 1 ? "Yesterday " + DateFormat.format("hh:mm a", messageTimestamp).toString() : DateFormat.format("d MMMM", messageTimestamp).toString() + " " + DateFormat.format("hh:mm a", messageTimestamp).toString();
-//        }
+    public static String getMessageDate(long timestamp) {
+        String messageDate = new SimpleDateFormat("dd/MM/yyyy hh:mm a").format(new java.util.Date(timestamp * 1000));
+        return messageDate;
     }
 
     public static String getHeaderDate(long timestamp) {
@@ -598,67 +616,22 @@ public class Utils {
         }
 
     }
-    public static List<String> checkSmartReply(BaseMessage lastMessage) {
-        if (lastMessage!=null && !lastMessage.getSender().getUid().equals(CometChat.getLoggedInUser().getUid())) {
-            if (lastMessage.getMetadata()!=null) {
-                return getSmartReplyList(lastMessage);
-            }
-        }
-        return null;
+
+    public static Bitmap blur(Context context, Bitmap image) {
+        int width = Math.round(image.getWidth() * 0.6f);
+        int height = Math.round(image.getHeight() * 0.6f);
+        Bitmap inputBitmap = Bitmap.createScaledBitmap(image, width, height, false);
+        Bitmap outputBitmap = Bitmap.createBitmap(inputBitmap);
+        RenderScript rs = RenderScript.create(context);
+        ScriptIntrinsicBlur intrinsicBlur = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+        Allocation tmpIn = Allocation.createFromBitmap(rs, inputBitmap);
+        Allocation tmpOut = Allocation.createFromBitmap(rs, outputBitmap);
+        intrinsicBlur.setRadius(15f);
+        intrinsicBlur.setInput(tmpIn);
+        intrinsicBlur.forEach(tmpOut);
+        tmpOut.copyTo(outputBitmap);
+        return outputBitmap;
     }
-
-    private static List<String> getSmartReplyList(BaseMessage baseMessage){
-
-        HashMap<String, JSONObject> extensionList = Utils.extensionCheck(baseMessage);
-        if (extensionList != null && extensionList.containsKey("smartReply")) {
-            JSONObject replyObject = extensionList.get("smartReply");
-            List<String> replyList = new ArrayList<>();
-            try {
-                replyList.add(replyObject.getString("reply_positive"));
-                replyList.add(replyObject.getString("reply_neutral"));
-                replyList.add(replyObject.getString("reply_negative"));
-            } catch (Exception e) {
-                Log.e(TAG, "onSuccess: " + e.getMessage());
-            }
-            return replyList;
-        }
-        return null;
-    }
-
-
-    public static HashMap<String,JSONObject> extensionCheck(BaseMessage baseMessage)
-    {
-        JSONObject metadata = baseMessage.getMetadata();
-        HashMap<String,JSONObject> extensionMap = new HashMap<>();
-        try {
-            if (metadata != null) {
-                JSONObject injectedObject = metadata.getJSONObject("@injected");
-                if (injectedObject != null && injectedObject.has("extensions")) {
-                    JSONObject extensionsObject = injectedObject.getJSONObject("extensions");
-                    if (extensionsObject != null && extensionsObject.has("link-preview")) {
-                        JSONObject linkPreviewObject = extensionsObject.getJSONObject("link-preview");
-                        JSONArray linkPreview = linkPreviewObject.getJSONArray("links");
-                        if (linkPreview.length() > 0) {
-                            extensionMap.put("linkPreview",linkPreview.getJSONObject(0));
-                        }
-
-                    }
-                    if (extensionsObject !=null && extensionsObject.has("smart-reply")) {
-                        extensionMap.put("smartReply",extensionsObject.getJSONObject("smart-reply"));
-                    }
-                }
-                return extensionMap;
-            }
-            else
-                return null;
-        }  catch (Exception e) {
-            Log.e(TAG, "isLinkPreview: "+e.getMessage() );
-        }
-        return null;
-    }
-
-
-
     public static void startCallIntent(Context context, User user, String type,
                                        boolean isOutgoing, @NonNull String sessionId) {
         Intent videoCallIntent = new Intent(context, CometChatCallActivity.class);

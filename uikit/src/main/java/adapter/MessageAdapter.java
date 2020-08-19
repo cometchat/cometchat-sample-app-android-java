@@ -3,8 +3,10 @@ package adapter;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -12,12 +14,14 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Spannable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.LongSparseArray;
@@ -25,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -33,14 +38,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.emoji.text.EmojiCompat;
+import androidx.emoji.text.EmojiSpan;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.Call;
 import com.cometchat.pro.core.CometChat;
+import com.cometchat.pro.helpers.CometChatHelper;
 import com.cometchat.pro.helpers.Logger;
 import com.cometchat.pro.models.Action;
 import com.cometchat.pro.uikit.R;
@@ -51,6 +60,7 @@ import com.cometchat.pro.models.MessageReceipt;
 import com.cometchat.pro.models.TextMessage;
 import com.cometchat.pro.models.User;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -63,6 +73,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -70,6 +81,9 @@ import java.util.List;
 import constant.StringContract;
 import listeners.StickyHeaderAdapter;
 import screen.messagelist.CometChatMessageListActivity;
+import screen.messagelist.CometChatMessageScreen;
+import screen.threadconversation.CometChatThreadMessageActivity;
+import utils.Extensions;
 import utils.FontUtils;
 import utils.MediaUtils;
 import utils.Utils;
@@ -109,6 +123,10 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int LEFT_TEXT_MESSAGE = 1;
 
     private static final int RIGHT_TEXT_MESSAGE = 2;
+
+    private static final int RIGHT_REPLY_TEXT_MESSAGE = 987;
+
+    private static final int LEFT_REPLY_TEXT_MESSAGE = 789;
 
     private static final int RIGHT_FILE_MESSAGE = 23;
 
@@ -171,7 +189,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         setMessageList(messageList);
         this.context = context;
         try {
-            messageLongClick = (CometChatMessageListActivity)context;
+            messageLongClick = (CometChatMessageListActivity) context;
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -237,6 +255,16 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case RIGHT_TEXT_MESSAGE:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.right_message_item, parent, false);
                 view.setTag(RIGHT_TEXT_MESSAGE);
+                return new TextMessageViewHolder(view);
+
+            case LEFT_REPLY_TEXT_MESSAGE:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.left_message_item, parent, false);
+                view.setTag(LEFT_REPLY_TEXT_MESSAGE);
+                return new TextMessageViewHolder(view);
+
+            case RIGHT_REPLY_TEXT_MESSAGE:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.right_message_item, parent, false);
+                view.setTag(RIGHT_REPLY_TEXT_MESSAGE);
                 return new TextMessageViewHolder(view);
 
             case RIGHT_LINK_MESSAGE:
@@ -378,8 +406,10 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 setDeleteData((DeleteMessageViewHolder)viewHolder,i);
                 break;
             case LEFT_TEXT_MESSAGE:
+            case LEFT_REPLY_TEXT_MESSAGE:
                 ((TextMessageViewHolder) viewHolder).ivUser.setVisibility(View.GONE);
             case RIGHT_TEXT_MESSAGE:
+            case RIGHT_REPLY_TEXT_MESSAGE:
                 setTextData((TextMessageViewHolder) viewHolder, i);
                 break;
             case LEFT_LINK_MESSAGE:
@@ -437,11 +467,77 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     viewHolder.tvUser.setText(baseMessage.getSender().getName());
                 }
             }
+
+            if (baseMessage.getReplyCount()!=0) {
+                try {
+                    if (baseMessage.getMetadata()!=null && baseMessage.getMetadata().has("replyAvatars")) {
+                        JSONArray jsonArray = baseMessage.getMetadata().getJSONArray("replyAvatars");
+                        viewHolder.lvReplyAvatar.setVisibility(View.VISIBLE);
+                        for (int m = 0;m<jsonArray.length();m++) {
+                            if (viewHolder.lvReplyAvatar.getChildCount()<4) {
+                                Avatar avatarId = viewHolder.lvReplyAvatar.findViewById(m);
+                                if (avatarId==null) {
+                                    Avatar avatar = new Avatar(context.getApplicationContext());
+                                    avatar.setId(m);
+                                    LinearLayout.LayoutParams layoutParams = new LinearLayout
+                                            .LayoutParams((int) Utils.dpToPx(context, 16), (int) Utils.dpToPx(context, 16));
+                                    layoutParams.leftMargin = 8;
+                                    layoutParams.rightMargin = 8;
+                                    avatar.setLayoutParams(layoutParams);
+                                    avatar.setAvatar(jsonArray.getString(m));
+                                    viewHolder.lvReplyAvatar.addView(avatar, m);
+                                }
+                            }
+                        }
+                    } else {
+                        viewHolder.lvReplyAvatar.setVisibility(View.GONE);
+                    }
+                } catch (Exception e){
+                    Log.e(TAG, "setImageData: "+e.getMessage());
+                }
+                viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
+                viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
+            } else {
+                viewHolder.lvReplyAvatar.setVisibility(View.GONE);
+                viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
+            }
+            viewHolder.tvThreadReplyCount.setOnClickListener(view -> {
+                Intent intent = new Intent(context, CometChatThreadMessageActivity.class);
+                intent.putExtra(StringContract.IntentStrings.NAME,baseMessage.getSender().getName());
+                intent.putExtra(StringContract.IntentStrings.AVATAR,baseMessage.getSender().getAvatar());
+                intent.putExtra(StringContract.IntentStrings.REPLY_COUNT,baseMessage.getReplyCount());
+                intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getSender().getName());
+                intent.putExtra(StringContract.IntentStrings.PARENT_ID,baseMessage.getId());
+                intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE,baseMessage.getType());
+                intent.putExtra(StringContract.IntentStrings.SENTAT,baseMessage.getSentAt());
+                if (baseMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_TEXT))
+                    intent.putExtra(StringContract.IntentStrings.TEXTMESSAGE,((TextMessage)baseMessage).getText());
+                else {
+                    intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_NAME,((MediaMessage)baseMessage).getAttachment().getFileName());
+                    intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_EXTENSION,((MediaMessage)baseMessage).getAttachment().getFileExtension());
+                    intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_URL,((MediaMessage)baseMessage).getAttachment().getFileUrl());
+                    intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_SIZE,((MediaMessage)baseMessage).getAttachment().getFileSize());
+                }
+                intent.putExtra(StringContract.IntentStrings.TYPE,baseMessage.getReceiverType());
+                if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP)) {
+                    intent.putExtra(StringContract.IntentStrings.GUID,baseMessage.getReceiverUid());
+                }
+                else {
+                    if (baseMessage.getReceiverUid().equals(loggedInUser.getUid()))
+                        intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getSender().getUid());
+                    else
+                        intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getReceiverUid());
+                }
+                context.startActivity(intent);
+            });
+
+
             showMessageTime(viewHolder,baseMessage);
             if (selectedItemList.contains(baseMessage.getId()))
                 viewHolder.txtTime.setVisibility(View.VISIBLE);
             else
                 viewHolder.txtTime.setVisibility(View.GONE);
+
             viewHolder.length.setText(Utils.getFileSize(((MediaMessage)baseMessage).getAttachment().getFileSize()));
             viewHolder.playBtn.setImageResource(R.drawable.ic_play_arrow_black_24dp);
             viewHolder.playBtn.setOnClickListener(new View.OnClickListener() {
@@ -530,6 +626,71 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
               viewHolder.fileSize.setText(Utils.getFileSize(fileSize));
 
+              viewHolder.lvReplyAvatar.setVisibility(View.GONE);
+              if (baseMessage.getReplyCount()!=0) {
+                  try {
+                      if (baseMessage.getMetadata()!=null && baseMessage.getMetadata().has("replyAvatars")) {
+                          JSONArray jsonArray = baseMessage.getMetadata().getJSONArray("replyAvatars");
+                          viewHolder.lvReplyAvatar.setVisibility(View.VISIBLE);
+                          for (int m = 0;m<jsonArray.length();m++) {
+                              if (viewHolder.lvReplyAvatar.getChildCount()<4) {
+                                  Avatar avatarId = viewHolder.lvReplyAvatar.findViewById(m);
+                                  if (avatarId==null) {
+                                      Avatar avatar = new Avatar(context.getApplicationContext());
+                                      avatar.setId(m);
+                                      LinearLayout.LayoutParams layoutParams = new LinearLayout
+                                              .LayoutParams((int) Utils.dpToPx(context, 16), (int) Utils.dpToPx(context, 16));
+                                      layoutParams.leftMargin = 8;
+                                      layoutParams.rightMargin = 8;
+                                      avatar.setLayoutParams(layoutParams);
+                                      avatar.setAvatar(jsonArray.getString(m));
+                                      viewHolder.lvReplyAvatar.addView(avatar, m);
+                                  }
+                              }
+                          }
+                      } else {
+                          viewHolder.lvReplyAvatar.setVisibility(View.GONE);
+                      }
+                  } catch (Exception e){
+                      Log.e(TAG, "setImageData: "+e.getMessage());
+                  }
+                  viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
+                  viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
+              } else {
+                  viewHolder.lvReplyAvatar.setVisibility(View.GONE);
+                  viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
+              }
+              viewHolder.tvThreadReplyCount.setOnClickListener(view -> {
+                  Intent intent = new Intent(context, CometChatThreadMessageActivity.class);
+                  intent.putExtra(StringContract.IntentStrings.NAME,baseMessage.getSender().getName());
+                  intent.putExtra(StringContract.IntentStrings.AVATAR,baseMessage.getSender().getAvatar());
+                  intent.putExtra(StringContract.IntentStrings.REPLY_COUNT,baseMessage.getReplyCount());
+                  intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getSender().getName());
+                  intent.putExtra(StringContract.IntentStrings.PARENT_ID,baseMessage.getId());
+                  intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE,baseMessage.getType());
+                  intent.putExtra(StringContract.IntentStrings.SENTAT,baseMessage.getSentAt());
+                  if (baseMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_TEXT))
+                      intent.putExtra(StringContract.IntentStrings.TEXTMESSAGE,((TextMessage)baseMessage).getText());
+                  else {
+                      intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_NAME,((MediaMessage)baseMessage).getAttachment().getFileName());
+                      intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_EXTENSION,((MediaMessage)baseMessage).getAttachment().getFileExtension());
+                      intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_URL,((MediaMessage)baseMessage).getAttachment().getFileUrl());
+                      intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_SIZE,((MediaMessage)baseMessage).getAttachment().getFileSize());
+                  }
+                  intent.putExtra(StringContract.IntentStrings.TYPE,baseMessage.getReceiverType());
+                  if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP)) {
+                      intent.putExtra(StringContract.IntentStrings.GUID,baseMessage.getReceiverUid());
+                  }
+                  else {
+                      if (baseMessage.getReceiverUid().equals(loggedInUser.getUid()))
+                          intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getSender().getUid());
+                      else
+                          intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getReceiverUid());
+                  }
+                  context.startActivity(intent);
+              });
+
+
               showMessageTime(viewHolder, baseMessage);
 
               if (selectedItemList.contains(baseMessage.getId()))
@@ -595,21 +756,133 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 viewHolder.tvUser.setText(baseMessage.getSender().getName());
             }
         }
-        if (((MediaMessage)baseMessage).getAttachment()!=null)
-            Glide.with(context).load(((MediaMessage) baseMessage).getAttachment().getFileUrl()).into(viewHolder.imageView);
+
+        boolean isImageNotSafe = Extensions.getImageModeration(context,baseMessage);
+        String smallUrl = Extensions.getThumbnailGeneration(context,baseMessage);
+        viewHolder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_defaulf_image));
+        if (smallUrl!=null) {
+            Glide.with(context).asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).load(smallUrl).into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                    if (isImageNotSafe)
+                        viewHolder.imageView.setImageBitmap(Utils.blur(context,resource));
+                    else
+                        viewHolder.imageView.setImageBitmap(resource);
+                }
+            });
+        } else {
+            Glide.with(context).asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).load(((MediaMessage)baseMessage).getAttachment().getFileUrl()).into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                    if (isImageNotSafe)
+                        viewHolder.imageView.setImageBitmap(Utils.blur(context,resource));
+                    else
+                        viewHolder.imageView.setImageBitmap(resource);
+                }
+            });
+        }
+        if (isImageNotSafe) {
+            viewHolder.sensitiveLayout.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.sensitiveLayout.setVisibility(View.GONE);
+        }
+
+        if (baseMessage.getReplyCount()!=0) {
+            try {
+                if (baseMessage.getMetadata()!=null && baseMessage.getMetadata().has("replyAvatars")) {
+                    JSONArray jsonArray = baseMessage.getMetadata().getJSONArray("replyAvatars");
+                    viewHolder.lvReplyAvatar.setVisibility(View.VISIBLE);
+                    for (int m = 0;m<jsonArray.length();m++) {
+                        if (viewHolder.lvReplyAvatar.getChildCount()<4) {
+                            Avatar avatarId = viewHolder.lvReplyAvatar.findViewById(m);
+                            if (avatarId==null) {
+                                Avatar avatar = new Avatar(context.getApplicationContext());
+                                avatar.setId(m);
+                                LinearLayout.LayoutParams layoutParams = new LinearLayout
+                                        .LayoutParams((int) Utils.dpToPx(context, 16), (int) Utils.dpToPx(context, 16));
+                                layoutParams.leftMargin = 8;
+                                layoutParams.rightMargin = 8;
+                                avatar.setLayoutParams(layoutParams);
+                                avatar.setAvatar(jsonArray.getString(m));
+                                viewHolder.lvReplyAvatar.addView(avatar, m);
+                            }
+                        }
+                    }
+                } else {
+                    viewHolder.lvReplyAvatar.setVisibility(View.GONE);
+                }
+            } catch (Exception e){
+                Log.e(TAG, "setImageData: "+e.getMessage());
+            }
+            viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
+            viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
+        } else {
+            viewHolder.lvReplyAvatar.setVisibility(View.GONE);
+            viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
+        }
+        viewHolder.tvThreadReplyCount.setOnClickListener(view -> {
+            Intent intent = new Intent(context, CometChatThreadMessageActivity.class);
+            intent.putExtra(StringContract.IntentStrings.NAME,baseMessage.getSender().getName());
+            intent.putExtra(StringContract.IntentStrings.AVATAR,baseMessage.getSender().getAvatar());
+            intent.putExtra(StringContract.IntentStrings.REPLY_COUNT,baseMessage.getReplyCount());
+            intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getSender().getName());
+            intent.putExtra(StringContract.IntentStrings.PARENT_ID,baseMessage.getId());
+            intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE,baseMessage.getType());
+            intent.putExtra(StringContract.IntentStrings.SENTAT,baseMessage.getSentAt());
+            if (baseMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_TEXT))
+                intent.putExtra(StringContract.IntentStrings.TEXTMESSAGE,((TextMessage)baseMessage).getText());
+            else {
+                intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_NAME,((MediaMessage)baseMessage).getAttachment().getFileName());
+                intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_EXTENSION,((MediaMessage)baseMessage).getAttachment().getFileExtension());
+                intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_URL,((MediaMessage)baseMessage).getAttachment().getFileUrl());
+                intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_SIZE,((MediaMessage)baseMessage).getAttachment().getFileSize());
+            }
+            intent.putExtra(StringContract.IntentStrings.TYPE,baseMessage.getReceiverType());
+            if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP)) {
+                intent.putExtra(StringContract.IntentStrings.GUID,baseMessage.getReceiverUid());
+            }
+            else {
+                if (baseMessage.getReceiverUid().equals(loggedInUser.getUid()))
+                    intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getSender().getUid());
+                else
+                    intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getReceiverUid());
+            }
+            context.startActivity(intent);
+        });
+
+
 
         showMessageTime(viewHolder, baseMessage);
         if (selectedItemList.contains(baseMessage.getId()))
             viewHolder.txtTime.setVisibility(View.VISIBLE);
         else
             viewHolder.txtTime.setVisibility(View.GONE);
-//
 
 
         viewHolder.rlMessageBubble.setOnClickListener(view -> {
-            displayImage(baseMessage);
-            setSelectedMessage(baseMessage.getId());
-            notifyDataSetChanged();
+            if (isImageNotSafe) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                alert.setTitle("Unsafe Content");
+                alert.setIcon(R.drawable.ic_hand);
+                alert.setMessage("Are you surely want to see this unsafe content");
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MediaUtils.openFile(((MediaMessage) baseMessage).getAttachment().getFileUrl(), context);
+                    }
+                });
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alert.create().show();
+            } else {
+                setSelectedMessage(baseMessage.getId());
+                notifyDataSetChanged();
+                MediaUtils.openFile(((MediaMessage) baseMessage).getAttachment().getFileUrl(), context);
+            }
 
         });
         viewHolder.rlMessageBubble.setOnLongClickListener(new View.OnLongClickListener() {
@@ -666,6 +939,69 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         if (((MediaMessage)baseMessage).getAttachment()!=null)
             Glide.with(context).load(((MediaMessage) baseMessage).getAttachment().getFileUrl()).into(viewHolder.imageView);
+        if (baseMessage.getReplyCount()!=0) {
+            try {
+                if (baseMessage.getMetadata()!=null && baseMessage.getMetadata().has("replyAvatars")) {
+                    JSONArray jsonArray = baseMessage.getMetadata().getJSONArray("replyAvatars");
+                    viewHolder.lvReplyAvatar.setVisibility(View.VISIBLE);
+                    for (int m = 0;m<jsonArray.length();m++) {
+                        if (viewHolder.lvReplyAvatar.getChildCount()<4) {
+                            Avatar avatarId = viewHolder.lvReplyAvatar.findViewById(m);
+                            if (avatarId==null) {
+                                Avatar avatar = new Avatar(context.getApplicationContext());
+                                avatar.setId(m);
+                                LinearLayout.LayoutParams layoutParams = new LinearLayout
+                                        .LayoutParams((int) Utils.dpToPx(context, 16), (int) Utils.dpToPx(context, 16));
+                                layoutParams.leftMargin = 8;
+                                layoutParams.rightMargin = 8;
+                                avatar.setLayoutParams(layoutParams);
+                                avatar.setAvatar(jsonArray.getString(m));
+                                viewHolder.lvReplyAvatar.addView(avatar, m);
+                            }
+                        }
+                    }
+                } else {
+                    viewHolder.lvReplyAvatar.setVisibility(View.GONE);
+                }
+            } catch (Exception e){
+                Log.e(TAG, "setImageData: "+e.getMessage());
+            }
+            viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
+            viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
+        } else {
+            viewHolder.lvReplyAvatar.setVisibility(View.GONE);
+            viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
+        }
+        viewHolder.tvThreadReplyCount.setOnClickListener(view -> {
+            Intent intent = new Intent(context, CometChatThreadMessageActivity.class);
+            intent.putExtra(StringContract.IntentStrings.NAME,baseMessage.getSender().getName());
+            intent.putExtra(StringContract.IntentStrings.AVATAR,baseMessage.getSender().getAvatar());
+            intent.putExtra(StringContract.IntentStrings.REPLY_COUNT,baseMessage.getReplyCount());
+            intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getSender().getName());
+            intent.putExtra(StringContract.IntentStrings.PARENT_ID,baseMessage.getId());
+            intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE,baseMessage.getType());
+            intent.putExtra(StringContract.IntentStrings.SENTAT,baseMessage.getSentAt());
+            if (baseMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_TEXT))
+                intent.putExtra(StringContract.IntentStrings.TEXTMESSAGE,((TextMessage)baseMessage).getText());
+            else {
+                intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_NAME,((MediaMessage)baseMessage).getAttachment().getFileName());
+                intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_EXTENSION,((MediaMessage)baseMessage).getAttachment().getFileExtension());
+                intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_URL,((MediaMessage)baseMessage).getAttachment().getFileUrl());
+                intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_SIZE,((MediaMessage)baseMessage).getAttachment().getFileSize());
+            }
+            intent.putExtra(StringContract.IntentStrings.TYPE,baseMessage.getReceiverType());
+            if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP)) {
+                intent.putExtra(StringContract.IntentStrings.GUID,baseMessage.getReceiverUid());
+            }
+            else {
+                if (baseMessage.getReceiverUid().equals(loggedInUser.getUid()))
+                    intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getSender().getUid());
+                else
+                    intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getReceiverUid());
+            }
+            context.startActivity(intent);
+        });
+
 
         showMessageTime(viewHolder, baseMessage);
         if (selectedItemList.contains(baseMessage.getId()))
@@ -728,6 +1064,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
         if (baseMessage.getDeletedAt()!=0) {
+            viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
+            viewHolder.lvReplyAvatar.setVisibility(View.GONE);
             viewHolder.txtMessage.setText(R.string.message_deleted);
             viewHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.secondaryTextColor));
             viewHolder.txtMessage.setTypeface(null, Typeface.ITALIC);
@@ -862,13 +1200,154 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                      setAvatar(viewHolder.ivUser, baseMessage.getSender().getAvatar(), baseMessage.getSender().getName());
                      viewHolder.tvUser.setText(baseMessage.getSender().getName());
                  }
+                 boolean isSentimentNegative = Extensions.checkSentiment(baseMessage);
+                 if (isSentimentNegative) {
+                     viewHolder.txtMessage.setVisibility(View.GONE);
+                     viewHolder.sentimentVw.setVisibility(View.VISIBLE);
+                 }
+                 else {
+                     viewHolder.txtMessage.setVisibility(View.VISIBLE);
+                     viewHolder.sentimentVw.setVisibility(View.GONE);
+                 }
+                 viewHolder.viewSentimentMessage.setOnClickListener(new View.OnClickListener() {
+                     @Override
+                     public void onClick(View v) {
+                         AlertDialog.Builder sentimentAlert = new AlertDialog.Builder(context)
+                                 .setTitle(context.getResources().getString(R.string.sentiment_alert))
+                                 .setMessage(context.getResources().getString(R.string.sentiment_alert_message))
+                                 .setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                                     @Override
+                                     public void onClick(DialogInterface dialog, int which) {
+                                         viewHolder.txtMessage.setVisibility(View.VISIBLE);
+                                         viewHolder.sentimentVw.setVisibility(View.GONE);
+                                     }
+                                 })
+                                 .setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                                     @Override
+                                     public void onClick(DialogInterface dialog, int which) {
+                                         dialog.dismiss();
+                                     }
+                                 });
+                         sentimentAlert.create().show();
+                     }
+                 });
+             }
+             if (baseMessage.getMetadata()!=null && baseMessage.getMetadata().has("reply")) {
+                 try {
+                     JSONObject metaData = baseMessage.getMetadata().getJSONObject("reply");
+                     String messageType = metaData.getString("type");
+                     String message = metaData.getString("message");
+                     viewHolder.replyLayout.setVisibility(View.VISIBLE);
+                     viewHolder.replyUser.setText(metaData.getString("name"));
+                     if (messageType.equals(CometChatConstants.MESSAGE_TYPE_TEXT)) {
+                         viewHolder.replyMessage.setText(message);
+                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+                     } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_IMAGE)) {
+                         viewHolder.replyMessage.setText(context.getResources().getString(R.string.shared_a_image));
+                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_photo,0,0,0);
+                     } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_AUDIO)) {
+                         viewHolder.replyMessage.setText(String.format(context.getResources().getString(R.string.shared_a_audio),""));
+                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_library_music_24dp,0,0,0);
+                     } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_VIDEO)) {
+                         viewHolder.replyMessage.setText(context.getResources().getString(R.string.shared_a_video));
+                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_videocam_24dp,0,0,0);
+                     } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_FILE)) {
+                         viewHolder.replyMessage.setText(String.format(context.getResources().getString(R.string.shared_a_file),""));
+                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_insert_drive_file_black_24dp,0,0,0);
+                     }
+                 }catch (Exception e) {
+                     Log.e(TAG, "setTextData: "+e.getMessage());
+                 }
              }
 
-             viewHolder.txtMessage.setText(((TextMessage) baseMessage).getText().trim());
-             viewHolder.txtMessage.setTypeface(fontUtils.getTypeFace(FontUtils.robotoRegular));
-             if (baseMessage.getSender().getUid().equals(loggedInUser.getUid()))
+            if (baseMessage.getReplyCount()!=0) {
+                try {
+                    if (baseMessage.getMetadata()!=null && baseMessage.getMetadata().has("replyAvatars")) {
+                        JSONArray jsonArray = baseMessage.getMetadata().getJSONArray("replyAvatars");
+                        viewHolder.lvReplyAvatar.setVisibility(View.VISIBLE);
+                        for (int m = 0;m<jsonArray.length();m++) {
+                            if (viewHolder.lvReplyAvatar.getChildCount()<4) {
+                                Avatar avatarId = viewHolder.lvReplyAvatar.findViewById(m);
+                                if (avatarId==null) {
+                                    Avatar avatar = new Avatar(context.getApplicationContext());
+                                    avatar.setId(m);
+                                    LinearLayout.LayoutParams layoutParams = new LinearLayout
+                                            .LayoutParams((int) Utils.dpToPx(context, 16), (int) Utils.dpToPx(context, 16));
+                                    layoutParams.leftMargin = 8;
+                                    layoutParams.rightMargin = 8;
+                                    avatar.setLayoutParams(layoutParams);
+                                    avatar.setAvatar(jsonArray.getString(m));
+                                    viewHolder.lvReplyAvatar.addView(avatar, m);
+                                }
+                            }
+                        }
+                    } else {
+                        viewHolder.lvReplyAvatar.setVisibility(View.GONE);
+                    }
+                } catch (Exception e){
+                    Log.e(TAG, "setImageData: "+e.getMessage());
+                }
+                viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
+                viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
+            } else {
+                viewHolder.lvReplyAvatar.setVisibility(View.GONE);
+                viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
+            }
+            viewHolder.tvThreadReplyCount.setOnClickListener(view -> {
+                Intent intent = new Intent(context, CometChatThreadMessageActivity.class);
+                intent.putExtra(StringContract.IntentStrings.NAME,baseMessage.getSender().getName());
+                intent.putExtra(StringContract.IntentStrings.AVATAR,baseMessage.getSender().getAvatar());
+                intent.putExtra(StringContract.IntentStrings.REPLY_COUNT,baseMessage.getReplyCount());
+                intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getSender().getName());
+                intent.putExtra(StringContract.IntentStrings.PARENT_ID,baseMessage.getId());
+                intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE,baseMessage.getType());
+                intent.putExtra(StringContract.IntentStrings.SENTAT,baseMessage.getSentAt());
+                if (baseMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_TEXT))
+                    intent.putExtra(StringContract.IntentStrings.TEXTMESSAGE,((TextMessage)baseMessage).getText());
+                else {
+                    intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_NAME,((MediaMessage)baseMessage).getAttachment().getFileName());
+                    intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_EXTENSION,((MediaMessage)baseMessage).getAttachment().getFileExtension());
+                    intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_URL,((MediaMessage)baseMessage).getAttachment().getFileUrl());
+                    intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_SIZE,((MediaMessage)baseMessage).getAttachment().getFileSize());
+                }
+                intent.putExtra(StringContract.IntentStrings.TYPE,baseMessage.getReceiverType());
+                if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP)) {
+                    intent.putExtra(StringContract.IntentStrings.GUID,baseMessage.getReceiverUid());
+                }
+                else {
+                    if (baseMessage.getReceiverUid().equals(loggedInUser.getUid()))
+                        intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getSender().getUid());
+                    else
+                        intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getReceiverUid());
+                }
+                context.startActivity(intent);
+            });
+
+            String txtMessage = ((TextMessage) baseMessage).getText().trim();
+            viewHolder.txtMessage.setTextSize(16f);
+            int count = 0;
+            CharSequence processed = EmojiCompat.get().process(txtMessage, 0,
+                        txtMessage.length() -1, Integer.MAX_VALUE, EmojiCompat.REPLACE_STRATEGY_ALL);
+            if (processed instanceof Spannable) {
+                Spannable spannable = (Spannable) processed;
+                count = spannable.getSpans(0, spannable.length() - 1, EmojiSpan.class).length;
+                if (Utils.removeEmojiAndSymbol(txtMessage).trim().length() == 0) {
+                    if (count == 1) {
+                        viewHolder.txtMessage.setTextSize((int) Utils.dpToPx(context, 32));
+                    } else if (count == 2) {
+                        viewHolder.txtMessage.setTextSize((int) Utils.dpToPx(context, 24));
+                    }
+                }
+            }
+
+            viewHolder.txtMessage.setText(txtMessage);
+            String profanityFilter = Extensions.checkProfanityMessage(baseMessage);
+            viewHolder.txtMessage.setText(profanityFilter);
+            viewHolder.txtMessage.setTypeface(fontUtils.getTypeFace(FontUtils.robotoRegular));
+
+            if (baseMessage.getSender().getUid().equals(loggedInUser.getUid()))
                  viewHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.textColorWhite));
-             else
+            else
                  viewHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.primaryTextColor));
 
              showMessageTime(viewHolder, baseMessage);
@@ -894,6 +1373,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                  notifyDataSetChanged();
 
              });
+
              viewHolder.rlMessageBubble.setOnLongClickListener(new View.OnLongClickListener() {
                  @Override
                  public boolean onLongClick(View view) {
@@ -1007,7 +1487,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
             if (baseMessage.getDeletedAt() == 0) {
-                HashMap<String,JSONObject> extensionList = Utils.extensionCheck(baseMessage);
+                HashMap<String,JSONObject> extensionList = Extensions.extensionCheck(baseMessage);
                 if (extensionList!=null) {
                     if (extensionList.containsKey("linkPreview")) {
                         JSONObject linkPreviewJsonObject = extensionList.get("linkPreview");
@@ -1040,6 +1520,69 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
             }
+
+            if (baseMessage.getReplyCount()!=0) {
+                try {
+                    if (baseMessage.getMetadata()!=null && baseMessage.getMetadata().has("replyAvatars")) {
+                        JSONArray jsonArray = baseMessage.getMetadata().getJSONArray("replyAvatars");
+                        viewHolder.lvReplyAvatar.setVisibility(View.VISIBLE);
+                        for (int m = 0;m<jsonArray.length();m++) {
+                            if (viewHolder.lvReplyAvatar.getChildCount()<4) {
+                                Avatar avatarId = viewHolder.lvReplyAvatar.findViewById(m);
+                                if (avatarId==null) {
+                                    Avatar avatar = new Avatar(context.getApplicationContext());
+                                    avatar.setId(m);
+                                    LinearLayout.LayoutParams layoutParams = new LinearLayout
+                                            .LayoutParams((int) Utils.dpToPx(context, 16), (int) Utils.dpToPx(context, 16));
+                                    layoutParams.leftMargin = 8;
+                                    layoutParams.rightMargin = 8;
+                                    avatar.setLayoutParams(layoutParams);
+                                    avatar.setAvatar(jsonArray.getString(m));
+                                    viewHolder.lvReplyAvatar.addView(avatar, m);
+                                }
+                            }
+                        }
+                    } else {
+                        viewHolder.lvReplyAvatar.setVisibility(View.GONE);
+                    }
+                } catch (Exception e){
+                    Log.e(TAG, "setImageData: "+e.getMessage());
+                }
+                viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
+                viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
+            } else {
+                viewHolder.lvReplyAvatar.setVisibility(View.GONE);
+                viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
+            }
+            viewHolder.tvThreadReplyCount.setOnClickListener(view -> {
+                Intent intent = new Intent(context, CometChatThreadMessageActivity.class);
+                intent.putExtra(StringContract.IntentStrings.NAME,baseMessage.getSender().getName());
+                intent.putExtra(StringContract.IntentStrings.AVATAR,baseMessage.getSender().getAvatar());
+                intent.putExtra(StringContract.IntentStrings.REPLY_COUNT,baseMessage.getReplyCount());
+                intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getSender().getName());
+                intent.putExtra(StringContract.IntentStrings.PARENT_ID,baseMessage.getId());
+                intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE,baseMessage.getType());
+                intent.putExtra(StringContract.IntentStrings.SENTAT,baseMessage.getSentAt());
+                if (baseMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_TEXT))
+                    intent.putExtra(StringContract.IntentStrings.TEXTMESSAGE,((TextMessage)baseMessage).getText());
+                else {
+                    intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_NAME,((MediaMessage)baseMessage).getAttachment().getFileName());
+                    intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_EXTENSION,((MediaMessage)baseMessage).getAttachment().getFileExtension());
+                    intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_URL,((MediaMessage)baseMessage).getAttachment().getFileUrl());
+                    intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_SIZE,((MediaMessage)baseMessage).getAttachment().getFileSize());
+                }
+                intent.putExtra(StringContract.IntentStrings.TYPE,baseMessage.getReceiverType());
+                if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP)) {
+                    intent.putExtra(StringContract.IntentStrings.GUID,baseMessage.getReceiverUid());
+                }
+                else {
+                    if (baseMessage.getReceiverUid().equals(loggedInUser.getUid()))
+                        intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getSender().getUid());
+                    else
+                        intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getReceiverUid());
+                }
+                context.startActivity(intent);
+            });
 
             showMessageTime(viewHolder, baseMessage);
             String finalUrl = url;
@@ -1175,7 +1718,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      */
     private int getItemViewTypes(int position) {
         BaseMessage baseMessage = messageList.get(position);
-        HashMap<String,JSONObject> extensionList = Utils.extensionCheck(baseMessage);
+        HashMap<String,JSONObject> extensionList = Extensions.extensionCheck(baseMessage);
         if (baseMessage.getDeletedAt()==0) {
             if (baseMessage.getCategory().equals(CometChatConstants.CATEGORY_MESSAGE)) {
                 switch (baseMessage.getType()) {
@@ -1184,11 +1727,15 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         if (baseMessage.getSender().getUid().equals(loggedInUser.getUid())) {
                             if (extensionList != null && extensionList.containsKey("linkPreview") && extensionList.get("linkPreview") != null)
                                 return RIGHT_LINK_MESSAGE;
+                            else if (baseMessage.getMetadata()!=null && baseMessage.getMetadata().has("reply"))
+                                return RIGHT_REPLY_TEXT_MESSAGE;
                             else
                                 return RIGHT_TEXT_MESSAGE;
                         } else {
                             if (extensionList != null && extensionList.containsKey("linkPreview") && extensionList.get("linkPreview") != null)
                                 return LEFT_LINK_MESSAGE;
+                            else if (baseMessage.getMetadata()!=null && baseMessage.getMetadata().has("reply"))
+                                return LEFT_REPLY_TEXT_MESSAGE;
                             else
                                 return LEFT_TEXT_MESSAGE;
                         }
@@ -1353,16 +1900,15 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     class ImageMessageViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imageView;
-
         private CardView cardView;
-
         private ProgressBar progressBar;
-
         private Avatar ivUser;
-
         public TextView txtTime,tvUser;
-
         private RelativeLayout rlMessageBubble;
+        private TextView tvThreadReplyCount;
+        private LinearLayout lvReplyAvatar;
+
+        private RelativeLayout sensitiveLayout;
 
         public ImageMessageViewHolder(@NonNull View view) {
             super(view);
@@ -1374,7 +1920,9 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             txtTime = view.findViewById(R.id.txt_time);
             ivUser = view.findViewById(R.id.iv_user);
             rlMessageBubble = view.findViewById(R.id.rl_message);
-
+            tvThreadReplyCount = view.findViewById(R.id.thread_reply_count);
+            lvReplyAvatar = view.findViewById(R.id.reply_avatar_layout);
+            sensitiveLayout = view.findViewById(R.id.sensitive_layout);
         }
     }
 
@@ -1392,18 +1940,14 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     class VideoMessageViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imageView;
-
         private ImageView playBtn;
-
         private CardView cardView;
-
         private ProgressBar progressBar;
-
         private Avatar ivUser;
-
         public TextView txtTime,tvUser;
-
         private RelativeLayout rlMessageBubble;
+        private TextView tvThreadReplyCount;
+        private LinearLayout lvReplyAvatar;
 
         public VideoMessageViewHolder(@NonNull View view) {
             super(view);
@@ -1416,12 +1960,12 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             txtTime = view.findViewById(R.id.txt_time);
             ivUser = view.findViewById(R.id.iv_user);
             rlMessageBubble = view.findViewById(R.id.rl_message);
-
+            tvThreadReplyCount = view.findViewById(R.id.thread_reply_count);
+            lvReplyAvatar = view.findViewById(R.id.reply_avatar_layout);
         }
     }
 
     public class FileMessageViewHolder extends RecyclerView.ViewHolder {
-
 
         private TextView fileName;
         private TextView fileExt;
@@ -1431,6 +1975,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private View view;
         private Avatar ivUser;
         private RelativeLayout rlMessageBubble;
+        private TextView tvThreadReplyCount;
+        private LinearLayout lvReplyAvatar;
 
         FileMessageViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -1441,6 +1987,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             txtTime = itemView.findViewById(R.id.txt_time);
             fileName = itemView.findViewById(R.id.tvFileName);
             rlMessageBubble = itemView.findViewById(R.id.rl_message);
+            tvThreadReplyCount = itemView.findViewById(R.id.thread_reply_count);
+            lvReplyAvatar = itemView.findViewById(R.id.reply_avatar_layout);
             this.view = itemView;
         }
     }
@@ -1448,91 +1996,73 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public class DeleteMessageViewHolder extends RecyclerView.ViewHolder {
 
         private TextView txtMessage;
-
         private RelativeLayout cardView;
-
         private View view;
-
         public TextView txtTime;
-
         public TextView tvUser;
-
         private ImageView imgStatus;
-
         private int type;
-
         private Avatar ivUser;
-
         private RelativeLayout rlMessageBubble;
-
+        private TextView tvThreadReplyCount;
+        private LinearLayout lvReplyAvatar;
 
         DeleteMessageViewHolder(@NonNull View view) {
             super(view);
-
             type = (int) view.getTag();
-
             tvUser = view.findViewById(R.id.tv_user);
-
             txtMessage = view.findViewById(R.id.go_txt_message);
-
             cardView = view.findViewById(R.id.cv_message_container);
-
             txtTime = view.findViewById(R.id.txt_time);
-
             imgStatus = view.findViewById(R.id.img_pending);
-
             ivUser = view.findViewById(R.id.iv_user);
-
             rlMessageBubble = view.findViewById(R.id.rl_message);
-
+            tvThreadReplyCount = view.findViewById(R.id.thread_reply_count);
+            lvReplyAvatar = view.findViewById(R.id.reply_avatar_layout);
             this.view = view;
-
-
         }
     }
 
     public class TextMessageViewHolder extends RecyclerView.ViewHolder {
 
         private TextView txtMessage;
-
+        private TextView tvThreadReplyCount;
         private RelativeLayout cardView;
-
         private View view;
-
         public TextView txtTime;
-
         public TextView tvUser;
-
         private ImageView imgStatus;
-
         private int type;
-
         private Avatar ivUser;
-
         private RelativeLayout rlMessageBubble;
 
+        private RelativeLayout sentimentVw;
+
+        private TextView viewSentimentMessage;
+        private RelativeLayout replyLayout;
+        private TextView replyUser;
+        private TextView replyMessage;
+        private LinearLayout lvReplyAvatar;
 
         TextMessageViewHolder(@NonNull View view) {
             super(view);
 
             type = (int) view.getTag();
-
             tvUser = view.findViewById(R.id.tv_user);
-
             txtMessage = view.findViewById(R.id.go_txt_message);
-
             cardView = view.findViewById(R.id.cv_message_container);
-
             txtTime = view.findViewById(R.id.txt_time);
-
             imgStatus = view.findViewById(R.id.img_pending);
-
             ivUser = view.findViewById(R.id.iv_user);
-
             rlMessageBubble = view.findViewById(R.id.rl_message);
-
+            replyLayout = view.findViewById(R.id.replyLayout);
+            replyUser = view.findViewById(R.id.reply_user);
+            replyMessage = view.findViewById(R.id.reply_message);
+            tvThreadReplyCount = view.findViewById(R.id.thread_reply_count);
+            lvReplyAvatar = view.findViewById(R.id.reply_avatar_layout);
+            sentimentVw = view.findViewById(R.id.sentiment_layout);
+            viewSentimentMessage = view.findViewById(R.id.view_sentiment);
             this.view = view;
-
 
         }
     }
@@ -1540,21 +2070,13 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public class CustomMessageViewHolder extends RecyclerView.ViewHolder {
 
         private TextView txtMessage;
-
         private RelativeLayout cardView;
-
         private View view;
-
         public TextView txtTime;
-
         public TextView tvUser;
-
         private ImageView imgStatus;
-
         private int type;
-
         private Avatar ivUser;
-
         private RelativeLayout rlMessageBubble;
 
 
@@ -1562,62 +2084,18 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             super(view);
 
             type = (int) view.getTag();
-
             tvUser = view.findViewById(R.id.tv_user);
-
             txtMessage = view.findViewById(R.id.go_txt_message);
-
             cardView = view.findViewById(R.id.cv_message_container);
-
             txtTime = view.findViewById(R.id.txt_time);
-
             imgStatus = view.findViewById(R.id.img_pending);
-
             ivUser = view.findViewById(R.id.iv_user);
-
             rlMessageBubble = view.findViewById(R.id.rl_message);
-
             this.view = view;
-
-
         }
     }
 
     public class AudioMessageViewHolder extends RecyclerView.ViewHolder {
-
-//        private TextView audioLength;
-//
-//        private TextView tvUser;
-//
-//        private Avatar ivUser;
-//
-//        private RelativeLayout rlMessageBubble;
-//
-//        private SeekBar audioSeekBar;
-//
-//        private ImageView downloadBtn;
-//
-//        private ImageView playBtn;
-//
-//        private ProgressBar downloadProgress;
-//
-//        private TextView txtTime;
-//        private int type;
-//
-//        public AudioMessageViewHolder(@NonNull View itemView) {
-//            super(itemView);
-//
-//            type = (int)itemView.getTag();
-//            audioLength = itemView.findViewById(R.id.audioLength);
-//            rlMessageBubble = itemView.findViewById(R.id.cv_message_container);
-//            tvUser = itemView.findViewById(R.id.tv_user);
-//            ivUser = itemView.findViewById(R.id.iv_user);
-//            txtTime = itemView.findViewById(R.id.txt_time);
-//            audioSeekBar = itemView.findViewById(R.id.audioSeekBar);
-//            playBtn = itemView.findViewById(R.id.playBtn);
-//            downloadBtn = itemView.findViewById(R.id.download);
-//            downloadProgress = itemView.findViewById(R.id.progressBar);
-//        }
 
         private TextView length;
         private ImageView playBtn;
@@ -1626,6 +2104,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private Avatar ivUser;
         private RelativeLayout rlMessageBubble;
         private TextView txtTime;
+        private TextView tvThreadReplyCount;
+        private LinearLayout lvReplyAvatar;
         public AudioMessageViewHolder(@NonNull View itemView) {
             super(itemView);
             type = (int)itemView.getTag();
@@ -1635,71 +2115,48 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             tvUser = itemView.findViewById(R.id.tv_user);
             ivUser = itemView.findViewById(R.id.iv_user);
             txtTime = itemView.findViewById(R.id.txt_time);
+            tvThreadReplyCount = itemView.findViewById(R.id.thread_reply_count);
+            lvReplyAvatar = itemView.findViewById(R.id.reply_avatar_layout);
         }
     }
     public class LinkMessageViewHolder extends RecyclerView.ViewHolder {
 
         private TextView linkTitle;
-
         private TextView linkVisit;
-
         private TextView linkSubtitle;
-
         private TextView message;
-
         private ImageView videoLink;
-
         private RelativeLayout cardView;
-
         private View view;
-
         public TextView txtTime;
-
         private ImageView imgStatus;
-
         private ImageView linkImg;
-
         private int type;
-
         private TextView tvUser;
-
         private Avatar ivUser;
-
         private RelativeLayout rlMessageBubble;
-
+        private TextView tvThreadReplyCount;
+        private LinearLayout lvReplyAvatar;
 
         LinkMessageViewHolder(@NonNull View view) {
             super(view);
 
             type = (int) view.getTag();
-
             tvUser = view.findViewById(R.id.tv_user);
-
             linkTitle = view.findViewById(R.id.link_title);
-
             linkSubtitle = view.findViewById(R.id.link_subtitle);
-
             linkVisit = view.findViewById(R.id.visitLink);
-
             linkImg = view.findViewById(R.id.link_img);
-
             message = view.findViewById(R.id.message);
-
             videoLink = view.findViewById(R.id.videoLink);
-
             cardView = view.findViewById(R.id.cv_message_container);
-
             txtTime = view.findViewById(R.id.txt_time);
-
             imgStatus = view.findViewById(R.id.img_pending);
-
             ivUser = view.findViewById(R.id.iv_user);
-
             rlMessageBubble = view.findViewById(R.id.rl_message);
-
+            tvThreadReplyCount = view.findViewById(R.id.thread_reply_count);
+            lvReplyAvatar = view.findViewById(R.id.reply_avatar_layout);
             this.view = view;
-
-
         }
     }
 

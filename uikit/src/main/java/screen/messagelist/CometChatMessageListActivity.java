@@ -1,5 +1,6 @@
 package screen.messagelist;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,8 @@ import java.util.List;
 
 import adapter.MessageAdapter;
 import constant.StringContract;
+import listeners.MessageActionCloseListener;
+import listeners.OnMessageLongClick;
 import screen.CometChatUserDetailScreenActivity;
 import utils.Utils;
 
@@ -116,11 +119,6 @@ public class CometChatMessageListActivity extends AppCompatActivity implements M
         ((OnMessageLongClick)fragment).setLongMessageClick(baseMessage);
     }
 
-    public interface OnMessageLongClick
-    {
-        void setLongMessageClick(List<BaseMessage> baseMessagesList);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -131,4 +129,7 @@ public class CometChatMessageListActivity extends AppCompatActivity implements M
         super.onPause();
     }
 
+    public void handleDialogClose(DialogInterface dialog) {
+        ((MessageActionCloseListener)fragment).handleDialogClose(dialog);
+    }
 }

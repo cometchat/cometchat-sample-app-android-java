@@ -77,6 +77,8 @@ public class CometChatConversationListScreen extends Fragment implements TextWat
 
     private View view;
 
+    private List<Conversation> conversationList = new ArrayList<>();
+
     public CometChatConversationListScreen() {
         // Required empty public constructor
     }
@@ -158,7 +160,8 @@ public class CometChatConversationListScreen extends Fragment implements TextWat
         conversationsRequest.fetchNext(new CometChat.CallbackListener<List<Conversation>>() {
             @Override
             public void onSuccess(List<Conversation> conversations) {
-                if (conversations.size() != 0) {
+                conversationList.addAll(conversations);
+                if (conversationList.size() != 0) {
                     stopHideShimmer();
                     noConversationView.setVisibility(View.GONE);
                     rvConversationList.setConversationList(conversations);
@@ -340,7 +343,7 @@ public class CometChatConversationListScreen extends Fragment implements TextWat
         Log.d(TAG, "onResume: ");
         conversationsRequest = null;
         searchEdit.addTextChangedListener(this);
-        rvConversationList.clearList();
+//        rvConversationList.clearList();
         makeConversationList();
         addConversationListener();
     }

@@ -262,6 +262,5 @@ public class CometChatGroupListScreen extends Fragment  {
         groupsRequest=null;
         groupListAdapter=null;
         fetchGroup();
-
     }
 }

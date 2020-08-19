@@ -40,7 +40,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        if (CometChat.getLoggedInUser()!=null)
+        {
+            startActivity(new Intent(MainActivity.this,SelectActivity.class));
+        }
         loginBtn = findViewById(R.id.login);
         superhero1 = findViewById(R.id.superhero1);
         superhero2 = findViewById(R.id.superhero2);

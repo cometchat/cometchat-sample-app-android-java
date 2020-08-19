@@ -86,6 +86,8 @@ public class CometChatUnified extends AppCompatActivity implements
 
     private Group group;
 
+    private Fragment active = new CometChatConversationListScreen();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,9 +158,11 @@ public class CometChatUnified extends AppCompatActivity implements
      */
     private void initViewComponent() {
 
-        if (!Utils.hasPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE})) {
+        if (!Utils.hasPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE})) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO,
+                                Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         StringContract.RequestCode.RECORD);
             }
         }
@@ -169,8 +173,6 @@ public class CometChatUnified extends AppCompatActivity implements
         badgeDrawable.setVisible(false);
 
         loadFragment(new CometChatConversationListScreen());
-
-
     }
 
     /**
@@ -228,6 +230,7 @@ public class CometChatUnified extends AppCompatActivity implements
             @Override
             public void onSuccess(HashMap<String, HashMap<String, Integer>> stringHashMapHashMap) {
                 Log.e(TAG, "onSuccess: " + stringHashMapHashMap);
+                unreadCount.clear();
                 unreadCount.addAll(stringHashMapHashMap.get("user").keySet());    //Add users whose messages are unread.
                 unreadCount.addAll(stringHashMapHashMap.get("group").keySet());    //Add groups whose messages are unread.
 
@@ -355,6 +358,7 @@ public class CometChatUnified extends AppCompatActivity implements
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
+        Fragment fragment = null;
         if (itemId == R.id.menu_users) {
             fragment = new CometChatUserListScreen();
         } else if (itemId == R.id.menu_group) {

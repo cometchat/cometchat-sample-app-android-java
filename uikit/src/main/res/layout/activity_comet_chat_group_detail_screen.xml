@@ -58,12 +58,10 @@
                         tools:text="@tools:sample/full_names" />
 
                     <TextView
-                        android:id="@+id/tv_members"
+                        android:id="@+id/group_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        tools:text="3 members"
-                        tools:visibility="visible" />
+                        tools:text="@tools:sample/lorem/random" />
                 </LinearLayout>
                 <ImageView
                     android:padding="8dp"
@@ -204,15 +202,16 @@
                 android:layout_below="@id/rlBanView" />
 
             <TextView
-                android:id="@+id/tvMember"
+                android:id="@+id/tv_members"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_seperator_ban"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:textStyle="bold"
                 android:layout_marginBottom="8dp"
                 android:text="@string/members"
-                android:textSize="@dimen/twelve"
+                android:textSize="@dimen/fourteen"
                 android:letterSpacing="0.1"
                 android:textAllCaps="true" />
 
@@ -220,7 +219,7 @@
                 android:id="@+id/rl_add_member"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvMember"
+                android:layout_below="@id/tv_members"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
                 android:paddingTop="8dp"

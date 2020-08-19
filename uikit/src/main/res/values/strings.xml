@@ -14,7 +14,7 @@
     <!-- Messages Preferences -->
 
     <!-- Sync Preferences -->
-    <string name="message">message</string>
+    <string name="message">Write a message</string>
     <string name="you_won_t_be_able_send_or_receive_messages">You won\'t be able send or receive messages</string>
     <string name="unblock">Unblock</string>
     <string name="unabl_to_join_message">Unable to join group</string>
@@ -98,14 +98,14 @@
     <string name="exit_group_title">Exit Group</string>
     <string name="exit_group_message">Exit from group ?</string>
     <string name="exit">Exit</string>
-    <string name="delete">Delete</string>
+    <string name="delete">Delete Message</string>
     <string name="delete_group_title">Delete Group</string>
     <string name="delete_group_message">Delete the group</string>
     <string name="group_delete_error">Group Deletion Failed</string>
     <string name="cannot_remove_member">Can\'t remove %1$s</string>
     <string name="leave_group_error">Unable to leave group</string>
     <string name="blocked_list_error">Blocked userlist retrieval failed</string>
-    <string name="edit">Edit</string>
+    <string name="edit">Edit Message</string>
     <string name="preview">Preview</string>
     <string name="password">Password</string>
     <string name="join">Join</string>
@@ -128,7 +128,7 @@
     <string name="actions">Actions</string>
     <string name="user_title">User</string>
     <string name="blocked_user">Blocked users</string>
-    <string name="forward">Forward</string>
+    <string name="forward">Forward Message</string>
     <string name="add">Add</string>
     <string name="add_as_admin">Add as Admin</string>
     <string name="group_title">Groups</string>
@@ -185,6 +185,26 @@
     <string name="group_update_failed">Group not updated</string>
     <string name="enter_old_group_pwd">Enter Old Password</string>
     <string name="enter_new_password">Enter new password</string>
+    <string name="reply">Reply in Message</string>
+    <string name="shared_a_image">Shared a Image</string>
+    <string name="shared_a_audio">Shared a Audio File %1$s</string>
+    <string name="shared_a_video">Shared a Video</string>
+    <string name="shared_a_file">Shared a File %1$s</string>
+    <string name="share">Share</string>
+    <string name="share_message">Share a message</string>
+    <string name="shared_from_cometchat">Shared from cometchat</string>
+    <string name="sensitive_content">Unsafe Content.</string>
+    <string name="sentimment_content">The following message include potentially sensitive content.</string>
+    <string name="view">View</string>
+    <string name="sentiment_alert">Sentiment Alert</string>
+    <string name="sentiment_alert_message">Would you like to view this message it may contains sensitive content.</string>
+    <string name="reply_message">Reply a message</string>
+    <string name="reply_thread">Start a Thread</string>K
+    <string name="ban">Ban</string>
+    <string name="thread">Thread</string>
+    <string name="thread_in_name">Thread in %1$s</string>
+    <string name="sentAtTxt">Sent at : %1$s</string>
+    <string name="copy_message">Copy Message</string>
     <array name="groupType">
         <item>Public Group</item>
         <item>Private Group</item>

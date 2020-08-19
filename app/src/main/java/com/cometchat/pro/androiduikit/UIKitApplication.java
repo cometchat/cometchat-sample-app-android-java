@@ -11,12 +11,17 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import androidx.emoji.bundled.BundledEmojiCompatConfig;
+import androidx.emoji.text.EmojiCompat;
+
 import com.cometchat.pro.core.AppSettings;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.androiduikit.constants.AppConfig;
 import com.cometchat.pro.helpers.Logger;
 
+import constant.StringContract;
 import listeners.CometChatCallListener;
 import utils.PreferenceUtil;
 
@@ -27,13 +32,16 @@ public class UIKitApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        AppSettings appSettings = new AppSettings.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion(AppConfig.AppDetails.REGION).build();
-        CometChat.init(this, AppConfig.AppDetails.APP_ID, appSettings, new CometChat.CallbackListener<String>() {
+        EmojiCompat.Config config = new BundledEmojiCompatConfig(this);
+        EmojiCompat.init(config);
+        AppSettings appSettings = new AppSettings.AppSettingsBuilder().
+                subscribePresenceForAllUsers().setRegion(AppConfig.AppDetails.REGION).build();
+        CometChat.init(this, AppConfig.AppDetails.APP_ID, appSettings,
+                new CometChat.CallbackListener<String>() {
             @Override
             public void onSuccess(String s) {
-                PreferenceUtil preferenceUtil = PreferenceUtil.getInstance(UIKitApplication.this);
-                preferenceUtil.saveString("apikey",AppConfig.AppDetails.API_KEY);
-                CometChat.setSource("ui-kit-sampleapp","android","java");
+                StringContract.AppInfo.API_KEY = AppConfig.AppDetails.API_KEY;
+                CometChat.setSource("ui-kit","android","java");
                 Log.d(TAG, "onSuccess: "+s);
             }
 

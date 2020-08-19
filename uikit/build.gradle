@@ -61,5 +61,5 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.4.0'
 
     //cometchat
-    compileOnly 'com.cometchat:pro-android-chat-sdk:2.0.6'
+    compileOnly 'com.cometchat:pro-android-chat-sdk:2.0.7'
 }
