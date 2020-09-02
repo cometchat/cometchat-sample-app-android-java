@@ -12,8 +12,6 @@ import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import androidx.emoji.bundled.BundledEmojiCompatConfig;
-import androidx.emoji.text.EmojiCompat;
 
 import com.cometchat.pro.core.AppSettings;
 import com.cometchat.pro.core.CometChat;
@@ -24,6 +22,7 @@ import com.cometchat.pro.helpers.Logger;
 import constant.StringContract;
 import listeners.CometChatCallListener;
 import utils.PreferenceUtil;
+import utils.Utils;
 
 public class UIKitApplication extends Application {
 
@@ -32,8 +31,7 @@ public class UIKitApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        EmojiCompat.Config config = new BundledEmojiCompatConfig(this);
-        EmojiCompat.init(config);
+
         AppSettings appSettings = new AppSettings.AppSettingsBuilder().
                 subscribePresenceForAllUsers().setRegion(AppConfig.AppDetails.REGION).build();
         CometChat.init(this, AppConfig.AppDetails.APP_ID, appSettings,
@@ -50,7 +48,6 @@ public class UIKitApplication extends Application {
                 Toast.makeText(UIKitApplication.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        addConnectionListener(TAG);
         CometChatCallListener.addCallListener(TAG,this);
         createNotificationChannel();
     }
@@ -95,6 +92,5 @@ public class UIKitApplication extends Application {
     public void onTerminate() {
         super.onTerminate();
         CometChatCallListener.removeCallListener(TAG);
-        CometChat.removeConnectionListener(TAG);
     }
 }
