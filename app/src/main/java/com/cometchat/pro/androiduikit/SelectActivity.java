@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
+import com.cometchat.pro.uikit.UIKitSettings;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -69,6 +70,7 @@ public class SelectActivity extends AppCompatActivity {
                 overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
             }
         });
+
         screenGroup = (RadioGroup)findViewById(R.id.screen_selector);
         callGroup = findViewById(R.id.call_selector);
         audioCallRb = findViewById(R.id.audioCall);

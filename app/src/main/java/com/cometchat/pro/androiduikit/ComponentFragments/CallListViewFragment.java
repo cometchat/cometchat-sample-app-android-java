@@ -35,6 +35,7 @@ import listeners.OnItemClickListener;
 import screen.CometChatGroupDetailScreenActivity;
 import screen.CometChatUserDetailScreenActivity;
 import screen.messagelist.CometChatMessageListActivity;
+import utils.CallUtils;
 import utils.Utils;
 
 public class CallListViewFragment extends Fragment {
@@ -109,9 +110,9 @@ public class CallListViewFragment extends Fragment {
                             } else {
                                 user = var.getSender();
                             }
-                            Utils.startCallIntent(getContext(), user, CometChatConstants.CALL_TYPE_AUDIO, true, call.getSessionId());
+                            CallUtils.startCallIntent(getContext(), user, CometChatConstants.CALL_TYPE_AUDIO, true, call.getSessionId());
                         } else
-                            Utils.startGroupCallIntent(getContext(),((Group)call.getCallReceiver()),CometChatConstants.CALL_TYPE_AUDIO,true,call.getSessionId());
+                            CallUtils.startGroupCallIntent(getContext(),((Group)call.getCallReceiver()),CometChatConstants.CALL_TYPE_AUDIO,true,call.getSessionId());
                     }
 
                     @Override
