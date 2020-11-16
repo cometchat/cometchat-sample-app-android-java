@@ -18,6 +18,7 @@ import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.androiduikit.constants.AppConfig;
 import com.cometchat.pro.helpers.Logger;
+import com.cometchat.pro.uikit.Settings.UIKitSettings;
 
 import constant.StringContract;
 import listeners.CometChatCallListener;
@@ -38,7 +39,8 @@ public class UIKitApplication extends Application {
                 new CometChat.CallbackListener<String>() {
             @Override
             public void onSuccess(String s) {
-                StringContract.AppInfo.API_KEY = AppConfig.AppDetails.API_KEY;
+                UIKitSettings.setAppID(AppConfig.AppDetails.APP_ID);
+                UIKitSettings.setAPIKey(AppConfig.AppDetails.API_KEY);
                 CometChat.setSource("ui-kit","android","java");
                 Log.d(TAG, "onSuccess: "+s);
             }
@@ -67,6 +69,11 @@ public class UIKitApplication extends Application {
             @Override
             public void onDisconnected() {
                 Toast.makeText(getBaseContext(),"You have been disconnected.",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFeatureThrottled() {
+
             }
         });
     }
