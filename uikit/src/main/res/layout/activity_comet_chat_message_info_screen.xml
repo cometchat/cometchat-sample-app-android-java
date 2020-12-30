@@ -41,26 +41,26 @@
             </androidx.appcompat.widget.Toolbar>
             <RelativeLayout
                 android:layout_marginTop="?actionBarSize"
-                android:paddingTop="8dp"
                 android:id="@+id/message_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <include
+                    android:layout_marginTop="8dp"
                     android:layout_centerVertical="true"
-                    android:id="@+id/vwTextMessage"
-                    layout="@layout/right_message_item"
+                    android:id="@+id/vw_text_message"
+                    layout="@layout/message_right_text_item"
                     android:visibility="gone"
                     tools:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-                <include android:id="@+id/vwStickerMessage"
+                <include android:id="@+id/vw_sticker_message"
                     android:layout_width="128dp"
                     android:layout_height="128dp"
                     android:layout_centerVertical="true"
                     android:visibility="gone"
                     tools:visibility="visible"
                     layout="@layout/message_right_sticker_item"/>
-                <include android:id="@+id/vwImageMessage"
+                <include android:id="@+id/vw_image_message"
                     android:layout_width="match_parent"
                     android:layout_centerVertical="true"
                     android:visibility="gone"
@@ -76,28 +76,28 @@
                     android:layout_height="220dp"
                     layout="@layout/message_right_list_video_item"/>
 
-                <include android:id="@+id/vwFileMessage"
+                <include android:id="@+id/vw_file_message"
                     android:layout_width="match_parent"
                     android:layout_centerVertical="true"
                     android:layout_height="wrap_content"
-                    layout="@layout/cometchat_right_file_message"
+                    layout="@layout/message_right_file_item"
                     android:visibility="gone"
                     tools:visibility="visible"/>
 
-                <include android:id="@+id/vwAudioMessage"
+                <include android:id="@+id/vw_audio_message"
                     android:layout_width="match_parent"
                     android:layout_centerVertical="true"
                     android:layout_height="wrap_content"
                     tools:visibility="visible"
-                    layout="@layout/cometchat_audio_layout_right"
+                    layout="@layout/message_right_audio_item"
                     android:visibility="gone"/>
 
-                <include android:id="@+id/vwLocationMessage"
+                <include android:id="@+id/vw_location_message"
                     android:layout_width="match_parent"
                     android:layout_centerVertical="true"
                     android:layout_height="wrap_content"
                     tools:visibility="visible"
-                    layout="@layout/right_location_message_item"
+                    layout="@layout/message_right_location_item"
                     android:visibility="gone"/>
                 <include
                     android:visibility="gone"
@@ -105,8 +105,24 @@
                     android:layout_centerVertical="true"
                     android:layout_height="wrap_content"
                     tools:visibility="visible"
-                    android:id="@+id/polls_message"
-                    layout="@layout/right_polls_message_item"/>
+                    android:id="@+id/vw_polls_message"
+                    layout="@layout/message_right_polls_item"/>
+                <include
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    tools:visibility="visible"
+                    android:id="@+id/vw_whiteboard_message"
+                    layout="@layout/message_right_whiteboard_item"/>
+                <include
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    tools:visibility="visible"
+                    android:id="@+id/vw_writeboard_message"
+                    layout="@layout/message_right_writeboard_item"/>
             </RelativeLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 

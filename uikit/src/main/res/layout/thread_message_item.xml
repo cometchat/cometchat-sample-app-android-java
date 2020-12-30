@@ -63,7 +63,7 @@
                     android:textStyle="italic"
                     android:textColor="@color/textColorWhite"
                     android:layout_toLeftOf="@+id/view_sentiment"
-                    android:text="@string/sentimment_content"
+                    android:text="@string/sentiment_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView

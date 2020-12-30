@@ -95,7 +95,7 @@ public class SmartReplyList extends RecyclerView {
                 if (itemClickListener!=null)
                     itemClickListener.OnItemClick(reply,var2);
                 else
-                    throw new NullPointerException(getResources().getString(R.string.smart_reply_itemclick_error) );
+                    throw new NullPointerException("Smart Reply : OnItemClickListener<String> is null");
             }
 
             @Override
@@ -104,7 +104,7 @@ public class SmartReplyList extends RecyclerView {
                  if (itemClickListener!=null)
                     itemClickListener.OnItemLongClick(reply,var2);
                  else
-                    throw new NullPointerException(getResources().getString(R.string.smart_reply_itemclick_error) );
+                    throw new NullPointerException("Smart Reply : OnItemClickListener<String> is null");
             }
         }));
     }

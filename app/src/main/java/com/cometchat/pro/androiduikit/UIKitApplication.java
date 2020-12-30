@@ -1,15 +1,10 @@
 package com.cometchat.pro.androiduikit;
 
-import android.app.AlertDialog;
 import android.app.Application;
-import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.DialogInterface;
 import android.os.Build;
-import android.os.StrictMode;
 import android.util.Log;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 
@@ -17,13 +12,9 @@ import com.cometchat.pro.core.AppSettings;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.androiduikit.constants.AppConfig;
-import com.cometchat.pro.helpers.Logger;
 import com.cometchat.pro.uikit.Settings.UIKitSettings;
 
-import constant.StringContract;
 import listeners.CometChatCallListener;
-import utils.PreferenceUtil;
-import utils.Utils;
 
 public class UIKitApplication extends Application {
 
@@ -32,7 +23,6 @@ public class UIKitApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         AppSettings appSettings = new AppSettings.AppSettingsBuilder().
                 subscribePresenceForAllUsers().setRegion(AppConfig.AppDetails.REGION).build();
         CometChat.init(this, AppConfig.AppDetails.APP_ID, appSettings,
@@ -40,7 +30,7 @@ public class UIKitApplication extends Application {
             @Override
             public void onSuccess(String s) {
                 UIKitSettings.setAppID(AppConfig.AppDetails.APP_ID);
-                UIKitSettings.setAPIKey(AppConfig.AppDetails.API_KEY);
+                UIKitSettings.setAuthKey(AppConfig.AppDetails.AUTH_KEY);
                 CometChat.setSource("ui-kit","android","java");
                 Log.d(TAG, "onSuccess: "+s);
             }

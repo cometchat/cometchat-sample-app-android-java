@@ -1,10 +1,7 @@
 package com.cometchat.pro.uikit.Settings;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
-import android.widget.TextView;
 
 import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
@@ -14,9 +11,7 @@ import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.R;
 
 import constant.StringContract;
-import listeners.CustomAlertDialogHelper;
 import screen.messagelist.CometChatMessageListActivity;
-import screen.unified.CometChatUnified;
 
 public class UIKitSettings {
 
@@ -39,8 +34,8 @@ public class UIKitSettings {
         StringContract.AppInfo.APP_ID = appID;
     }
 
-    public static void setAPIKey(String apiKey) {
-        StringContract.AppInfo.API_KEY = apiKey;
+    public static void setAuthKey(String authKey) {
+        StringContract.AppInfo.AUTH_KEY = authKey;
     }
     public static void setCallSoundEnable(boolean isEnable) {
         UISettings.enableCallSounds = isEnable;
@@ -49,6 +44,7 @@ public class UIKitSettings {
     public static void enableLiveReaction(boolean isEnable) {
         UISettings.liveReaction = isEnable;
     }
+
     public static void setHyperLinkEmailColor(int color) {
         UISettings.emailColor = color;
     }
@@ -330,5 +326,17 @@ public class UIKitSettings {
 
     public static void enableVoiceCalling(boolean enableVoiceCalling) {
         UISettings.enableVoiceCalling = enableVoiceCalling;
+    }
+
+    public static void enableReactionsOnMessage(boolean enableReactionOnMessage) {
+        UISettings.allowReactionOnMessage = enableReactionOnMessage;
+    }
+
+    public static void enableCollaborativeWhiteBoard(boolean enableWhiteBoardSharing) {
+        UISettings.sendWhiteBoard = enableWhiteBoardSharing;
+    }
+
+    public static void enableCollaborativeWriteBoard(boolean enableWriteBoardSharing) {
+        UISettings.sendWriteBoard = enableWriteBoardSharing;
     }
 }

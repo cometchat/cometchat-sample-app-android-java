@@ -142,12 +142,27 @@ public class AllCall extends Fragment {
             }).create().show();
         }
         else {
-            initiateCall(var);
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+            alertDialog.setMessage(getString(R.string.initiate_a_call));
+            alertDialog.setPositiveButton(getString(R.string.audio_call), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    initiateCall(var,CometChatConstants.CALL_TYPE_AUDIO);
+                }
+            });
+            alertDialog.setNegativeButton(getString(R.string.video_call), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    initiateCall(var,CometChatConstants.CALL_TYPE_VIDEO);
+                }
+            });
+            alertDialog.create();
+            alertDialog.show();
         }
 
     }
 
-    private void initiateCall(Call var) {
+    private void initiateCall(Call var,String callType) {
         CometChat.initiateCall(var, new CometChat.CallbackListener<Call>() {
             @Override
             public void onSuccess(Call call) {
@@ -159,9 +174,9 @@ public class AllCall extends Fragment {
                     } else {
                         user = (User) call.getCallInitiator();
                     }
-                    CallUtils.startCallIntent(getContext(), user, CometChatConstants.CALL_TYPE_AUDIO, true, call.getSessionId());
+                    CallUtils.startCallIntent(getContext(), user, callType, true, call.getSessionId());
                 } else
-                    CallUtils.startGroupCallIntent(getContext(), ((Group) call.getCallReceiver()), CometChatConstants.CALL_TYPE_AUDIO, true, call.getSessionId());
+                    CallUtils.startGroupCallIntent(getContext(), ((Group) call.getCallReceiver()), callType, true, call.getSessionId());
             }
 
             @Override

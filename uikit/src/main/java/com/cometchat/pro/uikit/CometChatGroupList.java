@@ -133,7 +133,7 @@ public class CometChatGroupList extends RecyclerView {
                 if (onItemClickListener!=null)
                     onItemClickListener.OnItemClick(group,var2);
                 else
-                    throw new NullPointerException(getResources().getString(R.string.group_itemclick_error));
+                    throw new NullPointerException("OnItemClickListener<Group> is null");
             }
 
             @Override
@@ -142,7 +142,7 @@ public class CometChatGroupList extends RecyclerView {
                 if (onItemClickListener!=null)
                 onItemClickListener.OnItemLongClick(group,var2);
                 else
-                    throw new NullPointerException(getResources().getString(R.string.group_itemclick_error));
+                    throw new NullPointerException("OnItemClickListener<Group> is null");
             }
         }));
 

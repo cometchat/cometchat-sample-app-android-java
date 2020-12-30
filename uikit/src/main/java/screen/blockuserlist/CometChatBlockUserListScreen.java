@@ -145,7 +145,7 @@ public class CometChatBlockUserListScreen extends Fragment {
                 if (userList.contains(user))
                     userList.remove(user);
                 blockedUserAdapter.removeUser(user);
-                Snackbar.make(var1,String.format(getResources().getString(R.string.user_unblocked),user.getName()),Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(var1,user.getName()+" "+getResources().getString(R.string.unblocked_successfully),Snackbar.LENGTH_SHORT).show();
                 checkIfNoUserVisible();
             }
 

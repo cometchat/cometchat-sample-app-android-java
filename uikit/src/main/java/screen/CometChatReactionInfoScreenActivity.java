@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,11 +27,17 @@ public class CometChatReactionInfoScreenActivity extends AppCompatActivity {
 
     private JSONObject jsonObject;
 
+    private ImageView closeBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reaction_info_screen);
         reactionInfoLayout = findViewById(R.id.reaction_info_layout);
+        closeBtn = findViewById(R.id.close_btn);
+        closeBtn.setOnClickListener(view -> {
+            onBackPressed();
+        });
         if (getIntent().hasExtra(StringContract.IntentStrings.REACTION_INFO)) {
             try {
                 jsonObject = new JSONObject(getIntent().getStringExtra(StringContract.IntentStrings.REACTION_INFO));

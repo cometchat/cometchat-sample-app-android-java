@@ -158,30 +158,7 @@ public class CallHistoryAdapter extends RecyclerView.Adapter<CallHistoryAdapter.
         callViewHolder.callHistoryRowBinding.callTimeTv.setText(Utils.getHeaderDate(call.getInitiatedAt()*1000));
         callViewHolder.callHistoryRowBinding.callInfoTv.setText(callMessageText);
         callViewHolder.callHistoryRowBinding.callDateTv.setText(Utils.getDate(call.getSentAt()*1000L));
-//        callViewHolder.callListRowBinding.executePendingBindings();
-//        callType = call.getType();
-//        callCategory = call.getCategory();
-//        callViewHolder.callListRowBinding.callMessage.setText(call.getAction());
-//        callViewHolder.callListRowBinding.callMessage.setTypeface(fontUtils.getTypeFace(FontUtils.robotoRegular));
-//        callViewHolder.callListRowBinding.callSenderName.setTypeface(fontUtils.getTypeFace(FontUtils.robotoMedium));
 
-//        if (conversation.getConversationType().equals(CometChatConstants.RECEIVER_TYPE_USER)) {
-//            name = ((User) conversation.getConversationWith()).getName();
-//            avatar = ((User) conversation.getConversationWith()).getAvatar();
-//        } else {
-//            name = ((Group) conversation.getConversationWith()).getName();
-//            avatar = ((Group) conversation.getConversationWith()).getIcon();
-//        }
-//
-//        conversationViewHolder.conversationListRowBinding.messageCount.setCount(conversation.getUnreadMessageCount());
-//        conversationViewHolder.conversationListRowBinding.txtUserName.setText(name);
-//        conversationViewHolder.conversationListRowBinding.avUser.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
-//
-//        if (avatar != null && !avatar.isEmpty()) {
-//            conversationViewHolder.conversationListRowBinding.avUser.setAvatar(avatar);
-//        } else {
-//            conversationViewHolder.conversationListRowBinding.avUser.setInitials(name);
-//        }
 
         callViewHolder.callHistoryRowBinding.getRoot().setTag(R.string.call, call);
 

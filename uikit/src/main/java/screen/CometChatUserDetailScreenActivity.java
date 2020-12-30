@@ -431,7 +431,7 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
             public void onSuccess(String s) {
                 if (tvBlockUser!=null)
                     Snackbar.make(tvBlockUser, String.format(getResources().getString(R.string.user_removed_from_group),userName.getText().toString(),groupName), Snackbar.LENGTH_LONG).show();
-                addBtn.setText(String.format(getResources().getString(R.string.add_in_group),groupName));
+                addBtn.setText(String.format(getResources().getString(R.string.add_in),groupName));
                 addBtn.setVisibility(View.VISIBLE);
                 isAlreadyAdded = false;
 
@@ -454,7 +454,7 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
           @Override
           public void onSuccess(HashMap<String, String> stringStringHashMap) {
               if (tvBlockUser!=null)
-                  Snackbar.make(tvBlockUser,String.format(getResources().getString(R.string.user_unblocked),userName.getText().toString()),Snackbar.LENGTH_SHORT).show();
+                  Snackbar.make(tvBlockUser,userName.getText().toString()+" "+getResources().getString(R.string.unblocked_successfully),Snackbar.LENGTH_SHORT).show();
               isBlocked=false;
               setBlockUnblock();
           }
@@ -515,12 +515,12 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
 
             @Override
             public void onGroupMemberLeft(Action action, User leftUser, Group leftGroup) {
-                updateBtn(leftUser,R.string.add_in_group);
+                updateBtn(leftUser,R.string.add_in);
             }
 
             @Override
             public void onGroupMemberKicked(Action action, User kickedUser, User kickedBy, Group kickedFrom) {
-                updateBtn(kickedUser,R.string.add_in_group);
+                updateBtn(kickedUser,R.string.add_in);
             }
 
             @Override

@@ -1,17 +1,25 @@
 package com.cometchat.pro.androiduikit;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
+import com.cometchat.pro.uikit.Settings.UIKitSettings;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -34,6 +42,8 @@ public class SelectActivity extends AppCompatActivity {
     private MaterialButton componentLaunch;
 
     private CardView directIntentFront,directIntentBack,usingScreenFront,usingScreenBack;
+
+    String receiverTypeStr = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +79,6 @@ public class SelectActivity extends AppCompatActivity {
                 overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
             }
         });
-
         screenGroup = (RadioGroup)findViewById(R.id.screen_selector);
         callGroup = findViewById(R.id.call_selector);
         audioCallRb = findViewById(R.id.audioCall);
@@ -101,11 +110,55 @@ public class SelectActivity extends AppCompatActivity {
                     } else {
                         type = CometChatConstants.CALL_TYPE_VIDEO;
                     }
-                    CometChatCallListener.makeCall(SelectActivity.this, "superhero5", CometChatConstants.RECEIVER_TYPE_USER,type);
+                    initiateCall(type);
                 }
             }
         });
 
+    }
+
+    private void initiateCall(String type) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(SelectActivity.this);
+        View vw = LayoutInflater.from(SelectActivity.this).inflate(R.layout.user_id_layout,null);
+
+        ImageView closeIcon = vw.findViewById(R.id.close_dialog);
+        TextView title = vw.findViewById(R.id.title);
+        title.setText("Make "+type+" call");
+        EditText userID = vw.findViewById(R.id.userID);
+        MaterialButton submit = vw.findViewById(R.id.submit);
+        RadioGroup receiverType = vw.findViewById(R.id.receiver_type);
+        RadioButton typeUser = vw.findViewById(R.id.type_user);
+        RadioButton typeGroup = vw.findViewById(R.id.type_group);
+
+        receiverType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if (typeUser.isChecked())
+                    receiverTypeStr = CometChatConstants.RECEIVER_TYPE_USER;
+                else if (typeGroup.isChecked())
+                    receiverTypeStr = CometChatConstants.RECEIVER_TYPE_GROUP;
+            }
+        });
+
+        alertDialog.setView(vw);
+        Dialog dialog = alertDialog.create();
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (userID.getText().toString().trim().isEmpty())
+                    userID.setError("Fill ths field");
+                else
+                    CometChatCallListener.makeCall(SelectActivity.this, userID.getText().toString(), receiverTypeStr,type);
+                dialog.dismiss();
+            }
+        });
+        closeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     private RadioGroup.OnCheckedChangeListener callListener = new RadioGroup.OnCheckedChangeListener() {

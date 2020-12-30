@@ -27,6 +27,7 @@
             android:drawablePadding="8dp"
             android:layout_marginTop="8dp"
             android:id="@+id/tv_reply_layout_subtitle"
+            android:drawableTint="@color/colorPrimaryDark"
             tools:text="Perfect! I've been waiting to go"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

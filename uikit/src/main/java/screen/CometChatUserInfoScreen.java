@@ -155,7 +155,7 @@ public class CometChatUserInfoScreen extends Fragment {
     }
 
     private void updateUser(User user) {
-        CometChat.updateUser(user, StringContract.AppInfo.API_KEY, new CometChat.CallbackListener<User>() {
+        CometChat.updateUser(user, StringContract.AppInfo.AUTH_KEY, new CometChat.CallbackListener<User>() {
             @Override
             public void onSuccess(User user) {
                 if (getContext()!=null)

@@ -35,6 +35,7 @@ import androidx.renderscript.RenderScript;
 import androidx.renderscript.ScriptIntrinsicBlur;
 
 import com.cometchat.pro.constants.CometChatConstants;
+import com.cometchat.pro.core.Call;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.helpers.Logger;
 import com.cometchat.pro.models.Action;
@@ -64,6 +65,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import constant.StringContract;
 import kotlin.ranges.RangesKt;
 
 public class Utils {
@@ -221,7 +223,7 @@ public class Utils {
     }
 
 
-    public static String getLastMessage(BaseMessage lastMessage) {
+    public static String getLastMessage(Context context,BaseMessage lastMessage) {
 
         String message = null;
 
@@ -232,28 +234,44 @@ public class Utils {
                 if (lastMessage instanceof TextMessage) {
 
                     if (isLoggedInUser(lastMessage.getSender()))
-                        message = "You: " + (((TextMessage) lastMessage).getText()==null
-                                ?"This message was deleted":((TextMessage) lastMessage).getText());
+                        message = context.getString(R.string.you) +": "+ (((TextMessage) lastMessage).getText()==null
+                                ?context.getString(R.string.this_message_deleted):((TextMessage) lastMessage).getText());
                     else
                         message = lastMessage.getSender().getName() + ": " + ((TextMessage) lastMessage).getText();
 
                 } else if (lastMessage instanceof MediaMessage) {
+                    if (lastMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_IMAGE))
+                        message = context.getString(R.string.message_image);
+                    else if (lastMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_VIDEO))
+                        message = context.getString(R.string.message_video);
+                    else if (lastMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_FILE))
+                        message = context.getString(R.string.message_file);
+                    else if (lastMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_AUDIO))
+                        message = context.getString(R.string.message_audio);
 
-                    if (isLoggedInUser(lastMessage.getSender()))
-                        message = "You sent a " + lastMessage.getType();
-                    else
-                        message = "You received a " + lastMessage.getType();
+//                    if (isLoggedInUser(lastMessage.getSender())) {
+//
+//                    }
+//                    else {
+//                        message = String.format(context.getString(R.string.you_received), lastMessage.getType());
+//                    }
                 }
-
-                break;
-
+            break;
             case CometChatConstants.CATEGORY_CUSTOM:
-
-
-                if (isLoggedInUser(lastMessage.getSender()))
-                    message = "You sent a " + lastMessage.getType();
+                if (lastMessage.getType().equals(StringContract.IntentStrings.LOCATION))
+                    message = context.getString(R.string.custom_message_location);
+                else if (lastMessage.getType().equals(StringContract.IntentStrings.POLLS))
+                    message = context.getString(R.string.custom_message_poll);
+                else if (lastMessage.getType().equalsIgnoreCase(StringContract.IntentStrings.STICKERS))
+                    message = context.getString(R.string.custom_message_sticker);
+                else if (lastMessage.getType().equalsIgnoreCase(StringContract.IntentStrings.WHITEBOARD))
+                    message = context.getString(R.string.custom_message_whiteboard);
+                else if (lastMessage.getType().equalsIgnoreCase(StringContract.IntentStrings.WRITEBOARD))
+                    message = context.getString(R.string.custom_message_document);
+//                if (isLoggedInUser(lastMessage.getSender()))
+//                    message = String.format(context.getString(R.string.you_sent),lastMessage.getType());
                 else
-                    message = "You received a " + lastMessage.getType();
+                    message = String.format(context.getString(R.string.you_received),lastMessage.getType());
 
                 break;
             case CometChatConstants.CATEGORY_ACTION:
@@ -261,10 +279,26 @@ public class Utils {
                 break;
 
             case CometChatConstants.CATEGORY_CALL:
-                message = "Call Message";
+                if (((Call)lastMessage).getCallStatus().equalsIgnoreCase(CometChatConstants.CALL_STATUS_ENDED) ||
+                        ((Call) lastMessage).getCallStatus().equalsIgnoreCase(CometChatConstants.CALL_STATUS_CANCELLED)) {
+                    if (lastMessage.getType().equalsIgnoreCase(CometChatConstants.CALL_TYPE_AUDIO))
+                        message = context.getString(R.string.incoming_audio_call);
+                    else
+                        message = context.getString(R.string.incoming_video_call);
+                } else if (((Call)lastMessage).getCallStatus().equalsIgnoreCase(CometChatConstants.CALL_STATUS_ONGOING)) {
+                    message = context.getString(R.string.ongoing_call);
+                } else if (((Call) lastMessage).getCallStatus().equalsIgnoreCase(CometChatConstants.CALL_STATUS_CANCELLED) ||
+                        ((Call) lastMessage).getCallStatus().equalsIgnoreCase(CometChatConstants.CALL_STATUS_UNANSWERED) ||
+                        ((Call) lastMessage).getCallStatus().equalsIgnoreCase(CometChatConstants.CALL_STATUS_BUSY)) {
+                    if (lastMessage.getType().equalsIgnoreCase(CometChatConstants.CALL_TYPE_AUDIO))
+                        message = context.getString(R.string.missed_voice_call);
+                    else
+                        message = context.getString(R.string.missed_video_call);
+                } else
+                    message = ((Call) lastMessage).getCallStatus()+" "+lastMessage.getType()+" Call";
                 break;
             default:
-                message = "Tap to start conversation";
+                message = context.getString(R.string.tap_to_start_conversation);
         }
         return message;
     }

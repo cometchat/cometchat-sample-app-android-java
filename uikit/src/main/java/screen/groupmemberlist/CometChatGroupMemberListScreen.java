@@ -69,12 +69,15 @@ public class CometChatGroupMemberListScreen extends Fragment {
 
     private Context context;
 
+    private boolean transferOwnerShip;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        if (getArguments()!=null) {
            guid = getArguments().getString(StringContract.IntentStrings.GUID);
            showModerators = getArguments().getBoolean(StringContract.IntentStrings.SHOW_MODERATORLIST);
+           transferOwnerShip = getArguments().getBoolean(StringContract.IntentStrings.TRANSFER_OWNERSHIP);
        }
     }
 
@@ -150,26 +153,37 @@ public class CometChatGroupMemberListScreen extends Fragment {
             @Override
             public void onClick(View var1, int var2) {
                 GroupMember groupMember = (GroupMember) var1.getTag(R.string.user);
-                if (showModerators){
-                    if (getActivity() != null) {
-                        MaterialAlertDialogBuilder alert_dialog = new MaterialAlertDialogBuilder(getActivity());
-                        alert_dialog.setTitle(getResources().getString(R.string.make_moderator));
-                        alert_dialog.setMessage(String.format(getResources().getString(R.string.make_moderator_question), groupMember.getName()));
-                        alert_dialog.setPositiveButton(getResources().getString(R.string.yes), (dialogInterface, i) -> updateAsModeratorScope(groupMember));
-                        alert_dialog.setNegativeButton(getResources().getString(R.string.cancel), (dialogInterface, i) -> dialogInterface.dismiss());
-                        alert_dialog.create();
-                        alert_dialog.show();
-                    }
-                } else {
-                    if (getActivity() != null) {
-                        MaterialAlertDialogBuilder alert_dialog = new MaterialAlertDialogBuilder(getActivity());
-                        alert_dialog.setTitle(getResources().getString(R.string.make_admin));
-                        alert_dialog.setMessage(String.format(getResources().getString(R.string.make_admin_question), groupMember.getName()));
-                        alert_dialog.setPositiveButton(getResources().getString(R.string.yes), (dialogInterface, i) -> updateAsAdminScope(groupMember));
-                        alert_dialog.setNegativeButton(getResources().getString(R.string.cancel), (dialogInterface, i) -> dialogInterface.dismiss());
-                        alert_dialog.create();
-                        alert_dialog.show();
+                if (transferOwnerShip) {
+                    MaterialAlertDialogBuilder alert_dialog = new MaterialAlertDialogBuilder(getActivity());
+                    alert_dialog.setTitle(getResources().getString(R.string.make_owner));
+                    alert_dialog.setMessage(String.format(getResources().getString(R.string.make_owner_question), groupMember.getName()));
+                    alert_dialog.setPositiveButton(getResources().getString(R.string.yes), (dialogInterface, i) -> transferOwner(groupMember));
+                    alert_dialog.setNegativeButton(getResources().getString(R.string.cancel), (dialogInterface, i) -> dialogInterface.dismiss());
+                    alert_dialog.create();
+                    alert_dialog.show();
+                }
+                else {
+                    if (showModerators) {
+                        if (getActivity() != null) {
+                            MaterialAlertDialogBuilder alert_dialog = new MaterialAlertDialogBuilder(getActivity());
+                            alert_dialog.setTitle(getResources().getString(R.string.make_group_moderator));
+                            alert_dialog.setMessage(String.format(getResources().getString(R.string.make_moderator_question), groupMember.getName()));
+                            alert_dialog.setPositiveButton(getResources().getString(R.string.yes), (dialogInterface, i) -> updateAsModeratorScope(groupMember));
+                            alert_dialog.setNegativeButton(getResources().getString(R.string.cancel), (dialogInterface, i) -> dialogInterface.dismiss());
+                            alert_dialog.create();
+                            alert_dialog.show();
+                        }
+                    } else {
+                        if (getActivity() != null) {
+                            MaterialAlertDialogBuilder alert_dialog = new MaterialAlertDialogBuilder(getActivity());
+                            alert_dialog.setTitle(getResources().getString(R.string.make_group_admin));
+                            alert_dialog.setMessage(String.format(getResources().getString(R.string.make_admin_question), groupMember.getName()));
+                            alert_dialog.setPositiveButton(getResources().getString(R.string.yes), (dialogInterface, i) -> updateAsAdminScope(groupMember));
+                            alert_dialog.setNegativeButton(getResources().getString(R.string.cancel), (dialogInterface, i) -> dialogInterface.dismiss());
+                            alert_dialog.create();
+                            alert_dialog.show();
 
+                        }
                     }
                 }
             }
@@ -178,6 +192,22 @@ public class CometChatGroupMemberListScreen extends Fragment {
         fetchGroupMembers();
 
         return view;
+    }
+
+    private void transferOwner(GroupMember groupMember) {
+        CometChat.transferGroupOwnership(guid, groupMember.getUid(), new CometChat.CallbackListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                Snackbar.make(rvUserList,String.format(getResources().getString(R.string.user_is_owner),groupMember.getName()), Snackbar.LENGTH_LONG).show();
+                if (getActivity()!=null)
+                    getActivity().onBackPressed();
+            }
+
+            @Override
+            public void onError(CometChatException e) {
+                Snackbar.make(rvUserList,String.format(getResources().getString(R.string.update_scope_error)+e.getCode(),groupMember.getName()),Snackbar.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setToolbar(MaterialToolbar toolbar) {
@@ -197,7 +227,7 @@ public class CometChatGroupMemberListScreen extends Fragment {
             public void onSuccess(String s) {
                 Log.d(TAG, "onSuccess: "+s);
                 groupMemberListAdapter.removeGroupMember(groupMember);
-                Snackbar.make(rvUserList,String.format(getResources().getString(R.string.user_is_admin),groupMember.getName()), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(rvUserList,String.format(getResources().getString(R.string.is_now_admin),groupMember.getName()), Snackbar.LENGTH_LONG).show();
             }
 
             @Override
@@ -216,7 +246,7 @@ public class CometChatGroupMemberListScreen extends Fragment {
                 Log.d(TAG, "onSuccess: "+s);
                 groupMemberListAdapter.removeGroupMember(groupMember);
                 if (rvUserList!=null)
-                    Snackbar.make(rvUserList,String.format(getResources().getString(R.string.user_is_moderator),groupMember.getName()), Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(rvUserList,String.format(getResources().getString(R.string.is_now_moderator),groupMember.getName()), Snackbar.LENGTH_LONG).show();
             }
 
             @Override

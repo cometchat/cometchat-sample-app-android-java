@@ -282,7 +282,7 @@ public class CometChatForwardMessageScreenActivity extends AppCompatActivity {
                     checkUserList();
                 }
                 else {
-                    Toast.makeText(CometChatForwardMessageScreenActivity.this,"You cannot forward message to more than 5 members",Toast.LENGTH_LONG).show();
+                    Toast.makeText(CometChatForwardMessageScreenActivity.this,getString(R.string.forward_to_5_at_a_time),Toast.LENGTH_LONG).show();
                 }
             }
 

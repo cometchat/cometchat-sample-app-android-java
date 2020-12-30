@@ -26,7 +26,7 @@ import java.util.Random;
 
 import utils.Utils;
 
-public class AvatarFragment extends Fragment implements ColorPickerDialog.OnColorChangedListener {
+public class AvatarFragment extends Fragment {
 
     private Context context;
 
@@ -142,11 +142,6 @@ public class AvatarFragment extends Fragment implements ColorPickerDialog.OnColo
         }
     }
 
-
-    @Override
-    public void colorChanged(String key, int color) {
-
-    }
 
     @Override
     public void onAttach(@NonNull Context context) {

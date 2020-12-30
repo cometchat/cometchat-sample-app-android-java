@@ -71,8 +71,6 @@ public class CometChatAddMemberScreen extends Fragment {
 
     private MaterialToolbar toolbar;
 
-    List<GroupMember> groupMembers = new ArrayList<>();
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -265,8 +265,8 @@ public class CometChatGroupDetailScreenActivity extends AppCompatActivity {
             }
         });
 
-        tvExit.setOnClickListener(view -> createDialog(getResources().getString(R.string.exit_group_title), getResources().getString(R.string.exit_group_message),
-                getResources().getString(R.string.exit), getResources().getString(R.string.cancel), R.drawable.ic_exit_to_app));
+        tvExit.setOnClickListener(view -> createDialog(getResources().getString(R.string.leave_group), getResources().getString(R.string.leave_group_message),
+                getResources().getString(R.string.leave_group), getResources().getString(R.string.cancel), R.drawable.ic_exit_to_app));
 
         callBtn.setOnClickListener(view -> {
             callBtn.setClickable(false);
@@ -278,8 +278,8 @@ public class CometChatGroupDetailScreenActivity extends AppCompatActivity {
             checkOnGoingCall(CometChatConstants.CALL_TYPE_VIDEO);
         });
 
-        tvDelete.setOnClickListener(view -> createDialog(getResources().getString(R.string.delete_group_title), getResources().getString(R.string.delete_group_message),
-                getResources().getString(R.string.delete), getResources().getString(R.string.cancel), R.drawable.ic_delete_24dp));
+        tvDelete.setOnClickListener(view -> createDialog(getResources().getString(R.string.delete_group), getResources().getString(R.string.delete_group_message),
+                getResources().getString(R.string.delete_group), getResources().getString(R.string.cancel), R.drawable.ic_delete_24dp));
 
 
         //
@@ -392,7 +392,7 @@ public class CometChatGroupDetailScreenActivity extends AppCompatActivity {
 
         menu.findItem(R.id.item_make_admin).setVisible(false);
 
-        menu.setHeaderTitle("Group Action");
+        menu.setHeaderTitle(getString(R.string.group_alert));
     }
 
     @Override
@@ -425,8 +425,11 @@ public class CometChatGroupDetailScreenActivity extends AppCompatActivity {
         alert_dialog.setMessage(message);
         alert_dialog.setPositiveButton(positiveText, (dialogInterface, i) -> {
 
-            if (positiveText.equalsIgnoreCase(getResources().getString(R.string.exit))) {
-                leaveGroup();
+            if (positiveText.equalsIgnoreCase(getResources().getString(R.string.leave_group))) {
+                if (loggedInUser.getUid().equals(ownerId))
+                    showTansferOwnerShipDialog();
+                else
+                    leaveGroup();
 
             }
             else if (positiveText.equalsIgnoreCase(getResources().getString(R.string.delete_group))
@@ -444,6 +447,31 @@ public class CometChatGroupDetailScreenActivity extends AppCompatActivity {
         alert_dialog.create();
         alert_dialog.show();
 
+    }
+
+    private void showTansferOwnerShipDialog() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle(getString(R.string.group_alert));
+        dialog.setMessage(getString(R.string.transfer_ownership_message));
+        dialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(CometChatGroupDetailScreenActivity.this,CometChatGroupMemberListScreenActivity.class);
+                intent.putExtra(StringContract.IntentStrings.GUID,guid);
+                intent.putExtra(StringContract.IntentStrings.SHOW_MODERATORLIST,false);
+                intent.putExtra(StringContract.IntentStrings.TRANSFER_OWNERSHIP,true);
+                finish();
+                startActivity(intent);
+            }
+        });
+        dialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        dialog.create();
+        dialog.show();
     }
 
     /**
@@ -499,7 +527,7 @@ public class CometChatGroupDetailScreenActivity extends AppCompatActivity {
         if(getIntent().hasExtra(StringContract.IntentStrings.MEMBER_COUNT)) {
             tvMemberCount.setVisibility(View.VISIBLE);
             groupMemberCount = getIntent().getIntExtra(StringContract.IntentStrings.MEMBER_COUNT,0);
-            tvMemberCount.setText((groupMemberCount)+" Members");
+            tvMemberCount.setText((groupMemberCount)+" "+getString(R.string.members));
         }
         if (getIntent().hasExtra(StringContract.IntentStrings.GROUP_TYPE)) {
             groupType = getIntent().getStringExtra(StringContract.IntentStrings.GROUP_TYPE);
@@ -593,7 +621,7 @@ public class CometChatGroupDetailScreenActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String s) {
                 Log.e(TAG, "onSuccess: " + s);
-                tvMemberCount.setText((groupMemberCount-1)+" Members");
+                tvMemberCount.setText((groupMemberCount-1)+" "+getString(R.string.members));
                 groupMemberUids.remove(groupMember.getUid());
                 groupMemberAdapter.removeGroupMember(groupMember);
             }
@@ -616,7 +644,7 @@ public class CometChatGroupDetailScreenActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String s) {
                 Log.e(TAG, "onSuccess: " + s);
-                tvMemberCount.setText((groupMemberCount-1)+" Members");
+                tvMemberCount.setText((groupMemberCount-1)+" "+getString(R.string.members));
 //                int count = Integer.parseInt(tvBanMemberCount.getText().toString());
 //                tvBanMemberCount.setText(String.valueOf(++count));
                 groupMemberUids.remove(groupMember.getUid());
@@ -827,11 +855,11 @@ public class CometChatGroupDetailScreenActivity extends AppCompatActivity {
             if (!isRemoved && !isScopeUpdate) {
                 groupMemberAdapter.addGroupMember(UserToGroupMember(user, false, action.getOldScope()));
                 int count = ++groupMemberCount;
-                tvMemberCount.setText(count+" Members");
+                tvMemberCount.setText(count+" "+getString(R.string.members));
             } else if (isRemoved && !isScopeUpdate) {
                 groupMemberAdapter.removeGroupMember(UserToGroupMember(user, false, action.getOldScope()));
                 int count = --groupMemberCount;
-                tvMemberCount.setText(count+" Members");
+                tvMemberCount.setText(count+" "+getString(R.string.members));
                 if(action.getNewScope()!=null) {
                     if (action.getNewScope().equals(CometChatConstants.SCOPE_ADMIN)) {
                         adminCount = adminCount - 1;
@@ -1048,7 +1076,7 @@ public class CometChatGroupDetailScreenActivity extends AppCompatActivity {
                 groupType = group.getGroupType();
                 gDesc = group.getDescription();
                 tvGroupDesc.setText(gDesc);
-                tvMemberCount.setText(groupMemberCount+" Members");
+                tvMemberCount.setText(groupMemberCount+" "+getString(R.string.members));
             }
 
             @Override

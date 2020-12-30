@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.Reaction.model.Reaction;
@@ -20,11 +20,11 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import adapter.ReactionListAdapter;
-import listeners.ClickListener;
-import listeners.RecyclerTouchListener;
+import java.util.List;
+
 import screen.threadconversation.CometChatThreadMessageActivity;
 import utils.Extensions;
+import utils.Utils;
 
 public class MessageActionFragment extends BottomSheetDialogFragment {
 
@@ -38,8 +38,7 @@ public class MessageActionFragment extends BottomSheetDialogFragment {
     private TextView shareMessage;
 
 
-    private RecyclerView reactionsList;
-    private ReactionListAdapter reactionAdapter;
+    private LinearLayout reactionsList;
     private ImageView showReactionDialog;
 
     private boolean isShareVisible;
@@ -55,6 +54,8 @@ public class MessageActionFragment extends BottomSheetDialogFragment {
     private MessageActionListener messageActionListener;
 
     private String type;
+
+    private static int INITIAL_REACTION_COUNT = 6;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,26 +95,62 @@ public class MessageActionFragment extends BottomSheetDialogFragment {
                 behavior.setPeekHeight(0);
             }
         });
-        reactionsList = view.findViewById(R.id.reactions);
-        reactionAdapter = new ReactionListAdapter(getContext(), Extensions.getRandomEmojis(15));
-        reactionsList.setAdapter(reactionAdapter);
-
-        reactionsList.addOnItemTouchListener(new RecyclerTouchListener(getContext(), reactionsList, new ClickListener() {
+        reactionsList = view.findViewById(R.id.initial_reactions);
+        List<Reaction> reactions = Extensions.getInitialEmojis(INITIAL_REACTION_COUNT);
+        for(Reaction reaction : reactions) {
+            View vw = LayoutInflater.from(getContext()).inflate(R.layout.reaction_list_row,null);
+            TextView textView = vw.findViewById(R.id.reaction);
+            LinearLayout.LayoutParams params = new LinearLayout.
+                    LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.leftMargin = 16;
+            params.rightMargin = 16;
+            params.bottomMargin = 8;
+            params.topMargin = 8;
+            textView.setLayoutParams(params);
+            textView.setText(reaction.getName());
+            reactionsList.addView(vw);
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (messageActionListener!=null)
+                        messageActionListener.onReactionClick(reaction);
+                    dismiss();
+                }
+            });
+        }
+        ImageView addEmojiView = new ImageView(getContext());
+        addEmojiView.setImageDrawable(getResources().getDrawable(R.drawable.add_emoji));
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                (int)Utils.dpToPx(getContext(),36),(int)Utils.dpToPx(getContext(),36));
+        layoutParams.topMargin = 8;
+        layoutParams.leftMargin = 16;
+        addEmojiView.setLayoutParams(layoutParams);
+        reactionsList.addView(addEmojiView);
+        addEmojiView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View var1, int var2) {
-                Reaction reaction = (Reaction)var1.getTag(R.string.reaction);
-                if (messageActionListener != null)
-                    messageActionListener.onReactionClick(reaction);
+            public void onClick(View view) {
+                if (messageActionListener!=null)
+                    messageActionListener.onReactionClick(new Reaction("add_emoji",0));
                 dismiss();
             }
-        }));
+        });
+
+//        reactionsList.addOnItemTouchListener(new RecyclerTouchListener(getContext(), reactionsList, new ClickListener() {
+//            @Override
+//            public void onClick(View var1, int var2) {
+//                Reaction reaction = (Reaction)var1.getTag(R.string.reaction);
+//                if (messageActionListener != null)
+//                    messageActionListener.onReactionClick(reaction);
+//                dismiss();
+//            }
+//        }));
 //        showReactionDialog = view.findViewById(R.id.show_reaction_dialog);
 //        showReactionDialog.setVisibility(View.GONE);
 //        showReactionDialog.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
 //                if (messageActionListener!=null)
-//                    messageActionListener.onReactionClick(new Reaction("add_emoji","add_emoji"));
+//                    messageActionListener.onReactionClick(new Reaction("add_emoji",0));
 //                dismiss();
 //            }
 //        });

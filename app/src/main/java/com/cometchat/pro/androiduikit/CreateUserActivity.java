@@ -57,7 +57,7 @@ public class CreateUserActivity extends AppCompatActivity {
                     User user = new User();
                     user.setUid(uid.getText().toString());
                     user.setName(name.getText().toString());
-                    CometChat.createUser(user, AppConfig.AppDetails.API_KEY, new CometChat.CallbackListener<User>() {
+                    CometChat.createUser(user, AppConfig.AppDetails.AUTH_KEY, new CometChat.CallbackListener<User>() {
                         @Override
                         public void onSuccess(User user) {
                             login(user);
@@ -102,7 +102,7 @@ public class CreateUserActivity extends AppCompatActivity {
     }
 
     private void login(User user) {
-        CometChat.login(user.getUid(), AppConfig.AppDetails.API_KEY, new CometChat.CallbackListener<User>() {
+        CometChat.login(user.getUid(), AppConfig.AppDetails.AUTH_KEY, new CometChat.CallbackListener<User>() {
             @Override
             public void onSuccess(User user) {
                 startActivity(new Intent(CreateUserActivity.this,SelectActivity.class));

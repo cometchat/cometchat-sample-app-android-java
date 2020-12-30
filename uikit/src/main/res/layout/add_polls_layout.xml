@@ -24,7 +24,7 @@
                     android:textColor="@color/primaryTextColor"
                     android:textStyle="bold"
                     android:layout_toLeftOf="@+id/close_poll"
-                    android:text="@string/create_polls"
+                    android:text="@string/create_a_poll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <ImageView

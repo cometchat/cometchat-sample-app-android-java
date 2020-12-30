@@ -190,7 +190,7 @@ public class CallListAdapter extends RecyclerView.Adapter<CallListAdapter.CallVi
         callViewHolder.callListRowBinding.calltimeTv.setText(Utils.getLastMessageDate(call.getInitiatedAt()));
         callViewHolder.callListRowBinding.callMessage.setText(callMessageText);
         callViewHolder.callListRowBinding.getRoot().setTag(R.string.call, call);
-        if (UISettings.isEnableVoiceCalling())
+        if (UISettings.isEnableVoiceCalling() || UISettings.isEnableVideoCalling())
             callViewHolder.callListRowBinding.callIv.setVisibility(View.VISIBLE);
         else
             callViewHolder.callListRowBinding.callIv.setVisibility(View.GONE);

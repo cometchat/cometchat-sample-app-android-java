@@ -18,6 +18,8 @@ public class CometChatGroupMemberListScreenActivity extends AppCompatActivity {
 
     private String guid;
 
+    private boolean transferOwnerShip;
+
     private boolean showModerators;
 
     @Override
@@ -29,11 +31,15 @@ public class CometChatGroupMemberListScreenActivity extends AppCompatActivity {
             guid = getIntent().getStringExtra(StringContract.IntentStrings.GUID);
         if (getIntent().hasExtra(StringContract.IntentStrings.SHOW_MODERATORLIST))
             showModerators = getIntent().getBooleanExtra(StringContract.IntentStrings.SHOW_MODERATORLIST,false);
+        if (getIntent().hasExtra(StringContract.IntentStrings.TRANSFER_OWNERSHIP))
+            transferOwnerShip = getIntent()
+                    .getBooleanExtra(StringContract.IntentStrings.TRANSFER_OWNERSHIP,false);
 
         Fragment fragment = new CometChatGroupMemberListScreen();
         Bundle bundle = new Bundle();
         bundle.putString(StringContract.IntentStrings.GUID,guid);
         bundle.putBoolean(StringContract.IntentStrings.SHOW_MODERATORLIST,showModerators);
+        bundle.putBoolean(StringContract.IntentStrings.TRANSFER_OWNERSHIP,transferOwnerShip);
         fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_fragment,fragment).commit();
         if (UISettings.getColor()!=null)

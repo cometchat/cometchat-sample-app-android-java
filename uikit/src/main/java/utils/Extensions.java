@@ -1,6 +1,7 @@
 package utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,7 +19,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import constant.StringContract;
 import listeners.ExtensionResponseListener;
+import screen.CometChatWebViewActivity;
 
 import com.cometchat.pro.uikit.Reaction.model.Reaction;
 import com.cometchat.pro.uikit.Sticker.model.Sticker;
@@ -130,7 +133,17 @@ public class Extensions {
                         extensionMap.put("polls",extensionsObject.getJSONObject("polls"));
                     }
                     if (extensionsObject!=null && extensionsObject.has("reactions")) {
-                        extensionMap.put("reactions",extensionsObject.getJSONObject("reactions"));
+                        if (extensionsObject.get("reactions") instanceof JSONObject)
+                            extensionMap.put("reactions",extensionsObject.getJSONObject("reactions"));
+                    }
+                    if (extensionsObject!=null && extensionsObject.has("whiteboard")) {
+                        extensionMap.put("whiteboard",extensionsObject.getJSONObject("whiteboard"));
+                    }
+                    if (extensionsObject!=null && extensionsObject.has("document")) {
+                        extensionMap.put("document",extensionsObject.getJSONObject("document"));
+                    }
+                    if (extensionsObject!=null && extensionsObject.has("data-masking")) {
+                        extensionMap.put("dataMasking",extensionsObject.getJSONObject("data-masking"));
                     }
                 }
                 return extensionMap;
@@ -138,7 +151,7 @@ public class Extensions {
             else
                 return null;
         }  catch (Exception e) {
-            Log.e(TAG, "isLinkPreview: "+e.getMessage() );
+            Log.e(TAG, "ExtensionError: "+e.getMessage() );
         }
         return null;
     }
@@ -190,6 +203,38 @@ public class Extensions {
         return result;
     }
 
+    public static String checkDataMasking(BaseMessage baseMessage){
+        String result = ((TextMessage)baseMessage).getText();
+        String sensitiveData;
+        String messageMasked;
+        HashMap<String, JSONObject> extensionList = Extensions.extensionCheck(baseMessage);
+        if (extensionList != null){
+            try {
+                if (extensionList.containsKey("dataMasking")){
+                    JSONObject dataMasking = extensionList.get("dataMasking");
+                    JSONObject dataObject = dataMasking.getJSONObject("data");
+                    if (dataObject.has("sensitive_data") && dataObject.has("message_masked")){
+                        sensitiveData = dataObject.getString("sensitive_data");
+                        messageMasked = dataObject.getString("message_masked");
+                        if (sensitiveData.equals("no"))
+                            result = ((TextMessage)baseMessage).getText();
+                        else
+                            result = messageMasked;
+                    }
+                    else if (dataObject.has("action") && dataObject.has("message")){
+                        result = dataObject.getString("message");
+                    }
+                }
+                else {
+                    result = ((TextMessage)baseMessage).getText();
+                }
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
     public static int userVotedOn(BaseMessage baseMessage,int totalOptions,String loggedInUserId) {
         int result = 0;
         JSONObject resultJson = getPollsResult(baseMessage);
@@ -321,7 +366,7 @@ public class Extensions {
         return stickerMap;
     }
 
-    public static List<Reaction> getRandomEmojis(int i) {
+    public static List<Reaction> getInitialEmojis(int i) {
         List<Reaction> randomReaction = new ArrayList<>();
         List<Reaction> fetchedReaction = ReactionUtils.getFeelList();
         for (int k=0;k<i;k++) {
@@ -383,28 +428,115 @@ public class Extensions {
         return result;
     }
 
-//    public static List<Sticker> extractStickersFromJSON(JSONObject jsonObject) {
-//        List<Sticker> stickers = new ArrayList<>();
-//        if (jsonObject != null) {
-//            try {
-//                JSONObject dataObject = jsonObject.getJSONObject("data");
-//                JSONArray defaultStickersArray = dataObject.getJSONArray("defaultStickers");
-//                Log.d(TAG, "getStickersList: defaultStickersArray "+defaultStickersArray.length());
-//                for (int i = 0; i < defaultStickersArray.length(); i++) {
-//                    JSONObject stickerObject = defaultStickersArray.getJSONObject(i);
-//                    String stickerOrder = stickerObject.getString("stickerOrder");
-//                    String stickerSetId = stickerObject.getString("stickerSetId");
-//                    String stickerUrl = stickerObject.getString("stickerUrl");
-//                    String stickerSetName = stickerObject.getString("stickerSetName");
-//                    String stickerName = stickerObject.getString("stickerName");
-//                    Sticker default_sticker = new Sticker(stickerName,stickerUrl,stickerSetName);
-//                    stickers.add(default_sticker);
-//                }
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        return stickers;
-//    }
+    public static void callWriteBoardExtension(String receiverId,String receiverType,ExtensionResponseListener extensionResponseListener) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("receiver", receiverId);
+            jsonObject.put("receiverType", receiverType);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        CometChat.callExtension("document", "POST", "/v1/create", jsonObject, new CometChat.CallbackListener<JSONObject>() {
+            @Override
+            public void onSuccess(JSONObject jsonObject) {
+                extensionResponseListener.OnResponseSuccess(jsonObject);
+            }
+            @Override
+            public void onError(CometChatException e) {
+                extensionResponseListener.OnResponseFailed(e);
+            }
+        });
+    }
+
+    public static void callWhiteBoardExtension(String receiverId,String receiverType,ExtensionResponseListener extensionResponseListener) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("receiver", receiverId);
+            jsonObject.put("receiverType", receiverType);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        CometChat.callExtension("whiteboard", "POST", "/v1/create", jsonObject, new CometChat.CallbackListener<JSONObject>() {
+            @Override
+            public void onSuccess(JSONObject jsonObject) {
+                extensionResponseListener.OnResponseSuccess(jsonObject);
+            }
+            @Override
+            public void onError(CometChatException e) {
+                extensionResponseListener.OnResponseFailed(e);
+            }
+        });
+    }
+
+    public static String getWhiteBoardUrl(BaseMessage baseMessage) {
+        String boardUrl ="";
+        HashMap<String, JSONObject> extensionCheck = extensionCheck(baseMessage);
+        if (extensionCheck.containsKey("whiteboard")) {
+            JSONObject whiteBoardData = extensionCheck.get("whiteboard");
+            if (whiteBoardData.has("board_url")) {
+                try {
+                    boardUrl = whiteBoardData.getString("board_url");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return boardUrl;
+    }
+
+    public static String getWriteBoardUrl(BaseMessage baseMessage) {
+        String boardUrl ="";
+        HashMap<String, JSONObject> extensionCheck = extensionCheck(baseMessage);
+        if (extensionCheck.containsKey("document")) {
+            JSONObject whiteBoardData = extensionCheck.get("document");
+            if (whiteBoardData.has("document_url")) {
+                try {
+                    boardUrl = whiteBoardData.getString("document_url");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return boardUrl;
+    }
+
+
+    public static void openWhiteBoard(BaseMessage baseMessage, Context context) {
+        try {
+            String boardUrl = "";
+            HashMap<String, JSONObject> extensionCheck = extensionCheck(baseMessage);
+            if (extensionCheck.containsKey("whiteboard")) {
+                JSONObject whiteBoardData = extensionCheck.get("whiteboard");
+                if (whiteBoardData.has("board_url")) {
+                    boardUrl = whiteBoardData.getString("board_url");
+                    String userName = CometChat.getLoggedInUser().getName().replace("//s+","_");
+                    boardUrl = boardUrl+"&username="+userName;
+                    Log.e(TAG, "openWhiteBoard: after "+boardUrl);
+                    Intent intent = new Intent(context, CometChatWebViewActivity.class);
+                    intent.putExtra(StringContract.IntentStrings.URL, boardUrl);
+                    context.startActivity(intent);
+                }
+            }
+        } catch (Exception e) {
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static void openWriteBoard(BaseMessage baseMessage, Context context) {
+        try {
+            String boardUrl = "";
+            HashMap<String, JSONObject> extensionCheck = extensionCheck(baseMessage);
+            if (extensionCheck.containsKey("document")) {
+                JSONObject whiteBoardData = extensionCheck.get("document");
+                if (whiteBoardData.has("document_url")) {
+                    boardUrl = whiteBoardData.getString("document_url");
+                    Intent intent = new Intent(context, CometChatWebViewActivity.class);
+                    intent.putExtra(StringContract.IntentStrings.URL, boardUrl);
+                    context.startActivity(intent);
+                }
+            }
+        } catch (Exception e) {
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
 }

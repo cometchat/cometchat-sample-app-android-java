@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
     private void login(String uid) {
 
 
-        CometChat.login(uid, AppConfig.AppDetails.API_KEY, new CometChat.CallbackListener<User>() {
+        CometChat.login(uid, AppConfig.AppDetails.AUTH_KEY, new CometChat.CallbackListener<User>() {
             @Override
             public void onSuccess(User user) {
                 startActivity(new Intent(LoginActivity.this, SelectActivity.class));

@@ -94,7 +94,7 @@
                     android:linksClickable="true"
                     android:textColorLink="@color/dark_blue"
                     android:layout_below="@id/link_subtitle"
-                    tools:text="@string/loremIpsum"
+                    tools:text="@tools:sample/lorem"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"/>
                 <View

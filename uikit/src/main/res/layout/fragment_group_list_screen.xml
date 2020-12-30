@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <TextView
-        android:text="@string/group_title"
+        android:text="@string/groups"
         android:id="@+id/tv_title"
         android:textSize="22dp"
         android:textColor="@color/primaryTextColor"

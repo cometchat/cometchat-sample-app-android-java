@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.MessageReceipt;
 import com.cometchat.pro.uikit.CometChatReceiptsList;
 import com.cometchat.pro.uikit.R;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
@@ -40,6 +42,8 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
     private View locationMessage;
     private View pollsMessage;
     private View stickerMessage;
+    private View whiteBoardMessage;
+    private View writeBoardMessage;
 
     private TextView question;
     private LinearLayout optionGroup;
@@ -60,6 +64,12 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
     private TextView fileName;
     private TextView fileExtension;
     private TextView fileSize;
+
+    private TextView whiteBoardText;
+    private TextView writeBoardText;
+
+    private MaterialButton joinWhiteBoard;
+    private MaterialButton joinWriteBoard;
 
     private int id;
     private String message;
@@ -83,13 +93,21 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.detail_toolbar);
         messageLayout = findViewById(R.id.message_layout);
         backIcon = findViewById(R.id.backIcon);
-        textMessage = findViewById(R.id.vwTextMessage);
-        imageMessage = findViewById(R.id.vwImageMessage);
-        audioMessage = findViewById(R.id.vwAudioMessage);
-        fileMessage = findViewById(R.id.vwFileMessage);
-        locationMessage = findViewById(R.id.vwLocationMessage);
-        pollsMessage = findViewById(R.id.polls_message);
-        stickerMessage = findViewById(R.id.vwStickerMessage);
+        textMessage = findViewById(R.id.vw_text_message);
+        imageMessage = findViewById(R.id.vw_image_message);
+        audioMessage = findViewById(R.id.vw_audio_message);
+        fileMessage = findViewById(R.id.vw_file_message);
+        locationMessage = findViewById(R.id.vw_location_message);
+        pollsMessage = findViewById(R.id.vw_polls_message);
+        stickerMessage = findViewById(R.id.vw_sticker_message);
+        whiteBoardMessage = findViewById(R.id.vw_whiteboard_message);
+        writeBoardMessage = findViewById(R.id.vw_writeboard_message);
+
+        whiteBoardText = findViewById(R.id.whiteboard_message);
+        writeBoardText = findViewById(R.id.writeboard_message);
+        joinWhiteBoard = findViewById(R.id.join_whiteboard);
+        joinWriteBoard = findViewById(R.id.join_whiteboard);
+
         messageSticker = findViewById(R.id.sticker_view);
         findViewById(R.id.total_votes).setVisibility(View.GONE);
         question = findViewById(R.id.tv_question);
@@ -213,6 +231,30 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
             } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_AUDIO)) {
                 audioMessage.setVisibility(View.VISIBLE);
                 audioFileSize.setText(Utils.getFileSize(messageSize));
+            } else if (messageType.equals(StringContract.IntentStrings.WHITEBOARD)) {
+                whiteBoardMessage.setVisibility(View.VISIBLE);
+                whiteBoardText.setText(getString(R.string.you_created_whiteboard));
+                joinWhiteBoard.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String boardUrl = getIntent().getStringExtra(StringContract.IntentStrings.TEXTMESSAGE);
+                        Intent intent = new Intent(CometChatMessageInfoScreenActivity.this, CometChatWebViewActivity.class);
+                        intent.putExtra(StringContract.IntentStrings.URL, boardUrl);
+                        startActivity(intent);
+                  }
+              });
+            } else if (messageType.equals(StringContract.IntentStrings.WRITEBOARD)) {
+                writeBoardMessage.setVisibility(View.VISIBLE);
+                writeBoardText.setText(getString(R.string.you_created_document));
+                joinWriteBoard.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String boardUrl = getIntent().getStringExtra(StringContract.IntentStrings.TEXTMESSAGE);
+                        Intent intent = new Intent(CometChatMessageInfoScreenActivity.this, CometChatWebViewActivity.class);
+                        intent.putExtra(StringContract.IntentStrings.URL, boardUrl);
+                        startActivity(intent);
+                    }
+                });
             } else if (messageType.equals(StringContract.IntentStrings.LOCATION)) {
                 try {
                     locationMessage.setVisibility(View.VISIBLE);
@@ -220,7 +262,7 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
                     double LATITUDE = jsonObject.getDouble("latitude");
                     double LONGITUDE = jsonObject.getDouble("longitude");
                     tvPlaceName.setVisibility(View.GONE);
-                    String mapUrl = StringContract.MapUrl.MAPS_URL +LATITUDE+","+LONGITUDE+"&key="+ StringContract.MapUrl.MAP_ACCESS_KEY;
+                    String mapUrl = StringContract.MapUrl.MAPS_URL + LATITUDE + "," + LONGITUDE + "&key=" + StringContract.MapUrl.MAP_ACCESS_KEY;
                     Glide.with(this)
                             .load(mapUrl)
                             .into(ivMap);
@@ -234,7 +276,7 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
                     String questionStr = jsonObject.getString("question");
                     question.setText(questionStr);
                     JSONObject options = jsonObject.getJSONObject("options");
-                    for (int i=0;i<options.length();i++) {
+                    for (int i = 0; i < options.length(); i++) {
                         LinearLayout linearLayout = new LinearLayout(this);
                         LinearLayout.LayoutParams layoutParams = new LinearLayout
                                 .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -242,7 +284,7 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
                         layoutParams.bottomMargin = (int) Utils.dpToPx(this, 8);
                         linearLayout.setLayoutParams(layoutParams);
 
-                        linearLayout.setPadding(8,8,8,8);
+                        linearLayout.setPadding(8, 8, 8, 8);
                         linearLayout.setBackground(getResources()
                                 .getDrawable(R.drawable.cc_message_bubble_right));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(getResources()
@@ -257,9 +299,9 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
                         textViewOption.setTextColor(getResources().getColor(R.color.primaryTextColor));
                         String optionStr = options.getString(String.valueOf(i + 1));
                         textViewOption.setText(optionStr);
-                        if (percentage>0)
-                                textViewPercentage.setText(percentage + "% ");
-                        if (optionGroup.getChildCount()!=options.length()) {
+                        if (percentage > 0)
+                            textViewPercentage.setText(percentage + "% ");
+                        if (optionGroup.getChildCount() != options.length()) {
                             linearLayout.addView(textViewPercentage);
                             linearLayout.addView(textViewOption);
                             optionGroup.addView(linearLayout);

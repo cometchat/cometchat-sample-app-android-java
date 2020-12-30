@@ -241,7 +241,7 @@ public class CometChatUnified extends AppCompatActivity implements
                     if (progressDialog != null)
                         progressDialog.dismiss();
 
-                    Snackbar.make(activityCometChatUnifiedBinding.bottomNavigation, getResources().getString(R.string.unabl_to_join_message) + e.getMessage(),
+                    Snackbar.make(activityCometChatUnifiedBinding.bottomNavigation, getResources().getString(R.string.unable_to_join_message) + e.getMessage(),
                             Snackbar.LENGTH_SHORT).show();
 
                 }

@@ -3,9 +3,7 @@ package com.cometchat.pro.androiduikit;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -13,7 +11,6 @@ import androidx.appcompat.widget.AppCompatImageView;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
-import java.util.ArrayList;
 import com.cometchat.pro.androiduikit.constants.AppConfig;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -83,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void login(String uid) {
-        CometChat.login(uid, AppConfig.AppDetails.API_KEY, new CometChat.CallbackListener<User>() {
+        CometChat.login(uid, AppConfig.AppDetails.AUTH_KEY, new CometChat.CallbackListener<User>() {
             @Override
             public void onSuccess(User user) {
                 startActivity(new Intent(MainActivity.this, SelectActivity.class));

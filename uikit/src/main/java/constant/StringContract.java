@@ -10,7 +10,7 @@ import java.util.List;
 public class StringContract {
 
     public static class AppInfo {
-        public static String API_KEY = "";
+        public static String AUTH_KEY = "";
 
         public static String APP_ID = "";
     }
@@ -114,6 +114,12 @@ public class StringContract {
 
         public static final String REACTION_INFO = "reaction_info";
 
+        public static final String URL = "url";
+
+        public static final String WHITEBOARD = "extension_whiteboard";
+
+        public static final String WRITEBOARD = "extension_document";
+
         public static String POLL_QUESTION = "poll_question";
 
         public static String POLL_OPTION = "poll_option";
@@ -172,7 +178,9 @@ public class StringContract {
                 //Custom Messages
                 StringContract.IntentStrings.LOCATION,
                 StringContract.IntentStrings.POLLS,
-                StringContract.IntentStrings.STICKERS
+                StringContract.IntentStrings.STICKERS,
+                StringContract.IntentStrings.WHITEBOARD,
+                StringContract.IntentStrings.WRITEBOARD
         )) ;
         public static List<String> messageTypesForGroup = new ArrayList<>(Arrays.asList(
                 CometChatConstants.MESSAGE_TYPE_CUSTOM,
@@ -186,7 +194,9 @@ public class StringContract {
                 //Custom Messages
                 StringContract.IntentStrings.LOCATION,
                 StringContract.IntentStrings.POLLS,
-                StringContract.IntentStrings.STICKERS
+                StringContract.IntentStrings.STICKERS,
+                StringContract.IntentStrings.WHITEBOARD,
+                StringContract.IntentStrings.WRITEBOARD
         ));
 
         public static List<String> messageCategoriesForGroup = new ArrayList<>(Arrays.asList(
@@ -200,5 +210,10 @@ public class StringContract {
                 CometChatConstants.CATEGORY_MESSAGE,
                 CometChatConstants.CATEGORY_CUSTOM,
                 CometChatConstants.CATEGORY_CALL));
+    }
+
+    public static class Emoji {
+        public static final String USE_SYSTEM_DEFAULT_KEY = "useSystemDefaults";
+        public static final String EMOJI_KEY = "emojic";
     }
 }

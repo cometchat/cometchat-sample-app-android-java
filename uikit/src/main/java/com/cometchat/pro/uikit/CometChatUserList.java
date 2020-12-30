@@ -148,7 +148,7 @@ public class CometChatUserList extends RecyclerView {
                 if (onItemClickListener!=null)
                       onItemClickListener.OnItemClick(user,var2);
                 else
-                    throw new NullPointerException(getResources().getString(R.string.user_itemclick_error));
+                    throw new NullPointerException("OnItemClickListener<User> is null");
             }
 
             @Override
@@ -157,7 +157,7 @@ public class CometChatUserList extends RecyclerView {
                 if (onItemClickListener!=null)
                      onItemClickListener.OnItemLongClick(user,var2);
                 else
-                  throw new NullPointerException(getResources().getString(R.string.user_itemclick_error));
+                  throw new NullPointerException("OnItemClickListener<User> is null");
             }
         }));
     }

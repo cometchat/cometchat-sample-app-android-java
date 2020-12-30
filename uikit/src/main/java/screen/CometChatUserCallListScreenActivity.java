@@ -17,6 +17,7 @@ package screen;
  */
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -200,7 +202,22 @@ public class CometChatUserCallListScreenActivity extends AppCompatActivity {
             @Override
             public void OnItemClick(User var, int position) {
                 User user = var;
-                initiatecall(user.getUid(), CometChatConstants.RECEIVER_TYPE_USER,CometChatConstants.CALL_TYPE_AUDIO);
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(CometChatUserCallListScreenActivity.this);
+                alertDialog.setMessage(getString(R.string.initiate_a_call));
+                alertDialog.setPositiveButton(getString(R.string.audio_call), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        initiateCall(user.getUid(), CometChatConstants.RECEIVER_TYPE_USER,CometChatConstants.CALL_TYPE_AUDIO);
+                    }
+                });
+                alertDialog.setNegativeButton(getString(R.string.video_call), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        initiateCall(user.getUid(), CometChatConstants.RECEIVER_TYPE_USER,CometChatConstants.CALL_TYPE_VIDEO);
+                    }
+                });
+                alertDialog.create();
+                alertDialog.show();
             }
         });
         fetchUsers();
@@ -265,7 +282,7 @@ public class CometChatUserCallListScreenActivity extends AppCompatActivity {
         });
     }
 
-    public void initiatecall(String receiverID,String receiverType,String callType)
+    public void initiateCall(String receiverID, String receiverType, String callType)
     {
         CallUtils.initiateCall(CometChatUserCallListScreenActivity.this,receiverID,receiverType,callType);
     }

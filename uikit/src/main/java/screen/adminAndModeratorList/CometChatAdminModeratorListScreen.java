@@ -111,10 +111,10 @@ public class CometChatAdminModeratorListScreen extends Fragment {
         setToolbar(toolbar);
         if (showModerators) {
             toolbar.setTitle(getResources().getString(R.string.moderators));
-            addAs.setText(getResources().getString(R.string.add_as_moderator));
+            addAs.setText(getResources().getString(R.string.assign_as_moderator));
         } else {
             toolbar.setTitle(getResources().getString(R.string.administrators));
-            addAs.setText(getResources().getString(R.string.add_as_admin));
+            addAs.setText(getResources().getString(R.string.assign_as_admin));
         }
         adapter = new GroupMemberAdapter(getContext(), members, null);
         adminList.setAdapter(adapter);
@@ -142,7 +142,7 @@ public class CometChatAdminModeratorListScreen extends Fragment {
                         if (getActivity() != null) {
                             MaterialAlertDialogBuilder alert_dialog = new MaterialAlertDialogBuilder(getActivity());
                             alert_dialog.setTitle(getResources().getString(R.string.remove));
-                            alert_dialog.setMessage(String.format(getResources().getString(R.string.remove_from_moderator), groupMember.getName()));
+                            alert_dialog.setMessage(String.format(getResources().getString(R.string.remove_as_moderator), groupMember.getName()));
                             alert_dialog.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -173,7 +173,7 @@ public class CometChatAdminModeratorListScreen extends Fragment {
                         if (getActivity() != null) {
                             MaterialAlertDialogBuilder alert_dialog = new MaterialAlertDialogBuilder(getActivity());
                             alert_dialog.setTitle(getResources().getString(R.string.remove));
-                            alert_dialog.setMessage(String.format(getResources().getString(R.string.remove_from_admin), groupMember.getName()));
+                            alert_dialog.setMessage(String.format(getResources().getString(R.string.remove_as_admin), groupMember.getName()));
                             alert_dialog.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -233,11 +233,11 @@ public class CometChatAdminModeratorListScreen extends Fragment {
                         if (adapter != null)
                             adapter.removeGroupMember(groupMember);
                         if (showModerators) {
-                            Snackbar.make(view, String.format(getResources().getString(R.string.removed_from_moderator), groupMember.getName()),
+                            Snackbar.make(view, groupMember.getName()+" "+getResources().getString(R.string.remove_from_moderator_privilege),
                                     Snackbar.LENGTH_LONG).show();
                         }
                         else {
-                            Snackbar.make(view, String.format(getResources().getString(R.string.removed_from_admin), groupMember.getName()),
+                            Snackbar.make(view, groupMember.getName()+" "+getResources().getString(R.string.removed_from_admin),
                                     Snackbar.LENGTH_LONG).show();
                         }
                     }
@@ -309,7 +309,7 @@ public class CometChatAdminModeratorListScreen extends Fragment {
 
             @Override
             public void onError(CometChatException e) {
-                Snackbar.make(adminList, getResources().getString(R.string.modertor_list_retrieve_error), Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(adminList, getResources().getString(R.string.moderator_list_retrieve_error), Snackbar.LENGTH_SHORT).show();
                 Log.e(TAG, "onError: " + e.getMessage());
 
             }

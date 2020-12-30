@@ -4,9 +4,9 @@
     <item android:id="@+id/item_remove"
         android:title="@string/remove" />
     <item android:id="@+id/item_ban"
-        android:title="@string/ban" />
+        android:title="@string/ban_member" />
 
     <item android:id="@+id/item_make_admin"
-        android:title="@string/make_admin"/>
+        android:title="@string/make_group_admin"/>
 
 </menu>

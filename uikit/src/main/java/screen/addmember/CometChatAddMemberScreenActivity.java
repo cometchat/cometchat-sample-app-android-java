@@ -31,9 +31,16 @@ public class CometChatAddMemberScreenActivity extends AppCompatActivity {
         if (getIntent()!=null) {
             Bundle bundle = new Bundle();
             fragment=new CometChatAddMemberScreen();
-            bundle.putString(StringContract.IntentStrings.GUID, getIntent().getStringExtra(StringContract.IntentStrings.GUID));
-            bundle.putString(StringContract.IntentStrings.GROUP_NAME, getIntent().getStringExtra(StringContract.IntentStrings.GROUP_NAME));
-            bundle.putStringArrayList(StringContract.IntentStrings.GROUP_MEMBER,getIntent().getStringArrayListExtra(StringContract.IntentStrings.GROUP_MEMBER));
+            if (getIntent().hasExtra(StringContract.IntentStrings.GUID))
+                bundle.putString(StringContract.IntentStrings.GUID, getIntent()
+                        .getStringExtra(StringContract.IntentStrings.GUID));
+            if (getIntent().hasExtra(StringContract.IntentStrings.GROUP_NAME))
+                bundle.putString(StringContract.IntentStrings.GROUP_NAME, getIntent()
+                        .getStringExtra(StringContract.IntentStrings.GROUP_NAME));
+            if (getIntent().hasExtra(StringContract.IntentStrings.GROUP_MEMBER))
+                bundle.putStringArrayList(StringContract.IntentStrings.GROUP_MEMBER,getIntent()
+                        .getStringArrayListExtra(StringContract.IntentStrings.GROUP_MEMBER));
+
             fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_fragment,fragment).commit();
         }

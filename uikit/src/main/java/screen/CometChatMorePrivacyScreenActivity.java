@@ -89,7 +89,7 @@ public class CometChatMorePrivacyScreenActivity extends AppCompatActivity {
 
             @Override
             public void onError(CometChatException e) {
-                Snackbar.make(tvBlockUserCount,getResources().getString(R.string.blocked_list_error),Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(tvBlockUserCount,getResources().getString(R.string.block_user_list_error),Snackbar.LENGTH_SHORT).show();
                 Toast.makeText(CometChatMorePrivacyScreenActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

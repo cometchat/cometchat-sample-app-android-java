@@ -1,10 +1,8 @@
 package screen.banmembers;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -104,11 +102,11 @@ public class CometChatBanMemberScreen extends Fragment {
         if (getActivity()!=null) {
             MenuInflater menuInflater = getActivity().getMenuInflater();
             menuInflater.inflate(R.menu.group_action_menu, menu);
-            menu.findItem(R.id.item_ban).setTitle("Unban");
+            menu.findItem(R.id.item_ban).setTitle(getContext().getString(R.string.unban));
             menu.findItem(R.id.item_remove).setVisible(false);
             menu.findItem(R.id.item_make_admin).setVisible(false);
 
-            menu.setHeaderTitle("Member Action");
+            menu.setHeaderTitle(getContext().getString(R.string.actions));
         }
     }
 
@@ -127,7 +125,7 @@ public class CometChatBanMemberScreen extends Fragment {
             @Override
             public void onSuccess(String s) {
                 if (bannedMemberRv!=null)
-                    Snackbar.make(bannedMemberRv,String.format(getResources().getString(R.string.member_unbanned_success),groupMember.getName(),gName),Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(bannedMemberRv,groupMember.getName()+" "+getResources().getString(R.string.unbanned_successfully),Snackbar.LENGTH_LONG).show();
                 groupMemberAdapter.removeGroupMember(groupMember);
             }
 

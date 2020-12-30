@@ -63,7 +63,7 @@
                     android:id="@+id/tv_textMessage"
                     android:textStyle="bold"
                     android:autoLink="all"
-                    tools:text="@string/loremIpsum"
+                    tools:text="@tools:sample/lorem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <ImageView
@@ -210,11 +210,91 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
+                <RelativeLayout
+                    android:id="@+id/whiteboard_vw"
+                    android:visibility="gone"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/iv_user"
+                    android:layout_below="@+id/iv_user"
+                    android:background="@drawable/cc_message_bubble_left"
+                    android:orientation="vertical"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:padding="8dp"
+                        android:id="@+id/whiteboard_icon"
+                        android:background="@drawable/cc_message_bubble_right"
+                        android:backgroundTint="@color/grey_200"
+                        android:src="@drawable/ic_whiteboard_24dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_toRightOf="@+id/whiteboard_icon"
+                        android:id="@+id/whiteboard_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Someone has shared whiteboard. Click below join button to check whiteboard"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:padding="10dp"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="match_parent"
+                        android:text="@string/join"
+                        android:layout_below="@id/whiteboard_message"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginBottom="8dp"
+                        app:backgroundTint="@color/textColorWhite"
+                        android:textColor="@color/primaryTextColor"
+                        app:cornerRadius="16dp"
+                        android:id="@+id/join_whiteboard"
+                        android:layout_height="wrap_content"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/writeboard_vw"
+                    android:visibility="gone"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/iv_user"
+                    android:layout_below="@+id/iv_user"
+                    android:background="@drawable/cc_message_bubble_left"
+                    android:orientation="vertical"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:padding="8dp"
+                        android:id="@+id/writeboard_icon"
+                        android:background="@drawable/cc_message_bubble_right"
+                        android:backgroundTint="@color/grey_200"
+                        android:src="@drawable/ic_whiteboard_24dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_toRightOf="@+id/writeboard_icon"
+                        android:id="@+id/writeboard_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Someone has shared whiteboard. Click below join button to check whiteboard"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:padding="10dp"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="match_parent"
+                        android:text="@string/join"
+                        android:layout_below="@id/writeboard_message"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginBottom="8dp"
+                        app:backgroundTint="@color/grey_100"
+                        app:cornerRadius="16dp"
+                        android:id="@+id/join_writeboard"
+                        android:layout_height="wrap_content"/>
+                </RelativeLayout>
             </RelativeLayout>
             <com.google.android.material.chip.ChipGroup
                 android:layout_gravity="center_vertical"
                 android:visibility="gone"
-                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="8dp"
                 android:layout_below="@id/message_layout"
                 tools:visibility="visible"
                 android:orientation="horizontal"
@@ -224,7 +304,7 @@
             <RelativeLayout
                 android:padding="8dp"
                 android:layout_margin="8dp"
-                android:layout_below="@+id/message_layout"
+                android:layout_below="@+id/reactions_layout"
                 android:id="@+id/thread_action"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -239,6 +319,14 @@
                     android:layout_width="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/add_reaction"
+                        android:src="@drawable/add_emoji"
+                        android:clickable="true"
+                        android:layout_marginRight="16dp"
+                        android:foreground="?selectableItemBackground"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"/>
                     <ImageView
                         android:id="@+id/ic_forward_option"
                         android:clickable="true"
@@ -276,7 +364,7 @@
                 <TextView
                     android:textStyle="italic"
                     android:layout_marginTop="16dp"
-                    android:text="No Thread Messages"
+                    android:text="@string/no_thread_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>

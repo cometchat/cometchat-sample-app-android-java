@@ -128,7 +128,7 @@ public class ConversationListAdapter extends RecyclerView.Adapter<ConversationLi
             setStatusIcon(conversationViewHolder.conversationListRowBinding.messageTime,baseMessage);
             conversationViewHolder.conversationListRowBinding.messageTime.setVisibility(View.VISIBLE);
             conversationViewHolder.conversationListRowBinding.messageTime.setText(Utils.getLastMessageDate(baseMessage.getSentAt()));
-            lastMessageText=Utils.getLastMessage(baseMessage);
+            lastMessageText=Utils.getLastMessage(context,baseMessage);
         } else {
             lastMessageText = context.getResources().getString(R.string.tap_to_start_conversation);
             conversationViewHolder.conversationListRowBinding.txtUserMessage.setMarqueeRepeatLimit(100);
@@ -140,7 +140,7 @@ public class ConversationListAdapter extends RecyclerView.Adapter<ConversationLi
         if (baseMessage!=null) {
             boolean isSentimentNegative = Extensions.checkSentiment(baseMessage);
             if (isSentimentNegative && !baseMessage.getSender().getUid().equals(CometChat.getLoggedInUser().getUid())) {
-                conversationViewHolder.conversationListRowBinding.txtUserMessage.setText(context.getResources().getString(R.string.sentimment_content));
+                conversationViewHolder.conversationListRowBinding.txtUserMessage.setText(context.getResources().getString(R.string.sentiment_content));
             }
         }
         conversationViewHolder.conversationListRowBinding.txtUserMessage.setTypeface(fontUtils.getTypeFace(FontUtils.robotoRegular));
@@ -341,7 +341,6 @@ public class ConversationListAdapter extends RecyclerView.Adapter<ConversationLi
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String searchKeyword = charSequence.toString();
-
                 if (searchKeyword.isEmpty()) {
                     filterConversationList = conversationList;
                 } else {
@@ -358,6 +357,7 @@ public class ConversationListAdapter extends RecyclerView.Adapter<ConversationLi
                         } else if (conversation.getLastMessage()!=null &&
                                 conversation.getLastMessage().getCategory().equals(CometChatConstants.CATEGORY_MESSAGE) &&
                                 conversation.getLastMessage().getType().equals(CometChatConstants.MESSAGE_TYPE_TEXT)
+                                && ((TextMessage)conversation.getLastMessage()).getText()!=null
                                 && ((TextMessage)conversation.getLastMessage()).getText().contains(searchKeyword)) {
                             tempFilter.add(conversation);
                         }

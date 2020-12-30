@@ -3,6 +3,7 @@ package adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -31,7 +32,9 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import constant.StringContract;
 import listeners.StickyHeaderAdapter;
+import screen.CometChatMediaViewActivity;
 import utils.Extensions;
 import utils.FontUtils;
 import utils.MediaUtils;
@@ -152,7 +155,14 @@ public class SharedMediaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         BaseMessage message = messageArrayList.get(i);
         Glide.with(context).load(((MediaMessage) message).getAttachment().getFileUrl()).into(viewHolder.imageView);
         viewHolder.imageView.setOnClickListener(view ->{
-            MediaUtils.openFile(((MediaMessage) message).getAttachment().getFileUrl(), context);
+            Intent intent = new Intent(context, CometChatMediaViewActivity.class);
+            intent.putExtra(StringContract.IntentStrings.NAME,message.getSender().getName());
+            intent.putExtra(StringContract.IntentStrings.UID,message.getSender().getUid());
+            intent.putExtra(StringContract.IntentStrings.SENTAT,message.getSentAt());
+            intent.putExtra(StringContract.IntentStrings.INTENT_MEDIA_MESSAGE,
+                    ((MediaMessage)message).getAttachment().getFileUrl());
+            intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE,message.getType());
+            context.startActivity(intent);
         });
         viewHolder.itemView.setTag(R.string.baseMessage, message);
     }
@@ -206,7 +216,14 @@ public class SharedMediaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 });
                 alert.create().show();
             } else {
-                MediaUtils.openFile(((MediaMessage) message).getAttachment().getFileUrl(), context);
+                Intent intent = new Intent(context, CometChatMediaViewActivity.class);
+                intent.putExtra(StringContract.IntentStrings.NAME,message.getSender().getName());
+                intent.putExtra(StringContract.IntentStrings.UID,message.getSender().getUid());
+                intent.putExtra(StringContract.IntentStrings.SENTAT,message.getSentAt());
+                intent.putExtra(StringContract.IntentStrings.INTENT_MEDIA_MESSAGE,
+                        ((MediaMessage)message).getAttachment().getFileUrl());
+                intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE,message.getType());
+                context.startActivity(intent);
             }
         });
         viewHolder.itemView.setTag(R.string.baseMessage, message);

@@ -86,7 +86,7 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
         Group group = groupList.get(position);
         groupViewHolder.groupListRowBinding.setGroup(group);
         groupViewHolder.groupListRowBinding.executePendingBindings();
-        groupViewHolder.groupListRowBinding.txtUserMessage.setText("Members: "+group.getMembersCount());
+        groupViewHolder.groupListRowBinding.txtUserMessage.setText(context.getString(R.string.members)+": "+group.getMembersCount());
 
         if (group.getGroupType().equals(CometChatConstants.GROUP_TYPE_PRIVATE))
             groupViewHolder.groupListRowBinding.txtUserName.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_security_24dp,0);

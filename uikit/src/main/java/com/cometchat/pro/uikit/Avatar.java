@@ -173,7 +173,7 @@ public class Avatar extends AppCompatImageView {
             if (avatarShape == null) {
                 shape = CIRCLE;
             } else {
-                if (getContext().getString(R.string.rectangle).equalsIgnoreCase(avatarShape)) {
+                if (new String("rectangle").equalsIgnoreCase(avatarShape)) {
                     shape = RECTANGLE;
                 } else {
                     shape = CIRCLE;
@@ -192,7 +192,7 @@ public class Avatar extends AppCompatImageView {
     @Override
     public void setScaleType(ScaleType scaleType) {
         if (scaleType != SCALE_TYPE) {
-            throw new IllegalArgumentException(String.format(getResources().getString(R.string.scale_type_not_supported), scaleType));
+            throw new IllegalArgumentException(String.format("ScaleType %1$s not supported.", scaleType));
         }
     }
 
@@ -213,7 +213,7 @@ public class Avatar extends AppCompatImageView {
     @Override
     public void setAdjustViewBounds(boolean adjustViewBounds) {
         if (adjustViewBounds) {
-            throw new IllegalArgumentException(getResources().getString(R.string.adjust_viewbound_not_supported));
+            throw new IllegalArgumentException("adjustViewBounds not supported.");
         }
     }
 

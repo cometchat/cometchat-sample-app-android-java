@@ -95,7 +95,8 @@ public class ComposeBox extends RelativeLayout implements View.OnClickListener {
     private Bundle bundle = new Bundle();
 
     public boolean isGalleryVisible = true,isAudioVisible = true,isCameraVisible = true,
-            isFileVisible = true,isLocationVisible = true,isPollVisible = true,isStickerVisible = true;
+            isFileVisible = true,isLocationVisible = true,isPollVisible = true,isStickerVisible = true,
+            isWhiteBoardVisible = true, isWriteBoardVisible = true;
 
     public ComposeBox(Context context) {
         super(context);
@@ -217,6 +218,16 @@ public class ComposeBox extends RelativeLayout implements View.OnClickListener {
 
             @Override
             public void onStickerClick() { composeActionListener.onStickerClicked(); }
+
+            @Override
+            public void onWhiteBoardClick() {
+                composeActionListener.onWhiteboardClicked();
+            }
+
+            @Override
+            public void onWriteBoardClick() {
+                composeActionListener.onWriteboardClicked();
+            }
         });
         etComposeBox.addTextChangedListener(new TextWatcher() {
             @Override
@@ -286,6 +297,8 @@ public class ComposeBox extends RelativeLayout implements View.OnClickListener {
         isAudioVisible = UISettings.isSendVoiceNotes();
         isLocationVisible = UISettings.isShareLocation();
         isStickerVisible = UISettings.isStickerVisible();
+        isWhiteBoardVisible = UISettings.isWhiteBoardVisible();
+        isWriteBoardVisible = UISettings.isWriteBoardVisible();
         if (UISettings.isSendVoiceNotes()) {
             ivMic.setVisibility(View.VISIBLE);
         } else {
@@ -296,7 +309,8 @@ public class ComposeBox extends RelativeLayout implements View.OnClickListener {
                 !UISettings.isSendPhotosVideo() &&
                 !UISettings.isSendVoiceNotes() &&
                 !UISettings.isShareLocation() &&
-                !UISettings.isStickerVisible()) {
+                !UISettings.isStickerVisible() &&
+                !UISettings.isWhiteBoardVisible() && !UISettings.isWriteBoardVisible()) {
             ivArrow.setVisibility(GONE);
         }
         a.recycle();
@@ -382,6 +396,10 @@ public class ComposeBox extends RelativeLayout implements View.OnClickListener {
             bundle.putBoolean("isFileVisible",isFileVisible);
             bundle.putBoolean("isAudioVisible",isAudioVisible);
             bundle.putBoolean("isLocationVisible",isLocationVisible);
+            if (CometChat.isExtensionEnabled("document"))
+                bundle.putBoolean("isWriteBoardVisible",isWriteBoardVisible);
+            if (CometChat.isExtensionEnabled("whiteboard"))
+                bundle.putBoolean("isWhiteBoardVisible",isWhiteBoardVisible);
             if (CometChat.isExtensionEnabled("stickers")) {
                 bundle.putBoolean("isStickerVisible",isStickerVisible);
             }

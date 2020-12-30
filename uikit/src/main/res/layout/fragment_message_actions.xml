@@ -8,14 +8,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <androidx.recyclerview.widget.RecyclerView
-        android:visibility="gone"
-        tools:visibility="visible"
-        android:layout_width="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/reactions"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:layout_height="wrap_content"/>
+    <HorizontalScrollView
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:id="@+id/initial_reactions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </HorizontalScrollView>
      <TextView
         android:id="@+id/message_info"
         android:clickable="true"
@@ -24,7 +29,7 @@
         android:gravity="center_vertical"
         android:drawableStart="@drawable/ic_info"
         android:textStyle="bold"
-        android:text="@string/message_info"
+        android:text="@string/message_information"
         android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -33,7 +38,7 @@
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
         android:textStyle="bold"
-        android:text="@string/reply_thread"
+        android:text="@string/start_thread"
         android:drawableStart="@drawable/ic_thread_24dp"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
@@ -48,7 +53,7 @@
         android:gravity="center_vertical"
         android:foreground="?attr/selectableItemBackground"
         android:textStyle="bold"
-        android:text="@string/reply"
+        android:text="@string/reply_message"
         android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -60,7 +65,7 @@
         android:gravity="center_vertical"
         android:drawableStart="@drawable/ic_forward"
         android:textStyle="bold"
-        android:text="@string/forward"
+        android:text="@string/forward_message"
         android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -93,7 +98,7 @@
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
         android:textStyle="bold"
-        android:text="@string/edit"
+        android:text="@string/edit_message"
         android:drawableStart="@drawable/ic_baseline_edit_24"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
@@ -111,7 +116,7 @@
         android:textColor="@color/red"
         android:foreground="?attr/selectableItemBackground"
         android:textStyle="bold"
-        android:text="@string/delete"
+        android:text="@string/delete_message"
         android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

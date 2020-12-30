@@ -20,12 +20,15 @@ import com.cometchat.pro.models.BaseMessage;
 import com.cometchat.pro.uikit.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import adapter.ThreadAdapter;
 import constant.StringContract;
 import listeners.MessageActionCloseListener;
 import listeners.OnMessageLongClick;
+
+import com.cometchat.pro.uikit.Reaction.model.Reaction;
 import com.cometchat.pro.uikit.Settings.UISettings;
 
 /**
@@ -101,6 +104,8 @@ public class CometChatThreadMessageActivity extends AppCompatActivity implements
 
     private int voteCount;
 
+    private HashMap<String,String> reactionInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,7 +172,6 @@ public class CometChatThreadMessageActivity extends AppCompatActivity implements
                  if (getIntent().hasExtra(StringContract.IntentStrings.UID))
                      Id = getIntent().getStringExtra(StringContract.IntentStrings.UID);
              }
-//             bundle.putString(StringContract.IntentStrings.PARENT_BASEMESSAGE,baseMessage);
              bundle.putString(StringContract.IntentStrings.MESSAGE_CATEGORY,messageCategory);
              bundle.putString(StringContract.IntentStrings.ID,Id);
              bundle.putString(StringContract.IntentStrings.CONVERSATION_NAME,conversationName);
@@ -180,28 +184,36 @@ public class CometChatThreadMessageActivity extends AppCompatActivity implements
              bundle.putString(StringContract.IntentStrings.UID, uid);
              bundle.putLong(StringContract.IntentStrings.SENTAT, sentAt);
 
-              if (messageType.equals(CometChatConstants.MESSAGE_TYPE_TEXT))
+             if (getIntent().hasExtra(StringContract.IntentStrings.REACTION_INFO)) {
+                 reactionInfo = (HashMap<String,String>) getIntent().getSerializableExtra(StringContract.IntentStrings.REACTION_INFO);
+                 bundle.putSerializable(StringContract.IntentStrings.REACTION_INFO, reactionInfo);
+             }
+
+             if (messageType.equals(CometChatConstants.MESSAGE_TYPE_TEXT))
                   bundle.putString(StringContract.IntentStrings.TEXTMESSAGE,message);
-              else if (messageType.equals(StringContract.IntentStrings.LOCATION)) {
+             else if (messageType.equals(StringContract.IntentStrings.LOCATION)) {
                   bundle.putDouble(StringContract.IntentStrings.LOCATION_LATITUDE,latitude);
                   bundle.putDouble(StringContract.IntentStrings.LOCATION_LONGITUDE,longitude);
-              } else if (messageType.equals(StringContract.IntentStrings.POLLS)) {
+             } else if (messageType.equals(StringContract.IntentStrings.POLLS)) {
                   bundle.putStringArrayList(StringContract.IntentStrings.POLL_RESULT,pollResult);
                   bundle.putString(StringContract.IntentStrings.POLL_QUESTION,pollQuestion);
                   bundle.putString(StringContract.IntentStrings.POLL_OPTION,pollOptions);
                   bundle.putInt(StringContract.IntentStrings.POLL_VOTE_COUNT,voteCount);
-              } else if (messageType.equals(StringContract.IntentStrings.STICKERS)) {
+             } else if (messageType.equals(StringContract.IntentStrings.STICKERS)) {
                   bundle.putString(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_URL,mediaUrl);
                   bundle.putString(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_NAME,messagefileName);
-              } else {
+             } else if (messageType.equals(StringContract.IntentStrings.WHITEBOARD) ||
+                      messageType.equals(StringContract.IntentStrings.WRITEBOARD)) {
+                  bundle.putString(StringContract.IntentStrings.TEXTMESSAGE,message);
+             } else {
                   bundle.putString(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_URL,mediaUrl);
                   bundle.putString(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_NAME,messagefileName);
                   bundle.putString(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_EXTENSION,mediaExtension);
                   bundle.putInt(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_SIZE,mediaSize);
                   bundle.putString(StringContract.IntentStrings.MESSAGE_TYPE_IMAGE_MIME_TYPE,mediaMime);
-              }
+             }
 
-              fragment.setArguments(bundle);
+             fragment.setArguments(bundle);
              getSupportFragmentManager().beginTransaction().replace(R.id.ChatFragment, fragment).commit();
          }
     }

@@ -713,7 +713,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         viewHolder.tvUser.setText(baseMessage.getSender().getName());
 
         if (baseMessage.getDeletedAt()!=0) {
-            viewHolder.txtMessage.setText(R.string.message_deleted);
+            viewHolder.txtMessage.setText(R.string.this_message_deleted);
             viewHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.secondaryTextColor));
             viewHolder.txtMessage.setTypeface(null, Typeface.ITALIC);
         }
@@ -853,9 +853,13 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 }
             }
-            viewHolder.txtMessage.setText(txtMessage);
-            String profanityFilter = Extensions.checkProfanityMessage(baseMessage);
-            viewHolder.txtMessage.setText(profanityFilter);
+            String message = txtMessage;
+            if (CometChat.isExtensionEnabled("profanity-filter"))
+                message = Extensions.checkProfanityMessage(baseMessage);
+            else if (CometChat.isExtensionEnabled("data-masking"))
+                message = Extensions.checkDataMasking(baseMessage);
+
+            viewHolder.txtMessage.setText(message);
             viewHolder.txtMessage.setTypeface(fontUtils.getTypeFace(FontUtils.robotoRegular));
 
             viewHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.primaryTextColor));

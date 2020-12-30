@@ -57,4 +57,8 @@ public abstract class ComposeActionListener {
 
     public void onStickerClicked() {
     }
+
+    public void onWhiteboardClicked() {}
+
+    public void onWriteboardClicked() { }
 }

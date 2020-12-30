@@ -4,6 +4,7 @@ import com.cometchat.pro.uikit.R;
 
 public class UISettings {
 
+
     public UISettings() {}
 
 
@@ -15,7 +16,7 @@ public class UISettings {
     protected static boolean showChatsBB = true;
     protected static boolean showCallsBB = true;
     protected static boolean showUserSettingsBB = true;
-    protected static String groupListing = "all";
+    protected static String groupListing = "public_and_password_protected_groups";
     protected static String userListing = "all_users";
     //main
     protected static boolean enableSendingMessage = true;
@@ -33,6 +34,8 @@ public class UISettings {
     protected static boolean enableEditingMessage = true;
     protected static boolean shareLocation = true;
     protected static boolean sendStickers = true;
+    protected static boolean sendWhiteBoard = true;
+    protected static boolean sendWriteBoard = true;
     protected static boolean blockUser = true;
     protected static boolean showTypingIndicators = true;
     protected static boolean viewSharedMedia = true;
@@ -244,5 +247,13 @@ public class UISettings {
 
     public static boolean isReactionVisible() {
         return allowReactionOnMessage;
+    }
+
+    public static boolean isWhiteBoardVisible() {
+        return sendWhiteBoard;
+    }
+
+    public static boolean isWriteBoardVisible() {
+        return sendWriteBoard;
     }
 }

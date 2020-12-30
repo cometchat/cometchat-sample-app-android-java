@@ -5,16 +5,16 @@ import android.os.Parcelable;
 
 public class Reaction implements Parcelable {
     String name;
-    String code;
+    int code;
 
-    public Reaction(String name, String code) {
+    public Reaction(String name, int code) {
         this.name = name;
         this.code = code;
     }
 
     protected Reaction(Parcel in) {
         name = in.readString();
-        code = in.readString();
+        code = in.readInt();
     }
 
     public static final Creator<Reaction> CREATOR = new Creator<Reaction>() {
@@ -33,7 +33,7 @@ public class Reaction implements Parcelable {
         return name;
     }
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
@@ -45,6 +45,6 @@ public class Reaction implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(name);
-        parcel.writeString(code);
+        parcel.writeInt(code);
     }
 }
