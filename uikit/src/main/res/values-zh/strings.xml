@@ -339,4 +339,6 @@
     <string name="added">添加</string>
     <string name="initiated">已发起</string>
     <string name="made">制作</string>
+    <string name="translate_message">翻译讯息</string>
+    <string name="no_translation_available">没有可用的翻译</string>
 </resources>

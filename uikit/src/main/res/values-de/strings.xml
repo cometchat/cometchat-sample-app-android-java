@@ -340,4 +340,6 @@
     <string name="initiated">initiiert</string>
     <string name="kicked_by">getreten</string>
     <string name="made">gemacht</string>
+    <string name="translate_message">Nachricht übersetzen</string>
+    <string name="no_translation_available">Keine Übersetzung verfügbar</string>
 </resources>

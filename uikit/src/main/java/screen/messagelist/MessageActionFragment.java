@@ -36,6 +36,7 @@ public class MessageActionFragment extends BottomSheetDialogFragment {
     private TextView copyMessage;
     private TextView messageInfo;
     private TextView shareMessage;
+    private TextView translateMessage;
 
 
     private LinearLayout reactionsList;
@@ -50,6 +51,7 @@ public class MessageActionFragment extends BottomSheetDialogFragment {
     private boolean isReplyVisible;
     private boolean isMessageInfoVisible;
     private boolean isReactionsVisible;
+    private boolean isTranslateVisible;
 
     private MessageActionListener messageActionListener;
 
@@ -74,6 +76,7 @@ public class MessageActionFragment extends BottomSheetDialogFragment {
             isShareVisible = getArguments().getBoolean("shareVisible");
             isMessageInfoVisible = getArguments().getBoolean("messageInfoVisible");
             isReactionsVisible = getArguments().getBoolean("isReactionVisible");
+            isTranslateVisible = getArguments().getBoolean("translateVisible");
             type = getArguments().getString("type");
         }
     }
@@ -135,25 +138,7 @@ public class MessageActionFragment extends BottomSheetDialogFragment {
             }
         });
 
-//        reactionsList.addOnItemTouchListener(new RecyclerTouchListener(getContext(), reactionsList, new ClickListener() {
-//            @Override
-//            public void onClick(View var1, int var2) {
-//                Reaction reaction = (Reaction)var1.getTag(R.string.reaction);
-//                if (messageActionListener != null)
-//                    messageActionListener.onReactionClick(reaction);
-//                dismiss();
-//            }
-//        }));
-//        showReactionDialog = view.findViewById(R.id.show_reaction_dialog);
-//        showReactionDialog.setVisibility(View.GONE);
-//        showReactionDialog.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (messageActionListener!=null)
-//                    messageActionListener.onReactionClick(new Reaction("add_emoji",0));
-//                dismiss();
-//            }
-//        });
+        translateMessage = view.findViewById(R.id.translate_message);
         threadMessage = view.findViewById(R.id.start_thread);
         editMessage = view.findViewById(R.id.edit_message);
         replyMessage = view.findViewById(R.id.reply_message);
@@ -162,6 +147,11 @@ public class MessageActionFragment extends BottomSheetDialogFragment {
         copyMessage = view.findViewById(R.id.copy_message);
         shareMessage = view.findViewById(R.id.share_message);
         messageInfo = view.findViewById(R.id.message_info);
+
+        if (isTranslateVisible)
+            translateMessage.setVisibility(View.VISIBLE);
+        else
+            translateMessage.setVisibility(View.GONE);
 
         if (isReactionsVisible)
             reactionsList.setVisibility(View.VISIBLE);
@@ -204,6 +194,14 @@ public class MessageActionFragment extends BottomSheetDialogFragment {
             threadMessage.setVisibility(View.GONE);
         }
 
+        translateMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (messageActionListener!=null)
+                    messageActionListener.onTranslateMessageClick();
+                dismiss();
+            }
+        });
         threadMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -289,6 +287,8 @@ public class MessageActionFragment extends BottomSheetDialogFragment {
         void onMessageInfoClick();
 
         void onReactionClick(Reaction reaction);
+
+        void onTranslateMessageClick();
     }
 
     @Override

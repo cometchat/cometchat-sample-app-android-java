@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import constant.StringContract;
 import listeners.ExtensionResponseListener;
@@ -538,5 +539,87 @@ public class Extensions {
         } catch (Exception e) {
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    public static String getTranslatedMessage(BaseMessage baseMessage) {
+        String translatedMessage = ((TextMessage)baseMessage).getText();
+        try {
+            if (baseMessage.getMetadata() != null) {
+                JSONObject metadataObject = baseMessage.getMetadata();
+                if (metadataObject.has("values")) {
+                    JSONObject valueObject = metadataObject.getJSONObject("values");
+                    if (valueObject.has("data")) {
+                        JSONObject dataObject = valueObject.getJSONObject("data");
+                        if (dataObject.has("translations")) {
+                            JSONArray translations = dataObject.getJSONArray("translations");
+                            if (translations.length() > 0) {
+                                JSONObject jsonObject = translations.getJSONObject(0);
+                                translatedMessage = jsonObject.getString("message_translated");
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "getTranslatedMessageError: "+e.getMessage());
+        }
+        return translatedMessage;
+    }
+
+    public static boolean isMessageTranslated(JSONObject jsonObject,String txtMessage) {
+        boolean result = false;
+        try {
+            JSONObject metadataObject = jsonObject;
+            if (metadataObject.has("data")) {
+                JSONObject dataObject = metadataObject.getJSONObject("data");
+                if (dataObject.has("translations")) {
+                    JSONArray translations = dataObject.getJSONArray("translations");
+                    if (translations.length() > 0) {
+                        JSONObject translationsJSONObject = translations.getJSONObject(0);
+                        String language = translationsJSONObject.getString("language_translated");
+                        String localLanguage = Locale.getDefault().getLanguage();
+                        String translatedMessage = translationsJSONObject.getString("message_translated");
+                        if (language.equalsIgnoreCase(localLanguage) &&
+                                !txtMessage.equalsIgnoreCase(translatedMessage)) {
+                            result = true;
+                        } else {
+                            result = false;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "isMessageTranslatedError: "+e.getMessage());
+        }
+        return result;
+    }
+
+    public static String getTextTranslatedMessage(JSONObject jsonObject,String originalString) {
+        String result="";
+        try {
+            JSONObject metadataObject = jsonObject;
+            if (metadataObject.has("data")) {
+                JSONObject dataObject = metadataObject.getJSONObject("data");
+                if (dataObject.has("translations")) {
+                    JSONArray translations = dataObject.getJSONArray("translations");
+                    if (translations.length() > 0) {
+                        JSONObject translationsJSONObject = translations.getJSONObject(0);
+                        String language = translationsJSONObject.getString("language_translated");
+                        String localLanguage = Locale.getDefault().getLanguage();
+                        String translatedMessage = translationsJSONObject.getString("message_translated");
+                        if (language.equalsIgnoreCase(localLanguage) &&
+                                !originalString.equalsIgnoreCase(translatedMessage)) {
+                            result = originalString+"\n("+translatedMessage+")";
+                        } else {
+                            result = originalString;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "isMessageTranslatedError: "+e.getMessage());
+        }
+        return result;
     }
 }

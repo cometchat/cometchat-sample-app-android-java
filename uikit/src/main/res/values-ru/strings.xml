@@ -343,4 +343,6 @@
     <string name="initiated">инициированный</string>
     <string name="kicked_by">пнул</string>
     <string name="made">сделанный</string>
+    <string name="translate_message">Перевести сообщение</string>
+    <string name="no_translation_available">Перевод недоступен</string>
 </resources>

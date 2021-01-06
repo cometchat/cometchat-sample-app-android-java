@@ -339,4 +339,8 @@ public class UIKitSettings {
     public static void enableCollaborativeWriteBoard(boolean enableWriteBoardSharing) {
         UISettings.sendWriteBoard = enableWriteBoardSharing;
     }
+
+    public static void enableMessageTranslation(boolean enableMessageTranslation) {
+        UISettings.allowMessageTranslation = enableMessageTranslation;
+    }
 }

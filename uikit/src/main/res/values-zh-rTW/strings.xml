@@ -343,4 +343,6 @@
     <string name="added">添加</string>
     <string name="initiated">已发起</string>
     <string name="made">制作</string>
+    <string name="translate_message">翻譯訊息</string>
+    <string name="no_translation_available">沒有可用的翻譯</string>
 </resources>

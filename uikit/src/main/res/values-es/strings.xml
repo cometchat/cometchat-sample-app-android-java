@@ -348,4 +348,6 @@
     <string name="initiated">iniciado</string>
     <string name="kicked_by">golpeado</string>
     <string name="made">hecho</string>
+    <string name="translate_message">Traducir mensaje</string>
+    <string name="no_translation_available">No hay traducción disponible</string>
 </resources>

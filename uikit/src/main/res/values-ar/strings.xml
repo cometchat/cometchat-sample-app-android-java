@@ -340,4 +340,6 @@
     <string name="added">مضاف</string>
     <string name="initiated">بدأت</string>
     <string name="made">مصنوع</string>
+    <string name="translate_message">ترجمة الرسالة</string>
+    <string name="no_translation_available">لا يوجد ترجمة متوفرة</string>
 </resources>

@@ -341,4 +341,6 @@
     <string name="kicked_by">लात मारी</string>
     <string name="left">समूह छोड़ दिया</string>
     <string name="made">" बनाया"</string>
+    <string name="translate_message">अनुवाद संदेश</string>
+    <string name="no_translation_available">कोई अनुवाद उपलब्ध नहीं</string>
 </resources>

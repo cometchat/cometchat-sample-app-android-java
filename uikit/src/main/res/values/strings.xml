@@ -330,5 +330,7 @@
     <string name="unban">Unban</string>
     <string name="made">made</string>
     <string name="participant">participant</string>
+    <string name="translate_message">Translate Message</string>
+    <string name="no_translation_available">No translation available</string>
     <!--_______________________________-->
 </resources>

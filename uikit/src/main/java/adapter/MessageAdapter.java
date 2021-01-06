@@ -2046,6 +2046,17 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (CometChat.isExtensionEnabled("data-masking"))
                 message = Extensions.checkDataMasking(baseMessage);
 
+            if (baseMessage.getMetadata()!=null && baseMessage.getMetadata().has("values")) {
+                try {
+                    if (Extensions.isMessageTranslated(baseMessage.getMetadata().getJSONObject("values"), ((TextMessage) baseMessage).getText())) {
+                        String translatedMessage = Extensions.getTranslatedMessage(baseMessage);
+                        message = message + "\n(" + translatedMessage + ")";
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(context, context.getString(R.string.no_translation_available), Toast.LENGTH_SHORT).show();
+                }
+            }
+
             viewHolder.txtMessage.setText(message);
             viewHolder.txtMessage.setTypeface(fontUtils.getTypeFace(FontUtils.robotoRegular));
 

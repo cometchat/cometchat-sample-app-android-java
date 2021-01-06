@@ -57,6 +57,7 @@ public class UISettings {
     protected static boolean hideCallNotification = false;
     protected static boolean liveReaction = true;
     protected static boolean allowReactionOnMessage = true;
+    protected static boolean allowMessageTranslation = true;
     protected static int emailColor = R.color.primaryTextColor;
     protected static int phoneColor = R.color.purple;
     protected static int urlColor = R.color.dark_blue;
@@ -256,4 +257,6 @@ public class UISettings {
     public static boolean isWriteBoardVisible() {
         return sendWriteBoard;
     }
+
+    public static boolean isTranslationAllowed() { return  allowMessageTranslation; }
 }

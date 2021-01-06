@@ -340,4 +340,6 @@
     <string name="initiated">dimulakan</string>
     <string name="kicked_by">ditendang</string>
     <string name="made">dibuat</string>
+    <string name="translate_message">Terjemahkan Mesej</string>
+    <string name="no_translation_available">Terjemahan Tidak Ada</string>
 </resources>

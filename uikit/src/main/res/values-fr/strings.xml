@@ -345,4 +345,6 @@
     <string name="added">ajouté</string>
     <string name="initiated">initié</string>
     <string name="made">fabriqué</string>
+    <string name="translate_message">Traduire le message</string>
+    <string name="no_translation_available">Pas de traduction disponible</string>
 </resources>

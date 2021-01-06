@@ -99,6 +99,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -2303,6 +2304,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         boolean deleteVisible = UISettings.isEnableDeleteMessage();
         boolean forwardVisible = UISettings.isEnableShareCopyForward();
         boolean reactionVisible = UISettings.isReactionVisible();
+        boolean translateVisible = UISettings.isTranslationAllowed();
         List<BaseMessage> textMessageList = new ArrayList<>();
         List<BaseMessage> mediaMessageList = new ArrayList<>();
         List<BaseMessage> locationMessageList = new ArrayList<>();
@@ -2332,6 +2334,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
             }
         }
         if (textMessageList.size() == 1) {
+            translateVisible = UISettings.isTranslationAllowed();
             BaseMessage basemessage = textMessageList.get(0);
             if (basemessage != null && basemessage.getSender() != null) {
                 if (!(basemessage instanceof Action) && basemessage.getDeletedAt() == 0) {
@@ -2356,6 +2359,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         }
 
         if (mediaMessageList.size() == 1) {
+            translateVisible = false;
             BaseMessage basemessage = mediaMessageList.get(0);
             if (basemessage != null && basemessage.getSender() != null) {
                 if (!(basemessage instanceof Action) && basemessage.getDeletedAt() == 0) {
@@ -2380,6 +2384,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
             }
         }
         if (locationMessageList.size() == 1){
+            translateVisible = false;
             BaseMessage basemessage = locationMessageList.get(0);
             if (basemessage != null && basemessage.getSender() != null) {
                 if (!(basemessage instanceof Action) && basemessage.getDeletedAt() == 0) {
@@ -2408,6 +2413,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         }
         if (pollsMessageList.size() == 1){
             forwardVisible = false;
+            translateVisible = false;
             copyVisible = false;
             editVisible = false;
             shareVisible = false;
@@ -2436,8 +2442,9 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
             forwardVisible = false;
             copyVisible = false;
             editVisible = false;
+            translateVisible = false;
             shareVisible = false;
-            replyVisible = UISettings.isStickerVisible();
+            replyVisible = UISettings.isEnableReplyToMessage();
             BaseMessage basemessage = stickerMessageList.get(0);
             if (basemessage!=null && basemessage.getSender()!=null) {
                 if (basemessage.getDeletedAt() == 0) {
@@ -2461,9 +2468,10 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         if (whiteBoardMessageList.size()==1) {
             forwardVisible = false;
             copyVisible = false;
+            translateVisible = false;
             editVisible = false;
             shareVisible = false;
-            replyVisible = UISettings.isStickerVisible();
+            replyVisible = UISettings.isEnableReplyToMessage();
             BaseMessage basemessage = whiteBoardMessageList.get(0);
             if (basemessage!=null && basemessage.getSender()!=null) {
                 if (basemessage.getDeletedAt() == 0) {
@@ -2489,8 +2497,9 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
             forwardVisible = false;
             copyVisible = false;
             editVisible = false;
+            translateVisible = false;
             shareVisible = false;
-            replyVisible = UISettings.isStickerVisible();
+            replyVisible = UISettings.isEnableReplyToMessage();
             BaseMessage basemessage = writeBoardMessageList.get(0);
             if (basemessage!=null && basemessage.getSender()!=null) {
                 if (basemessage.getDeletedAt() == 0) {
@@ -2522,6 +2531,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         bundle.putBoolean("deleteVisible",deleteVisible);
         bundle.putBoolean("replyVisible",replyVisible);
         bundle.putBoolean("forwardVisible",forwardVisible);
+        bundle.putBoolean("translateVisible",translateVisible);
         if (CometChat.isExtensionEnabled("reactions"))
             bundle.putBoolean("isReactionVisible",reactionVisible);
         if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP) &&
@@ -2656,6 +2666,50 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                     reactionDialog.show(getFragmentManager(),"ReactionDialog");
                 } else {
                     sendReaction(reaction);
+                }
+            }
+
+            @Override
+            public void onTranslateMessageClick() {
+                try {
+                    String localeLanguage = Locale.getDefault().getLanguage();
+                    JSONObject body = new JSONObject();
+                    JSONArray languages = new JSONArray();
+                    languages.put(localeLanguage);
+                    body.put("msgId", baseMessage.getId());
+                    body.put("languages", languages);
+                    body.put("text", ((TextMessage)baseMessage).getText());
+
+                    CometChat.callExtension("message-translation", "POST", "/v2/translate", body,
+                            new CometChat.CallbackListener<JSONObject>() {
+                                @Override
+                                public void onSuccess(JSONObject jsonObject) {
+                                    if (Extensions.isMessageTranslated(jsonObject,((TextMessage)baseMessage).getText())) {
+                                        if (baseMessage.getMetadata()!=null) {
+                                            JSONObject meta = baseMessage.getMetadata();
+                                            try {
+                                                meta.accumulate("values",jsonObject);
+                                                baseMessage.setMetadata(meta);
+                                                updateMessage(baseMessage);
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            baseMessage.setMetadata(jsonObject);
+                                            updateMessage(baseMessage);
+                                        }
+                                    } else {
+                                        Snackbar.make(rvChatListView,context.getString(R.string.no_translation_available),Snackbar.LENGTH_LONG).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onError(CometChatException e) {
+                                    Toast.makeText(context,e.getCode(),Toast.LENGTH_LONG).show();
+                                }
+                            });
+                } catch (Exception e) {
+                    Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
                 }
             }
         });
