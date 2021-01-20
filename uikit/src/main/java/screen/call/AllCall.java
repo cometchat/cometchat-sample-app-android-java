@@ -132,7 +132,7 @@ public class AllCall extends Fragment {
                     .setPositiveButton(getContext().getResources().getString(R.string.join), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            CallUtils.joinOnGoingCall(getContext());
+                            CallUtils.joinOnGoingCall(getContext(),CometChat.getActiveCall());
                         }
                     }).setNegativeButton(getContext().getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                 @Override

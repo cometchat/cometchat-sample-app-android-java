@@ -8,6 +8,7 @@
     android:background="@color/darkModeBackground"
     tools:context="screen.CometChatStartCallActivity">
     <LinearLayout
+        android:id="@+id/connecting_to_call"
         android:layout_centerInParent="true"
         android:orientation="horizontal"
         android:layout_width="wrap_content"

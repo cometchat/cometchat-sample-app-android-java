@@ -120,6 +120,10 @@ public class StringContract {
 
         public static final String WRITEBOARD = "extension_document";
 
+        public static final String GROUP_CALL = "meeting" ;
+
+        public static final String GROUP_CALL_TYPE = "group_call_type";
+
         public static String POLL_QUESTION = "poll_question";
 
         public static String POLL_OPTION = "poll_option";
@@ -196,7 +200,8 @@ public class StringContract {
                 StringContract.IntentStrings.POLLS,
                 StringContract.IntentStrings.STICKERS,
                 StringContract.IntentStrings.WHITEBOARD,
-                StringContract.IntentStrings.WRITEBOARD
+                StringContract.IntentStrings.WRITEBOARD,
+                StringContract.IntentStrings.GROUP_CALL
         ));
 
         public static List<String> messageCategoriesForGroup = new ArrayList<>(Arrays.asList(

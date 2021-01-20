@@ -245,7 +245,7 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
                     .setPositiveButton(getResources().getString(R.string.join), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            CallUtils.joinOnGoingCall(CometChatUserDetailScreenActivity.this);
+                            CallUtils.joinOnGoingCall(CometChatUserDetailScreenActivity.this,CometChat.getActiveCall());
                         }
                     }).setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                 @Override

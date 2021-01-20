@@ -342,4 +342,8 @@
     <string name="made">gemacht</string>
     <string name="translate_message">Nachricht übersetzen</string>
     <string name="no_translation_available">Keine Übersetzung verfügbar</string>
+    <string name="has_shared_group_call">hat einen Gruppenanruf geteilt.</string>
+    <string name="custom_message_meeting">📹 Gruppenanruf</string>
+    <string name="start_group_call">Starten Sie einen Gruppenanruf</string>
+    <string name="you_created_group_call">Sie haben einen Gruppenanruf erstellt.</string>
 </resources>

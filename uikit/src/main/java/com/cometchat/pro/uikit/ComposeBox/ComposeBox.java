@@ -96,7 +96,7 @@ public class ComposeBox extends RelativeLayout implements View.OnClickListener {
 
     public boolean isGalleryVisible = true,isAudioVisible = true,isCameraVisible = true,
             isFileVisible = true,isLocationVisible = true,isPollVisible = true,isStickerVisible = true,
-            isWhiteBoardVisible = true, isWriteBoardVisible = true;
+            isWhiteBoardVisible = true, isWriteBoardVisible = true, isGroupCallVisible = true;
 
     public ComposeBox(Context context) {
         super(context);
@@ -112,16 +112,6 @@ public class ComposeBox extends RelativeLayout implements View.OnClickListener {
         super(context, attrs, defStyleAttr);
         initViewComponent(context,attrs,defStyleAttr,-1);
     }
-
-    public void setAudioButtonVisible(boolean result) { isAudioVisible = result; }
-
-    public void setGalleryButtonVisible(boolean result) { isGalleryVisible = result; }
-
-    public void setCameraButtonVisible(boolean result) { isCameraVisible = result; }
-
-    public void setFileButtonVisible(boolean result) { isFileVisible = result; }
-
-    public void setLocationButtonVisible(boolean result) { isLocationVisible = result; }
 
     private void initViewComponent(Context context,AttributeSet attributeSet,int defStyleAttr,int defStyleRes){
 
@@ -228,6 +218,11 @@ public class ComposeBox extends RelativeLayout implements View.OnClickListener {
             public void onWriteBoardClick() {
                 composeActionListener.onWriteboardClicked();
             }
+
+            @Override
+            public void onVideoMeetingClick() {
+                composeActionListener.onVideoMeetingClicked();
+            }
         });
         etComposeBox.addTextChangedListener(new TextWatcher() {
             @Override
@@ -299,12 +294,15 @@ public class ComposeBox extends RelativeLayout implements View.OnClickListener {
         isStickerVisible = UISettings.isStickerVisible();
         isWhiteBoardVisible = UISettings.isWhiteBoardVisible();
         isWriteBoardVisible = UISettings.isWriteBoardVisible();
+        isGroupCallVisible = UISettings.isEnableVideoCalling();
+
         if (UISettings.isSendVoiceNotes()) {
             ivMic.setVisibility(View.VISIBLE);
         } else {
             ivMic.setVisibility(GONE);
         }
-        if (!UISettings.isSendPolls() &&
+        if (!UISettings.isEnableVideoCalling() &&
+                !UISettings.isSendPolls() &&
                 !UISettings.isSendFiles() &&
                 !UISettings.isSendPhotosVideo() &&
                 !UISettings.isSendVoiceNotes() &&
@@ -396,6 +394,7 @@ public class ComposeBox extends RelativeLayout implements View.OnClickListener {
             bundle.putBoolean("isFileVisible",isFileVisible);
             bundle.putBoolean("isAudioVisible",isAudioVisible);
             bundle.putBoolean("isLocationVisible",isLocationVisible);
+            bundle.putBoolean("isGroupCallVisible",isGroupCallVisible);
             if (CometChat.isExtensionEnabled("document"))
                 bundle.putBoolean("isWriteBoardVisible",isWriteBoardVisible);
             if (CometChat.isExtensionEnabled("whiteboard"))
@@ -586,5 +585,50 @@ public class ComposeBox extends RelativeLayout implements View.OnClickListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void setAudioButtonVisible(boolean result) { isAudioVisible = result; }
+
+    public void setGalleryButtonVisible(boolean result) { isGalleryVisible = result; }
+
+    public void setCameraButtonVisible(boolean result) { isCameraVisible = result; }
+
+    public void setFileButtonVisible(boolean result) { isFileVisible = result; }
+
+    public void setLocationButtonVisible(boolean result) { isLocationVisible = result; }
+
+    public void hideGroupCallOption(boolean b) {
+        isGroupCallVisible = !b;
+    }
+
+    public void hidePollOption(boolean b) {
+        isPollVisible = !b;
+    }
+
+    public void hideStickerOption(boolean b) {
+        isStickerVisible = !b;
+    }
+
+    public void hideWriteBoardOption(boolean b) {
+        isWriteBoardVisible = !b;
+    }
+
+    public void hideWhiteBoardOption(boolean b) {
+        isWhiteBoardVisible = !b;
+    }
+
+    public void hideRecordOption(boolean b) {
+        if (b) {
+            ivMic.setVisibility(GONE);
+        } else {
+            ivMic.setVisibility(VISIBLE);
+        }
+    }
+
+    public void hideSendButton(boolean b) {
+        if (b) {
+            ivSend.setVisibility(GONE);
+        } else
+            ivSend.setVisibility(VISIBLE);
     }
 }

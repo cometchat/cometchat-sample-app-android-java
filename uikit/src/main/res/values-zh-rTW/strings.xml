@@ -345,4 +345,8 @@
     <string name="made">制作</string>
     <string name="translate_message">翻譯訊息</string>
     <string name="no_translation_available">沒有可用的翻譯</string>
+    <string name="has_shared_group_call">分享了一个群组通话。</string>
+    <string name="custom_message_meeting">"📹 群组通话 "</string>
+    <string name="start_group_call">发起群组通话</string>
+    <string name="you_created_group_call">您已建立群组通话。</string>
 </resources>

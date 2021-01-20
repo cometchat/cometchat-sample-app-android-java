@@ -137,14 +137,24 @@ public class CallUtils {
         context.startActivity(intent);
     }
 
+    public static void startDirectCall(Context context, Call call) {
+        Intent intent = new Intent(context, CometChatStartCallActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(StringContract.IntentStrings.TYPE,call.getReceiverType());
+        intent.putExtra(StringContract.IntentStrings.SESSION_ID,call.getSessionId());
+        intent.putExtra(StringContract.IntentStrings.GROUP_CALL_TYPE,call.getType());
+        context.startActivity(intent);
+    }
 
     /**
      * This method is used to join an ongoing call.
      * @param context
      */
-    public static void joinOnGoingCall(Context context) {
-        Intent intent = new Intent(context,CometChatCallActivity.class);
-        intent.putExtra(StringContract.IntentStrings.JOIN_ONGOING,true);
+    public static void joinOnGoingCall(Context context,Call call) {
+        Intent intent = new Intent(context, CometChatStartCallActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(StringContract.IntentStrings.TYPE,call.getReceiverType());
+        intent.putExtra(StringContract.IntentStrings.SESSION_ID,call.getSessionId());
         context.startActivity(intent);
     }
 

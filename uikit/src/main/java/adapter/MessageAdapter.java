@@ -69,6 +69,7 @@ import screen.CometChatMediaViewActivity;
 import screen.CometChatReactionInfoScreenActivity;
 import screen.messagelist.CometChatMessageListActivity;
 import screen.threadconversation.CometChatThreadMessageActivity;
+import utils.CallUtils;
 import utils.Extensions;
 import utils.FontUtils;
 import utils.MediaUtils;
@@ -150,6 +151,10 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int RIGHT_POLLS_CUSTOM_MESSAGE = 41;
 
     private static final int LEFT_POLLS_CUSTOM_MESSAGE = 42;
+
+    private static final int LEFT_GROUP_CALL_MESSAGE = 313;
+
+    private static final int RIGHT_GROUP_CALL_MESSAGE = 314;
 
     public static double LATITUDE;
     public static double LONGITUDE;
@@ -399,6 +404,17 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 view.setTag(RIGHT_WRITEBOARD_MESSAGE);
                 return new WriteBoardViewHolder(view);
 
+            case RIGHT_GROUP_CALL_MESSAGE:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_right_group_call_item, parent, false);
+                view.setTag(RIGHT_GROUP_CALL_MESSAGE);
+                return new GroupCallMessageViewHolder(view);
+
+            case LEFT_GROUP_CALL_MESSAGE:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_left_group_call_item, parent, false);
+                view.setTag(LEFT_GROUP_CALL_MESSAGE);
+                return new GroupCallMessageViewHolder(view);
+
+
             default:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_right_text_item, parent, false);
                 view.setTag(-1);
@@ -531,6 +547,10 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 setWriteBoardData((WriteBoardViewHolder) viewHolder,i);
                 break;
 
+            case LEFT_GROUP_CALL_MESSAGE:
+            case RIGHT_GROUP_CALL_MESSAGE:
+                setGroupCallMessageData((GroupCallMessageViewHolder)viewHolder,i);
+                break;
         }
     }
 
@@ -705,7 +725,108 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         setReactionSupport(baseMessage,viewHolder.reactionLayout);
     }
 
+    private void setGroupCallMessageData(GroupCallMessageViewHolder viewHolder, int i) {
+        BaseMessage baseMessage = messageList.get(i);
+        if (baseMessage!=null) {
+            if (!baseMessage.getSender().getUid().equals(loggedInUser.getUid())) {
+                if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_USER)) {
+                    viewHolder.tvUser.setVisibility(View.GONE);
+                    viewHolder.ivUser.setVisibility(View.GONE);
+                }
+                else if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP)) {
+                    if (isUserDetailVisible) {
+                        viewHolder.tvUser.setVisibility(View.VISIBLE);
+                        viewHolder.ivUser.setVisibility(View.VISIBLE);
+                    } else
+                    {
+                        viewHolder.tvUser.setVisibility(View.GONE);
+                        viewHolder.ivUser.setVisibility(View.INVISIBLE);
+                    }
+                    setAvatar(viewHolder.ivUser, baseMessage.getSender().getAvatar(), baseMessage.getSender().getName());
+                    viewHolder.tvUser.setText(baseMessage.getSender().getName());
+                }
+                viewHolder.groupCallMessage.setText(baseMessage.getSender().getName() + " " +
+                        context.getString(R.string.has_shared_group_call));
 
+            } else {
+                viewHolder.groupCallMessage.setText(context.getString(R.string.you_created_group_call));
+            }
+
+            viewHolder.joinBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (((CustomMessage)baseMessage).getCustomData()!=null) {
+                        CallUtils.startDirectCall(context, Utils.getDirectCallData(baseMessage));
+                    }
+                }
+            });
+
+            if (baseMessage.getReplyCount()!=0) {
+                viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
+                viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
+            } else {
+                viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
+            }
+            viewHolder.tvThreadReplyCount.setOnClickListener(view -> {
+                Intent intent = new Intent(context, CometChatThreadMessageActivity.class);
+                intent.putExtra(StringContract.IntentStrings.NAME,baseMessage.getSender().getName());
+                intent.putExtra(StringContract.IntentStrings.AVATAR,baseMessage.getSender().getAvatar());
+                intent.putExtra(StringContract.IntentStrings.REPLY_COUNT,baseMessage.getReplyCount());
+                intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getSender().getName());
+                intent.putExtra(StringContract.IntentStrings.PARENT_ID,baseMessage.getId());
+                intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE,baseMessage.getType());
+                intent.putExtra(StringContract.IntentStrings.REACTION_INFO,Extensions.getReactionsOnMessage(baseMessage));
+                intent.putExtra(StringContract.IntentStrings.SENTAT,baseMessage.getSentAt());
+
+                intent.putExtra(StringContract.IntentStrings.TEXTMESSAGE,Extensions.getWriteBoardUrl(baseMessage));
+
+                intent.putExtra(StringContract.IntentStrings.MESSAGE_CATEGORY,baseMessage.getCategory());
+                intent.putExtra(StringContract.IntentStrings.TYPE,baseMessage.getReceiverType());
+                if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP)) {
+                    intent.putExtra(StringContract.IntentStrings.GUID,baseMessage.getReceiverUid());
+                }
+                else {
+                    if (baseMessage.getReceiverUid().equals(loggedInUser.getUid()))
+                        intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getSender().getUid());
+                    else
+                        intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getReceiverUid());
+                }
+                context.startActivity(intent);
+            });
+
+            showMessageTime(viewHolder, baseMessage);
+            viewHolder.txtTime.setVisibility(View.VISIBLE);
+            setColorFilter(baseMessage,viewHolder.messageContainer);
+            viewHolder.rlMessageBubble.setOnClickListener(view -> {
+
+                if (baseMessage.getSender().getUid().equals(loggedInUser.getUid())){
+                    if (isLongClickEnabled && !isImageMessageClick) {
+                        setLongClickSelectedItem(baseMessage);
+                        messageLongClick.setLongMessageClick(longselectedItemList);
+                    } else {
+                        setSelectedMessage(baseMessage.getId());
+                    }
+                    notifyDataSetChanged();
+                }
+
+            });
+
+            viewHolder.rlMessageBubble.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+
+                    if (!isImageMessageClick && !isTextMessageClick) {
+                        isLongClickEnabled = true;
+                        setLongClickSelectedItem(baseMessage);
+                        messageLongClick.setLongMessageClick(longselectedItemList);
+                        notifyDataSetChanged();
+                    }
+                    return true;
+                }
+            });
+            setReactionSupport(baseMessage,viewHolder.reactionLayout);
+        }
+    }
 
 
     private void setWriteBoardData(WriteBoardViewHolder viewHolder,int i) {
@@ -1828,6 +1949,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             setStatusIcon((((WhiteBoardViewHolder) viewHolder).txtTime),baseMessage);
         } else if (viewHolder instanceof  WriteBoardViewHolder) {
             setStatusIcon((((WriteBoardViewHolder) viewHolder).txtTime),baseMessage);
+        } else if (viewHolder instanceof GroupCallMessageViewHolder) {
+            setStatusIcon((((GroupCallMessageViewHolder) viewHolder).txtTime),baseMessage);
         }
 
     }
@@ -2570,6 +2693,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             return RIGHT_WHITEBOARD_MESSAGE;
                         else if (baseMessage.getType().equalsIgnoreCase(StringContract.IntentStrings.WRITEBOARD))
                             return RIGHT_WRITEBOARD_MESSAGE;
+                        else if (baseMessage.getType().equalsIgnoreCase(StringContract.IntentStrings.GROUP_CALL))
+                            return RIGHT_GROUP_CALL_MESSAGE;
                         else
                             return RIGHT_CUSTOM_MESSAGE;
                     }
@@ -2584,6 +2709,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             return LEFT_WHITEBOARD_MESSAGE;
                         else if (baseMessage.getType().equalsIgnoreCase(StringContract.IntentStrings.WRITEBOARD))
                             return LEFT_WRITEBOARD_MESSAGE;
+                        else if (baseMessage.getType().equalsIgnoreCase(StringContract.IntentStrings.GROUP_CALL))
+                            return LEFT_GROUP_CALL_MESSAGE;
                         else
                             return LEFT_CUSTOM_MESSAGE;
                 }
@@ -3012,6 +3139,42 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             tvThreadReplyCount = itemView.findViewById(R.id.thread_reply_count);
             reactionLayout = itemView.findViewById(R.id.reactions_layout);
             this.view = itemView;
+        }
+    }
+
+
+    public class GroupCallMessageViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView tvThreadReplyCount;
+        private RelativeLayout messageContainer;
+        private View view;
+        public TextView txtTime;
+        public TextView tvUser;
+        private int type;
+        private Avatar ivUser;
+        private RelativeLayout rlMessageBubble;
+        private ChipGroup reactionLayout;
+
+        private ImageView icon;
+        private TextView groupCallMessage;
+        private MaterialButton joinBtn;
+
+        GroupCallMessageViewHolder(@NonNull View view) {
+            super(view);
+
+            type = (int) view.getTag();
+            tvUser = view.findViewById(R.id.tv_user);
+            icon = view.findViewById(R.id.icon);
+            messageContainer = view.findViewById(R.id.cv_message_container);
+            txtTime = view.findViewById(R.id.txt_time);
+            ivUser = view.findViewById(R.id.iv_user);
+            rlMessageBubble = view.findViewById(R.id.rl_message);
+            tvThreadReplyCount = view.findViewById(R.id.thread_reply_count);
+            reactionLayout = view.findViewById(R.id.reactions_layout);
+            groupCallMessage = view.findViewById(R.id.group_call_message);
+            joinBtn = view.findViewById(R.id.join_call);
+            this.view = view;
+
         }
     }
 

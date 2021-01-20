@@ -306,18 +306,12 @@ public class CometChatGroupDetailScreenActivity extends AppCompatActivity {
             dividerAdmin.setVisibility(View.GONE);
             dividerModerator.setVisibility(View.GONE);
         }
-        if (UISettings.isEnableVoiceCalling())
-            callBtn.setVisibility(View.VISIBLE);
-        else
-            callBtn.setVisibility(View.GONE);
+
+        callBtn.setVisibility(View.GONE);
+        videoCallBtn.setVisibility(View.GONE);
 
         if (!UISettings.isAllowBanKickMembers())
             rlBanMembers.setVisibility(View.GONE);
-
-        if (UISettings.isEnableVideoCalling())
-            videoCallBtn.setVisibility(View.VISIBLE);
-        else
-            videoCallBtn.setVisibility(View.GONE);
 
         if (UISettings.getColor()!=null) {
             getWindow().setStatusBarColor(Color.parseColor(UISettings.getColor()));
@@ -354,7 +348,7 @@ public class CometChatGroupDetailScreenActivity extends AppCompatActivity {
                         .setPositiveButton(getResources().getString(R.string.join), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                CallUtils.joinOnGoingCall(CometChatGroupDetailScreenActivity.this);
+                                CallUtils.joinOnGoingCall(CometChatGroupDetailScreenActivity.this,CometChat.getActiveCall());
                             }
                         }).setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override

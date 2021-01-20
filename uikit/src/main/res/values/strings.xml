@@ -301,12 +301,12 @@
     <string name="call_ended">Call Ended</string>
     <string name="call_initiated">Call Initiated</string>
     <string name="call_rejected">Call Rejected</string>
-    <string name="custom_message_document">Document 📃</string>
-    <string name="custom_message_location">Location 📍</string>
+    <string name="custom_message_document">📃 Document</string>
+    <string name="custom_message_location">📍 Location</string>
     <string name="custom_message_not_supported">Custom Message not supported</string>
-    <string name="custom_message_poll">Polls 📊</string>
-    <string name="custom_message_sticker">Sticker 💟</string>
-    <string name="custom_message_whiteboard">Whiteboard 📝</string>
+    <string name="custom_message_poll">"📊 Polls "</string>
+    <string name="custom_message_sticker">"💟 Sticker "</string>
+    <string name="custom_message_whiteboard">📝 Whiteboard</string>
     <string name="delete_and_exit">Delete &amp; Exit</string>
     <string name="password_protected_group">Password Protected Group</string>
     <string name="private_group">Private Group</string>
@@ -332,5 +332,9 @@
     <string name="participant">participant</string>
     <string name="translate_message">Translate Message</string>
     <string name="no_translation_available">No translation available</string>
+    <string name="has_shared_group_call">has shared a group call.</string>
+    <string name="you_created_group_call">You\'ve created a group call.</string>
+    <string name="custom_message_meeting">"📹 Group Call "</string>
+    <string name="start_group_call">Start a Group Call</string>
     <!--_______________________________-->
 </resources>

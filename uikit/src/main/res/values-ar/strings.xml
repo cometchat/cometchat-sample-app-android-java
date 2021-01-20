@@ -342,4 +342,8 @@
     <string name="made">مصنوع</string>
     <string name="translate_message">ترجمة الرسالة</string>
     <string name="no_translation_available">لا يوجد ترجمة متوفرة</string>
+    <string name="has_shared_group_call">شارك في مكالمة جماعية.</string>
+    <string name="custom_message_meeting">مكالمة جماعية 📹</string>
+    <string name="start_group_call">ابدأ مكالمة جماعية</string>
+    <string name="you_created_group_call">لقد قمت بإنشاء مكالمة جماعية.</string>
 </resources>

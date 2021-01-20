@@ -44,6 +44,7 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
     private View stickerMessage;
     private View whiteBoardMessage;
     private View writeBoardMessage;
+    private View meetingMessage;
 
     private TextView question;
     private LinearLayout optionGroup;
@@ -70,6 +71,7 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
 
     private MaterialButton joinWhiteBoard;
     private MaterialButton joinWriteBoard;
+    private MaterialButton joinMeetingBtn;
 
     private int id;
     private String message;
@@ -102,6 +104,9 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
         stickerMessage = findViewById(R.id.vw_sticker_message);
         whiteBoardMessage = findViewById(R.id.vw_whiteboard_message);
         writeBoardMessage = findViewById(R.id.vw_writeboard_message);
+
+        meetingMessage = findViewById(R.id.vw_meeting_message);
+        joinMeetingBtn = findViewById(R.id.join_call);
 
         whiteBoardText = findViewById(R.id.whiteboard_message);
         writeBoardText = findViewById(R.id.writeboard_message);
@@ -269,6 +274,9 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            } else if (messageType.equals(StringContract.IntentStrings.GROUP_CALL)) {
+                meetingMessage.setVisibility(View.VISIBLE);
+                joinMeetingBtn.setEnabled(false);
             } else if (messageType.equals(StringContract.IntentStrings.POLLS)) {
                 pollsMessage.setVisibility(View.VISIBLE);
                 try {

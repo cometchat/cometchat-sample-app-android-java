@@ -61,4 +61,7 @@ public abstract class ComposeActionListener {
     public void onWhiteboardClicked() {}
 
     public void onWriteboardClicked() { }
+
+    public void onVideoMeetingClicked() {}
+
 }

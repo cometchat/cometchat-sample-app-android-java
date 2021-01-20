@@ -40,6 +40,7 @@ import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.helpers.Logger;
 import com.cometchat.pro.models.Action;
 import com.cometchat.pro.models.BaseMessage;
+import com.cometchat.pro.models.CustomMessage;
 import com.cometchat.pro.models.GroupMember;
 import com.cometchat.pro.models.MediaMessage;
 import com.cometchat.pro.models.TextMessage;
@@ -47,6 +48,8 @@ import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.Settings.UISettings;
 import com.google.android.material.appbar.MaterialToolbar;
+
+import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -240,14 +243,18 @@ public class Utils {
                         message = lastMessage.getSender().getName() + ": " + ((TextMessage) lastMessage).getText();
 
                 } else if (lastMessage instanceof MediaMessage) {
-                    if (lastMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_IMAGE))
-                        message = context.getString(R.string.message_image);
-                    else if (lastMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_VIDEO))
-                        message = context.getString(R.string.message_video);
-                    else if (lastMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_FILE))
-                        message = context.getString(R.string.message_file);
-                    else if (lastMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_AUDIO))
-                        message = context.getString(R.string.message_audio);
+                    if (lastMessage.getDeletedAt()==0) {
+                        if (lastMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_IMAGE))
+                            message = context.getString(R.string.message_image);
+                        else if (lastMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_VIDEO))
+                            message = context.getString(R.string.message_video);
+                        else if (lastMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_FILE))
+                            message = context.getString(R.string.message_file);
+                        else if (lastMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_AUDIO))
+                            message = context.getString(R.string.message_audio);
+                    } else
+                        message = context.getString(R.string.this_message_deleted);
+
 
 //                    if (isLoggedInUser(lastMessage.getSender())) {
 //
@@ -258,20 +265,23 @@ public class Utils {
                 }
             break;
             case CometChatConstants.CATEGORY_CUSTOM:
-                if (lastMessage.getType().equals(StringContract.IntentStrings.LOCATION))
-                    message = context.getString(R.string.custom_message_location);
-                else if (lastMessage.getType().equals(StringContract.IntentStrings.POLLS))
-                    message = context.getString(R.string.custom_message_poll);
-                else if (lastMessage.getType().equalsIgnoreCase(StringContract.IntentStrings.STICKERS))
-                    message = context.getString(R.string.custom_message_sticker);
-                else if (lastMessage.getType().equalsIgnoreCase(StringContract.IntentStrings.WHITEBOARD))
-                    message = context.getString(R.string.custom_message_whiteboard);
-                else if (lastMessage.getType().equalsIgnoreCase(StringContract.IntentStrings.WRITEBOARD))
-                    message = context.getString(R.string.custom_message_document);
-//                if (isLoggedInUser(lastMessage.getSender()))
-//                    message = String.format(context.getString(R.string.you_sent),lastMessage.getType());
-                else
-                    message = String.format(context.getString(R.string.you_received),lastMessage.getType());
+                if (lastMessage.getDeletedAt()==0) {
+                    if (lastMessage.getType().equals(StringContract.IntentStrings.LOCATION))
+                        message = context.getString(R.string.custom_message_location);
+                    else if (lastMessage.getType().equals(StringContract.IntentStrings.POLLS))
+                        message = context.getString(R.string.custom_message_poll);
+                    else if (lastMessage.getType().equalsIgnoreCase(StringContract.IntentStrings.STICKERS))
+                        message = context.getString(R.string.custom_message_sticker);
+                    else if (lastMessage.getType().equalsIgnoreCase(StringContract.IntentStrings.WHITEBOARD))
+                        message = context.getString(R.string.custom_message_whiteboard);
+                    else if (lastMessage.getType().equalsIgnoreCase(StringContract.IntentStrings.WRITEBOARD))
+                        message = context.getString(R.string.custom_message_document);
+                    else if (lastMessage.getType().equalsIgnoreCase(StringContract.IntentStrings.GROUP_CALL))
+                        message = context.getString(R.string.custom_message_meeting);
+                    else
+                        message = String.format(context.getString(R.string.you_received), lastMessage.getType());
+                } else
+                    message = context.getString(R.string.this_message_deleted);
 
                 break;
             case CometChatConstants.CATEGORY_ACTION:
@@ -744,5 +754,29 @@ public class Utils {
     public static void showKeyBoard(Context context,View mainLayout) {
         InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInputFromWindow(mainLayout.getWindowToken(),InputMethodManager.SHOW_FORCED, 0);
+    }
+
+
+    public static Call getDirectCallData(BaseMessage baseMessage) {
+        Call call = null;
+        String callType = CometChatConstants.CALL_TYPE_VIDEO;
+        try {
+            if (((CustomMessage)baseMessage).getCustomData() != null) {
+                JSONObject customObject = ((CustomMessage)baseMessage).getCustomData();
+                String receiverID = baseMessage.getReceiverUid();
+                String receiverType = baseMessage.getReceiverType();
+                call = new Call(receiverID, receiverType, callType);
+                if (customObject.has("sessionID")) {
+                    String sessionID = customObject.getString("sessionID");
+                    call.setSessionId(sessionID);
+                    Log.e(TAG, "startDirectCallData: "+call.toString());
+                } else {
+                    call.setSessionId(receiverID);
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "startDirectCallData: "+e.getMessage());
+        }
+        return call;
     }
 }

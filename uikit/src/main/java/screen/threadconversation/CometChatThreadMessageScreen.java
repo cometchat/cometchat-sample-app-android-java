@@ -566,13 +566,13 @@ public class CometChatThreadMessageScreen extends Fragment implements View.OnCli
         messageShimmer = view.findViewById(R.id.shimmer_layout);
         composeBox = view.findViewById(R.id.message_box);
         composeBox.usedIn(CometChatThreadMessageActivity.class.getName());
-        composeBox.isPollVisible = false;
-        composeBox.isStickerVisible = false;
-        composeBox.isWhiteBoardVisible = false;
-        composeBox.isWriteBoardVisible = false;
-        composeBox.ivMic.setVisibility(GONE);
-        if (UISettings.isEnableSendingMessage())
-           composeBox.ivSend.setVisibility(VISIBLE);
+        composeBox.hidePollOption(true);
+        composeBox.hideStickerOption(true);
+        composeBox.hideWriteBoardOption(true);
+        composeBox.hideWhiteBoardOption(true);
+        composeBox.hideGroupCallOption(true);
+        composeBox.hideRecordOption(true);
+        composeBox.hideSendButton(UISettings.isEnableSendingMessage());
 
         container = view.findViewById(R.id.reactions_container);
         composeBox.liveReactionBtn.setOnTouchListener(new LiveReactionListener(700, 1000, new ReactionClickListener() {
@@ -786,7 +786,7 @@ public class CometChatThreadMessageScreen extends Fragment implements View.OnCli
                         @Override
                         public void onClick(View v) {
                             onGoingCallView.setVisibility(View.GONE);
-                            CallUtils.joinOnGoingCall(getContext());
+                            CallUtils.joinOnGoingCall(getContext(),CometChat.getActiveCall());
                         }
                     });
                 }

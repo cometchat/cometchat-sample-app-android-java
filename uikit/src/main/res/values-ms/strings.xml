@@ -342,4 +342,8 @@
     <string name="made">dibuat</string>
     <string name="translate_message">Terjemahkan Mesej</string>
     <string name="no_translation_available">Terjemahan Tidak Ada</string>
+    <string name="has_shared_group_call">telah berkongsi panggilan kumpulan.</string>
+    <string name="custom_message_meeting">📹 Panggilan Berkumpulan</string>
+    <string name="start_group_call">Manomboha antso anaty vondrona</string>
+    <string name="you_created_group_call">Anda telah membuat panggilan kumpulan.</string>
 </resources>

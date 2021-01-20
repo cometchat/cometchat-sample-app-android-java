@@ -342,6 +342,9 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         messageShimmer = view.findViewById(R.id.shimmer_layout);
         composeBox = view.findViewById(R.id.message_box);
         composeBox.usedIn(CometChatMessageListActivity.class.getName());
+        if (type.equalsIgnoreCase(CometChatConstants.RECEIVER_TYPE_USER))
+            composeBox.hideGroupCallOption(true);
+
         setComposeBoxListener();
         if (UISettings.isEnableSendingMessage())
             composeBox.setVisibility(View.VISIBLE);
@@ -533,12 +536,20 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         checkOnGoingCall();
     }
 
+    /**
+     * This method is used to check if the app has ongoing call or not and based on it show the view
+     * through which user can join ongoing call.
+     *
+     */
     private void checkOnGoingCall() {
-            if(CometChat.getActiveCall()!=null &&
-                    CometChat.getActiveCall().getReceiverUid().equalsIgnoreCase(Id) &&
-                    CometChat.getActiveCall().getCallStatus().
-                            equals(CometChatConstants.CALL_STATUS_ONGOING) &&
-                    CometChat.getActiveCall().getSessionId()!=null) {
+            if(CometChat.getActiveCall()!=null
+                    && (CometChat.getActiveCall().getReceiverUid().equalsIgnoreCase(Id) ||
+                            CometChat.getActiveCall().getReceiverUid()
+                                    .equalsIgnoreCase(loggedInUser.getUid()))
+                    && CometChat.getActiveCall().getCallStatus().
+                            equals(CometChatConstants.CALL_STATUS_ONGOING)
+                    && CometChat.getActiveCall().getSessionId()!=null) {
+
                 if(onGoingCallView!=null)
                     onGoingCallView.setVisibility(View.VISIBLE);
                 if(onGoingCallTxt!=null) {
@@ -546,7 +557,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                         @Override
                         public void onClick(View v) {
                             onGoingCallView.setVisibility(View.GONE);
-                            CallUtils.joinOnGoingCall(getContext());
+                            CallUtils.joinOnGoingCall(context,CometChat.getActiveCall());
                         }
                     });
                 }
@@ -752,6 +763,18 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                     }
                 });
             }
+            @Override
+            public void onVideoMeetingClicked() {
+                JSONObject customData = new JSONObject();
+                try {
+                    customData.put("callType",CometChatConstants.CALL_TYPE_VIDEO);
+                    customData.put("sessionID",Id);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                sendCustomMessage(StringContract.IntentStrings.GROUP_CALL,customData);
+
+            }
         });
     }
 
@@ -927,6 +950,9 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         CometChat.sendCustomMessage(customMessage, new CometChat.CallbackListener<CustomMessage>() {
             @Override
             public void onSuccess(CustomMessage customMessage) {
+                if (customType.equalsIgnoreCase(StringContract.IntentStrings.GROUP_CALL))
+                    CallUtils.startDirectCall(context,Utils.getDirectCallData(customMessage));
+
                 if (messageAdapter != null) {
                     messageAdapter.addMessage(customMessage);
                     scrollToBottom();
@@ -2312,6 +2338,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         List<BaseMessage> stickerMessageList = new ArrayList<>();
         List<BaseMessage> whiteBoardMessageList = new ArrayList<>();
         List<BaseMessage> writeBoardMessageList = new ArrayList<>();
+        List<BaseMessage> meetingMessageList = new ArrayList<>();
 
         for (BaseMessage baseMessage : baseMessagesList) {
             if (baseMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_TEXT)) {
@@ -2331,6 +2358,8 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                 whiteBoardMessageList.add(baseMessage);
             } else if (baseMessage.getType().equals(StringContract.IntentStrings.WRITEBOARD)) {
                 writeBoardMessageList.add(baseMessage);
+            } else if (baseMessage.getType().equals(StringContract.IntentStrings.GROUP_CALL)) {
+                meetingMessageList.add(baseMessage);
             }
         }
         if (textMessageList.size() == 1) {
@@ -2521,6 +2550,30 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
             }
         }
 
+        if (meetingMessageList.size()==1) {
+            forwardVisible = false;
+            copyVisible = false;
+            editVisible = false;
+            shareVisible = false;
+            replyVisible = false;
+            translateVisible = false;
+            threadVisible = false;
+            BaseMessage basemessage = meetingMessageList.get(0);
+            if (basemessage!=null && basemessage.getSender()!=null) {
+                if (basemessage.getDeletedAt() == 0) {
+                    baseMessage = basemessage;
+                    if (basemessage.getSender().getUid().equals(CometChat.getLoggedInUser().getUid()))
+                        deleteVisible = UISettings.isEnableDeleteMessage();
+                    else {
+                        if (loggedInUserScope!=null && (loggedInUserScope.equals(CometChatConstants.SCOPE_ADMIN) || loggedInUserScope.equals(CometChatConstants.SCOPE_MODERATOR))){
+                            deleteVisible = (UISettings.isEnableDeleteMessage() || UISettings.isAllowModeratorToDeleteMessages());
+                        } else {
+                            deleteVisible = false;
+                        }
+                    }
+                }
+            }
+        }
 
         baseMessages = baseMessagesList;
         Bundle bundle = new Bundle();
@@ -2633,6 +2686,9 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                         intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE,
                                 StringContract.IntentStrings.WRITEBOARD);
                         intent.putExtra(StringContract.IntentStrings.TEXTMESSAGE,Extensions.getWriteBoardUrl(baseMessage));
+                    }  else if (baseMessage.getType().equals(StringContract.IntentStrings.GROUP_CALL)) {
+                        intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE,
+                                StringContract.IntentStrings.GROUP_CALL);
                     }  else {
                         intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE,
                                 StringContract.IntentStrings.POLLS);

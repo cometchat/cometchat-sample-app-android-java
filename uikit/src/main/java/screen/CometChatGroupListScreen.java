@@ -186,6 +186,7 @@ public class CometChatGroupListScreen extends Fragment  {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        fetchGroup();
     }
 
     /**
@@ -291,6 +292,5 @@ public class CometChatGroupListScreen extends Fragment  {
         super.onResume();
         groupsRequest=null;
         groupListAdapter=null;
-        fetchGroup();
     }
 }

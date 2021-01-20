@@ -345,4 +345,8 @@
     <string name="made">сделанный</string>
     <string name="translate_message">Перевести сообщение</string>
     <string name="no_translation_available">Перевод недоступен</string>
+    <string name="has_shared_group_call">поделился групповым вызовом.</string>
+    <string name="custom_message_meeting">📹 Групповой вызов</string>
+    <string name="start_group_call">Начать групповой вызов</string>
+    <string name="you_created_group_call">Вы создали групповой вызов.</string>
 </resources>
