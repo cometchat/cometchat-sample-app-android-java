@@ -38,15 +38,15 @@ public class Extensions {
             HashMap<String, JSONObject> extensionList = extensionCheck(baseMessage);
             if (extensionList != null && extensionList.containsKey("imageModeration")) {
                 JSONObject imageModeration = extensionList.get("imageModeration");
-                String confidence = imageModeration.getString("confidence");
-                if (Integer.parseInt(confidence) > 50) {
+                String unsafe = imageModeration.getString("unsafe");
+                if (unsafe =="yes") {
                     result = true;
                 } else {
                     result = false;
                 }
             }
         }catch (Exception e) {
-            Toast.makeText(context,"Error:"+e.getMessage(),Toast.LENGTH_LONG).show();
+            Log.e("Error:",e.getMessage());
         }
         return result;
     }

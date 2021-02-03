@@ -113,6 +113,13 @@
                 android:layout_height="wrap_content"/>
         </LinearLayout>
 
+        <ProgressBar
+            android:layout_alignBottom="@+id/cv_message_container"
+            android:layout_toLeftOf="@+id/cv_message_container"
+            android:id="@+id/progress_bar"
+            android:layout_width="24dp"
+            android:visibility="gone"
+            android:layout_height="24dp"/>
         <TextView
             android:id="@+id/txt_time"
             android:gravity="center_vertical"

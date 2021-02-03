@@ -63,7 +63,7 @@
 
 
         <ProgressBar
-            android:id="@+id/img_progress_bar"
+            android:id="@+id/progress_bar"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"

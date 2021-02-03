@@ -283,6 +283,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
     private ImageView closeStickerView;
 
     private boolean isKeyboardVisible;
+    private int resultIntentCode;
 
     private ImageView imageView;
     private FrameLayout container;
@@ -1338,7 +1339,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                 break;
             case StringContract.RequestCode.GALLERY:
                 if (data != null) {
-
+                    resultIntentCode = StringContract.RequestCode.GALLERY;
                     File file = MediaUtils.getRealPath(getContext(), data.getData());
                     ContentResolver cr = getActivity().getContentResolver();
                     String mimeType = cr.getType(data.getData());
@@ -1359,6 +1360,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                 break;
             case StringContract.RequestCode.CAMERA:
                 File file;
+                resultIntentCode = StringContract.RequestCode.CAMERA;
                 if (Build.VERSION.SDK_INT >= 29) {
                     file = MediaUtils.getRealPath(getContext(), MediaUtils.uri);
                 } else {
@@ -1423,8 +1425,6 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
      * @see MediaMessage
      */
     private void sendMediaMessage(File file, String filetype) {
-        ProgressDialog progressDialog;
-        progressDialog = ProgressDialog.show(context, "", getResources().getString(R.string.sending_media_message));
         MediaMessage mediaMessage;
 
         if (type.equalsIgnoreCase(CometChatConstants.RECEIVER_TYPE_USER))
@@ -1440,20 +1440,30 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         }
         mediaMessage.setMetadata(jsonObject);
 
+        mediaMessage.setMuid(""+System.currentTimeMillis());
+        mediaMessage.setCategory(CometChatConstants.CATEGORY_MESSAGE);
+        mediaMessage.setSender(loggedInUser);
+
+        if (messageAdapter != null) {
+            messageAdapter.addMessage(mediaMessage);
+            scrollToBottom();
+        }
         CometChat.sendMediaMessage(mediaMessage, new CometChat.CallbackListener<MediaMessage>() {
             @Override
             public void onSuccess(MediaMessage mediaMessage) {
-                progressDialog.dismiss();
                 Log.d(TAG, "sendMediaMessage onSuccess: " + mediaMessage.toString());
                 if (messageAdapter != null) {
-                    messageAdapter.addMessage(mediaMessage);
-                    scrollToBottom();
+                    messageAdapter.updateChangedMessage(mediaMessage);
                 }
             }
 
             @Override
             public void onError(CometChatException e) {
-                progressDialog.dismiss();
+                e.printStackTrace();
+                if (messageAdapter != null) {
+                    mediaMessage.setSentAt(-1);
+                    messageAdapter.updateChangedMessage(mediaMessage);
+                }
                 if (getActivity() != null) {
                     Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -1566,21 +1576,28 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
 
 
         sendTypingIndicator(true);
-
+        Log.e(TAG, "sendMessage: "+textMessage );
+        textMessage.setCategory(CometChatConstants.CATEGORY_MESSAGE);
+        textMessage.setSender(loggedInUser);
+        textMessage.setMuid(System.currentTimeMillis()+"");
+        if (messageAdapter != null) {
+            MediaUtils.playSendSound(context,R.raw.outgoing_message);
+            messageAdapter.addMessage(textMessage);
+            scrollToBottom();
+        }
+        isSmartReplyClicked=false;
+        rvSmartReply.setVisibility(GONE);
         CometChat.sendMessage(textMessage, new CometChat.CallbackListener<TextMessage>() {
             @Override
             public void onSuccess(TextMessage textMessage) {
-                isSmartReplyClicked=false;
-                rvSmartReply.setVisibility(GONE);
-                if (messageAdapter != null) {
-                    MediaUtils.playSendSound(context,R.raw.outgoing_message);
-                    messageAdapter.addMessage(textMessage);
-                    scrollToBottom();
-                }
+                if (messageAdapter!=null)
+                    messageAdapter.updateChangedMessage(textMessage);
             }
 
             @Override
             public void onError(CometChatException e) {
+                textMessage.setSentAt(-1);
+                messageAdapter.updateChangedMessage(textMessage);
                 Log.d(TAG, "onError: " + e.getMessage());
             }
         });
@@ -2104,13 +2121,16 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         super.onResume();
         Log.d(TAG, "onResume: ");
         rvChatListView.removeItemDecoration(stickyHeaderDecoration);
-        messageAdapter = null;
-        messagesRequest = null;
         checkOnGoingCall();
-        fetchMessage();
+        if (!(resultIntentCode==StringContract.RequestCode.GALLERY ||
+                resultIntentCode==StringContract.RequestCode.CAMERA)) {
+            messagesRequest = null;
+            messageAdapter = null;
+            fetchMessage();
+        }
         addMessageListener();
 
-        if (messageActionFragment!=null)
+        if (messageActionFragment!=null && messageActionFragment.getFragmentManager()!=null)
             messageActionFragment.dismiss();
 
         if (type != null) {
@@ -2331,6 +2351,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         boolean forwardVisible = UISettings.isEnableShareCopyForward();
         boolean reactionVisible = UISettings.isReactionVisible();
         boolean translateVisible = UISettings.isTranslationAllowed();
+        boolean retryVisible = false;
         List<BaseMessage> textMessageList = new ArrayList<>();
         List<BaseMessage> mediaMessageList = new ArrayList<>();
         List<BaseMessage> locationMessageList = new ArrayList<>();
@@ -2383,6 +2404,18 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                             deleteVisible = false;
                         }
                     }
+                    if (basemessage.getSentAt()==-1) {
+                        translateVisible = false;
+                        threadVisible = false;
+                        deleteVisible = false;
+                        editVisible = false;
+                        copyVisible = false;
+                        forwardVisible = false;
+                        reactionVisible = false;
+                        replyVisible = false;
+                        shareVisible = false;
+                        retryVisible = true;
+                    }
                 }
             }
         }
@@ -2409,6 +2442,18 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                         }
                         editVisible = false;
                     }
+                }
+                if (basemessage.getSentAt()==-1) {
+                    translateVisible = false;
+                    threadVisible = false;
+                    deleteVisible = false;
+                    editVisible = false;
+                    copyVisible = false;
+                    forwardVisible = false;
+                    reactionVisible = false;
+                    replyVisible = false;
+                    shareVisible = false;
+                    retryVisible = true;
                 }
             }
         }
@@ -2437,6 +2482,18 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                         }
                         editVisible = false;
                     }
+                }
+                if (basemessage.getSentAt()==-1) {
+                    translateVisible = false;
+                    threadVisible = false;
+                    deleteVisible = false;
+                    editVisible = false;
+                    copyVisible = false;
+                    forwardVisible = false;
+                    reactionVisible = false;
+                    replyVisible = false;
+                    shareVisible = false;
+                    retryVisible = true;
                 }
             }
         }
@@ -2585,6 +2642,7 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
         bundle.putBoolean("replyVisible",replyVisible);
         bundle.putBoolean("forwardVisible",forwardVisible);
         bundle.putBoolean("translateVisible",translateVisible);
+        bundle.putBoolean("retryVisible",retryVisible);
         if (CometChat.isExtensionEnabled("reactions"))
             bundle.putBoolean("isReactionVisible",reactionVisible);
         if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP) &&
@@ -2592,9 +2650,12 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
             bundle.putBoolean("messageInfoVisible",true);
         bundle.putString("type", CometChatMessageListActivity.class.getName());
         messageActionFragment.setArguments(bundle);
-        if (editVisible || copyVisible || threadVisible || shareVisible || deleteVisible
-                || replyVisible || forwardVisible || reactionVisible)
-            messageActionFragment.show(getFragmentManager(),messageActionFragment.getTag());
+        if (baseMessage.getSentAt()!=0) {
+            if (retryVisible || editVisible || copyVisible || threadVisible || shareVisible || deleteVisible
+                    || replyVisible || forwardVisible || reactionVisible) {
+                messageActionFragment.show(getFragmentManager(), messageActionFragment.getTag());
+            }
+        }
         messageActionFragment.setMessageActionListener(new MessageActionFragment.MessageActionListener() {
             @Override
             public void onThreadMessageClick() {
@@ -2766,6 +2827,15 @@ public class CometChatMessageScreen extends Fragment implements View.OnClickList
                             });
                 } catch (Exception e) {
                     Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onRetryClick() {
+                if (baseMessage!=null) {
+                    messageAdapter.remove(baseMessage);
+                    if (baseMessage.getType().equalsIgnoreCase(CometChatConstants.MESSAGE_TYPE_TEXT))
+                        sendMessage(((TextMessage)baseMessage).getText());
                 }
             }
         });

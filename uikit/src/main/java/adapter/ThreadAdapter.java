@@ -745,13 +745,17 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private void showMessageTime(RecyclerView.ViewHolder viewHolder, BaseMessage baseMessage) {
 
         if (viewHolder instanceof TextMessageViewHolder) {
-            setStatusIcon(((TextMessageViewHolder) viewHolder).txtTime, baseMessage);
+            setStatusIcon(((TextMessageViewHolder) viewHolder).progressBar,((TextMessageViewHolder) viewHolder).txtTime, baseMessage);
         } else if (viewHolder instanceof LinkMessageViewHolder) {
-            setStatusIcon(((LinkMessageViewHolder) viewHolder).txtTime, baseMessage);
+            setStatusIcon(((LinkMessageViewHolder) viewHolder).progressBar,((LinkMessageViewHolder) viewHolder).txtTime, baseMessage);
         } else if (viewHolder instanceof ImageMessageViewHolder) {
-            setStatusIcon(((ImageMessageViewHolder) viewHolder).txtTime, baseMessage);
+            setStatusIcon(((ImageMessageViewHolder) viewHolder).progressBar,((ImageMessageViewHolder) viewHolder).txtTime, baseMessage);
         } else if (viewHolder instanceof FileMessageViewHolder) {
-            setStatusIcon(((FileMessageViewHolder) viewHolder).txtTime, baseMessage);
+            setStatusIcon(((FileMessageViewHolder) viewHolder).progressBar,((FileMessageViewHolder) viewHolder).txtTime, baseMessage);
+        } else if (viewHolder instanceof VideoMessageViewHolder) {
+            setStatusIcon(((VideoMessageViewHolder) viewHolder).progressBar,((TextMessageViewHolder) viewHolder).txtTime,baseMessage);
+        } else if (viewHolder instanceof AudioMessageViewHolder) {
+            setStatusIcon(((AudioMessageViewHolder) viewHolder).progressBar,((AudioMessageViewHolder) viewHolder).txtTime,baseMessage);
         }
 
     }
@@ -765,20 +769,30 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      * @param baseMessage is a object of BaseMessage used to identify baseMessage sender.
      * @see BaseMessage
      */
-    private void setStatusIcon(TextView txtTime, BaseMessage baseMessage) {
+    private void setStatusIcon(ProgressBar progressBar,TextView txtTime, BaseMessage baseMessage) {
         if (baseMessage.getSender().getUid().equals(loggedInUser.getUid())) {
+            if (progressBar!=null)
+                progressBar.setVisibility(View.GONE);
             if (baseMessage.getReadAt() != 0) {
                 txtTime.setText(Utils.getHeaderDate(baseMessage.getReadAt() * 1000));
-//                txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_double_tick, 0);
+                txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_double_tick, 0);
                 txtTime.setCompoundDrawablePadding(10);
             } else if (baseMessage.getDeliveredAt() != 0) {
                 txtTime.setText(Utils.getHeaderDate(baseMessage.getDeliveredAt() * 1000));
-//                txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_done_all_black_24dp, 0);
+                txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_done_all_black_24dp, 0);
                 txtTime.setCompoundDrawablePadding(10);
-            } else {
+            } else if (baseMessage.getSentAt()>0){
                 txtTime.setText(Utils.getHeaderDate(baseMessage.getSentAt() * 1000));
-//                txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_black_24dp, 0);
+                txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_black_24dp, 0);
                 txtTime.setCompoundDrawablePadding(10);
+            } else if (baseMessage.getSentAt()==-1) {
+                txtTime.setText("");
+                txtTime.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_info_red,0);
+            } else {
+                txtTime.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+                txtTime.setText("");
+                if (progressBar!=null)
+                    progressBar.setVisibility(View.VISIBLE);
             }
         } else {
             txtTime.setText(Utils.getHeaderDate(baseMessage.getSentAt() * 1000));
@@ -1297,6 +1311,21 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     /**
+     * THis method is used to update the old message with the new message
+     * @param baseMessage
+     */
+    public void updateChangedMessage(BaseMessage baseMessage) {
+        for (int i = messageList.size() - 1; i >= 0; i--) {
+            String muid = messageList.get(i).getMuid();
+            if (muid!=null && muid.equals(baseMessage.getMuid())) {
+                messageList.remove(i);
+                messageList.add(i,baseMessage);
+                notifyItemChanged(i);
+            }
+        }
+    }
+
+    /**
      * This method is used to update previous message with new message in messageList of adapter.
      *
      * @param baseMessage is a object of BaseMessage. It is new message which will be updated.
@@ -1366,17 +1395,6 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    public class ActionMessageViewHolder extends RecyclerView.ViewHolder {
-
-        private TextView textView;
-
-        public ActionMessageViewHolder(@NonNull View view) {
-            super(view);
-            int type = (int) view.getTag();
-            textView = view.findViewById(R.id.go_txt_message);
-        }
-    }
-
     class VideoMessageViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imageView;
@@ -1414,6 +1432,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private Avatar ivUser;
         private RelativeLayout rlMessageBubble;
         private ChipGroup reactionLayout;
+        private ProgressBar progressBar;
 
         FileMessageViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -1425,6 +1444,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             fileName = itemView.findViewById(R.id.tvFileName);
             rlMessageBubble = itemView.findViewById(R.id.rl_message);
             reactionLayout = itemView.findViewById(R.id.reactions_layout);
+            progressBar = itemView.findViewById(R.id.progress_bar);
             this.view = itemView;
         }
     }
@@ -1472,7 +1492,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private RelativeLayout sentimentVw;
         private TextView viewSentimentMessage;
         private ChipGroup reactionLayout;
-
+        private ProgressBar progressBar;
         TextMessageViewHolder(@NonNull View view) {
             super(view);
 
@@ -1490,6 +1510,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             sentimentVw = view.findViewById(R.id.sentiment_layout);
             viewSentimentMessage = view.findViewById(R.id.view_sentiment);
             reactionLayout = view.findViewById(R.id.reactions_layout);
+            progressBar = view.findViewById(R.id.progress_bar);
             this.view = view;
 
         }
@@ -1567,6 +1588,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private RelativeLayout rlMessageBubble;
         private TextView txtTime;
         private ChipGroup reactionLayout;
+        private ProgressBar progressBar;
         public AudioMessageViewHolder(@NonNull View itemView) {
             super(itemView);
             type = (int)itemView.getTag();
@@ -1577,6 +1599,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ivUser = itemView.findViewById(R.id.iv_user);
             txtTime = itemView.findViewById(R.id.txt_time);
             reactionLayout = itemView.findViewById(R.id.reactions_layout);
+            progressBar = itemView.findViewById(R.id.progress_bar);
         }
     }
     public class LinkMessageViewHolder extends RecyclerView.ViewHolder {
@@ -1596,6 +1619,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private Avatar ivUser;
         private RelativeLayout rlMessageBubble;
         private ChipGroup reactionLayout;
+        private ProgressBar progressBar;
 
         LinkMessageViewHolder(@NonNull View view) {
             super(view);
@@ -1614,17 +1638,8 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ivUser = view.findViewById(R.id.iv_user);
             rlMessageBubble = view.findViewById(R.id.rl_message);
             reactionLayout = view.findViewById(R.id.reactions_layout);
+            progressBar = view.findViewById(R.id.progress_bar);
             this.view = view;
-        }
-    }
-
-    public class DateItemHolder extends RecyclerView.ViewHolder {
-
-        TextView txtMessageDate;
-
-        DateItemHolder(@NonNull View itemView) {
-            super(itemView);
-            txtMessageDate = itemView.findViewById(R.id.txt_message_date);
         }
     }
 

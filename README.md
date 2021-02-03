@@ -10,8 +10,8 @@
 
 [![Platform](https://img.shields.io/badge/Platform-Android-brightgreen.svg)](#)
 [![Platform](https://img.shields.io/badge/Language-Java-yellowgreen.svg)](#)
-![GitHub repo size](https://img.shields.io/github/repo-size/cometchat-pro/android-kotlin-chat-app)
-![GitHub contributors](https://img.shields.io/github/contributors/cometchat-pro/android-kotlin-chat-app)
+![GitHub repo size](https://img.shields.io/github/repo-size/cometchat-pro/android-java-chat-app)
+![GitHub contributors](https://img.shields.io/github/contributors/cometchat-pro/android-java-chat-app)
 ![GitHub stars](https://img.shields.io/github/stars/cometchat-pro/android-java-chat-app?style=social)
 ![Twitter Follow](https://img.shields.io/twitter/follow/cometchat?style=social)
 

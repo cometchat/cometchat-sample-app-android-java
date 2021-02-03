@@ -56,7 +56,7 @@ public class CometChatMediaViewActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         toolbar.getNavigationIcon().setTint(getResources().getColor(R.color.textColorWhite));
         toolbar.setTitle(senderName);
-        toolbar.setSubtitle(Utils.getMessageDate(sentAt));
+        toolbar.setSubtitle(Utils.getLastMessageDate(sentAt));
         imageMessage = findViewById(R.id.image_message);
         videoMessage = findViewById(R.id.video_message);
         audioMessage = findViewById(R.id.audio_message);

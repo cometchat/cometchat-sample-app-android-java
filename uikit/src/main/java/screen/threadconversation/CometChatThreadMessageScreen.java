@@ -572,7 +572,7 @@ public class CometChatThreadMessageScreen extends Fragment implements View.OnCli
         composeBox.hideWhiteBoardOption(true);
         composeBox.hideGroupCallOption(true);
         composeBox.hideRecordOption(true);
-        composeBox.hideSendButton(UISettings.isEnableSendingMessage());
+        composeBox.hideSendButton(!UISettings.isEnableSendingMessage());
 
         container = view.findViewById(R.id.reactions_container);
         composeBox.liveReactionBtn.setOnTouchListener(new LiveReactionListener(700, 1000, new ReactionClickListener() {
@@ -643,7 +643,7 @@ public class CometChatThreadMessageScreen extends Fragment implements View.OnCli
         senderName = view.findViewById(R.id.tv_sender_name);
         senderName.setText(name);
         sentAt = view.findViewById(R.id.tv_message_time);
-        sentAt.setText(String.format(getString(R.string.sentattxt),Utils.getMessageDate(messageSentAt)));
+        sentAt.setText(String.format(getString(R.string.sentattxt),Utils.getLastMessageDate(messageSentAt)));
         tvReplyCount = view.findViewById(R.id.thread_reply_count);
         rvChatListView = view.findViewById(R.id.rv_message_list);
         if (parentMessageCategory.equals(CometChatConstants.CATEGORY_CUSTOM)) {
@@ -1374,7 +1374,17 @@ public class CometChatThreadMessageScreen extends Fragment implements View.OnCli
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         mediaMessage.setMetadata(jsonObject);
+        mediaMessage.setMuid(""+System.currentTimeMillis());
+        mediaMessage.setCategory(CometChatConstants.CATEGORY_MESSAGE);
+        mediaMessage.setSender(loggedInUser);
+
+        if (messageAdapter != null) {
+            messageAdapter.addMessage(mediaMessage);
+            scrollToBottom();
+        }
+
         mediaMessage.setParentMessageId(parentId);
         CometChat.sendMediaMessage(mediaMessage, new CometChat.CallbackListener<MediaMessage>() {
             @Override
@@ -1383,13 +1393,16 @@ public class CometChatThreadMessageScreen extends Fragment implements View.OnCli
                 Log.d(TAG, "sendMediaMessage onSuccess: " + mediaMessage.toString());
                 if (messageAdapter != null) {
                     setReply();
-                    messageAdapter.addMessage(mediaMessage);
-                    scrollToBottom();
+                    messageAdapter.updateChangedMessage(mediaMessage);
                 }
             }
 
             @Override
             public void onError(CometChatException e) {
+                if (messageAdapter != null) {
+                    mediaMessage.setSentAt(-1);
+                    messageAdapter.updateChangedMessage(mediaMessage);
+                }
                 if (getActivity() != null) {
                     Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -1483,21 +1496,36 @@ public class CometChatThreadMessageScreen extends Fragment implements View.OnCli
         textMessage.setParentMessageId(parentId);
         sendTypingIndicator(true);
 
+        textMessage.setCategory(CometChatConstants.CATEGORY_MESSAGE);
+        textMessage.setSender(loggedInUser);
+        textMessage.setMuid(System.currentTimeMillis()+"");
+        if (messageAdapter != null) {
+            MediaUtils.playSendSound(context,R.raw.outgoing_message);
+            messageAdapter.addMessage(textMessage);
+            scrollToBottom();
+        }
+        noReplyMessages.setVisibility(GONE);
+        isSmartReplyClicked=false;
         CometChat.sendMessage(textMessage, new CometChat.CallbackListener<TextMessage>() {
             @Override
             public void onSuccess(TextMessage textMessage) {
-                noReplyMessages.setVisibility(GONE);
-                isSmartReplyClicked=false;
-                if (messageAdapter != null) {
+                if (messageAdapter!=null) {
                     setReply();
-                    MediaUtils.playSendSound(context,R.raw.outgoing_message);
-                    messageAdapter.addMessage(textMessage);
-                    scrollToBottom();
+                    messageAdapter.updateChangedMessage(textMessage);
                 }
+
             }
 
             @Override
             public void onError(CometChatException e) {
+
+                if (messageAdapter != null) {
+                    textMessage.setSentAt(-1);
+                    messageAdapter.updateChangedMessage(textMessage);
+                }
+                if (getActivity() != null) {
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
                 Log.d(TAG, "onError: " + e.getMessage());
             }
         });
@@ -2129,7 +2157,12 @@ public class CometChatThreadMessageScreen extends Fragment implements View.OnCli
             bundle.putBoolean("messageInfoVisible",true);
         bundle.putString("type", CometChatThreadMessageActivity.class.getName());
         messageActionFragment.setArguments(bundle);
-        showBottomSheet(messageActionFragment);
+        if (baseMessage.getSentAt()!=0) {
+            if (editVisible || copyVisible || threadVisible || deleteVisible
+                    || replyVisible || forwardVisible || reactionVisible) {
+                showBottomSheet(messageActionFragment);
+            }
+        }
     }
 
     private void showBottomSheet(MessageActionFragment messageActionFragment) {
@@ -2311,6 +2344,11 @@ public class CometChatThreadMessageScreen extends Fragment implements View.OnCli
                 } catch (Exception e) {
                     Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
                 }
+            }
+
+            @Override
+            public void onRetryClick() {
+
             }
         });
     }

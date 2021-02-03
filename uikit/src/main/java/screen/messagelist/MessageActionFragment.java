@@ -37,6 +37,7 @@ public class MessageActionFragment extends BottomSheetDialogFragment {
     private TextView messageInfo;
     private TextView shareMessage;
     private TextView translateMessage;
+    private TextView retryMessage;
 
 
     private LinearLayout reactionsList;
@@ -52,6 +53,7 @@ public class MessageActionFragment extends BottomSheetDialogFragment {
     private boolean isMessageInfoVisible;
     private boolean isReactionsVisible;
     private boolean isTranslateVisible;
+    private boolean isRetryVisible;
 
     private MessageActionListener messageActionListener;
 
@@ -77,6 +79,7 @@ public class MessageActionFragment extends BottomSheetDialogFragment {
             isMessageInfoVisible = getArguments().getBoolean("messageInfoVisible");
             isReactionsVisible = getArguments().getBoolean("isReactionVisible");
             isTranslateVisible = getArguments().getBoolean("translateVisible");
+            isRetryVisible = getArguments().getBoolean("retryVisible");
             type = getArguments().getString("type");
         }
     }
@@ -138,6 +141,7 @@ public class MessageActionFragment extends BottomSheetDialogFragment {
             }
         });
 
+        retryMessage = view.findViewById(R.id.retry_message);
         translateMessage = view.findViewById(R.id.translate_message);
         threadMessage = view.findViewById(R.id.start_thread);
         editMessage = view.findViewById(R.id.edit_message);
@@ -147,6 +151,11 @@ public class MessageActionFragment extends BottomSheetDialogFragment {
         copyMessage = view.findViewById(R.id.copy_message);
         shareMessage = view.findViewById(R.id.share_message);
         messageInfo = view.findViewById(R.id.message_info);
+
+        if (isRetryVisible)
+            retryMessage.setVisibility(View.VISIBLE);
+        else
+            retryMessage.setVisibility(View.GONE);
 
         if (isTranslateVisible)
             translateMessage.setVisibility(View.VISIBLE);
@@ -193,6 +202,15 @@ public class MessageActionFragment extends BottomSheetDialogFragment {
         if (type!=null && type.equals(CometChatThreadMessageActivity.class.getName())) {
             threadMessage.setVisibility(View.GONE);
         }
+
+        retryMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (messageActionListener!=null)
+                    messageActionListener.onRetryClick();
+                dismiss();
+            }
+        });
 
         translateMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -289,6 +307,7 @@ public class MessageActionFragment extends BottomSheetDialogFragment {
         void onReactionClick(Reaction reaction);
 
         void onTranslateMessageClick();
+        void onRetryClick();
     }
 
     @Override

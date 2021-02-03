@@ -375,6 +375,7 @@
                 android:layout_below="@+id/thread_action"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:nestedScrollingEnabled="true"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>

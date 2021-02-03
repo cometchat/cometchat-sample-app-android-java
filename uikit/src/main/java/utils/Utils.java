@@ -195,7 +195,7 @@ public class Utils {
     public static String getDate(long var0) {
         Calendar var2 = Calendar.getInstance(Locale.ENGLISH);
         var2.setTimeInMillis(var0);
-        return DateFormat.format("dd/MM/yyyy", var2).toString();
+        return DateFormat.format("dd MMMM yyyy", var2).toString();
     }
 
     public static List<User> userSort(List<User> userList) {
@@ -341,11 +341,6 @@ public class Utils {
         return groupMember;
     }
 
-    public static String getMessageDate(long timestamp) {
-        String messageDate = new SimpleDateFormat("dd/MM/yyyy hh:mm a").format(new java.util.Date(timestamp * 1000));
-        return messageDate;
-    }
-
     public static String getHeaderDate(long timestamp) {
         Calendar messageTimestamp = Calendar.getInstance();
         messageTimestamp.setTimeInMillis(timestamp);
@@ -359,7 +354,7 @@ public class Utils {
 
     public static String getLastMessageDate(long timestamp) {
         String lastMessageTime = new SimpleDateFormat("h:mm a").format(new java.util.Date(timestamp * 1000));
-        String lastMessageDate = new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date(timestamp * 1000));
+        String lastMessageDate = new SimpleDateFormat("dd MMM yyyy").format(new java.util.Date(timestamp * 1000));
         String lastMessageWeek = new SimpleDateFormat("EEE").format(new java.util.Date(timestamp * 1000));
         long currentTimeStamp = System.currentTimeMillis();
 
@@ -382,7 +377,7 @@ public class Utils {
 
     public static String getReceiptDate(long timestamp) {
         String lastMessageTime = new SimpleDateFormat("h:mm a").format(new java.util.Date(timestamp * 1000));
-        String lastMessageDate = new SimpleDateFormat("dd/MM h:mm a").format(new java.util.Date(timestamp * 1000));
+        String lastMessageDate = new SimpleDateFormat("dd MMMM h:mm a").format(new java.util.Date(timestamp * 1000));
         String lastMessageWeek = new SimpleDateFormat("EEE h:mm a").format(new java.util.Date(timestamp * 1000));
         long currentTimeStamp = System.currentTimeMillis();
 

@@ -42,6 +42,7 @@ import com.cometchat.pro.core.Call;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.Action;
+import com.cometchat.pro.models.Attachment;
 import com.cometchat.pro.models.CustomMessage;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.Avatar;
@@ -1430,20 +1431,24 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
 
+
         boolean isImageNotSafe = Extensions.getImageModeration(context,baseMessage);
         String smallUrl = Extensions.getThumbnailGeneration(context,baseMessage);
-        viewHolder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_defaulf_image));
-        if (smallUrl!=null) {
-            if (((MediaMessage)baseMessage).getAttachment().getFileExtension().equalsIgnoreCase(".gif")) {
-                setImageDrawable(viewHolder,smallUrl,true,false);
+
+        Attachment attachment = ((MediaMessage)baseMessage).getAttachment();
+        if (attachment!=null) {
+            if (smallUrl!=null) {
+                if (attachment.getFileExtension().equalsIgnoreCase(".gif")) {
+                    setImageDrawable(viewHolder,smallUrl,true,false);
+                } else {
+                    setImageDrawable(viewHolder,smallUrl,false,isImageNotSafe);
+                }
             } else {
-                setImageDrawable(viewHolder,smallUrl,false,isImageNotSafe);
+                if (attachment.getFileExtension().equalsIgnoreCase(".gif"))
+                    setImageDrawable(viewHolder,((MediaMessage)baseMessage).getAttachment().getFileUrl(),true,false);
+                else
+                    setImageDrawable(viewHolder,((MediaMessage)baseMessage).getAttachment().getFileUrl(),false,isImageNotSafe);
             }
-        } else {
-            if (((MediaMessage)baseMessage).getAttachment().getFileExtension().equalsIgnoreCase(".gif"))
-                setImageDrawable(viewHolder,((MediaMessage)baseMessage).getAttachment().getFileUrl(),true,false);
-            else
-                setImageDrawable(viewHolder,((MediaMessage)baseMessage).getAttachment().getFileUrl(),false,isImageNotSafe);
         }
         if (isImageNotSafe) {
             viewHolder.sensitiveLayout.setVisibility(View.VISIBLE);
@@ -1456,6 +1461,14 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
         } else {
             viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
+        }
+        if (baseMessage.getMetadata()!=null) {
+            try {
+                String filePath = baseMessage.getMetadata().getString("path");
+                Glide.with(context).load(filePath).diskCacheStrategy(DiskCacheStrategy.NONE).into(viewHolder.imageView);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         viewHolder.tvThreadReplyCount.setOnClickListener(view -> {
             Intent intent = new Intent(context, CometChatThreadMessageActivity.class);
@@ -1564,14 +1577,16 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private void openMediaViewActivity(BaseMessage baseMessage) {
-        Intent intent = new Intent(context, CometChatMediaViewActivity.class);
-        intent.putExtra(StringContract.IntentStrings.NAME,baseMessage.getSender().getName());
-        intent.putExtra(StringContract.IntentStrings.UID,baseMessage.getSender().getUid());
-        intent.putExtra(StringContract.IntentStrings.SENTAT,baseMessage.getSentAt());
-        intent.putExtra(StringContract.IntentStrings.INTENT_MEDIA_MESSAGE,
-                ((MediaMessage)baseMessage).getAttachment().getFileUrl());
-        intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE,baseMessage.getType());
-        context.startActivity(intent);
+        if (((MediaMessage)baseMessage).getAttachment()!=null) {
+            Intent intent = new Intent(context, CometChatMediaViewActivity.class);
+            intent.putExtra(StringContract.IntentStrings.NAME, baseMessage.getSender().getName());
+            intent.putExtra(StringContract.IntentStrings.UID, baseMessage.getSender().getUid());
+            intent.putExtra(StringContract.IntentStrings.SENTAT, baseMessage.getSentAt());
+            intent.putExtra(StringContract.IntentStrings.INTENT_MEDIA_MESSAGE,
+                    ((MediaMessage) baseMessage).getAttachment().getFileUrl());
+            intent.putExtra(StringContract.IntentStrings.MESSAGE_TYPE, baseMessage.getType());
+            context.startActivity(intent);
+        }
     }
 
 
@@ -1918,7 +1933,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      * Since we have different ViewHolder, we have to pass <b>txtTime</b> of each viewHolder to
      * <code>setStatusIcon(RecyclerView.ViewHolder viewHolder,BaseMessage baseMessage)</code>
      * along with baseMessage.
-     * @see MessageAdapter#setStatusIcon(TextView, BaseMessage)
+     * @see MessageAdapter#setStatusIcon(ProgressBar,TextView, BaseMessage)
      *      *
      * @param viewHolder is object of ViewHolder.
      * @param baseMessage is a object of BaseMessage.
@@ -1928,29 +1943,29 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private void showMessageTime(RecyclerView.ViewHolder viewHolder, BaseMessage baseMessage) {
 
         if (viewHolder instanceof TextMessageViewHolder) {
-            setStatusIcon(((TextMessageViewHolder) viewHolder).txtTime, baseMessage);
+            setStatusIcon(((TextMessageViewHolder) viewHolder).progressBar,((TextMessageViewHolder) viewHolder).txtTime, baseMessage);
         } else if (viewHolder instanceof LinkMessageViewHolder) {
-            setStatusIcon(((LinkMessageViewHolder) viewHolder).txtTime, baseMessage);
+            setStatusIcon(((LinkMessageViewHolder) viewHolder).progressBar,((LinkMessageViewHolder) viewHolder).txtTime, baseMessage);
         } else if (viewHolder instanceof ImageMessageViewHolder) {
-            setStatusIcon(((ImageMessageViewHolder) viewHolder).txtTime, baseMessage);
+            setStatusIcon(((ImageMessageViewHolder) viewHolder).progressBar,((ImageMessageViewHolder) viewHolder).txtTime, baseMessage);
         } else if (viewHolder instanceof FileMessageViewHolder) {
-            setStatusIcon(((FileMessageViewHolder) viewHolder).txtTime, baseMessage);
+            setStatusIcon(((FileMessageViewHolder) viewHolder).progressBar,((FileMessageViewHolder) viewHolder).txtTime, baseMessage);
         } else if (viewHolder instanceof VideoMessageViewHolder) {
-            setStatusIcon(((VideoMessageViewHolder) viewHolder).txtTime, baseMessage);
+            setStatusIcon(((VideoMessageViewHolder) viewHolder).progressBar,((VideoMessageViewHolder) viewHolder).txtTime, baseMessage);
         } else if (viewHolder instanceof AudioMessageViewHolder) {
-            setStatusIcon(((AudioMessageViewHolder)viewHolder).txtTime, baseMessage);
+            setStatusIcon(((AudioMessageViewHolder) viewHolder).progressBar,((AudioMessageViewHolder)viewHolder).txtTime, baseMessage);
         } else if (viewHolder instanceof LocationMessageViewHolder){
-            setStatusIcon(((LocationMessageViewHolder) viewHolder).txtTime, baseMessage);
+            setStatusIcon(null,((LocationMessageViewHolder) viewHolder).txtTime, baseMessage);
         } else if (viewHolder instanceof  PollMessageViewHolder) {
-            setStatusIcon((((PollMessageViewHolder) viewHolder).txtTime),baseMessage);
+            setStatusIcon(null,(((PollMessageViewHolder) viewHolder).txtTime),baseMessage);
         } else if (viewHolder instanceof StickerMessageViewHolder) {
-            setStatusIcon((((StickerMessageViewHolder) viewHolder).txtTime),baseMessage);
+            setStatusIcon(null,(((StickerMessageViewHolder) viewHolder).txtTime),baseMessage);
         } else if (viewHolder instanceof WhiteBoardViewHolder) {
-            setStatusIcon((((WhiteBoardViewHolder) viewHolder).txtTime),baseMessage);
+            setStatusIcon(null,(((WhiteBoardViewHolder) viewHolder).txtTime),baseMessage);
         } else if (viewHolder instanceof  WriteBoardViewHolder) {
-            setStatusIcon((((WriteBoardViewHolder) viewHolder).txtTime),baseMessage);
+            setStatusIcon(null,(((WriteBoardViewHolder) viewHolder).txtTime),baseMessage);
         } else if (viewHolder instanceof GroupCallMessageViewHolder) {
-            setStatusIcon((((GroupCallMessageViewHolder) viewHolder).txtTime),baseMessage);
+            setStatusIcon(null,(((GroupCallMessageViewHolder) viewHolder).txtTime),baseMessage);
         }
 
     }
@@ -1964,10 +1979,13 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      * @param baseMessage is a object of BaseMessage used to identify baseMessage sender.
      * @see BaseMessage
      */
-    private void setStatusIcon(TextView txtTime, BaseMessage baseMessage) {
+    private void setStatusIcon(ProgressBar progressBar,TextView txtTime, BaseMessage baseMessage) {
         if (UISettings.isShowReadDeliveryReceipts()) {
             if (baseMessage.getSender().getUid().equals(loggedInUser.getUid())) {
-                if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_USER)) {
+                if (baseMessage.getReceiverType()!=null && baseMessage.getReceiverType()
+                        .equals(CometChatConstants.RECEIVER_TYPE_USER)) {
+                    if (progressBar!=null)
+                        progressBar.setVisibility(View.GONE);
                     if (baseMessage.getReadAt() != 0) {
                         txtTime.setText(Utils.getHeaderDate(baseMessage.getReadAt() * 1000));
                         txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_double_tick, 0);
@@ -1976,10 +1994,18 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         txtTime.setText(Utils.getHeaderDate(baseMessage.getDeliveredAt() * 1000));
                         txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_done_all_black_24dp, 0);
                         txtTime.setCompoundDrawablePadding(10);
-                    } else {
+                    } else if (baseMessage.getSentAt()>0){
                         txtTime.setText(Utils.getHeaderDate(baseMessage.getSentAt() * 1000));
                         txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_black_24dp, 0);
                         txtTime.setCompoundDrawablePadding(10);
+                    } else if (baseMessage.getSentAt()==-1) {
+                        txtTime.setText("");
+                        txtTime.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_info_red,0);
+                    } else {
+                        txtTime.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+                        txtTime.setText("");
+                        if (progressBar!=null)
+                            progressBar.setVisibility(View.VISIBLE);
                     }
                 } else {
                     txtTime.setText(Utils.getHeaderDate(baseMessage.getSentAt() * 1000));
@@ -2372,7 +2398,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
         } else {
-            if ((UISettings.isEnableEditingMessage() &&
+            if (baseMessage.getSentAt()>0 && (UISettings.isEnableEditingMessage() &&
                     UISettings.isEnableDeleteMessage()) ||
                     UISettings.isEnableShareCopyForward() ||
                     UISettings.isEnableThreadedReplies() ||
@@ -2789,9 +2815,23 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             messageList.add(baseMessage);
             selectedItemList.clear();
 //        }
-        notifyDataSetChanged();
+        notifyItemInserted(messageList.size()-1);
     }
 
+    /**
+     * THis method is used to update the old message with the new message
+     * @param baseMessage
+     */
+    public void updateChangedMessage(BaseMessage baseMessage) {
+        for (int i = messageList.size() - 1; i >= 0; i--) {
+            String muid = messageList.get(i).getMuid();
+            if (muid!=null && muid.equals(baseMessage.getMuid())) {
+                messageList.remove(i);
+                messageList.add(i,baseMessage);
+                notifyItemChanged(i);
+            }
+        }
+    }
     /**
      * This method is used to update previous message with new message in messageList of adapter.
      *
@@ -2807,6 +2847,11 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    public void remove(BaseMessage baseMessage) {
+        int index = messageList.indexOf(baseMessage);
+        messageList.remove(baseMessage);
+        notifyItemRemoved(index);
+    }
     public void resetList() {
         messageList.clear();
         notifyDataSetChanged();
@@ -2854,13 +2899,14 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             imageView = view.findViewById(R.id.go_img_message);
             tvUser= view.findViewById(R.id.tv_user);
             cardView = view.findViewById(R.id.cv_image_message_container);
-            progressBar = view.findViewById(R.id.img_progress_bar);
+            progressBar = view.findViewById(R.id.progress_bar);
             txtTime = view.findViewById(R.id.txt_time);
             ivUser = view.findViewById(R.id.iv_user);
             rlMessageBubble = view.findViewById(R.id.rl_message);
             tvThreadReplyCount = view.findViewById(R.id.thread_reply_count);
             sensitiveLayout = view.findViewById(R.id.sensitive_layout);
             reactionLayout = view.findViewById(R.id.reactions_layout);
+            progressBar = view.findViewById(R.id.progress_bar);
         }
     }
 
@@ -2894,7 +2940,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             playBtn = view.findViewById(R.id.playBtn);
             tvUser= view.findViewById(R.id.tv_user);
             cardView = view.findViewById(R.id.cv_image_message_container);
-            progressBar = view.findViewById(R.id.img_progress_bar);
+            progressBar = view.findViewById(R.id.progress_bar);
             txtTime = view.findViewById(R.id.txt_time);
             ivUser = view.findViewById(R.id.iv_user);
             rlMessageBubble = view.findViewById(R.id.rl_message);
@@ -2916,6 +2962,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private RelativeLayout rlMessageBubble;
         private TextView tvThreadReplyCount;
         private ChipGroup reactionLayout;
+        private ProgressBar progressBar;
 
         FileMessageViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -2929,6 +2976,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             rlMessageBubble = itemView.findViewById(R.id.rl_message);
             tvThreadReplyCount = itemView.findViewById(R.id.thread_reply_count);
             reactionLayout = itemView.findViewById(R.id.reactions_layout);
+            progressBar = itemView.findViewById(R.id.progress_bar);
             this.view = itemView;
         }
     }
@@ -2988,6 +3036,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         private ChipGroup reactionLayout;
 
+        private ProgressBar progressBar;        //ProgressBar to show message status;
+
         TextMessageViewHolder(@NonNull View view) {
             super(view);
 
@@ -3006,6 +3056,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             sentimentVw = view.findViewById(R.id.sentiment_layout);
             viewSentimentMessage = view.findViewById(R.id.view_sentiment);
             reactionLayout = view.findViewById(R.id.reactions_layout);
+            progressBar = view.findViewById(R.id.progress_bar);
             this.view = view;
 
         }
@@ -3257,6 +3308,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private TextView txtTime;
         private TextView tvThreadReplyCount;
         private ChipGroup reactionLayout;
+        private ProgressBar progressBar;
         public AudioMessageViewHolder(@NonNull View itemView) {
             super(itemView);
             type = (int)itemView.getTag();
@@ -3268,6 +3320,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             txtTime = itemView.findViewById(R.id.txt_time);
             tvThreadReplyCount = itemView.findViewById(R.id.thread_reply_count);
             reactionLayout = itemView.findViewById(R.id.reactions_layout);
+            progressBar = itemView.findViewById(R.id.progress_bar);
         }
     }
     public class LinkMessageViewHolder extends RecyclerView.ViewHolder {
@@ -3290,6 +3343,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         private ChipGroup reactionLayout;
 
+        private ProgressBar progressBar;
+
         LinkMessageViewHolder(@NonNull View view) {
             super(view);
 
@@ -3308,6 +3363,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             rlMessageBubble = view.findViewById(R.id.rl_message);
             tvThreadReplyCount = view.findViewById(R.id.thread_reply_count);
             reactionLayout = view.findViewById(R.id.reactions_layout);
+            progressBar = view.findViewById(R.id.progress_bar);
             this.view = view;
         }
     }

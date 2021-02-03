@@ -72,6 +72,14 @@
         android:id="@+id/reactions_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:visibility="gone"
+        android:layout_marginLeft="8dp"
+        android:layout_width="16dp"
+        android:layout_toRightOf="@id/txt_time"
+        android:layout_alignBottom="@+id/tv_user"
+        android:layout_height="16dp"/>
     <TextView
         android:id="@+id/txt_time"
         android:layout_width="wrap_content"

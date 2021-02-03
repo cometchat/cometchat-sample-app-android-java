@@ -41,12 +41,13 @@
                     android:layout_height="wrap_content"/>
             </RelativeLayout>
             <ProgressBar
-                android:id="@+id/img_progress_bar"
+                android:id="@+id/progress_bar"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:visibility="gone"
                 tools:visibility="visible"
+                android:indeterminateTint="@color/grey"
                 android:indeterminateDrawable="@drawable/cc_progress_drawable" />
 
         </androidx.cardview.widget.CardView>
