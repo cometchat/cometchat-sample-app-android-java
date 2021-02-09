@@ -19,7 +19,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import com.cometchat.pro.androiduikit.constants.AppConfig;
 
-import utils.Utils;
+import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 
 public class LoginActivity extends AppCompatActivity {
 

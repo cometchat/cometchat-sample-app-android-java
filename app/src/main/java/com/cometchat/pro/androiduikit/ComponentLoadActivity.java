@@ -20,23 +20,22 @@ import com.cometchat.pro.androiduikit.ComponentFragments.ConversationListViewFra
 import com.cometchat.pro.androiduikit.ComponentFragments.GroupListViewFragment;
 import com.cometchat.pro.androiduikit.ComponentFragments.StatusIndicatorFragment;
 import com.cometchat.pro.androiduikit.ComponentFragments.UserListViewFragment;
-import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.Conversation;
 import com.cometchat.pro.models.Group;
 import com.cometchat.pro.models.User;
 
-import constant.StringContract;
-import listeners.CustomAlertDialogHelper;
-import listeners.OnAlertDialogButtonClickListener;
-import listeners.OnItemClickListener;
-import screen.CometChatConversationListScreen;
-import screen.call.CometChatCallListScreen;
-import screen.messagelist.CometChatMessageListActivity;
-import screen.CometChatGroupListScreen;
-import screen.CometChatUserInfoScreen;
-import screen.CometChatUserListScreen;
+import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
+import com.cometchat.pro.uikit.ui_resources.utils.custom_alertDialog.CustomAlertDialogHelper;
+import com.cometchat.pro.uikit.ui_resources.utils.custom_alertDialog.OnAlertDialogButtonClickListener;
+import com.cometchat.pro.uikit.ui_resources.utils.item_clickListener.OnItemClickListener;
+import com.cometchat.pro.uikit.ui_components.chats.CometChatConversationList;
+import com.cometchat.pro.uikit.ui_components.calls.call_list.CometChatCallList;
+import com.cometchat.pro.uikit.ui_components.groups.group_list.CometChatGroupList;
+import com.cometchat.pro.uikit.ui_components.messages.message_list.CometChatMessageListActivity;
+import com.cometchat.pro.uikit.ui_components.userprofile.CometChatUserProfile;
+import com.cometchat.pro.uikit.ui_components.users.user_list.CometChatUserList;
 
 public class ComponentLoadActivity extends AppCompatActivity implements  OnAlertDialogButtonClickListener {
 
@@ -50,16 +49,16 @@ public class ComponentLoadActivity extends AppCompatActivity implements  OnAlert
         setContentView(R.layout.activity_load_fragment);
         int id = getIntent().getIntExtra("screen", 0);
         if (id == R.id.users) {
-            loadFragment(new CometChatUserListScreen());
+            loadFragment(new CometChatUserList());
 
         } else if (id == R.id.calls) {
-            loadFragment(new CometChatCallListScreen());
+            loadFragment(new CometChatCallList());
          }else if (id == R.id.groups) {
-            loadFragment(new CometChatGroupListScreen());
+            loadFragment(new CometChatGroupList());
         } else if (id == R.id.conversations) {
-            loadFragment(new CometChatConversationListScreen());
+            loadFragment(new CometChatConversationList());
         } else if (id == R.id.moreinfo) {
-            loadFragment(new CometChatUserInfoScreen());
+            loadFragment(new CometChatUserProfile());
         } else if (id== R.id.cometchat_avatar) {
             loadFragment(new AvatarFragment());
         } else if (id== R.id.cometchat_status_indicator) {
@@ -75,7 +74,7 @@ public class ComponentLoadActivity extends AppCompatActivity implements  OnAlert
         } else if (id == R.id.cometchat_callList) {
             loadFragment(new CallListViewFragment());
         }
-        CometChatUserListScreen.setItemClickListener(new OnItemClickListener<User>() {
+        CometChatUserList.setItemClickListener(new OnItemClickListener<User>() {
             @Override
             public void OnItemClick(User var, int position) {
                 userIntent((User)var);
@@ -83,19 +82,19 @@ public class ComponentLoadActivity extends AppCompatActivity implements  OnAlert
         });
 
 
-        CometChatGroupListScreen.setItemClickListener(new OnItemClickListener<Group>() {
+        CometChatGroupList.setItemClickListener(new OnItemClickListener<Group>() {
             @Override
             public void OnItemClick(Group var, int position) {
                 if (group.isJoined()) {
                     startGroupIntent(group);
                 } else {
-                    if (group.getGroupType().equals(CometChatConstants.GROUP_TYPE_PASSWORD)) {
+                    if (group.getGroupType().equals(com.cometchat.pro.constants.CometChatConstants.GROUP_TYPE_PASSWORD)) {
                         View dialogview = getLayoutInflater().inflate(R.layout.cc_dialog, null);
                         TextView tvTitle = dialogview.findViewById(R.id.textViewDialogueTitle);
                         tvTitle.setText("");
                         new CustomAlertDialogHelper(ComponentLoadActivity.this, "Password", dialogview, "Join",
                                 "", "Cancel", ComponentLoadActivity.this, 1, false);
-                    } else if (group.getGroupType().equals(CometChatConstants.GROUP_TYPE_PUBLIC)) {
+                    } else if (group.getGroupType().equals(com.cometchat.pro.constants.CometChatConstants.GROUP_TYPE_PUBLIC)) {
                         joinGroup(group);
                     }
                 }
@@ -103,10 +102,10 @@ public class ComponentLoadActivity extends AppCompatActivity implements  OnAlert
         });
 
 
-        CometChatConversationListScreen.setItemClickListener(new OnItemClickListener<Conversation>() {
+        CometChatConversationList.setItemClickListener(new OnItemClickListener<Conversation>() {
             @Override
             public void OnItemClick(Conversation conversation, int position) {
-                if (conversation.getConversationType().equals(CometChatConstants.CONVERSATION_TYPE_GROUP)) {
+                if (conversation.getConversationType().equals(com.cometchat.pro.constants.CometChatConstants.CONVERSATION_TYPE_GROUP)) {
                     startGroupIntent(((Group) conversation.getConversationWith()));
                 } else {
                     User user = ((User) conversation.getConversationWith());
@@ -129,26 +128,26 @@ public class ComponentLoadActivity extends AppCompatActivity implements  OnAlert
 
     public void userIntent(User user) {
         Intent intent = new Intent(ComponentLoadActivity.this, CometChatMessageListActivity.class);
-        intent.putExtra(StringContract.IntentStrings.UID, user.getUid());
-        intent.putExtra(StringContract.IntentStrings.AVATAR, user.getAvatar());
-        intent.putExtra(StringContract.IntentStrings.STATUS, user.getStatus());
-        intent.putExtra(StringContract.IntentStrings.NAME, user.getName());
-        intent.putExtra(StringContract.IntentStrings.TYPE, CometChatConstants.RECEIVER_TYPE_USER);
+        intent.putExtra(UIKitConstants.IntentStrings.UID, user.getUid());
+        intent.putExtra(UIKitConstants.IntentStrings.AVATAR, user.getAvatar());
+        intent.putExtra(UIKitConstants.IntentStrings.STATUS, user.getStatus());
+        intent.putExtra(UIKitConstants.IntentStrings.NAME, user.getName());
+        intent.putExtra(UIKitConstants.IntentStrings.TYPE, com.cometchat.pro.constants.CometChatConstants.RECEIVER_TYPE_USER);
         startActivity(intent);
     }
 
     private void startGroupIntent(Group group) {
 
         Intent intent = new Intent(ComponentLoadActivity.this, CometChatMessageListActivity.class);
-        intent.putExtra(StringContract.IntentStrings.GUID, group.getGuid());
-        intent.putExtra(StringContract.IntentStrings.GROUP_OWNER,group.getOwner());
-        intent.putExtra(StringContract.IntentStrings.AVATAR, group.getIcon());
-        intent.putExtra(StringContract.IntentStrings.NAME, group.getName());
-        intent.putExtra(StringContract.IntentStrings.GROUP_TYPE,group.getGroupType());
-        intent.putExtra(StringContract.IntentStrings.TYPE, CometChatConstants.RECEIVER_TYPE_GROUP);
-        intent.putExtra(StringContract.IntentStrings.MEMBER_COUNT,group.getMembersCount());
-        intent.putExtra(StringContract.IntentStrings.GROUP_DESC,group.getDescription());
-        intent.putExtra(StringContract.IntentStrings.GROUP_PASSWORD,group.getPassword());
+        intent.putExtra(UIKitConstants.IntentStrings.GUID, group.getGuid());
+        intent.putExtra(UIKitConstants.IntentStrings.GROUP_OWNER,group.getOwner());
+        intent.putExtra(UIKitConstants.IntentStrings.AVATAR, group.getIcon());
+        intent.putExtra(UIKitConstants.IntentStrings.NAME, group.getName());
+        intent.putExtra(UIKitConstants.IntentStrings.GROUP_TYPE,group.getGroupType());
+        intent.putExtra(UIKitConstants.IntentStrings.TYPE, com.cometchat.pro.constants.CometChatConstants.RECEIVER_TYPE_GROUP);
+        intent.putExtra(UIKitConstants.IntentStrings.MEMBER_COUNT,group.getMembersCount());
+        intent.putExtra(UIKitConstants.IntentStrings.GROUP_DESC,group.getDescription());
+        intent.putExtra(UIKitConstants.IntentStrings.GROUP_PASSWORD,group.getPassword());
         startActivity(intent);
     }
 

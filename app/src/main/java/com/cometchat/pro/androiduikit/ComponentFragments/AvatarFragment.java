@@ -6,7 +6,6 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +14,13 @@ import android.widget.RadioGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.cometchat.pro.androiduikit.ColorPickerDialog;
 import com.cometchat.pro.androiduikit.R;
 import com.cometchat.pro.core.CometChat;
-import com.cometchat.pro.uikit.Avatar;
+import com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.util.Random;
-
-import utils.Utils;
+import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 
 public class AvatarFragment extends Fragment {
 
@@ -46,7 +42,7 @@ public class AvatarFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_avatar, container, false);
-        Avatar avatar = view.findViewById(R.id.avataricon);
+        CometChatAvatar avatar = view.findViewById(R.id.avataricon);
         avatar.setBorderColor(getResources().getColor(R.color.colorPrimaryDark));
         avatar.setAvatar(CometChat.getLoggedInUser().getAvatar());
         TextInputEditText borderWidth = view.findViewById(R.id.borderWidth);
@@ -148,7 +144,7 @@ public class AvatarFragment extends Fragment {
         super.onAttach(context);
         this.context = context;
     }
-    public void refreshAvatar(Avatar avatar)
+    public void refreshAvatar(CometChatAvatar avatar)
     {
         avatar.setAvatar(CometChat.getLoggedInUser());
     }

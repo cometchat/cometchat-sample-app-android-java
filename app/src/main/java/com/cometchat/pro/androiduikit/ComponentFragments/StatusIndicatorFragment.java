@@ -1,7 +1,5 @@
 package com.cometchat.pro.androiduikit.ComponentFragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
 import com.cometchat.pro.androiduikit.R;
-import com.cometchat.pro.uikit.StatusIndicator;
+import com.cometchat.pro.uikit.ui_components.shared.cometchatUserPresence.CometChatUserPresence;
 
 public class StatusIndicatorFragment extends Fragment {
 
@@ -26,7 +24,7 @@ public class StatusIndicatorFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_status_indicator, container, false);
-        StatusIndicator statusIndicator = view.findViewById(R.id.statusIndicator);
+        CometChatUserPresence statusIndicator = view.findViewById(R.id.statusIndicator);
         RadioGroup statusChangeGroup = view.findViewById(R.id.statusChange);
         statusIndicator.setUserStatus("online");
         statusChangeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

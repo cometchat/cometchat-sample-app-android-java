@@ -7,18 +7,15 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.cometchat.pro.androiduikit.R;
-import com.cometchat.pro.uikit.BadgeCount;
-import com.cometchat.pro.uikit.StatusIndicator;
+import com.cometchat.pro.uikit.ui_components.shared.cometchatBadgeCount.CometChatBadgeCount;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import utils.Utils;
+import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 
 public class BadgeCountFragment extends Fragment {
 
@@ -35,7 +32,7 @@ public class BadgeCountFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_badge_count, container, false);
-        BadgeCount badgeCount = view.findViewById(R.id.badgeCount);
+        CometChatBadgeCount badgeCount = view.findViewById(R.id.badgeCount);
         badgeCountLayout = view.findViewById(R.id.badgeCount_layout);
         badgeCountSizeLayout = view.findViewById(R.id.badgeCountSize_layout);
         badgeCountEdt = view.findViewById(R.id.badgeCount_edt);
@@ -192,7 +189,7 @@ public class BadgeCountFragment extends Fragment {
         }
     }
 
-    private void refreshbadgeCount(BadgeCount badgeCount) {
+    private void refreshbadgeCount(CometChatBadgeCount badgeCount) {
         badgeCount.setCount(count);
     }
 }

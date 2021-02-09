@@ -18,6 +18,28 @@ android {
         }
     }
 
+    sourceSets {
+        main {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            java.srcDirs = ['src/main/java', '.apt_generated']
+            aidl.srcDirs = ['src/main/aidl', '.apt_generated']
+            res.srcDirs = [
+                    'src/main/res',
+                    'src/main/res-components',
+                    'src/main/res-components/calls',
+                    'src/main/res-components/chats',
+                    'src/main/res-components/cometchatui',
+                    'src/main/res-components/groups',
+                    'src/main/res-components/messagebubbles',
+                    'src/main/res-components/messages',
+                    'src/main/res-components/others',
+                    'src/main/res-components/shared',
+                    'src/main/res-components/userprofile',
+                    'src/main/res-components/users'
+                    ]
+        }
+    }
+
     dataBinding {
         enabled = true
     }
@@ -70,7 +92,4 @@ dependencies {
     //cometchat
     compileOnly 'com.cometchat:pro-android-chat-sdk:2.1.7-beta3'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.0'
-}
-repositories {
-    mavenCentral()
 }

@@ -15,7 +15,7 @@ import com.cometchat.pro.androiduikit.constants.AppConfig;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
-import utils.Utils;
+import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 
 
 public class MainActivity extends AppCompatActivity {

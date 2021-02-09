@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 
 import com.cometchat.pro.androiduikit.R;
 import com.cometchat.pro.androiduikit.databinding.FragmentConversationListBinding;
-import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.core.ConversationsRequest;
 import com.cometchat.pro.exceptions.CometChatException;
@@ -23,9 +22,9 @@ import com.cometchat.pro.models.User;
 
 import java.util.List;
 
-import constant.StringContract;
-import listeners.OnItemClickListener;
-import screen.messagelist.CometChatMessageListActivity;
+import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
+import com.cometchat.pro.uikit.ui_resources.utils.item_clickListener.OnItemClickListener;
+import com.cometchat.pro.uikit.ui_components.messages.message_list.CometChatMessageListActivity;
 
 public class ConversationListViewFragment extends Fragment {
 
@@ -49,24 +48,24 @@ public class ConversationListViewFragment extends Fragment {
             @Override
             public void OnItemClick(Conversation conversation, int position) {
                 Intent intent = new Intent(getContext(), CometChatMessageListActivity.class);
-                intent.putExtra(StringContract.IntentStrings.TYPE,conversation.getConversationType());
-                if (conversation.getConversationType().equals(CometChatConstants.CONVERSATION_TYPE_GROUP))
+                intent.putExtra(UIKitConstants.IntentStrings.TYPE,conversation.getConversationType());
+                if (conversation.getConversationType().equals(com.cometchat.pro.constants.CometChatConstants.CONVERSATION_TYPE_GROUP))
                 {
-                    intent.putExtra(StringContract.IntentStrings.NAME,((Group)conversation.getConversationWith()).getName());
-                    intent.putExtra(StringContract.IntentStrings.GUID,((Group)conversation.getConversationWith()).getGuid());
-                    intent.putExtra(StringContract.IntentStrings.GROUP_OWNER,((Group)conversation.getConversationWith()).getOwner());
-                    intent.putExtra(StringContract.IntentStrings.AVATAR,((Group)conversation.getConversationWith()).getIcon());
-                    intent.putExtra(StringContract.IntentStrings.GROUP_TYPE,((Group)conversation.getConversationWith()).getGroupType());
-                    intent.putExtra(StringContract.IntentStrings.MEMBER_COUNT,((Group)conversation.getConversationWith()).getMembersCount());
-                    intent.putExtra(StringContract.IntentStrings.GROUP_DESC,((Group)conversation.getConversationWith()).getDescription());
-                    intent.putExtra(StringContract.IntentStrings.GROUP_PASSWORD,((Group)conversation.getConversationWith()).getPassword());
+                    intent.putExtra(UIKitConstants.IntentStrings.NAME,((Group)conversation.getConversationWith()).getName());
+                    intent.putExtra(UIKitConstants.IntentStrings.GUID,((Group)conversation.getConversationWith()).getGuid());
+                    intent.putExtra(UIKitConstants.IntentStrings.GROUP_OWNER,((Group)conversation.getConversationWith()).getOwner());
+                    intent.putExtra(UIKitConstants.IntentStrings.AVATAR,((Group)conversation.getConversationWith()).getIcon());
+                    intent.putExtra(UIKitConstants.IntentStrings.GROUP_TYPE,((Group)conversation.getConversationWith()).getGroupType());
+                    intent.putExtra(UIKitConstants.IntentStrings.MEMBER_COUNT,((Group)conversation.getConversationWith()).getMembersCount());
+                    intent.putExtra(UIKitConstants.IntentStrings.GROUP_DESC,((Group)conversation.getConversationWith()).getDescription());
+                    intent.putExtra(UIKitConstants.IntentStrings.GROUP_PASSWORD,((Group)conversation.getConversationWith()).getPassword());
                 }
                 else
                 {
-                    intent.putExtra(StringContract.IntentStrings.NAME,((User)conversation.getConversationWith()).getName());
-                    intent.putExtra(StringContract.IntentStrings.UID,((User)conversation.getConversationWith()).getUid());
-                    intent.putExtra(StringContract.IntentStrings.AVATAR,((User)conversation.getConversationWith()).getAvatar());
-                    intent.putExtra(StringContract.IntentStrings.STATUS,((User)conversation.getConversationWith()).getStatus());
+                    intent.putExtra(UIKitConstants.IntentStrings.NAME,((User)conversation.getConversationWith()).getName());
+                    intent.putExtra(UIKitConstants.IntentStrings.UID,((User)conversation.getConversationWith()).getUid());
+                    intent.putExtra(UIKitConstants.IntentStrings.AVATAR,((User)conversation.getConversationWith()).getAvatar());
+                    intent.putExtra(UIKitConstants.IntentStrings.STATUS,((User)conversation.getConversationWith()).getStatus());
                 }
                 startActivity(intent);
             }

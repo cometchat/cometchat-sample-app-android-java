@@ -12,18 +12,17 @@ import androidx.fragment.app.Fragment;
 
 import com.cometchat.pro.androiduikit.R;
 import com.cometchat.pro.androiduikit.databinding.FragmentUserListBinding;
-import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.core.UsersRequest;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
+import com.cometchat.pro.uikit.ui_components.messages.message_list.CometChatMessageListActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.List;
 
-import constant.StringContract;
-import listeners.OnItemClickListener;
-import screen.messagelist.CometChatMessageListActivity;
+import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
+import com.cometchat.pro.uikit.ui_resources.utils.item_clickListener.OnItemClickListener;
 
 public class UserListViewFragment extends Fragment {
 
@@ -48,11 +47,11 @@ public class UserListViewFragment extends Fragment {
             @Override
             public void OnItemClick(User user, int position) {
                 Intent intent = new Intent(getContext(), CometChatMessageListActivity.class);
-                intent.putExtra(StringContract.IntentStrings.TYPE, CometChatConstants.RECEIVER_TYPE_USER);
-                intent.putExtra(StringContract.IntentStrings.NAME,user.getName());
-                intent.putExtra(StringContract.IntentStrings.UID,user.getUid());
-                intent.putExtra(StringContract.IntentStrings.AVATAR,user.getAvatar());
-                intent.putExtra(StringContract.IntentStrings.STATUS,user.getStatus());
+                intent.putExtra(UIKitConstants.IntentStrings.TYPE, com.cometchat.pro.constants.CometChatConstants.RECEIVER_TYPE_USER);
+                intent.putExtra(UIKitConstants.IntentStrings.NAME,user.getName());
+                intent.putExtra(UIKitConstants.IntentStrings.UID,user.getUid());
+                intent.putExtra(UIKitConstants.IntentStrings.AVATAR,user.getAvatar());
+                intent.putExtra(UIKitConstants.IntentStrings.STATUS,user.getStatus());
                 startActivity(intent);
             }
 
