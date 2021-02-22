@@ -32,7 +32,7 @@ Before you begin, ensure you have met the following requirements:<br/>
 
 ## Installing Android Java Chat UI Kit :wrench:
 
-Simply clone the project from [android-chat-ui-kit-app](https://github.com/cometchat-pro-samples/android-java-chat-app/) repository.
+Simply clone the project from [android-java-chat-app](https://github.com/cometchat-pro-samples/android-java-chat-app/) repository.
 
 
 ### Running the sample app
@@ -55,7 +55,7 @@ Build and run the Sample App.
 
 # Learn more about UI-Kit
 
-Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/android-java-chat-app/blob/master/README.md) inside your app.
+Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/android-java-chat-ui-kit/blob/master/README.md) inside your app.
 <br/>
 <hr/>
 
