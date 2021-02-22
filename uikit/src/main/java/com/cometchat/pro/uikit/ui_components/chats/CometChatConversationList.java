@@ -61,6 +61,8 @@ public class CometChatConversationList extends Fragment implements TextWatcher {
 
     private ConversationsRequest conversationsRequest;    //Uses to fetch Conversations.
 
+    private String conversationListType = null;
+
     private static OnItemClickListener events;
 
     private EditText searchEdit;    //Uses to perform search operations.
@@ -146,6 +148,10 @@ public class CometChatConversationList extends Fragment implements TextWatcher {
         }
     }
 
+
+    public void setConversationListType(String conversationListType) {
+        this.conversationListType = conversationListType;
+    }
     /**
      * This method is used to retrieve list of conversations you have done.
      * For more detail please visit our official documentation {@link "https://prodocs.cometchat.com/docs/android-messaging-retrieve-conversations" }
@@ -156,6 +162,9 @@ public class CometChatConversationList extends Fragment implements TextWatcher {
 
         if (conversationsRequest == null) {
             conversationsRequest = new ConversationsRequest.ConversationsRequestBuilder().setLimit(50).build();
+            if (conversationListType!=null)
+                conversationsRequest = new ConversationsRequest.ConversationsRequestBuilder()
+                        .setConversationType(conversationListType).setLimit(50).build();
         }
         conversationsRequest.fetchNext(new CometChat.CallbackListener<List<Conversation>>() {
             @Override

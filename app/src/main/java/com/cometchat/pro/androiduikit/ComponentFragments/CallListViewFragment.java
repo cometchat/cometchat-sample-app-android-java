@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cometchat.pro.androiduikit.R;
+import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.Call;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.core.MessagesRequest;
@@ -22,18 +23,18 @@ import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.BaseMessage;
 import com.cometchat.pro.models.Group;
 import com.cometchat.pro.models.User;
+import com.cometchat.pro.uikit.ui_components.calls.call_list.CometChatCallList;
+import com.cometchat.pro.uikit.ui_components.groups.group_details.CometChatGroupDetailActivity;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatCalls.CometChatCalls;
+import com.cometchat.pro.uikit.ui_components.users.user_details.CometChatUserDetailScreenActivity;
+import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
+import com.cometchat.pro.uikit.ui_resources.utils.CallUtils;
+import com.cometchat.pro.uikit.ui_resources.utils.item_clickListener.OnItemClickListener;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Collections;
 import java.util.List;
-
-import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
-import com.cometchat.pro.uikit.ui_resources.utils.item_clickListener.OnItemClickListener;
-import com.cometchat.pro.uikit.ui_components.groups.group_details.CometChatGroupDetailActivity;
-import com.cometchat.pro.uikit.ui_components.users.user_details.CometChatUserDetailScreenActivity;
-import com.cometchat.pro.uikit.ui_resources.utils.CallUtils;
 
 public class CallListViewFragment extends Fragment {
 
@@ -49,7 +50,7 @@ public class CallListViewFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_call_list, container, false);
-        rvCallList = view.findViewById(com.cometchat.pro.uikit.R.id.callList_rv);
+        rvCallList =  view.findViewById(R.id.callList_rv);
         linearLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false
         );
         rvCallList.setLayoutManager(linearLayoutManager);
@@ -58,7 +59,7 @@ public class CallListViewFragment extends Fragment {
         rvCallList.setItemClickListener(new OnItemClickListener<Call>() {
             @Override
             public void OnItemClick(Call var, int position) {
-                if (var.getReceiverType().equals(com.cometchat.pro.constants.CometChatConstants.RECEIVER_TYPE_USER)) {
+                if (var.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_USER)) {
                     User user;
                     if (var.getSender().getUid().equals(CometChat.getLoggedInUser().getUid())) {
                         user =  ((User)var.getCallReceiver());
@@ -100,16 +101,16 @@ public class CallListViewFragment extends Fragment {
                     @Override
                     public void onSuccess(Call call) {
                         Log.e( "onSuccess: ",call.toString());
-                        if (var.getReceiverType().equals(com.cometchat.pro.constants.CometChatConstants.RECEIVER_TYPE_USER)) {
+                        if (var.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_USER)) {
                             User user;
                             if (var.getSender().getUid().equals(CometChat.getLoggedInUser().getUid())) {
                                 user = ((User) var.getCallReceiver());
                             } else {
                                 user = var.getSender();
                             }
-                            CallUtils.startCallIntent(getContext(), user, com.cometchat.pro.constants.CometChatConstants.CALL_TYPE_AUDIO, true, call.getSessionId());
+                            CallUtils.startCallIntent(getContext(), user, CometChatConstants.CALL_TYPE_AUDIO, true, call.getSessionId());
                         } else
-                            CallUtils.startGroupCallIntent(getContext(),((Group)call.getCallReceiver()), com.cometchat.pro.constants.CometChatConstants.CALL_TYPE_AUDIO,true,call.getSessionId());
+                            CallUtils.startGroupCallIntent(getContext(),((Group)call.getCallReceiver()),CometChatConstants.CALL_TYPE_AUDIO,true,call.getSessionId());
                     }
 
                     @Override
@@ -138,7 +139,7 @@ public class CallListViewFragment extends Fragment {
     private void getCallList() {
         if (messagesRequest == null)
         {
-            messagesRequest = new MessagesRequest.MessagesRequestBuilder().setCategory(com.cometchat.pro.constants.CometChatConstants.CATEGORY_CALL).setLimit(30).build();
+            messagesRequest = new MessagesRequest.MessagesRequestBuilder().setCategory(CometChatConstants.CATEGORY_CALL).setLimit(30).build();
         }
 
         messagesRequest.fetchPrevious(new CometChat.CallbackListener<List<BaseMessage>>() {

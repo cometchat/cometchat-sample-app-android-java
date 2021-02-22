@@ -299,7 +299,8 @@ public class CometChatConversationsAdapter extends RecyclerView.Adapter<CometCha
         if (filterConversationList.contains(conversation)) {
             Conversation oldConversation = filterConversationList.get(filterConversationList.indexOf(conversation));
             filterConversationList.remove(oldConversation);
-            conversation.setUnreadMessageCount(oldConversation.getUnreadMessageCount() + 1);
+            if (conversation.getLastMessage().getCategory().equalsIgnoreCase(CometChatConstants.CATEGORY_MESSAGE))
+                conversation.setUnreadMessageCount(oldConversation.getUnreadMessageCount() + 1);
             filterConversationList.add(0, conversation);
         } else {
             filterConversationList.add(0, conversation);

@@ -7,15 +7,17 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.cometchat.pro.androiduikit.R;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatBadgeCount.CometChatBadgeCount;
+import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 
 public class BadgeCountFragment extends Fragment {
 

@@ -53,6 +53,7 @@ import com.cometchat.pro.models.MessageReceipt;
 import com.cometchat.pro.models.TextMessage;
 import com.cometchat.pro.models.User;
 
+import com.cometchat.pro.uikit.ui_components.users.user_details.CometChatUserDetailScreenActivity;
 import com.cometchat.pro.uikit.ui_resources.utils.pattern_utils.PatternUtils;
 import com.cometchat.pro.uikit.ui_settings.UISettings;
 import com.google.android.material.button.MaterialButton;
@@ -669,26 +670,31 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             @Override
                             public void onClick(View v) {
                                 try {
-                                    JSONObject jsonObject = new JSONObject();
-                                    jsonObject.put("vote",finalK+1);
-                                    jsonObject.put("id",baseMessage.getId());
-                                    CometChat.callExtension("polls", "POST", "/v1/vote",
-                                            jsonObject,new CometChat.CallbackListener<JSONObject>() {
-                                                @Override
-                                                public void onSuccess(JSONObject jsonObject) {
-                                                    // Voted successfully
-                                                    viewHolder.loadingProgress.setVisibility(View.VISIBLE);
-                                                    viewHolder.totalCount.setText("0 Votes");
-                                                    Log.e(TAG, "onSuccess: "+jsonObject.toString());
-                                                    Toast.makeText(context,"Voted Success",Toast.LENGTH_LONG).show();
-                                                }
+                                    String pollsId=null;
+                                    if (jsonObject.has("id"))
+                                        pollsId = jsonObject.getString("id");
+                                    else
+                                        pollsId = baseMessage.getId()+"";
+                                    JSONObject pollsJsonObject = new JSONObject();
+                                    pollsJsonObject.put("vote",finalK+1);
+                                    pollsJsonObject.put("id", pollsId);
+                                    CometChat.callExtension("polls", "POST", "/v2/vote",
+                                            pollsJsonObject, new CometChat.CallbackListener<JSONObject>() {
+                                                    @Override
+                                                    public void onSuccess(JSONObject jsonObject) {
+                                                        // Voted successfully
+                                                        viewHolder.loadingProgress.setVisibility(View.VISIBLE);
+                                                        viewHolder.totalCount.setText("0 Votes");
+                                                        Log.e(TAG, "onSuccess: " + jsonObject.toString());
+                                                        Toast.makeText(context, "Voted Success", Toast.LENGTH_LONG).show();
+                                                    }
 
-                                                @Override
-                                                public void onError(CometChatException e) {
-                                                    // Some error occured
-                                                    Log.e(TAG, "onErrorExtension: "+e.getMessage()+"\n"+e.getCode());
-                                                }
-                                            });
+                                                    @Override
+                                                    public void onError(CometChatException e) {
+                                                        // Some error occured
+                                                        Log.e(TAG, "onErrorExtension: " + e.getMessage() + "\n" + e.getCode());
+                                                    }
+                                                });
                                 } catch (Exception e) {
                                     Log.e(TAG, "onError: "+e.getMessage());
                                 }
@@ -758,7 +764,24 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View v) {
                     if (((CustomMessage)baseMessage).getCustomData()!=null) {
-                        CallUtils.startDirectCall(context, Utils.getDirectCallData(baseMessage));
+                        if (CometChat.getActiveCall()==null)
+                            CallUtils.startDirectCall(context, Utils.getDirectCallData(baseMessage));
+                        else {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                            alert.setTitle(context.getResources().getString(R.string.ongoing_call))
+                                    .setMessage(context.getResources().getString(R.string.ongoing_call_message))
+                                    .setPositiveButton(context.getResources().getString(R.string.join), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            CallUtils.joinOnGoingCall(context,CometChat.getActiveCall());
+                                        }
+                                    }).setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).create().show();
+                        }
                     }
                 }
             });

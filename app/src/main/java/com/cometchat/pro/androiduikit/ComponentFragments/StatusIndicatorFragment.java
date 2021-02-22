@@ -1,5 +1,7 @@
 package com.cometchat.pro.androiduikit.ComponentFragments;
 
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;

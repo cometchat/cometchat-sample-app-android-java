@@ -14,12 +14,11 @@ import android.widget.Toast;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
+import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import com.cometchat.pro.androiduikit.constants.AppConfig;
-
-import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 
 public class LoginActivity extends AppCompatActivity {
 

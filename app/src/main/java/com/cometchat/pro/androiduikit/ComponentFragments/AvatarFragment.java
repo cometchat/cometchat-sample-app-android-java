@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +15,15 @@ import android.widget.RadioGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.cometchat.pro.androiduikit.ColorPickerDialog;
 import com.cometchat.pro.androiduikit.R;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar;
+import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import com.cometchat.pro.uikit.ui_resources.utils.Utils;
+import java.util.Random;
 
 public class AvatarFragment extends Fragment {
 

@@ -30,6 +30,8 @@ import com.cometchat.pro.uikit.ui_components.messages.message_list.CometChatMess
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 
+import static com.cometchat.pro.uikit.ui_resources.utils.Utils.generateRandomString;
+
 /**
  * Purpose - CometChatCreateGroup class is a fragment used to create a group. User just need to enter
  * group name. All other information like guid, groupIcon are set by this class.
@@ -175,37 +177,10 @@ public class CometChatCreateGroup extends Fragment {
             etGroupCnfPassword.setTextColor(getResources().getColor(R.color.primaryTextColor));
         }
     }
-
-    /**
-     * This method is used to create group when called from layout. It uses <code>Random.nextInt()</code>
-     * to generate random number to use with group id and group icon. Any Random number between 10 to
-     * 1000 are choosen.
-     *
-     */
-
-    public static String generateRandomString(int length) {
-        if (length < 1) throw new IllegalArgumentException();
-        StringBuilder sb = new StringBuilder(length);
-        for (int i = 0; i < length; i++) {
-            // 0-62 (exclusive), random returns 0-61
-            SecureRandom random = new SecureRandom();
-            String CHAR_LOWER = "abcdefghijklmnopqrstuvwxyz";
-            String CHAR_UPPER = CHAR_LOWER.toUpperCase();
-            String NUMBER = "0123456789";
-            String DATA_FOR_RANDOM_STRING = CHAR_LOWER + CHAR_UPPER + NUMBER;
-            int rndCharAt = random.nextInt(DATA_FOR_RANDOM_STRING.length());
-            char rndChar = DATA_FOR_RANDOM_STRING.charAt(rndCharAt);
-            // debug
-            System.out.format("%d\t:\t%c%n", rndCharAt, rndChar);
-            sb.append(rndChar);
-        }
-        return sb.toString();
-    }
-
     private void createGroup() {
         if (!etGroupName.getText().toString().isEmpty()) {
             if(groupType.equals(com.cometchat.pro.constants.CometChatConstants.GROUP_TYPE_PUBLIC) || groupType.equals(com.cometchat.pro.constants.CometChatConstants.GROUP_TYPE_PRIVATE)) {
-                Group group = new Group("group" + generateRandomString(95), etGroupName.getText().toString(), groupType, "");
+                Group group = new Group("group" + generateRandomString(25), etGroupName.getText().toString(), groupType, "");
                 createGroup(group);
             }
             else if (groupType.equals(com.cometchat.pro.constants.CometChatConstants.GROUP_TYPE_PASSWORD)) {
@@ -214,7 +189,7 @@ public class CometChatCreateGroup extends Fragment {
                 else if (etGroupCnfPassword.getText().toString().isEmpty())
                     etGroupCnfPassword.setError(getResources().getString(R.string.fill_this_field));
                 else if(etGroupPassword.getText().toString().equals(etGroupCnfPassword.getText().toString())) {
-                    Group group = new Group("group" + generateRandomString(95), etGroupName.getText().toString(), groupType, etGroupPassword.getText().toString());
+                    Group group = new Group("group" + generateRandomString(25), etGroupName.getText().toString(), groupType, etGroupPassword.getText().toString());
                     createGroup(group);
                 }
                 else

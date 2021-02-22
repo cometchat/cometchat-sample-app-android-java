@@ -13,18 +13,19 @@ import androidx.fragment.app.Fragment;
 
 import com.cometchat.pro.androiduikit.R;
 import com.cometchat.pro.androiduikit.databinding.FragmentConversationListBinding;
+import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.core.ConversationsRequest;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.Conversation;
 import com.cometchat.pro.models.Group;
 import com.cometchat.pro.models.User;
+import com.cometchat.pro.uikit.ui_components.messages.message_list.CometChatMessageListActivity;
+import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
+import com.cometchat.pro.uikit.ui_resources.utils.item_clickListener.OnItemClickListener;
 
 import java.util.List;
 
-import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
-import com.cometchat.pro.uikit.ui_resources.utils.item_clickListener.OnItemClickListener;
-import com.cometchat.pro.uikit.ui_components.messages.message_list.CometChatMessageListActivity;
 
 public class ConversationListViewFragment extends Fragment {
 
@@ -49,7 +50,7 @@ public class ConversationListViewFragment extends Fragment {
             public void OnItemClick(Conversation conversation, int position) {
                 Intent intent = new Intent(getContext(), CometChatMessageListActivity.class);
                 intent.putExtra(UIKitConstants.IntentStrings.TYPE,conversation.getConversationType());
-                if (conversation.getConversationType().equals(com.cometchat.pro.constants.CometChatConstants.CONVERSATION_TYPE_GROUP))
+                if (conversation.getConversationType().equals(CometChatConstants.CONVERSATION_TYPE_GROUP))
                 {
                     intent.putExtra(UIKitConstants.IntentStrings.NAME,((Group)conversation.getConversationWith()).getName());
                     intent.putExtra(UIKitConstants.IntentStrings.GUID,((Group)conversation.getConversationWith()).getGuid());

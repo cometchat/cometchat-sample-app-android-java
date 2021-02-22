@@ -64,7 +64,7 @@ public class CometChatStartCallActivity extends AppCompatActivity {
             callSettings = new CallSettings.CallSettingsBuilder(this,mainView)
                     .setSessionId(sessionID)
                     .build();
-        Log.e("onStartActivity ", SettingsRepo.getSettings().getWEBRTCHost());
+        Log.e( "startCallActivity: ",sessionID+" "+type);
         CometChat.startCall(callSettings, new CometChat.OngoingCallListener() {
                 @Override
                 public void onUserJoined(User user) {
@@ -102,7 +102,7 @@ public class CometChatStartCallActivity extends AppCompatActivity {
 
                 @Override
                 public void onError(CometChatException e) {
-                    Toast.makeText(CometChatStartCallActivity.this, "Error:" + e.getCode(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CometChatStartCallActivity.this, "Error:" + e.getCode()+" "+e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         } else {

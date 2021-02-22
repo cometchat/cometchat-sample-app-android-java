@@ -55,6 +55,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
@@ -120,6 +121,12 @@ public class Utils {
         Calendar var2 = Calendar.getInstance(Locale.ENGLISH);
         var2.setTimeInMillis(var0);
         return DateFormat.format("ddMMyyyy", var2).toString();
+    }
+
+    public static String getCallDate(long var0) {
+        Calendar var2 = Calendar.getInstance(Locale.ENGLISH);
+        var2.setTimeInMillis(var0);
+        return DateFormat.format("dd MMM yy", var2).toString();
     }
 
     public static String getDate(long var0) {
@@ -303,6 +310,33 @@ public class Utils {
             return lastMessageDate;
         }
 
+    }
+
+
+    /**
+     * This method is used to create group when called from layout. It uses <code>Random.nextInt()</code>
+     * to generate random number to use with group id and group icon. Any Random number between 10 to
+     * 1000 are choosen.
+     *
+     */
+
+    public static String generateRandomString(int length) {
+        if (length < 1) throw new IllegalArgumentException();
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            // 0-62 (exclusive), random returns 0-61
+            SecureRandom random = new SecureRandom();
+            String CHAR_LOWER = "abcdefghijklmnopqrstuvwxyz";
+            String CHAR_UPPER = CHAR_LOWER.toUpperCase();
+            String NUMBER = "0123456789";
+            String DATA_FOR_RANDOM_STRING = CHAR_LOWER + CHAR_UPPER + NUMBER;
+            int rndCharAt = random.nextInt(DATA_FOR_RANDOM_STRING.length());
+            char rndChar = DATA_FOR_RANDOM_STRING.charAt(rndCharAt);
+            // debug
+            System.out.format("%d\t:\t%c%n", rndCharAt, rndChar);
+            sb.append(rndChar);
+        }
+        return sb.toString();
     }
 
     public static String getReceiptDate(long timestamp) {

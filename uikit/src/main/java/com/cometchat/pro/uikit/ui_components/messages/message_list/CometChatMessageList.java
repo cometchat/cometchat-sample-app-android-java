@@ -558,7 +558,12 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
                         @Override
                         public void onClick(View v) {
                             onGoingCallView.setVisibility(View.GONE);
-                            CallUtils.joinOnGoingCall(context,CometChat.getActiveCall());
+                            if (CometChat.getActiveCall()!=null)
+                                CallUtils.joinOnGoingCall(context,CometChat.getActiveCall());
+                            else {
+                                Toast.makeText(context,getString(R.string.call_ended),Toast.LENGTH_LONG).show();
+                                onGoingCallView.setVisibility(View.GONE);
+                            }
                         }
                     });
                 }
@@ -842,7 +847,7 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
                         jsonObject.put("options", optionJson);
                         jsonObject.put("receiver", Id);
                         jsonObject.put("receiverType", type);
-                        CometChat.callExtension("polls", "POST", "/v1/create",
+                        CometChat.callExtension("polls", "POST", "/v2/create",
                                 jsonObject, new CometChat.CallbackListener<JSONObject>() {
                                     @Override
                                     public void onSuccess(JSONObject jsonObject) {
@@ -952,7 +957,8 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
             @Override
             public void onSuccess(CustomMessage customMessage) {
                 if (customType.equalsIgnoreCase(UIKitConstants.IntentStrings.GROUP_CALL))
-                    CallUtils.startDirectCall(context,Utils.getDirectCallData(customMessage));
+                    if (CometChat.getActiveCall()==null)
+                        CallUtils.startDirectCall(context,Utils.getDirectCallData(customMessage));
 
                 if (messageAdapter != null) {
                     messageAdapter.addMessage(customMessage);

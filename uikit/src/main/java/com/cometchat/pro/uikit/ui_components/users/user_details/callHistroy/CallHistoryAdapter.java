@@ -154,7 +154,7 @@ public class CallHistoryAdapter extends RecyclerView.Adapter<CallHistoryAdapter.
         }
         callViewHolder.callHistoryRowBinding.callTimeTv.setText(Utils.getHeaderDate(call.getInitiatedAt()*1000));
         callViewHolder.callHistoryRowBinding.callInfoTv.setText(callMessageText);
-        callViewHolder.callHistoryRowBinding.callDateTv.setText(Utils.getDate(call.getSentAt()*1000L));
+        callViewHolder.callHistoryRowBinding.callDateTv.setText(Utils.getCallDate(call.getSentAt()*1000));
 
 
         callViewHolder.callHistoryRowBinding.getRoot().setTag(R.string.call, call);

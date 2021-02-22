@@ -393,6 +393,9 @@ public class CometChatAvatar extends AppCompatImageView {
         setImageDrawable(drawable);
     }
 
+    public float getBorderWidth() {
+        return borderWidth;
+    }
     public Drawable getDrawable()
     {
         return drawable;
