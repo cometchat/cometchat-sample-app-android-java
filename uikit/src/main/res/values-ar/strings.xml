@@ -346,4 +346,8 @@
     <string name="custom_message_meeting">مكالمة جماعية 📹</string>
     <string name="start_group_call">ابدأ مكالمة جماعية</string>
     <string name="you_created_group_call">لقد قمت بإنشاء مكالمة جماعية.</string>
+    <string name="voted_success">تم التصويت على النجاح</string>
+    <string name="uploading">تحميل</string>
+    <string name="retry">أعد المحاولة</string>
+    <string name="updating">التحديث</string>
 </resources>

@@ -34,6 +34,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.Attachment;
@@ -407,7 +408,14 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 //            else
 //                viewHolder.txtTime.setVisibility(View.GONE);
 
-            viewHolder.length.setText(Utils.getFileSize(((MediaMessage)baseMessage).getAttachment().getFileSize()));
+            Attachment attachment = ((MediaMessage)baseMessage).getAttachment();
+            if (attachment!=null) {
+                viewHolder.playBtn.setVisibility(View.VISIBLE);
+                viewHolder.length.setText(Utils.getFileSize(((MediaMessage) baseMessage).getAttachment().getFileSize()));
+            } else {
+                viewHolder.length.setText("-");
+                viewHolder.playBtn.setVisibility(View.GONE);
+            }
             viewHolder.playBtn.setImageResource(R.drawable.ic_play_arrow_black_24dp);
             viewHolder.playBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -478,11 +486,14 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
               setAvatar(viewHolder.ivUser, baseMessage.getSender().getAvatar(), baseMessage.getSender().getName());
               viewHolder.tvUser.setText(baseMessage.getSender().getName());
 
-              viewHolder.fileName.setText(((MediaMessage) baseMessage).getAttachment().getFileName());
-              viewHolder.fileExt.setText(((MediaMessage) baseMessage).getAttachment().getFileExtension());
-              int fileSize = ((MediaMessage) baseMessage).getAttachment().getFileSize();
+              Attachment attachement = ((MediaMessage)baseMessage).getAttachment();
+              if (attachement!=null) {
+                  viewHolder.fileName.setText(attachement.getFileName());
+                  viewHolder.fileExt.setText(attachement.getFileExtension());
+                  int fileSize = attachement.getFileSize();
 
-              viewHolder.fileSize.setText(Utils.getFileSize(fileSize));
+                  viewHolder.fileSize.setText(Utils.getFileSize(fileSize));
+              }
 
               showMessageTime(viewHolder, baseMessage);
 
@@ -738,7 +749,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      * Since we have different ViewHolder, we have to pass <b>txtTime</b> of each viewHolder to
      * <code>setStatusIcon(RecyclerView.ViewHolder viewHolder,BaseMessage baseMessage)</code>
      * along with baseMessage.
-     * @see ThreadAdapter#setStatusIcon(TextView, BaseMessage)
+     * @see ThreadAdapter#setStatusIcon(ProgressBar, TextView, BaseMessage)
      *      *
      * @param viewHolder is object of ViewHolder.
      * @param baseMessage is a object of BaseMessage.
@@ -871,24 +882,46 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 }
             }
-            String message = txtMessage;
-            if (CometChat.isExtensionEnabled("profanity-filter"))
-                message = Extensions.checkProfanityMessage(baseMessage);
-            else if (CometChat.isExtensionEnabled("data-masking"))
-                message = Extensions.checkDataMasking(baseMessage);
+            final String[] message = {txtMessage};
+            CometChat.isExtensionEnabled("profanity-filter", new CometChat.CallbackListener<Boolean>() {
+                @Override
+                public void onSuccess(Boolean aBoolean) {
+                    message[0] = Extensions.checkProfanityMessage(context,baseMessage);
+                }
+
+                @Override
+                public void onError(CometChatException e) {
+                    e.printStackTrace();
+                    Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            CometChat.isExtensionEnabled("data-masking", new CometChat.CallbackListener<Boolean>() {
+                @Override
+                public void onSuccess(Boolean aBoolean) {
+                    if (aBoolean)
+                        message[0] = Extensions.checkDataMasking(context,baseMessage);
+                }
+
+                @Override
+                public void onError(CometChatException e) {
+                    e.printStackTrace();
+                    Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            });
 
             if (baseMessage.getMetadata()!=null && baseMessage.getMetadata().has("values")) {
                 try {
                     if (Extensions.isMessageTranslated(baseMessage.getMetadata().getJSONObject("values"), ((TextMessage) baseMessage).getText())) {
                         String translatedMessage = Extensions.getTranslatedMessage(baseMessage);
-                        message = message + "\n(" + translatedMessage + ")";
+                        message[0] = message[0] + "\n(" + translatedMessage + ")";
                     }
                 } catch (JSONException e) {
                     Toast.makeText(context, context.getString(R.string.no_translation_available), Toast.LENGTH_SHORT).show();
                 }
             }
 
-            viewHolder.txtMessage.setText(message);
+            viewHolder.txtMessage.setText(message[0]);
             viewHolder.txtMessage.setTypeface(fontUtils.getTypeFace(FontUtils.robotoRegular));
 
             viewHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.primaryTextColor));
@@ -1211,29 +1244,29 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         BaseMessage baseMessage = messageList.get(position);
         HashMap<String,JSONObject> extensionList = Extensions.extensionCheck(baseMessage);
         if (baseMessage.getDeletedAt()==0) {
-            if (baseMessage.getCategory().equals(com.cometchat.pro.constants.CometChatConstants.CATEGORY_MESSAGE)) {
+            if (baseMessage.getCategory().equals(CometChatConstants.CATEGORY_MESSAGE)) {
                 switch (baseMessage.getType()) {
 
-                    case com.cometchat.pro.constants.CometChatConstants.MESSAGE_TYPE_TEXT:
+                    case CometChatConstants.MESSAGE_TYPE_TEXT:
                         if (extensionList != null && extensionList.containsKey("linkPreview") && extensionList.get("linkPreview") != null)
                             return LINK_MESSAGE;
                         else if (baseMessage.getMetadata()!=null && baseMessage.getMetadata().has("reply"))
                             return REPLY_TEXT_MESSAGE;
                         else
                             return TEXT_MESSAGE;
-                    case com.cometchat.pro.constants.CometChatConstants.MESSAGE_TYPE_AUDIO:
+                    case CometChatConstants.MESSAGE_TYPE_AUDIO:
                         return AUDIO_MESSAGE;
-                    case com.cometchat.pro.constants.CometChatConstants.MESSAGE_TYPE_IMAGE:
+                    case CometChatConstants.MESSAGE_TYPE_IMAGE:
                         return IMAGE_MESSAGE;
-                    case com.cometchat.pro.constants.CometChatConstants.MESSAGE_TYPE_VIDEO:
+                    case CometChatConstants.MESSAGE_TYPE_VIDEO:
                         return VIDEO_MESSAGE;
-                    case com.cometchat.pro.constants.CometChatConstants.MESSAGE_TYPE_FILE:
+                    case CometChatConstants.MESSAGE_TYPE_FILE:
                         return FILE_MESSAGE;
                     default:
                         return -1;
                 }
             } else {
-                if (baseMessage.getCategory().equals(com.cometchat.pro.constants.CometChatConstants.CATEGORY_CUSTOM)){
+                if (baseMessage.getCategory().equals(CometChatConstants.CATEGORY_CUSTOM)){
                     if (baseMessage.getType().equalsIgnoreCase("LOCATION"))
                         return LOCATION_CUSTOM_MESSAGE;
                     else

@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.core.UsersRequest;
 import com.cometchat.pro.exceptions.CometChatException;
@@ -165,7 +166,7 @@ public class CometChatAddMembers extends Fragment {
                     intent.putExtra(UIKitConstants.IntentStrings.AVATAR, user.getAvatar());
                     intent.putExtra(UIKitConstants.IntentStrings.STATUS, user.getStatus());
                     intent.putExtra(UIKitConstants.IntentStrings.IS_BLOCKED_BY_ME, user.isBlockedByMe());
-                    intent.putExtra(UIKitConstants.IntentStrings.TYPE, com.cometchat.pro.constants.CometChatConstants.RECEIVER_TYPE_GROUP);
+                    intent.putExtra(UIKitConstants.IntentStrings.TYPE, CometChatConstants.RECEIVER_TYPE_GROUP);
                     intent.putExtra(UIKitConstants.IntentStrings.GUID, guid);
                     intent.putExtra(UIKitConstants.IntentStrings.IS_ADD_MEMBER, true);
                     intent.putExtra(UIKitConstants.IntentStrings.GROUP_NAME, groupName);
@@ -243,7 +244,7 @@ public class CometChatAddMembers extends Fragment {
 
             @Override
             public void onError(CometChatException e) {
-                Log.d(TAG, "onError: "+e.getMessage());
+                Utils.showCometChatDialog(getContext(),rvUserList,e.getMessage(),true);
             }
         });
     }
@@ -266,7 +267,7 @@ public class CometChatAddMembers extends Fragment {
 
             @Override
             public void onError(CometChatException e) {
-                Log.e(TAG, "onError: "+e.getMessage());
+                Utils.showCometChatDialog(getContext(),rvUserList,e.getMessage(),true);
             }
         });
     }

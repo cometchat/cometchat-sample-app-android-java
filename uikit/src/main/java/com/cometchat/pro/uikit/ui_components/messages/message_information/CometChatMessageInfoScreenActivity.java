@@ -15,13 +15,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.MessageReceipt;
 import com.cometchat.pro.uikit.ui_components.messages.message_information.Message_Receipts.CometChatReceiptsList;
 import com.cometchat.pro.uikit.R;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -166,7 +166,8 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
 
                 @Override
                 public void onError(CometChatException e) {
-                    Snackbar.make(cometChatReceiptsList,e.getMessage(),Snackbar.LENGTH_LONG).show();
+                    Utils.showCometChatDialog(CometChatMessageInfoScreenActivity.this,
+                            cometChatReceiptsList,e.getMessage(),true);
                 }
         });
     }
@@ -211,10 +212,10 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
             percentage = getIntent().getIntExtra(UIKitConstants.IntentStrings.POLL_RESULT,0);
         }
         if (messageType!=null) {
-            if (messageType.equals(com.cometchat.pro.constants.CometChatConstants.MESSAGE_TYPE_TEXT)) {
+            if (messageType.equals(CometChatConstants.MESSAGE_TYPE_TEXT)) {
                 textMessage.setVisibility(View.VISIBLE);
                 messageText.setText(message);
-            } else if (messageType.equals(com.cometchat.pro.constants.CometChatConstants.MESSAGE_TYPE_IMAGE)) {
+            } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_IMAGE)) {
                 imageMessage.setVisibility(View.VISIBLE);
                 Glide.with(this).load(message).into(messageImage);
             } else if (messageType.equals(UIKitConstants.IntentStrings.STICKERS)) {
@@ -225,15 +226,15 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }else if (messageType.equals(com.cometchat.pro.constants.CometChatConstants.MESSAGE_TYPE_VIDEO)) {
+            }else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_VIDEO)) {
                 videoMessage.setVisibility(View.VISIBLE);
                 Glide.with(this).load(message).into(messageVideo);
-            } else if (messageType.equals(com.cometchat.pro.constants.CometChatConstants.MESSAGE_TYPE_FILE)) {
+            } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_FILE)) {
                 fileMessage.setVisibility(View.VISIBLE);
                 fileName.setText(message);
                 fileSize.setText(Utils.getFileSize(messageSize));
                 fileExtension.setText(messageExtension);
-            } else if (messageType.equals(com.cometchat.pro.constants.CometChatConstants.MESSAGE_TYPE_AUDIO)) {
+            } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_AUDIO)) {
                 audioMessage.setVisibility(View.VISIBLE);
                 audioFileSize.setText(Utils.getFileSize(messageSize));
             } else if (messageType.equals(UIKitConstants.IntentStrings.WHITEBOARD)) {

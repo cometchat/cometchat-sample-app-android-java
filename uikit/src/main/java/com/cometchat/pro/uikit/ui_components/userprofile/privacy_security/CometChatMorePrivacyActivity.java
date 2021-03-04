@@ -26,6 +26,8 @@ import com.cometchat.pro.uikit.ui_resources.utils.FontUtils;
 import com.cometchat.pro.uikit.ui_settings.UISettings;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 
+import okhttp3.internal.Util;
+
 public class CometChatMorePrivacyActivity extends AppCompatActivity {
 
     private TextView tvBlockUserCount;
@@ -89,7 +91,8 @@ public class CometChatMorePrivacyActivity extends AppCompatActivity {
 
             @Override
             public void onError(CometChatException e) {
-                Snackbar.make(tvBlockUserCount,getResources().getString(R.string.block_user_list_error),Snackbar.LENGTH_SHORT).show();
+                Utils.showCometChatDialog(CometChatMorePrivacyActivity.this,
+                        tvBlockUserCount,getResources().getString(R.string.block_user_list_error),true);
                 Toast.makeText(CometChatMorePrivacyActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

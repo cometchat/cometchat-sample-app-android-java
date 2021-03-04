@@ -354,4 +354,8 @@
     <string name="custom_message_meeting">📹 Llamada grupal</string>
     <string name="start_group_call">Iniciar una llamada grupal</string>
     <string name="you_created_group_call">Ha creado una llamada grupal.</string>
+    <string name="voted_success">Votado con éxito</string>
+    <string name="uploading">subiendo</string>
+    <string name="retry">rever</string>
+    <string name="updating">actualización</string>
 </resources>

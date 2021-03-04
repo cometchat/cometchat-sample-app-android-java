@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.Call;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.core.MessagesRequest;
@@ -25,6 +26,7 @@ import com.cometchat.pro.models.Group;
 import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatCalls.CometChatCalls;
 import com.cometchat.pro.uikit.R;
+import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -68,7 +70,7 @@ public class MissedCall extends Fragment {
         rvCallList.setItemClickListener(new OnItemClickListener<Call>() {
             @Override
             public void OnItemClick(Call var, int position) {
-                if (var.getReceiverType().equals(com.cometchat.pro.constants.CometChatConstants.RECEIVER_TYPE_USER)) {
+                if (var.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_USER)) {
                     User user;
                     if (((User)var.getCallInitiator()).getUid().equals(CometChat.getLoggedInUser().getUid())) {
                         user =  ((User)var.getCallReceiver());
@@ -123,7 +125,7 @@ public class MissedCall extends Fragment {
     }
 
     private void checkOnGoingCall(Call var) {
-        if(CometChat.getActiveCall()!=null && CometChat.getActiveCall().getCallStatus().equals(com.cometchat.pro.constants.CometChatConstants.CALL_STATUS_ONGOING) && CometChat.getActiveCall().getSessionId()!=null) {
+        if(CometChat.getActiveCall()!=null && CometChat.getActiveCall().getCallStatus().equals(CometChatConstants.CALL_STATUS_ONGOING) && CometChat.getActiveCall().getSessionId()!=null) {
             AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
             alert.setTitle(getContext().getResources().getString(R.string.ongoing_call))
                     .setMessage(getContext().getResources().getString(R.string.ongoing_call_message))
@@ -149,22 +151,22 @@ public class MissedCall extends Fragment {
             @Override
             public void onSuccess(Call call) {
                 Log.e("onSuccess: ", call.toString());
-                if (call.getReceiverType().equals(com.cometchat.pro.constants.CometChatConstants.RECEIVER_TYPE_USER)) {
+                if (call.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_USER)) {
                     User user;
                     if (((User) call.getCallInitiator()).getUid().equals(CometChat.getLoggedInUser().getUid())) {
                         user = ((User) call.getCallReceiver());
                     } else {
                         user = (User) call.getCallInitiator();
                     }
-                    CallUtils.startCallIntent(getContext(), user, com.cometchat.pro.constants.CometChatConstants.CALL_TYPE_AUDIO, true, call.getSessionId());
+                    CallUtils.startCallIntent(getContext(), user, CometChatConstants.CALL_TYPE_AUDIO, true, call.getSessionId());
                 } else
-                    CallUtils.startGroupCallIntent(getContext(), ((Group) call.getCallReceiver()), com.cometchat.pro.constants.CometChatConstants.CALL_TYPE_AUDIO, true, call.getSessionId());
+                    CallUtils.startGroupCallIntent(getContext(), ((Group) call.getCallReceiver()), CometChatConstants.CALL_TYPE_AUDIO, true, call.getSessionId());
             }
 
             @Override
             public void onError(CometChatException e) {
                 if (rvCallList != null)
-                    Snackbar.make(rvCallList, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                    Utils.showCometChatDialog(getContext(),rvCallList,e.getMessage(),true);
             }
         });
     }
@@ -173,7 +175,7 @@ public class MissedCall extends Fragment {
         if (messagesRequest == null)
         {
             messagesRequest = new MessagesRequest.MessagesRequestBuilder()
-                    .setCategories(Arrays.asList(com.cometchat.pro.constants.CometChatConstants.CATEGORY_CALL)).build();
+                    .setCategories(Arrays.asList(CometChatConstants.CATEGORY_CALL)).build();
         }
 
         messagesRequest.fetchPrevious(new CometChat.CallbackListener<List<BaseMessage>>() {
@@ -192,7 +194,7 @@ public class MissedCall extends Fragment {
             @Override
             public void onError(CometChatException e) {
                 if (rvCallList!=null)
-                    Snackbar.make(rvCallList,R.string.call_list_error,Snackbar.LENGTH_LONG).show();
+                    Utils.showCometChatDialog(getContext(),rvCallList,getString(R.string.call_list_error),true);
             }
         });
     }
@@ -202,8 +204,8 @@ public class MissedCall extends Fragment {
         for (BaseMessage baseMessage : baseMessages) {
             Call call = (Call)baseMessage;
             if(!((User)call.getCallInitiator()).getUid().equals(loggedInUid)) {
-                if (((Call) baseMessage).getCallStatus().equals(com.cometchat.pro.constants.CometChatConstants.CALL_STATUS_UNANSWERED)
-                        || ((Call) baseMessage).getCallStatus().equals(com.cometchat.pro.constants.CometChatConstants.CALL_STATUS_CANCELLED)) {
+                if (((Call) baseMessage).getCallStatus().equals(CometChatConstants.CALL_STATUS_UNANSWERED)
+                        || ((Call) baseMessage).getCallStatus().equals(CometChatConstants.CALL_STATUS_CANCELLED)) {
                     filteredList.add(baseMessage);
                 }
             }

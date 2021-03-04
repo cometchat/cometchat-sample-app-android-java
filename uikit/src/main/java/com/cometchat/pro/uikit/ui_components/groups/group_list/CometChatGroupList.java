@@ -32,7 +32,6 @@ import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.models.Group;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatGroups.CometChatGroups;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -213,7 +212,8 @@ public class CometChatGroupList extends Fragment  {
             @Override
             public void onError(CometChatException e) {
                 if (rvGroupList!=null)
-                    Snackbar.make(rvGroupList,getResources().getString(R.string.group_list_error),Snackbar.LENGTH_LONG).show();
+                    Utils.showCometChatDialog(getContext(),
+                            rvGroupList,getResources().getString(R.string.group_list_error),true);
             }
         });
     }

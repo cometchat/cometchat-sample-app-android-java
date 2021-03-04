@@ -19,7 +19,7 @@ import com.cometchat.pro.core.MessagesRequest;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.BaseMessage;
 import com.cometchat.pro.uikit.R;
-import com.google.android.material.snackbar.Snackbar;
+import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -98,7 +98,7 @@ public class CometChatSharedImages extends Fragment {
             public void onError(CometChatException e) {
                 Log.e( "onError: ",e.getMessage() );
                 if (rvFiles!=null)
-                    Snackbar.make(rvFiles,"Failed to load Files",Snackbar.LENGTH_LONG).show();
+                    Utils.showCometChatDialog(getContext(),rvFiles,e.getMessage(),true);
             }
         });
     }

@@ -167,7 +167,7 @@ public class CometChatUserProfile extends Fragment {
             @Override
             public void onError(CometChatException e) {
                 if (getContext()!=null)
-                    Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                    Utils.showCometChatDialog(getContext(),moreInfoScreenBinding.tvTitle,e.getMessage(),true);
             }
         });
     }

@@ -19,21 +19,21 @@
             android:src="@drawable/ic_defaulf_image"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true" />
+
         <TextView
             android:id="@+id/txt_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="11:00 PM"
-            android:layout_marginBottom="8dp"
-            android:textSize="12sp"
-            android:layout_gravity="center"
-            tools:drawableEnd="@drawable/ic_double_tick"
             android:layout_alignBottom="@+id/sticker_view"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
             android:layout_toLeftOf="@+id/sticker_view"
-            android:textColor="@color/secondaryTextColor"
+            android:textSize="12sp"
             android:textStyle="bold"
-            tools:visibility="visible"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:drawableEnd="@drawable/ic_double_tick"
+            tools:text="11:00 PM"
+            tools:visibility="visible" />
         <HorizontalScrollView
             android:layout_alignEnd="@id/sticker_view"
             android:layout_below="@+id/sticker_view"

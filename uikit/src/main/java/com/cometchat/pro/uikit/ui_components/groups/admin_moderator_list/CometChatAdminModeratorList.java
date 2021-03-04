@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.core.GroupMembersRequest;
 import com.cometchat.pro.exceptions.CometChatException;
@@ -117,7 +118,7 @@ public class CometChatAdminModeratorList extends Fragment {
         }
         adapter = new GroupMemberAdapter(getContext(), members, null);
         adminList.setAdapter(adapter);
-        if (loggedInUserScope != null && loggedInUserScope.equals(com.cometchat.pro.constants.CometChatConstants.SCOPE_ADMIN)) {
+        if (loggedInUserScope != null && loggedInUserScope.equals(CometChatConstants.SCOPE_ADMIN)) {
             rlAddMember.setVisibility(View.VISIBLE);
         }
         if (showModerators){
@@ -137,7 +138,7 @@ public class CometChatAdminModeratorList extends Fragment {
             public void onClick(View var1, int var2) {
                 GroupMember groupMember = (GroupMember) var1.getTag(R.string.user);
                 if (showModerators) {
-                    if (loggedInUserScope.equals(com.cometchat.pro.constants.CometChatConstants.SCOPE_ADMIN) && !groupMember.getUid().equals(loggedInUser.getUid())) {
+                    if (loggedInUserScope.equals(CometChatConstants.SCOPE_ADMIN) && !groupMember.getUid().equals(loggedInUser.getUid())) {
                         if (getActivity() != null) {
                             MaterialAlertDialogBuilder alert_dialog = new MaterialAlertDialogBuilder(getActivity());
                             alert_dialog.setTitle(getResources().getString(R.string.remove));
@@ -164,11 +165,11 @@ public class CometChatAdminModeratorList extends Fragment {
                         else
                             message = getResources().getString(R.string.only_admin_removes_moderator);
 
-                        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+                        Utils.showCometChatDialog(getContext(),view,message,true);
                     }
                 }
                 else {
-                    if (ownerId != null && loggedInUser.getUid().equals(ownerId) && loggedInUserScope.equals(com.cometchat.pro.constants.CometChatConstants.SCOPE_ADMIN) && !groupMember.getUid().equals(loggedInUser.getUid())) {
+                    if (ownerId != null && loggedInUser.getUid().equals(ownerId) && loggedInUserScope.equals(CometChatConstants.SCOPE_ADMIN) && !groupMember.getUid().equals(loggedInUser.getUid())) {
                         if (getActivity() != null) {
                             MaterialAlertDialogBuilder alert_dialog = new MaterialAlertDialogBuilder(getActivity());
                             alert_dialog.setTitle(getResources().getString(R.string.remove));
@@ -195,7 +196,7 @@ public class CometChatAdminModeratorList extends Fragment {
                         else
                             message = getResources().getString(R.string.only_group_owner_removes_admin);
 
-                        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+                        Utils.showCometChatDialog(getContext(),view,message,true);
                     }
                 }
             }
@@ -225,26 +226,30 @@ public class CometChatAdminModeratorList extends Fragment {
 
     private void updateMemberScope(GroupMember groupMember, View view) {
 
-        CometChat.updateGroupMemberScope(groupMember.getUid(), guid, com.cometchat.pro.constants.CometChatConstants.SCOPE_PARTICIPANT,
+        CometChat.updateGroupMemberScope(groupMember.getUid(), guid, CometChatConstants.SCOPE_PARTICIPANT,
                 new CometChat.CallbackListener<String>() {
                     @Override
                     public void onSuccess(String s) {
                         if (adapter != null)
                             adapter.removeGroupMember(groupMember);
                         if (showModerators) {
-                            Snackbar.make(view, groupMember.getName()+" "+getResources().getString(R.string.remove_from_moderator_privilege),
-                                    Snackbar.LENGTH_LONG).show();
+                            Utils.showCometChatDialog(getContext(),view,
+                                    groupMember.getName()+" "+getResources().getString(R.string.remove_from_moderator_privilege),
+                                    false);
                         }
                         else {
-                            Snackbar.make(view, groupMember.getName()+" "+getResources().getString(R.string.removed_from_admin),
-                                    Snackbar.LENGTH_LONG).show();
+                            Utils.showCometChatDialog(getContext(),view,
+                                    groupMember.getName()+" "+
+                                            getResources().getString(R.string.removed_from_admin),
+                                    false);
                         }
                     }
 
                     @Override
                     public void onError(CometChatException e) {
                         if (getActivity() != null) {
-                            Toast.makeText(getActivity(), getResources().getString(R.string.update_group_member_error), Toast.LENGTH_LONG).show();
+                            Utils.showCometChatDialog(getContext(),
+                                    view,getString(R.string.update_group_member_error),true);
                             Log.e(TAG, "onError: " + e.getMessage());
                         }
                     }
@@ -259,7 +264,7 @@ public class CometChatAdminModeratorList extends Fragment {
     private void getAdminList(String groupId) {
         if (groupMembersRequest == null) {
             groupMembersRequest = new GroupMembersRequest.GroupMembersRequestBuilder(groupId).
-                    setScopes(Arrays.asList(com.cometchat.pro.constants.CometChatConstants.SCOPE_ADMIN)).setLimit(100).build();
+                    setScopes(Arrays.asList(CometChatConstants.SCOPE_ADMIN)).setLimit(100).build();
         }
         groupMembersRequest.fetchNext(new CometChat.CallbackListener<List<GroupMember>>() {
             @Override
@@ -276,7 +281,7 @@ public class CometChatAdminModeratorList extends Fragment {
 
             @Override
             public void onError(CometChatException e) {
-                Snackbar.make(adminList, getResources().getString(R.string.admin_list_retrieve_error), Snackbar.LENGTH_SHORT).show();
+                Utils.showCometChatDialog(getContext(),adminList, getResources().getString(R.string.admin_list_retrieve_error), true);
                 Log.e(TAG, "onError: " + e.getMessage());
 
             }
@@ -290,7 +295,7 @@ public class CometChatAdminModeratorList extends Fragment {
     private void getModeratorList(String groupId) {
         if (groupMembersRequest == null) {
             groupMembersRequest = new GroupMembersRequest.GroupMembersRequestBuilder(groupId)
-                    .setScopes(Arrays.asList(com.cometchat.pro.constants.CometChatConstants.SCOPE_MODERATOR))
+                    .setScopes(Arrays.asList(CometChatConstants.SCOPE_MODERATOR))
                     .setLimit(100).build();
         }
         groupMembersRequest.fetchNext(new CometChat.CallbackListener<List<GroupMember>>() {
@@ -299,7 +304,7 @@ public class CometChatAdminModeratorList extends Fragment {
                 ArrayList<GroupMember> memberList = new ArrayList<>();
                 for (GroupMember groupMember : groupMembers) {
 
-                    if (groupMember.getScope().equals(com.cometchat.pro.constants.CometChatConstants.SCOPE_MODERATOR)) {
+                    if (groupMember.getScope().equals(CometChatConstants.SCOPE_MODERATOR)) {
                         memberList.add(groupMember);
                     }
                 }
@@ -308,7 +313,7 @@ public class CometChatAdminModeratorList extends Fragment {
 
             @Override
             public void onError(CometChatException e) {
-                Snackbar.make(adminList, getResources().getString(R.string.moderator_list_retrieve_error), Snackbar.LENGTH_SHORT).show();
+                Utils.showCometChatDialog(getContext(),adminList, getResources().getString(R.string.moderator_list_retrieve_error),true);
                 Log.e(TAG, "onError: " + e.getMessage());
 
             }
@@ -350,9 +355,9 @@ public class CometChatAdminModeratorList extends Fragment {
 
             @Override
             public void onGroupMemberScopeChanged(Action action, User updatedBy, User updatedUser, String scopeChangedTo, String scopeChangedFrom, Group group) {
-                    if (action.getNewScope().equals(com.cometchat.pro.constants.CometChatConstants.SCOPE_ADMIN))
+                    if (action.getNewScope().equals(CometChatConstants.SCOPE_ADMIN))
                         updateGroupMember(updatedUser,false,action);
-                    else if (action.getOldScope().equals(com.cometchat.pro.constants.CometChatConstants.SCOPE_ADMIN))
+                    else if (action.getOldScope().equals(CometChatConstants.SCOPE_ADMIN))
                         updateGroupMember(updatedUser,true,null);
             }
         });
@@ -361,7 +366,7 @@ public class CometChatAdminModeratorList extends Fragment {
     private void updateGroupMember(User user, boolean isRemove,Action action) {
         if (adapter != null) {
             if (isRemove)
-                adapter.removeGroupMember(Utils.UserToGroupMember(user, false, com.cometchat.pro.constants.CometChatConstants.SCOPE_PARTICIPANT));
+                adapter.removeGroupMember(Utils.UserToGroupMember(user, false, CometChatConstants.SCOPE_PARTICIPANT));
             else
                 adapter.addGroupMember(Utils.UserToGroupMember(user, true, action.getNewScope()));
         }

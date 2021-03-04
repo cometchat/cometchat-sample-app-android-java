@@ -31,8 +31,6 @@
     <string name="blocked_users">Blocked users</string>
     <string name="user_is_blocked">%1$s blocked successfully</string>
     <string name="unblock">Unblock</string>
-
-    <!-- Keys not available in iOS-->
     <string name="block_user_list_error">Blocked user retrieval failed</string>
     <string name="you_wont_be_able_send_or_receive_messages">You won\'t be able send or receive messages</string>
     <string name="unblock_user_error">Unblock User Failed</string>
@@ -55,7 +53,7 @@
     <string name="members">Members</string>
     <string name="add_members">Add Members</string>
     <string name="join">Join</string>
-    <string name="unbanned_successfully">%1$s unbanned successfully</string>
+    <string name="unbanned_successfully">unbanned successfully</string>
     <string name="make_group_moderator">Make Moderator</string>
     <string name="remove_as_moderator">Remove %1$s as group moderator</string>
     <string name="remove_from_moderator_privilege">is removed from moderator privilege</string>
@@ -64,7 +62,7 @@
     <string name="ban_member">Ban Member</string>
 
 
-    <!--Keys not avialable in iOS -->
+    <!--Groups -->
     <string name="kindly_enter_group_details_to_proceed">Kindly, enter group details to proceed</string>
     <string name="unable_to_join_message">Unable to join group</string>
     <string name="make_admin_question">Do you like to make %1$s as a Admin</string>
@@ -143,7 +141,7 @@
     <string name="missed_voice_call">Missed voice call</string>
     <string name="missed_video_call">Missed video call</string>
 
-    <!--Keys not available in iOS -->
+    <!--Calls -->
     <string name="call_list_error">Unable to fetch Call List</string>
     <string name="no_call_message">You have not made any calls</string>
     <string name="calling">Calling</string>
@@ -173,7 +171,6 @@
     <string name="files">Files</string>
 
     <!--No data message-->
-    <!--Keys not available in iOS-->
     <string name="no_conversations">You have no conversations.</string>
     <string name="no_user_available">No users available</string>
     <string name="no_group_available">No Groups Available</string>
@@ -216,7 +213,6 @@
     <string name="has_shared_document">has shared a collaborative document.</string>
     <string name="launch">Launch</string>
 
-    <!--Key not available in iOS-->
     <string name="yes">Yes</string>
     <string name="fill_this_field">Fill this Field</string>
     <string name="send">Send</string>
@@ -337,5 +333,9 @@
     <string name="custom_message_meeting">"📹 Group Call "</string>
     <string name="start_group_call">Start a Group Call</string>
     <string name="retry">Retry</string>
+    <string name="uploading">Uploading</string>
+    <string name="voted_success">Voted Success</string>
+    <string name="updating">Updating</string>
+    <string name="extension_not_enabled">extension is not enabled.</string>
     <!--_______________________________-->
 </resources>

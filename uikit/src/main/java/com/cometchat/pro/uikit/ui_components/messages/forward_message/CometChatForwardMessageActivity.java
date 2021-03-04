@@ -282,7 +282,9 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
                     checkUserList();
                 }
                 else {
-                    Toast.makeText(CometChatForwardMessageActivity.this,getString(R.string.forward_to_5_at_a_time),Toast.LENGTH_LONG).show();
+                    Utils.showCometChatDialog(CometChatForwardMessageActivity.this,
+                            selectedUsers,
+                            getString(R.string.forward_to_5_at_a_time),true);
                 }
             }
 
@@ -529,7 +531,8 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
 
             @Override
             public void onError(CometChatException e) {
-               Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                Utils.showCometChatDialog(CometChatForwardMessageActivity.this,
+                        rvConversationList, e.getMessage(), true);
             }
         });
     }

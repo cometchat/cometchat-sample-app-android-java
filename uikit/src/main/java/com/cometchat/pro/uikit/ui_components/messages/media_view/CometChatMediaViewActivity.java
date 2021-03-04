@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.uikit.R;
 
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
@@ -63,7 +64,7 @@ public class CometChatMediaViewActivity extends AppCompatActivity {
         audioMessage = findViewById(R.id.audio_message);
         mediaSize = findViewById(R.id.media_size_tv);
         playBtn = findViewById(R.id.playBtn);
-        if (mediaType.equals(com.cometchat.pro.constants.CometChatConstants.MESSAGE_TYPE_IMAGE)) {
+        if (mediaType.equals(CometChatConstants.MESSAGE_TYPE_IMAGE)) {
             Glide.with(this).asBitmap().load(mediaUrl)
                     .diskCacheStrategy(DiskCacheStrategy.NONE).into(new CustomTarget<Bitmap>() {
                 @Override
@@ -77,13 +78,13 @@ public class CometChatMediaViewActivity extends AppCompatActivity {
                 }
             });
             imageMessage.setVisibility(View.VISIBLE);
-        } else if (mediaType.equals(com.cometchat.pro.constants.CometChatConstants.MESSAGE_TYPE_VIDEO)) {
+        } else if (mediaType.equals(CometChatConstants.MESSAGE_TYPE_VIDEO)) {
             MediaController mediacontroller = new MediaController(this);
             mediacontroller.setAnchorView(videoMessage);
             videoMessage.setMediaController(mediacontroller);
             videoMessage.setVideoURI(Uri.parse(mediaUrl));
             videoMessage.setVisibility(View.VISIBLE);
-        } else if (mediaType.equals(com.cometchat.pro.constants.CometChatConstants.MESSAGE_TYPE_AUDIO)) {
+        } else if (mediaType.equals(CometChatConstants.MESSAGE_TYPE_AUDIO)) {
             mediaPlayer.reset();
             mediaSize.setText(Utils.getFileSize(mSize));
             playBtn.setOnClickListener(new View.OnClickListener() {

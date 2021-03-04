@@ -253,7 +253,7 @@ public class CometChatUserList extends Fragment {
                 Log.e(TAG, "onError: " + e.getMessage());
                 stopHideShimmer();
                 if (getActivity()!=null)
-                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Utils.showCometChatDialog(context,rvUserList,e.getMessage(), true);
             }
         });
     }
@@ -275,7 +275,7 @@ public class CometChatUserList extends Fragment {
 
             @Override
             public void onError(CometChatException e) {
-                Toast.makeText(context, "Error " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Utils.showCometChatDialog(context,rlSearchBox, e.getMessage(), true);
             }
         });
     }

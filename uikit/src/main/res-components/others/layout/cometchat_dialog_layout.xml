@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="8dp"
+    android:id="@+id/card_layout"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        tools:background="@color/red"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_info"
+            android:layout_margin="4dp"/>
+
+        <TextView
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:layout_toRightOf="@+id/iv_icon"
+            android:id="@+id/tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@tools:sample/lorem"
+            android:layout_toLeftOf="@+id/iv_close"
+            android:paddingStart="4dp"
+            android:layout_margin="4dp"/>
+
+        <ImageView
+            android:layout_alignParentEnd="true"
+            android:id="@+id/iv_close"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_close_24dp"
+            android:padding="2dp"/>
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

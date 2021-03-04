@@ -25,6 +25,7 @@ import com.cometchat.pro.models.Group;
 import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatCalls.CometChatCalls;
 import com.cometchat.pro.uikit.R;
+import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Arrays;
@@ -176,7 +177,7 @@ public class AllCall extends Fragment {
             @Override
             public void onError(CometChatException e) {
                 if (rvCallList != null)
-                    Snackbar.make(rvCallList, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                    Utils.showCometChatDialog(getContext(),rvCallList,e.getMessage(),true);
             }
         });
     }
@@ -207,7 +208,7 @@ public class AllCall extends Fragment {
             public void onError(CometChatException e) {
                 Log.e( "onError: ",e.getMessage() );
                 if (rvCallList!=null)
-                    Snackbar.make(rvCallList,R.string.call_list_error,Snackbar.LENGTH_LONG).show();
+                    Utils.showCometChatDialog(getContext(),rvCallList,getString(R.string.call_list_error),true);
             }
         });
     }

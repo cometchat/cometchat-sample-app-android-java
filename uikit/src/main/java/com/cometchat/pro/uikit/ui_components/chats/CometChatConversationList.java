@@ -183,7 +183,7 @@ public class CometChatConversationList extends Fragment implements TextWatcher {
             public void onError(CometChatException e) {
                 stopHideShimmer();
                 if (getActivity()!=null)
-                    Toast.makeText(getActivity(),"Unable to load conversations",Toast.LENGTH_LONG).show();
+                    Utils.showCometChatDialog(getContext(),rvConversationList,e.getMessage(),true);
                 Log.d(TAG, "onError: "+e.getMessage());
             }
         });

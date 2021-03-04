@@ -1,13 +1,17 @@
 package com.cometchat.pro.uikit.ui_resources.utils;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.media.AudioManager;
@@ -20,8 +24,10 @@ import android.provider.OpenableColumns;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -64,12 +70,52 @@ import java.util.List;
 import java.util.Locale;
 
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
+import com.google.android.material.snackbar.Snackbar;
+
 import kotlin.ranges.RangesKt;
 
 public class Utils {
 
     private static final String TAG = "Utils";
 
+
+    public static void showCometChatDialog(Context context,View parentLayout,String message,boolean isError) {
+        customSnackBar(context,parentLayout,message,isError);
+    }
+
+    private static void customSnackBar(Context context,View parentLayout,String message, boolean isError) {
+        Snackbar snackbar = Snackbar.make(parentLayout, "", Snackbar.LENGTH_INDEFINITE);
+        // Get the Snackbar's layout view
+        Snackbar.SnackbarLayout layout = (Snackbar.SnackbarLayout) snackbar.getView();
+        snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.cometchat_dialog_layout, null, false);
+//        builder.setView(dialogView);
+        TextView messageTv = dialogView.findViewById(R.id.tv_message);
+        messageTv.setText(message);
+//        Dialog alertDialog = builder.create();
+//        alertDialog.getWindow().setWindowAnimations(R.style.AppTheme_DialogAnimation);
+        ImageView closeImage = dialogView.findViewById(R.id.iv_close);
+        ImageView iconImage = dialogView.findViewById(R.id.iv_icon);
+        if (isError) {
+            iconImage.setImageResource(R.drawable.ic_info);
+            iconImage.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.textColorWhite)));
+            closeImage.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.textColorWhite)));
+            messageTv.setTextColor(ColorStateList.valueOf(context.getResources().getColor(R.color.textColorWhite)));
+            dialogView.setBackgroundColor(context.getResources().getColor(R.color.red));
+        } else {
+            snackbar.setDuration(Snackbar.LENGTH_LONG);
+            iconImage.setImageResource(R.drawable.ic_baseline_check_circle_24);
+            iconImage.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green_600)));
+            messageTv.setTextColor(ColorStateList.valueOf(context.getResources().getColor(R.color.primaryTextColor)));
+            dialogView.setBackgroundColor(context.getResources().getColor(R.color.textColorWhite));
+        }
+        closeImage.setOnClickListener(v-> {
+            snackbar.dismiss();
+        });
+        layout.addView(dialogView);
+        snackbar.show();
+    }
     public static boolean isDarkMode(Context context)
     {
         int nightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;

@@ -347,4 +347,8 @@
     <string name="custom_message_meeting">📹 ग्रुप कॉल</string>
     <string name="start_group_call">एक समूह कॉल प्रारंभ करें</string>
     <string name="you_created_group_call">आपने एक समूह कॉल बनाया है।</string>
+    <string name="voted_success">सफलतापूर्वक मतदान किया गया</string>
+    <string name="uploading">अपलोडिंग</string>
+    <string name="retry">पुन: प्रयास करें</string>
+    <string name="updating">अद्यतीकरण</string>
 </resources>

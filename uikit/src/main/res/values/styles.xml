@@ -12,6 +12,11 @@
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
+    <style name="AppTheme.DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/animate_up_slide</item>
+        <item name="android:windowExitAnimation">@anim/animate_left_slide</item>
+    </style>
+
     <style name="AppBottomSheetDialogTheme"
         parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>

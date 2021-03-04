@@ -22,6 +22,7 @@ import androidx.emoji.bundled.BundledEmojiCompatConfig;
 import androidx.emoji.text.EmojiCompat;
 import androidx.fragment.app.Fragment;
 
+import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.BaseMessage;
@@ -35,7 +36,6 @@ import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.databinding.ActivityCometchatUnifiedBinding;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -119,7 +119,7 @@ public class CometChatUI extends AppCompatActivity implements
         CometChatConversationList.setItemClickListener(new OnItemClickListener<Conversation>() {
             @Override
             public void OnItemClick(Conversation conversation, int position) {
-                if (conversation.getConversationType().equals(com.cometchat.pro.constants.CometChatConstants.CONVERSATION_TYPE_GROUP))
+                if (conversation.getConversationType().equals(CometChatConstants.CONVERSATION_TYPE_GROUP))
                     startGroupIntent(((Group) conversation.getConversationWith()));
                 else
                     startUserIntent(((User) conversation.getConversationWith()));
@@ -135,13 +135,13 @@ public class CometChatUI extends AppCompatActivity implements
                 if (group.isJoined()) {
                     startGroupIntent(group);
                 } else {
-                    if (group.getGroupType().equals(com.cometchat.pro.constants.CometChatConstants.GROUP_TYPE_PASSWORD)) {
+                    if (group.getGroupType().equals(CometChatConstants.GROUP_TYPE_PASSWORD)) {
                         View dialogview = getLayoutInflater().inflate(R.layout.cc_dialog, null);
                         TextView tvTitle = dialogview.findViewById(R.id.textViewDialogueTitle);
                         tvTitle.setText(String.format(getResources().getString(R.string.enter_password_to_join),group.getName()));
                         new CustomAlertDialogHelper(CometChatUI.this, getResources().getString(R.string.password), dialogview, getResources().getString(R.string.join),
                                 "", getResources().getString(R.string.cancel), CometChatUI.this, 1, false);
-                    } else if (group.getGroupType().equals(com.cometchat.pro.constants.CometChatConstants.GROUP_TYPE_PUBLIC)) {
+                    } else if (group.getGroupType().equals(CometChatConstants.GROUP_TYPE_PUBLIC)) {
                         joinGroup(group);
                     }
                 }
@@ -240,9 +240,7 @@ public class CometChatUI extends AppCompatActivity implements
                     if (progressDialog != null)
                         progressDialog.dismiss();
 
-                    Snackbar.make(activityCometChatUnifiedBinding.bottomNavigation, getResources().getString(R.string.unable_to_join_message) + e.getMessage(),
-                            Snackbar.LENGTH_SHORT).show();
-
+                    Utils.showCometChatDialog(CometChatUI.this,activityCometChatUnifiedBinding.bottomNavigation,getString(R.string.unable_to_join_message),true);
                 }
             });
         }
@@ -286,7 +284,7 @@ public class CometChatUI extends AppCompatActivity implements
 
             @Override
             public void onError(CometChatException e) {
-                Log.e("onError: ", e.getMessage());     //Logs the error if the error occurs.
+                Log.e("CometChatUI : onError: ", e.getMessage());     //Logs the error if the error occurs.
             }
         });
     }
@@ -298,7 +296,7 @@ public class CometChatUI extends AppCompatActivity implements
      */
     private void setUnreadCount(BaseMessage message) {
 
-        if (message.getReceiverType().equals(com.cometchat.pro.constants.CometChatConstants.RECEIVER_TYPE_GROUP)) {
+        if (message.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP)) {
             if (!unreadCount.contains(message.getReceiverUid())) {
                 unreadCount.add(message.getReceiverUid());
                 setBadge();
@@ -360,7 +358,7 @@ public class CometChatUI extends AppCompatActivity implements
         intent.putExtra(UIKitConstants.IntentStrings.AVATAR, user.getAvatar());
         intent.putExtra(UIKitConstants.IntentStrings.STATUS, user.getStatus());
         intent.putExtra(UIKitConstants.IntentStrings.NAME, user.getName());
-        intent.putExtra(UIKitConstants.IntentStrings.TYPE, com.cometchat.pro.constants.CometChatConstants.RECEIVER_TYPE_USER);
+        intent.putExtra(UIKitConstants.IntentStrings.TYPE, CometChatConstants.RECEIVER_TYPE_USER);
         startActivity(intent);
     }
 
@@ -378,7 +376,7 @@ public class CometChatUI extends AppCompatActivity implements
         intent.putExtra(UIKitConstants.IntentStrings.GROUP_OWNER,group.getOwner());
         intent.putExtra(UIKitConstants.IntentStrings.NAME, group.getName());
         intent.putExtra(UIKitConstants.IntentStrings.GROUP_TYPE,group.getGroupType());
-        intent.putExtra(UIKitConstants.IntentStrings.TYPE, com.cometchat.pro.constants.CometChatConstants.RECEIVER_TYPE_GROUP);
+        intent.putExtra(UIKitConstants.IntentStrings.TYPE, CometChatConstants.RECEIVER_TYPE_GROUP);
         intent.putExtra(UIKitConstants.IntentStrings.MEMBER_COUNT,group.getMembersCount());
         intent.putExtra(UIKitConstants.IntentStrings.GROUP_DESC,group.getDescription());
         intent.putExtra(UIKitConstants.IntentStrings.GROUP_PASSWORD,group.getPassword());

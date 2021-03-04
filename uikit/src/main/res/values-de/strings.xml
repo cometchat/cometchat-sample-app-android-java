@@ -346,4 +346,8 @@
     <string name="custom_message_meeting">📹 Gruppenanruf</string>
     <string name="start_group_call">Starten Sie einen Gruppenanruf</string>
     <string name="you_created_group_call">Sie haben einen Gruppenanruf erstellt.</string>
+    <string name="voted_success">Gewählter Erfolg</string>
+    <string name="uploading">Hochladen</string>
+    <string name="retry">wiederholen</string>
+    <string name="updating">Aktualisierung</string>
 </resources>

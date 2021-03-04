@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.core.GroupMembersRequest;
 import com.cometchat.pro.exceptions.CometChatException;
@@ -26,7 +27,6 @@ import com.cometchat.pro.models.GroupMember;
 import com.cometchat.pro.uikit.R;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -196,14 +196,17 @@ public class CometChatGroupMemberList extends Fragment {
         CometChat.transferGroupOwnership(guid, groupMember.getUid(), new CometChat.CallbackListener<String>() {
             @Override
             public void onSuccess(String s) {
-                Snackbar.make(rvGroupMemberList,String.format(getResources().getString(R.string.user_is_owner),groupMember.getName()), Snackbar.LENGTH_LONG).show();
+                Utils.showCometChatDialog(context,rvGroupMemberList,
+                        String.format(getResources().getString(R.string.user_is_owner),groupMember.getName()), false);
                 if (getActivity()!=null)
                     getActivity().onBackPressed();
             }
 
             @Override
             public void onError(CometChatException e) {
-                Snackbar.make(rvGroupMemberList,String.format(getResources().getString(R.string.update_scope_error)+e.getCode(),groupMember.getName()),Snackbar.LENGTH_SHORT).show();
+                Utils.showCometChatDialog(context,
+                        rvGroupMemberList,
+                        String.format(getResources().getString(R.string.update_scope_error)+e.getCode(),groupMember.getName()),true);
             }
         });
     }
@@ -220,37 +223,41 @@ public class CometChatGroupMemberList extends Fragment {
 
     private void updateAsAdminScope(GroupMember groupMember) {
 
-        CometChat.updateGroupMemberScope(groupMember.getUid(), guid, com.cometchat.pro.constants.CometChatConstants.SCOPE_ADMIN, new CometChat.CallbackListener<String>() {
+        CometChat.updateGroupMemberScope(groupMember.getUid(), guid, CometChatConstants.SCOPE_ADMIN, new CometChat.CallbackListener<String>() {
             @Override
             public void onSuccess(String s) {
                 Log.d(TAG, "onSuccess: "+s);
                 groupMemberListAdapter.removeGroupMember(groupMember);
-                Snackbar.make(rvGroupMemberList,String.format(getResources().getString(R.string.is_now_admin),groupMember.getName()), Snackbar.LENGTH_LONG).show();
+                Utils.showCometChatDialog(context,rvGroupMemberList,
+                        String.format(getResources().getString(R.string.is_now_admin),groupMember.getName()),false);
             }
 
             @Override
             public void onError(CometChatException e) {
                 Log.e(TAG, "onError: "+e.getMessage() );
-                Snackbar.make(rvGroupMemberList,String.format(getResources().getString(R.string.update_scope_error),groupMember.getName()),Snackbar.LENGTH_SHORT).show();
+                Utils.showCometChatDialog(context, rvGroupMemberList,
+                        String.format(getResources().getString(R.string.update_scope_error),groupMember.getName()),true);
             }
         });
     }
 
     private void updateAsModeratorScope(GroupMember groupMember) {
 
-        CometChat.updateGroupMemberScope(groupMember.getUid(), guid, com.cometchat.pro.constants.CometChatConstants.SCOPE_MODERATOR, new CometChat.CallbackListener<String>() {
+        CometChat.updateGroupMemberScope(groupMember.getUid(), guid, CometChatConstants.SCOPE_MODERATOR, new CometChat.CallbackListener<String>() {
             @Override
             public void onSuccess(String s) {
                 Log.d(TAG, "onSuccess: "+s);
                 groupMemberListAdapter.removeGroupMember(groupMember);
                 if (rvGroupMemberList !=null)
-                    Snackbar.make(rvGroupMemberList,String.format(getResources().getString(R.string.is_now_moderator),groupMember.getName()), Snackbar.LENGTH_LONG).show();
+                    Utils.showCometChatDialog(context,rvGroupMemberList,
+                            String.format(getResources().getString(R.string.is_now_moderator),groupMember.getName()),false);
             }
 
             @Override
             public void onError(CometChatException e) {
                 Log.e(TAG, "onError: "+e.getMessage() );
-                Snackbar.make(rvGroupMemberList,String.format(getResources().getString(R.string.update_scope_error),groupMember.getName()),Snackbar.LENGTH_SHORT).show();
+                Utils.showCometChatDialog(context,rvGroupMemberList,
+                        String.format(getResources().getString(R.string.update_scope_error),groupMember.getName()),true);
             }
         });
     }
@@ -264,12 +271,12 @@ public class CometChatGroupMemberList extends Fragment {
         if (groupMembersRequest == null) {
             if (showModerators)
                 groupMembersRequest = new GroupMembersRequest.GroupMembersRequestBuilder(guid)
-                        .setScopes(Arrays.asList(com.cometchat.pro.constants.CometChatConstants.SCOPE_PARTICIPANT))
+                        .setScopes(Arrays.asList(CometChatConstants.SCOPE_PARTICIPANT))
                         .setLimit(10).build();
             else
                 groupMembersRequest = new GroupMembersRequest.GroupMembersRequestBuilder(guid)
-                        .setScopes(Arrays.asList(com.cometchat.pro.constants.CometChatConstants.SCOPE_PARTICIPANT,
-                                com.cometchat.pro.constants.CometChatConstants.SCOPE_MODERATOR))
+                        .setScopes(Arrays.asList(CometChatConstants.SCOPE_PARTICIPANT,
+                                CometChatConstants.SCOPE_MODERATOR))
                         .setLimit(10).build();
         }
         groupMembersRequest.fetchNext(new CometChat.CallbackListener<List<GroupMember>>() {
@@ -282,8 +289,8 @@ public class CometChatGroupMemberList extends Fragment {
             @Override
             public void onError(CometChatException e) {
                 Log.e(TAG, "onError: " + e.getMessage());
-                Snackbar.make(rvGroupMemberList, getResources().getString(R.string.group_member_list_error), Snackbar.LENGTH_LONG).show();
-                //                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                Utils.showCometChatDialog(context,rvGroupMemberList,
+                        getResources().getString(R.string.group_member_list_error), true);
             }
         });
     }
@@ -305,7 +312,7 @@ public class CometChatGroupMemberList extends Fragment {
                 {
                     List<GroupMember> filterlist = new ArrayList<>();
                     for (GroupMember gmember : groupMembers) {
-                        if (gmember.getScope().equals(com.cometchat.pro.constants.CometChatConstants.SCOPE_PARTICIPANT))
+                        if (gmember.getScope().equals(CometChatConstants.SCOPE_PARTICIPANT))
                         {
                             filterlist.add(gmember);
                         }
@@ -316,6 +323,7 @@ public class CometChatGroupMemberList extends Fragment {
 
             @Override
             public void onError(CometChatException e) {
+                Utils.showCometChatDialog(context,rvGroupMemberList,e.getMessage(),true);
                 Log.e(TAG, "onError: "+e.getMessage() );
             }
         });

@@ -15,6 +15,7 @@ import androidx.emoji.bundled.BundledEmojiCompatConfig;
 import androidx.emoji.text.EmojiCompat;
 import androidx.fragment.app.Fragment;
 
+import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.models.BaseMessage;
 import com.cometchat.pro.uikit.R;
 
@@ -69,7 +70,7 @@ public class CometChatMessageListActivity extends AppCompatActivity implements M
              bundle.putString(UIKitConstants.IntentStrings.TYPE,getIntent().getStringExtra(UIKitConstants.IntentStrings.TYPE));
 
               if (getIntent().hasExtra(UIKitConstants.IntentStrings.TYPE)&&
-                      getIntent().getStringExtra(UIKitConstants.IntentStrings.TYPE).equals(com.cometchat.pro.constants.CometChatConstants.RECEIVER_TYPE_USER)) {
+                      getIntent().getStringExtra(UIKitConstants.IntentStrings.TYPE).equals(CometChatConstants.RECEIVER_TYPE_USER)) {
 
                   bundle.putString(UIKitConstants.IntentStrings.UID, getIntent().getStringExtra(UIKitConstants.IntentStrings.UID));
                   bundle.putString(UIKitConstants.IntentStrings.STATUS, getIntent().getStringExtra(UIKitConstants.IntentStrings.STATUS));

@@ -20,11 +20,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.ui_components.messages.extensions.Collaborative.CometChatCollaborativeActivity;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatReaction.ReactionUtils;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatReaction.model.Reaction;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatStickers.model.Sticker;
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
+import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 
 public class Extensions {
 
@@ -180,7 +182,7 @@ public class Extensions {
      * @param baseMessage is object of BaseMessage
      * @return a String value.
      */
-    public static String checkProfanityMessage(BaseMessage baseMessage) {
+    public static String checkProfanityMessage(Context context,BaseMessage baseMessage) {
         String result = ((TextMessage)baseMessage).getText();
         HashMap<String,JSONObject> extensionList = Extensions.extensionCheck(baseMessage);
         if (extensionList!=null) {
@@ -197,13 +199,14 @@ public class Extensions {
                     result = ((TextMessage)baseMessage).getText().trim();
                 }
             }catch (Exception e) {
+                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "checkProfanityMessage:Error: "+e.getMessage() );
             }
         }
         return result;
     }
 
-    public static String checkDataMasking(BaseMessage baseMessage){
+    public static String checkDataMasking(Context context,BaseMessage baseMessage){
         String result = ((TextMessage)baseMessage).getText();
         String sensitiveData;
         String messageMasked;
@@ -230,6 +233,7 @@ public class Extensions {
                 }
             }
             catch (JSONException e) {
+                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }
@@ -304,11 +308,27 @@ public class Extensions {
     }
 
     public static void fetchStickers(ExtensionResponseListener extensionResponseListener) {
-        CometChat.callExtension("stickers", "GET", "/v1/fetch", null, new CometChat.CallbackListener<JSONObject>() {
+        CometChat.isExtensionEnabled("stickers", new CometChat.CallbackListener<Boolean>() {
             @Override
-            public void onSuccess(JSONObject jsonObject) {
-                extensionResponseListener.OnResponseSuccess(jsonObject);
+            public void onSuccess(Boolean aBoolean) {
+                if (aBoolean) {
+                    CometChat.callExtension("stickers", "GET", "/v1/fetch", null, new CometChat.CallbackListener<JSONObject>() {
+                        @Override
+                        public void onSuccess(JSONObject jsonObject) {
+                            extensionResponseListener.OnResponseSuccess(jsonObject);
+                        }
+
+                        @Override
+                        public void onError(CometChatException e) {
+                            extensionResponseListener.OnResponseFailed(e);
+                        }
+                    });
+                } else {
+                    extensionResponseListener.OnResponseFailed(new CometChatException("ERR_EXTENSION_DISABLED",
+                            "Sticker Extension is disabled"));
+                }
             }
+
             @Override
             public void onError(CometChatException e) {
                 extensionResponseListener.OnResponseFailed(e);

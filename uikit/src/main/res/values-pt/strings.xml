@@ -347,4 +347,8 @@
     <string name="custom_message_meeting">📹 Chamada em Grupo</string>
     <string name="start_group_call">Iniciar uma chamada em grupo</string>
     <string name="you_created_group_call">Você criou uma chamada em grupo.</string>
+    <string name="voted_success">Votado com Sucesso</string>
+    <string name="uploading">Enviando</string>
+    <string name="retry">tentar novamente</string>
+    <string name="updating">Atualizando</string>
 </resources>

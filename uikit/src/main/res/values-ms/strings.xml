@@ -346,4 +346,8 @@
     <string name="custom_message_meeting">📹 Panggilan Berkumpulan</string>
     <string name="start_group_call">Manomboha antso anaty vondrona</string>
     <string name="you_created_group_call">Anda telah membuat panggilan kumpulan.</string>
+    <string name="voted_success">Berjaya Mengundi</string>
+    <string name="uploading">memuat naik</string>
+    <string name="retry">cuba lagi</string>
+    <string name="updating">Mengemas kini</string>
 </resources>

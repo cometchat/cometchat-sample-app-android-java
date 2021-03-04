@@ -2,6 +2,8 @@ package com.cometchat.pro.uikit.ui_components.calls.call_manager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,13 +12,17 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.Call;
+import com.cometchat.pro.core.CallManager;
 import com.cometchat.pro.core.CallSettings;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
 import com.cometchat.pro.repo.SettingsRepo;
 import com.cometchat.pro.uikit.R;
+import com.cometchat.pro.uikit.ui_components.calls.call_manager.ongoing_call.OngoingCallService;
+import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 import com.google.android.material.snackbar.Snackbar;
 
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
@@ -44,6 +50,8 @@ public class CometChatStartCallActivity extends AppCompatActivity {
 
     private LinearLayout connectingLayout;
 
+    private OngoingCallService ongoingCallService;
+
     private Intent mServiceIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +59,17 @@ public class CometChatStartCallActivity extends AppCompatActivity {
         activity = this;
         setContentView(R.layout.activity_cometchat_start_call);
 
+        ongoingCallService = new OngoingCallService();
+        mServiceIntent = new Intent(this,ongoingCallService.getClass());
+        if (!isMyServiceRunning(ongoingCallService.getClass())) {
+            startService(mServiceIntent);
+        }
+
         mainView = findViewById(R.id.call_view);
         connectingLayout = findViewById(R.id.connecting_to_call);
         sessionID = getIntent().getStringExtra(UIKitConstants.IntentStrings.SESSION_ID);
         type = getIntent().getStringExtra(UIKitConstants.IntentStrings.TYPE);
-        if (type!=null && type.equalsIgnoreCase(com.cometchat.pro.constants.CometChatConstants.RECEIVER_TYPE_USER))
+        if (type!=null && type.equalsIgnoreCase(CometChatConstants.RECEIVER_TYPE_USER))
             callSettings = new CallSettings.CallSettingsBuilder(this,mainView)
                     .setSessionId(sessionID)
                     .setMode(CallSettings.MODE_SINGLE)
@@ -65,6 +79,7 @@ public class CometChatStartCallActivity extends AppCompatActivity {
                     .setSessionId(sessionID)
                     .build();
         Log.e( "startCallActivity: ",sessionID+" "+type);
+
         CometChat.startCall(callSettings, new CometChat.OngoingCallListener() {
                 @Override
                 public void onUserJoined(User user) {
@@ -80,20 +95,36 @@ public class CometChatStartCallActivity extends AppCompatActivity {
 
                 @Override
                 public void onError(CometChatException e) {
+                    stopService(mServiceIntent);
                     Log.e("onstartcallError: ", e.getMessage());
-                    Toast.makeText(CometChatStartCallActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
+                    Utils.showCometChatDialog(CometChatStartCallActivity.this,
+                            mainView,e.getCode()+" "+e.getMessage(), true);
                 }
 
                 @Override
                 public void onCallEnded(Call call) {
+                    stopService(mServiceIntent);
                     Log.e("TAG", "onCallEnded: ");
                     finish();
                 }
         });
     }
+
+    private boolean isMyServiceRunning(Class<? extends OngoingCallService> serviceClass) {
+        ActivityManager manager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo serviceInfo : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(serviceInfo.service.getClassName())) {
+                Log.i( "isMyServiceRunning: ","Running");
+                return true;
+            }
+        }
+        Log.i("isMyServiceRunning: ","Not Running");
+        return false;
+    }
+
     @Override
     public void onBackPressed() {
-        if (type!=null && type.equalsIgnoreCase(com.cometchat.pro.constants.CometChatConstants.RECEIVER_TYPE_GROUP)) {
+        if (type!=null && type.equalsIgnoreCase(CometChatConstants.RECEIVER_TYPE_GROUP)) {
             CometChat.endCall(sessionID, new CometChat.CallbackListener<Call>() {
                 @Override
                 public void onSuccess(Call call) {
@@ -102,7 +133,8 @@ public class CometChatStartCallActivity extends AppCompatActivity {
 
                 @Override
                 public void onError(CometChatException e) {
-                    Toast.makeText(CometChatStartCallActivity.this, "Error:" + e.getCode()+" "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Utils.showCometChatDialog(CometChatStartCallActivity.this,
+                            mainView,e.getCode()+" "+e.getMessage(), true);
                 }
             });
         } else {

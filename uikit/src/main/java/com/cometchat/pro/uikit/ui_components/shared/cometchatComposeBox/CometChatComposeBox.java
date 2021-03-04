@@ -31,6 +31,7 @@ import androidx.core.view.inputmethod.InputContentInfoCompat;
 import androidx.fragment.app.FragmentManager;
 
 import com.cometchat.pro.core.CometChat;
+import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.uikit.R;
 
 import java.io.File;
@@ -43,6 +44,8 @@ import com.cometchat.pro.uikit.ui_components.shared.cometchatComposeBox.listener
 import com.cometchat.pro.uikit.ui_resources.utils.audio_visualizer.AudioRecordView;
 import com.cometchat.pro.uikit.ui_settings.UISettings;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
+
+import okhttp3.internal.Util;
 
 public class CometChatComposeBox extends RelativeLayout implements View.OnClickListener {
 
@@ -395,15 +398,54 @@ public class CometChatComposeBox extends RelativeLayout implements View.OnClickL
             bundle.putBoolean("isAudioVisible",isAudioVisible);
             bundle.putBoolean("isLocationVisible",isLocationVisible);
             bundle.putBoolean("isGroupCallVisible",isGroupCallVisible);
-            if (CometChat.isExtensionEnabled("document"))
-                bundle.putBoolean("isWriteBoardVisible",isWriteBoardVisible);
-            if (CometChat.isExtensionEnabled("whiteboard"))
-                bundle.putBoolean("isWhiteBoardVisible",isWhiteBoardVisible);
-            if (CometChat.isExtensionEnabled("stickers")) {
-                bundle.putBoolean("isStickerVisible",isStickerVisible);
-            }
-            if (CometChat.isExtensionEnabled("polls"))
-                bundle.putBoolean("isPollsVisible",isPollVisible);
+            CometChat.isExtensionEnabled("document", new CometChat.CallbackListener<Boolean>() {
+                @Override
+                public void onSuccess(Boolean aBoolean) {
+                    if (aBoolean)
+                        bundle.putBoolean("isWriteBoardVisible",isWriteBoardVisible);
+                }
+
+                @Override
+                public void onError(CometChatException e) {
+                    e.printStackTrace();
+                }
+            });
+            CometChat.isExtensionEnabled("whiteboard", new CometChat.CallbackListener<Boolean>() {
+                @Override
+                public void onSuccess(Boolean aBoolean) {
+                    if (aBoolean)
+                        bundle.putBoolean("isWhiteBoardVisible",isWhiteBoardVisible);
+                }
+
+                @Override
+                public void onError(CometChatException e) {
+                    e.printStackTrace();
+                }
+            });
+            CometChat.isExtensionEnabled("stickers", new CometChat.CallbackListener<Boolean>() {
+                @Override
+                public void onSuccess(Boolean aBoolean) {
+                    if (aBoolean)
+                       bundle.putBoolean("isStickerVisible",isStickerVisible);
+                }
+
+                @Override
+                public void onError(CometChatException e) {
+                    e.printStackTrace();
+                }
+            });
+            CometChat.isExtensionEnabled("polls", new CometChat.CallbackListener<Boolean>() {
+                @Override
+                public void onSuccess(Boolean aBoolean) {
+                    if (aBoolean)
+                        bundle.putBoolean("isPollsVisible",isPollVisible);
+                }
+
+                @Override
+                public void onError(CometChatException e) {
+                    e.printStackTrace();
+                }
+            });
             composeBoxActionFragment.setArguments(bundle);
             composeBoxActionFragment.show(fm,composeBoxActionFragment.getTag());
         }

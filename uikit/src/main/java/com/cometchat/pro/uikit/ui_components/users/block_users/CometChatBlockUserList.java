@@ -144,13 +144,15 @@ public class CometChatBlockUserList extends Fragment {
                 if (userList.contains(user))
                     userList.remove(user);
                 blockedUserAdapter.removeUser(user);
-                Snackbar.make(var1,user.getName()+" "+getResources().getString(R.string.unblocked_successfully),Snackbar.LENGTH_SHORT).show();
+                Utils.showCometChatDialog(getContext(),var1,
+                        user.getName()+" "+getResources().getString(R.string.unblocked_successfully),false);
                 checkIfNoUserVisible();
             }
 
             @Override
             public void onError(CometChatException e) {
-                Snackbar.make(var1,getResources().getString(R.string.unblock_user_error),Snackbar.LENGTH_SHORT).show();
+                Utils.showCometChatDialog(getContext(),var1,
+                        getResources().getString(R.string.unblock_user_error),true);
                 Log.e(TAG, "onError: "+e.getMessage());
             }
         });
@@ -178,7 +180,8 @@ public class CometChatBlockUserList extends Fragment {
             @Override
             public void onError(CometChatException e) {
                 Log.e(TAG, "onError: "+e.getMessage());
-                Snackbar.make(rvUserList,getResources().getString(R.string.block_user_list_error),Snackbar.LENGTH_SHORT).show();
+                Utils.showCometChatDialog(getContext(),
+                        rvUserList,getResources().getString(R.string.block_user_list_error),true);
             }
         });
     }

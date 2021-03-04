@@ -6,13 +6,13 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <uses-feature android:name="android.hardware.camera2.full" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
         android:hardwareAccelerated="true"
@@ -25,7 +25,8 @@
             android:name=".ui_components.messages.extensions.Reactions.CometChatReactionInfoActivity"/>
         <activity android:name=".ui_components.messages.media_view.CometChatMediaViewActivity" />
         <activity android:name=".ui_components.messages.message_information.CometChatMessageInfoScreenActivity" />
-        <activity android:name=".ui_components.calls.call_manager.CometChatStartCallActivity" />
+        <activity android:name=".ui_components.calls.call_manager.CometChatStartCallActivity"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".ui_components.messages.thread_message_list.CometChatThreadMessageListActivity"
             android:windowSoftInputMode="adjustResize" />
@@ -102,6 +103,17 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_path" />
         </provider>
+
+        <receiver android:name=".ui_components.calls.call_manager.ongoing_call.OngoingCallBroadcast"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="restartService"/>
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".ui_components.calls.call_manager.ongoing_call.OngoingCallService"
+            android:enabled="true"/>
 
     </application>
 

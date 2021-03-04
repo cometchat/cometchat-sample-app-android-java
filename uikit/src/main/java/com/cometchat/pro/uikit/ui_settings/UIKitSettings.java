@@ -33,6 +33,8 @@ public class UIKitSettings {
         UIKitConstants.AppInfo.APP_ID = appID;
     }
 
+    public static void setMapAccessKey(String mapsKey) { UIKitConstants.MapUrl.MAP_ACCESS_KEY = mapsKey; }
+
     public static void setAuthKey(String authKey) {
         UIKitConstants.AppInfo.AUTH_KEY = authKey;
     }

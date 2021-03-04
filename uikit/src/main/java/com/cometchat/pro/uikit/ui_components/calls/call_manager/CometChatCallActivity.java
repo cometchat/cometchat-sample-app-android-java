@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.Call;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
@@ -137,7 +138,7 @@ public class CometChatCallActivity extends AppCompatActivity implements View.OnC
         }
         if(!isOngoing) {
             try {
-                isVideo = intent.getAction().equals(com.cometchat.pro.constants.CometChatConstants.CALL_TYPE_VIDEO);
+                isVideo = intent.getAction().equals(CometChatConstants.CALL_TYPE_VIDEO);
 
                 isIncoming = intent.getType().equals(UIKitConstants.IntentStrings.INCOMING);
 
@@ -264,14 +265,14 @@ public class CometChatCallActivity extends AppCompatActivity implements View.OnC
         if (id == R.id.call_hang_btn) {
             cometChatAudioHelper.stop(false);
             AnimUtil.stopBlinkAnimation(tvDots);
-            rejectCall(sessionId, com.cometchat.pro.constants.CometChatConstants.CALL_STATUS_CANCELLED);
+            rejectCall(sessionId, CometChatConstants.CALL_STATUS_CANCELLED);
         } else if (id == R.id.accept_incoming) {
             cometChatAudioHelper.stop(false);
             incomingCallView.setVisibility(View.GONE);
             answerCall(mainView,sessionId);
         } else if (id == R.id.decline_incoming) {
             cometChatAudioHelper.stop(true);
-            rejectCall(sessionId, com.cometchat.pro.constants.CometChatConstants.CALL_STATUS_REJECTED);
+            rejectCall(sessionId, CometChatConstants.CALL_STATUS_REJECTED);
             finish();
         }
     }

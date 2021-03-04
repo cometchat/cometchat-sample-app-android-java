@@ -345,4 +345,8 @@
     <string name="custom_message_meeting">"📹 群组通话 "</string>
     <string name="start_group_call">发起群组通话</string>
     <string name="you_created_group_call">您已建立群组通话。</string>
+    <string name="voted_success">投票成功</string>
+    <string name="uploading">上载</string>
+    <string name="retry">重试</string>
+    <string name="updating">更新中</string>
 </resources>

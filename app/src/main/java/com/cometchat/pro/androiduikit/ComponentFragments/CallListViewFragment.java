@@ -33,6 +33,8 @@ import com.cometchat.pro.uikit.ui_resources.utils.item_clickListener.OnItemClick
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -139,7 +141,7 @@ public class CallListViewFragment extends Fragment {
     private void getCallList() {
         if (messagesRequest == null)
         {
-            messagesRequest = new MessagesRequest.MessagesRequestBuilder().setCategory(CometChatConstants.CATEGORY_CALL).setLimit(30).build();
+            messagesRequest = new MessagesRequest.MessagesRequestBuilder().setCategories(Arrays.asList(CometChatConstants.CATEGORY_CALL)).setLimit(30).build();
         }
 
         messagesRequest.fetchPrevious(new CometChat.CallbackListener<List<BaseMessage>>() {

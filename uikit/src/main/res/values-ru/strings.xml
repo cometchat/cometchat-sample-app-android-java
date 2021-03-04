@@ -349,4 +349,8 @@
     <string name="custom_message_meeting">📹 Групповой вызов</string>
     <string name="start_group_call">Начать групповой вызов</string>
     <string name="you_created_group_call">Вы создали групповой вызов.</string>
+    <string name="voted_success">Проголосовали успешно</string>
+    <string name="uploading">загрузка</string>
+    <string name="retry">повторить попытку</string>
+    <string name="updating">обновление</string>
 </resources>
