@@ -63,7 +63,7 @@ public class OngoingCallService extends Service {
                 .setContentIntent(pendingIntent)
                 .setCategory(Notification.CATEGORY_CALL)
                 .build();
-        startForeground(2,notification);
+        notificationManager.notify(1,notification);
     }
 
     private Intent getCallIntent(String title) {
@@ -96,9 +96,9 @@ public class OngoingCallService extends Service {
         super.onDestroy();
         stopTimer();
 
-        Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction("restartservice");
-        this.sendBroadcast(broadcastIntent);
+//        Intent broadcastIntent = new Intent();
+//        broadcastIntent.setAction("restartservice");
+//        this.sendBroadcast(broadcastIntent);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class OngoingCallService extends Service {
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                Log.e("run: ","Count:"+ counter++ );
+                Log.d("AppInBackground: ",""+ counter++ );
             }
         };
         timer.schedule(timerTask, 1000, 1000);

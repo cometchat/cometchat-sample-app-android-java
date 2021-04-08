@@ -38,6 +38,8 @@ import com.cometchat.pro.models.MediaMessage;
 import com.cometchat.pro.models.TextMessage;
 import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.R;
+import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
+import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
@@ -47,6 +49,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -128,9 +134,10 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
         if (imageUri != null) {
             messageType = UIKitConstants.IntentStrings.INTENT_MEDIA_MESSAGE;
             mediaMessageUrl = imageUri.toString();
-            Log.e(TAG, "handleSendImage: "+mediaMessageUrl);
+            Log.e(TAG, "handleSendImage: "+mediaMessageUrl+"\n"+imageUri.getHost());
         }
     }
+
     /**
      * This method is used to handle parameter passed to this class.
      */
@@ -282,9 +289,9 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
                     checkUserList();
                 }
                 else {
-                    Utils.showCometChatDialog(CometChatForwardMessageActivity.this,
+                   CometChatSnackBar.show(CometChatForwardMessageActivity.this,
                             selectedUsers,
-                            getString(R.string.forward_to_5_at_a_time),true);
+                            getString(R.string.forward_to_5_at_a_time),CometChatSnackBar.WARNING);
                 }
             }
 
@@ -531,8 +538,8 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
 
             @Override
             public void onError(CometChatException e) {
-                Utils.showCometChatDialog(CometChatForwardMessageActivity.this,
-                        rvConversationList, e.getMessage(), true);
+               CometChatSnackBar.show(CometChatForwardMessageActivity.this,
+                        rvConversationList, CometChatError.localized(e), CometChatSnackBar.ERROR);
             }
         });
     }

@@ -15,10 +15,12 @@
         android:text="@string/groups"
         android:id="@+id/tv_title"
         android:textSize="22dp"
+        android:layout_toLeftOf="@+id/create_group"
         android:textColor="@color/primaryTextColor"
         android:textStyle="bold"
         android:layout_margin="16dp"
-        android:layout_width="wrap_content"
+        android:textDirection="locale"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <ImageView
         android:clickable="true"

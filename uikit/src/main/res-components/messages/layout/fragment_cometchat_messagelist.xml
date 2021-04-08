@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:animateLayoutChanges="true"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,15 @@
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_above="@+id/bottom_layout"/>
+
+    <include layout="@layout/new_message_layout"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/bottom_layout"
+        android:id="@+id/new_message_layout"/>
 
     <include layout="@layout/cometchat_messagelist_toolbar"
         android:id="@+id/chatList_toolbar"
@@ -41,6 +51,7 @@
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <include layout="@layout/cometchat_block_user_message_view"/>
         <com.cometchat.pro.uikit.ui_components.shared.cometchatSmartReplies.CometChatSmartReplies
             android:layout_width="match_parent"
             android:elevation="16dp"
@@ -76,7 +87,5 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </RelativeLayout>
-    <include layout="@layout/cometchat_block_user_message_view"/>
-
 
 </RelativeLayout>

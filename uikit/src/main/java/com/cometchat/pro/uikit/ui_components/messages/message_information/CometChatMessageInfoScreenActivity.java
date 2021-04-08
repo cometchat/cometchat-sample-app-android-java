@@ -21,6 +21,8 @@ import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.MessageReceipt;
 import com.cometchat.pro.uikit.ui_components.messages.message_information.Message_Receipts.CometChatReceiptsList;
 import com.cometchat.pro.uikit.R;
+import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
+import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONException;
@@ -166,8 +168,8 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
 
                 @Override
                 public void onError(CometChatException e) {
-                    Utils.showCometChatDialog(CometChatMessageInfoScreenActivity.this,
-                            cometChatReceiptsList,e.getMessage(),true);
+                   CometChatSnackBar.show(CometChatMessageInfoScreenActivity.this,
+                            cometChatReceiptsList, CometChatError.localized(e), CometChatSnackBar.ERROR);
                 }
         });
     }

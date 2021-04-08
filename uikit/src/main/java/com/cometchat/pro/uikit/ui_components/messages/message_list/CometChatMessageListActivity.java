@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.emoji.bundled.BundledEmojiCompatConfig;
 import androidx.emoji.text.EmojiCompat;
@@ -51,10 +52,13 @@ public class CometChatMessageListActivity extends AppCompatActivity implements M
 
     Fragment fragment = new CometChatMessageList();
 
+    private static AppCompatActivity activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cometchat_message_list);
+        activity = this;
         if (UISettings.getColor() !=null) {
             getWindow().setStatusBarColor(Color.parseColor(UISettings.getColor()));
         }
@@ -84,7 +88,7 @@ public class CometChatMessageListActivity extends AppCompatActivity implements M
                   bundle.putString(UIKitConstants.IntentStrings.GROUP_PASSWORD,getIntent().getStringExtra(UIKitConstants.IntentStrings.GROUP_PASSWORD));
               }
               fragment.setArguments(bundle);
-             getSupportFragmentManager().beginTransaction().replace(R.id.ChatFragment, fragment).commit();
+             getSupportFragmentManager().beginTransaction().replace(R.id.chat_fragment, fragment).commit();
          }
     }
 
@@ -135,5 +139,10 @@ public class CometChatMessageListActivity extends AppCompatActivity implements M
     public void handleDialogClose(DialogInterface dialog) {
         ((MessageActionCloseListener)fragment).handleDialogClose(dialog);
         dialog.dismiss();
+    }
+
+    @VisibleForTesting
+    public static AppCompatActivity getCometChatMessageListActivity() {
+        return activity;
     }
 }

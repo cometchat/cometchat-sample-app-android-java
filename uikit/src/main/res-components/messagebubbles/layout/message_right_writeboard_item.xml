@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:gravity="end"
     android:layout_width="match_parent"
+    android:layoutDirection="ltr"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp">
 
@@ -66,7 +67,6 @@
             android:layout_alignBottom="@+id/cv_message_container"
             android:layout_marginBottom="8dp"
             android:textSize="12sp"
-            android:textColor="@color/secondaryTextColor"
             android:textStyle="bold"
             tools:visibility="visible"
             android:visibility="gone"/>

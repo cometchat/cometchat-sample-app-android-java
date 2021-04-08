@@ -24,18 +24,25 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.core.GroupsRequest;
 import com.cometchat.pro.exceptions.CometChatException;
+import com.cometchat.pro.helpers.CometChatHelper;
+import com.cometchat.pro.models.Action;
+import com.cometchat.pro.models.Conversation;
+import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.models.Group;
+import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatGroups.CometChatGroups;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.cometchat.pro.uikit.ui_resources.utils.item_clickListener.OnItemClickListener;
 import com.cometchat.pro.uikit.ui_components.groups.create_group.CometChatCreateGroupActivity;
 import com.cometchat.pro.uikit.ui_resources.utils.FontUtils;
@@ -71,7 +78,7 @@ public class CometChatGroupList extends Fragment  {
 
     private List<Group> groupList = new ArrayList<>();
 
-    private static final String TAG = "CometChatGroupListScreen";
+    private static final String TAG = "CometChatGroupList";
 
     public CometChatGroupList() {
         // Required empty public constructor
@@ -212,8 +219,8 @@ public class CometChatGroupList extends Fragment  {
             @Override
             public void onError(CometChatException e) {
                 if (rvGroupList!=null)
-                    Utils.showCometChatDialog(getContext(),
-                            rvGroupList,getResources().getString(R.string.group_list_error),true);
+                    CometChatSnackBar.show(getContext(),
+                            rvGroupList, CometChatError.localized(e), CometChatSnackBar.ERROR);
             }
         });
     }
@@ -258,7 +265,7 @@ public class CometChatGroupList extends Fragment  {
 
             @Override
             public void onError(CometChatException e) {
-                Log.d(TAG, "onError: "+e.getMessage());
+                Toast.makeText(getContext(),CometChatError.localized(e),Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -274,19 +281,69 @@ public class CometChatGroupList extends Fragment  {
         event=groupItemClickListener;
     }
 
+    public void addGroupListener(String TAG) {
+        CometChat.addGroupListener(TAG, new CometChat.GroupListener() {
+            @Override
+            public void onGroupMemberJoined(Action action, User joinedUser, Group joinedGroup) {
+                Log.e(TAG, "onGroupMemberJoined: "+joinedGroup.toString());
+                updateGroup(joinedGroup);
+            }
+
+            @Override
+            public void onGroupMemberLeft(Action action, User leftUser, Group leftGroup) {
+                Log.e(TAG, "onGroupMemberLeft: "+leftGroup.toString());
+                updateGroup(leftGroup);
+            }
+
+            @Override
+            public void onGroupMemberKicked(Action action, User kickedUser, User kickedBy, Group kickedFrom) {
+                Log.e(TAG, "onGroupMemberKicked: "+kickedFrom.toString());
+                updateGroup(kickedFrom);
+            }
+
+            @Override
+            public void onGroupMemberBanned(Action action, User bannedUser, User bannedBy, Group bannedFrom) {
+                Log.e(TAG, "onGroupMemberBanned: "+bannedFrom.toString());
+                updateGroup(bannedFrom);
+            }
+
+            @Override
+            public void onGroupMemberUnbanned(Action action, User unbannedUser, User unbannedBy, Group unbannedFrom) {
+                super.onGroupMemberUnbanned(action, unbannedUser, unbannedBy, unbannedFrom);
+            }
+        });
+    }
+
+    private void updateGroup(Group group) {
+        if (rvGroupList!= null) {
+            rvGroupList.update(group);
+        }
+    }
+
     @Override
     public void onStart() {
+        Log.e(TAG, "onStart: ");
         super.onStart();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        CometChat.removeGroupListener(TAG);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        CometChat.removeGroupListener(TAG);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         groupsRequest=null;
+        fetchGroup();
+        Log.e(TAG, "onResume: " );
+        addGroupListener(TAG);
     }
 }

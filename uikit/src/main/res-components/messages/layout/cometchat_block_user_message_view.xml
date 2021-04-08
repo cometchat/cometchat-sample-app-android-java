@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     android:visibility="gone"
-    tools:visibility="visible"
+    tools:visibility="gone"
     android:id="@+id/blocked_user_layout"
     android:padding="16dp"
     android:background="@color/bottom"

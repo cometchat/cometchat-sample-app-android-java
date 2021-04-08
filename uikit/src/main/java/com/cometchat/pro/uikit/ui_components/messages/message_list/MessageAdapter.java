@@ -2116,45 +2116,49 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                      }
                  });
              }
-             if (baseMessage.getMetadata()!=null && baseMessage.getMetadata().has("reply")) {
+             if (baseMessage.getMetadata()!=null) {// && baseMessage.getMetadata().has("reply")) {
                  try {
-                     JSONObject metaData = baseMessage.getMetadata().getJSONObject("reply");
+                     JSONObject metaData = baseMessage.getMetadata();//.getJSONObject("reply");
                      String messageType = metaData.getString("type");
                      String message = metaData.getString("message");
                      viewHolder.replyLayout.setVisibility(View.VISIBLE);
-                     viewHolder.replyUser.setText(metaData.getString("name"));
-                     if (messageType.equals(CometChatConstants.MESSAGE_TYPE_TEXT)) {
-                         viewHolder.replyMessage.setText(message);
-                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
-                     } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_IMAGE)) {
-                         viewHolder.replyMessage.setText(context.getResources().getString(R.string.shared_a_image));
-                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_photo,0,0,0);
-                     } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_AUDIO)) {
-                         viewHolder.replyMessage.setText(String.format(context.getResources().getString(R.string.shared_a_audio),""));
-                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_library_music_24dp,0,0,0);
-                     } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_VIDEO)) {
-                         viewHolder.replyMessage.setText(context.getResources().getString(R.string.shared_a_video));
-                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_videocam_24dp,0,0,0);
-                     } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_FILE)) {
-                         viewHolder.replyMessage.setText(String.format(context.getResources().getString(R.string.shared_a_file),""));
-                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_insert_drive_file_black_24dp,0,0,0);
-                     } else if (messageType.equals(UIKitConstants.IntentStrings.LOCATION)) {
-                         viewHolder.replyMessage.setText(String.format(context
-                                 .getString(R.string.shared_location),"").trim());
-                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_near_me_24dp,0,0,0);
-                     } else if (messageType.equals(UIKitConstants.IntentStrings.POLLS)) {
-                         viewHolder.replyMessage.setText(String.format(context.getString(R.string.shared_a_polls),message));
-                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_poll_24dp,0,0,0);
-                     } else if (messageType.equals(UIKitConstants.IntentStrings.STICKERS)) {
-                         viewHolder.replyMessage.setText(String.format(context.getString(R.string.shared_a_sticker)));
-                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.default_sticker,0,0,0);
-                     } else if (messageType.equals(UIKitConstants.IntentStrings.WHITEBOARD)) {
-                         viewHolder.replyMessage.setText(context.getString(R.string.shared_a_whiteboard));
-                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_whiteboard_24dp,0,0,0);
-                     } else if (messageType.equals(UIKitConstants.IntentStrings.WRITEBOARD)) {
-                         viewHolder.replyMessage.setText(context.getString(R.string.shared_a_writeboard));
-                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_writeboard_24dp,0,0,0);
+                     viewHolder.replyMessage.setText(message);
+                     if (metaData.has("name")) {
+                         viewHolder.replyUser.setVisibility(View.VISIBLE);
+                         viewHolder.replyUser.setText(metaData.getString("name"));
+                     } else {
+                         viewHolder.replyUser.setVisibility(View.GONE);
                      }
+//                     if (messageType.equals(CometChatConstants.MESSAGE_TYPE_TEXT)) {
+//                     } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_IMAGE)) {
+//                         viewHolder.replyMessage.setText(context.getResources().getString(R.string.shared_a_image));
+//                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_photo,0,0,0);
+//                     } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_AUDIO)) {
+//                         viewHolder.replyMessage.setText(String.format(context.getResources().getString(R.string.shared_a_audio),""));
+//                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_library_music_24dp,0,0,0);
+//                     } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_VIDEO)) {
+//                         viewHolder.replyMessage.setText(context.getResources().getString(R.string.shared_a_video));
+//                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_videocam_24dp,0,0,0);
+//                     } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_FILE)) {
+//                         viewHolder.replyMessage.setText(String.format(context.getResources().getString(R.string.shared_a_file),""));
+//                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_insert_drive_file_black_24dp,0,0,0);
+//                     } else if (messageType.equals(UIKitConstants.IntentStrings.LOCATION)) {
+//                         viewHolder.replyMessage.setText(String.format(context
+//                                 .getString(R.string.shared_location),"").trim());
+//                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_near_me_24dp,0,0,0);
+//                     } else if (messageType.equals(UIKitConstants.IntentStrings.POLLS)) {
+//                         viewHolder.replyMessage.setText(String.format(context.getString(R.string.shared_a_polls),message));
+//                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_poll_24dp,0,0,0);
+//                     } else if (messageType.equals(UIKitConstants.IntentStrings.STICKERS)) {
+//                         viewHolder.replyMessage.setText(String.format(context.getString(R.string.shared_a_sticker)));
+//                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.default_sticker,0,0,0);
+//                     } else if (messageType.equals(UIKitConstants.IntentStrings.WHITEBOARD)) {
+//                         viewHolder.replyMessage.setText(context.getString(R.string.shared_a_whiteboard));
+//                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_whiteboard_24dp,0,0,0);
+//                     } else if (messageType.equals(UIKitConstants.IntentStrings.WRITEBOARD)) {
+//                         viewHolder.replyMessage.setText(context.getString(R.string.shared_a_writeboard));
+//                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_writeboard_24dp,0,0,0);
+//                     }
                      viewHolder.rlMessageBubble.setOnLongClickListener(new View.OnLongClickListener() {
                          @Override
                          public boolean onLongClick(View view) {
@@ -2225,44 +2229,28 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
 
-            final String[] message = {txtMessage};
-            CometChat.isExtensionEnabled("profanity-filter", new CometChat.CallbackListener<Boolean>() {
-                @Override
-                public void onSuccess(Boolean aBoolean) {
-                    message[0] = Extensions.checkProfanityMessage(context,baseMessage);
-                }
+            String message = txtMessage;
+            if(CometChat.isExtensionEnabled("profanity-filter")) {
+                message = Extensions.checkProfanityMessage(context,baseMessage);
+            }
 
-                @Override
-                public void onError(CometChatException e) {
-                    Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "onError: "+e.getMessage());
-                }
-            });
-            CometChat.isExtensionEnabled("data-masking", new CometChat.CallbackListener<Boolean>() {
-                @Override
-                public void onSuccess(Boolean aBoolean) {
-                    message[0] = Extensions.checkDataMasking(context,baseMessage);
-                }
+            if(CometChat.isExtensionEnabled("data-masking")) {
+                message = Extensions.checkDataMasking(context,baseMessage);
+            }
 
-                @Override
-                public void onError(CometChatException e) {
-                    Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "onError: "+e.getMessage());
-                }
-            });
 
             if (baseMessage.getMetadata()!=null && baseMessage.getMetadata().has("values")) {
                 try {
                     if (Extensions.isMessageTranslated(baseMessage.getMetadata().getJSONObject("values"), ((TextMessage) baseMessage).getText())) {
                         String translatedMessage = Extensions.getTranslatedMessage(baseMessage);
-                        message[0] = message[0] + "\n(" + translatedMessage + ")";
+                        message = message + "\n(" + translatedMessage + ")";
                     }
                 } catch (JSONException e) {
                     Toast.makeText(context, context.getString(R.string.no_translation_available), Toast.LENGTH_SHORT).show();
                 }
             }
 
-            viewHolder.txtMessage.setText(message[0]);
+            viewHolder.txtMessage.setText(message);
             viewHolder.txtMessage.setTypeface(fontUtils.getTypeFace(FontUtils.robotoRegular));
 
             PatternUtils.setHyperLinkSupport(context,viewHolder.txtMessage);

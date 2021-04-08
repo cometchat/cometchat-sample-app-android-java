@@ -21,6 +21,32 @@
             android:layout_height="wrap_content"/>
 
     </HorizontalScrollView>
+    <RelativeLayout
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:paddingRight="16dp"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:paddingLeft="12dp"
+        android:id="@+id/message_privately_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar
+            android:layout_width="32dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/sender_avatar"
+            tools:src="@tools:sample/avatars"
+            android:layout_height="32dp"/>
+        <TextView
+            android:layout_toRightOf="@+id/sender_avatar"
+            android:id="@+id/sender_name"
+            android:layout_centerVertical="true"
+            android:paddingLeft="12dp"
+            android:textStyle="bold"
+            android:text="Send Message Privately"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
     <TextView
         android:id="@+id/translate_message"
         android:drawableStart="@drawable/ic_translate"
@@ -39,7 +65,7 @@
         android:foreground="?attr/selectableItemBackground"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
-        android:drawableStart="@drawable/ic_info"
+        android:drawableStart="@drawable/ic_info_image"
         android:textStyle="bold"
         android:text="@string/message_information"
         android:padding="16dp"

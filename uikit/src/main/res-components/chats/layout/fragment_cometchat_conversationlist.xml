@@ -16,7 +16,7 @@
         android:focusableInTouchMode="true">
 
         <TextView
-            android:text="Conversations"
+            android:text="@string/conversation_title"
             android:textSize="22sp"
             android:visibility="gone"
             tools:visibility="visible"

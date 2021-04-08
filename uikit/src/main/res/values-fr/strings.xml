@@ -355,4 +355,5 @@
     <string name="uploading">Téléchargement</string>
     <string name="retry">recommencez</string>
     <string name="updating">Mise à jour</string>
+    <string name="conversation_title">Des conversations</string>
 </resources>

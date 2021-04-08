@@ -20,6 +20,7 @@ import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.ComponentNameMatchers;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
@@ -38,6 +39,7 @@ import com.cometchat.pro.androiduikit.R;
 import com.cometchat.pro.androiduikit.UIKitApplication;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
+import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 
 import junit.framework.AssertionFailedError;
 
@@ -149,13 +151,13 @@ public class MainActivityTest {
                 Thread.sleep(3000);
             } catch (Exception e) {
                 Assert.fail("login_sameActivity:Failed in 3 Sec- "+e.getMessage());
+                B_sameActivity7Sec();
             }
         } else {
             Log.e( "login_sameActivity: ","User already logged IN" );
         }
     }
 
-    @Test
     public void B_sameActivity7Sec() {
         if (CometChat.getLoggedInUser()==null) {
             ActivityScenario activityScenario = ActivityScenario.launch(MainActivity.class);
@@ -168,13 +170,13 @@ public class MainActivityTest {
                 Thread.sleep(3000);
             } catch (Exception e) {
                 Assert.fail("login_sameActivity:Failed in 7 Sec - "+e.getMessage());
+                C_sameActivity15Sec();
             }
         } else {
             Log.e( "login_sameActivity: ","User already logged IN" );
         }
     }
 
-    @Test
     public void C_sameActivity15Sec() {
         if (CometChat.getLoggedInUser()==null) {
             ActivityScenario activityScenario = ActivityScenario.launch(MainActivity.class);
@@ -225,6 +227,59 @@ public class MainActivityTest {
         } else {
             Assert.assertTrue(true);
             Log.e("goToLoginActivity: ", "User already loggedIn");
+        }
+    }
+
+
+    @Test
+    public void F_createUserWithExistingUID() {
+        try {
+            Espresso.onView(ViewMatchers.withId(R.id.create_user)).perform(ViewActions.click());
+            Espresso.onView(ViewMatchers.withId(R.id.etUID)).perform(ViewActions.clearText()).perform(ViewActions.typeText("superhero1"));
+            Espresso.onView(ViewMatchers.withId(R.id.etName)).perform(ViewActions.clearText()).perform(ViewActions.typeText("IronMan"));
+            Espresso.onView(ViewMatchers.withId(R.id.create_user_btn)).perform(ViewActions.click());
+            Thread.sleep(5000);
+            Espresso.onView(ViewMatchers.withId(R.id.directLaunch)).perform(ViewActions.click());
+        } catch (Exception e) {
+            Log.e( "A_createUserWithExistingUID: ",e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void G_createUserWithEmptyName() {
+        try {
+            Espresso.onView(ViewMatchers.withId(R.id.login)).perform(ViewActions.click());
+            Espresso.onView(ViewMatchers.withId(R.id.create_user)).perform(ViewActions.click());
+            Espresso.onView(ViewMatchers.withId(R.id.etUID)).perform(ViewActions.clearText()).perform(ViewActions.typeText(Utils.generateRandomString(25)));
+            Espresso.onView(ViewMatchers.withId(R.id.etName)).perform(ViewActions.clearText()).perform(ViewActions.typeText(""));
+            Espresso.onView(ViewMatchers.withId(R.id.create_user_btn)).perform(ViewActions.click());
+            Thread.sleep(5000);
+            try {
+                Espresso.onView(ViewMatchers.withId(R.id.directLaunch)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+                Assert.fail("Failed: Able to create user without authentication");
+            } catch (AssertionError e) {
+                Assert.assertTrue(true);
+            } catch (NoMatchingViewException e) {
+                Assert.assertTrue(true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void H_createUserWithRandomUID() {
+        try {
+            Espresso.onView(ViewMatchers.withId(R.id.login)).perform(ViewActions.click());
+            Espresso.onView(ViewMatchers.withId(R.id.create_user)).perform(ViewActions.click());
+            Espresso.onView(ViewMatchers.withId(R.id.etUID)).perform(ViewActions.clearText()).perform(ViewActions.typeText(Utils.generateRandomString(25)));
+            Espresso.onView(ViewMatchers.withId(R.id.etName)).perform(ViewActions.clearText()).perform(ViewActions.typeText("TestCase User"));
+            Espresso.onView(ViewMatchers.withId(R.id.create_user_btn)).perform(ViewActions.click());
+            Thread.sleep(5000);
+            Espresso.onView(ViewMatchers.withId(R.id.directLaunch)).perform(ViewActions.click());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

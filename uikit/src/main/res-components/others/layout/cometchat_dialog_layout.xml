@@ -15,7 +15,7 @@
             android:id="@+id/iv_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_info"
+            android:src="@drawable/ic_baseline_error_24"
             android:layout_margin="4dp"/>
 
         <TextView
