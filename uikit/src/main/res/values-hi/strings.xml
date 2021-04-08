@@ -351,4 +351,5 @@
     <string name="uploading">अपलोडिंग</string>
     <string name="retry">पुन: प्रयास करें</string>
     <string name="updating">अद्यतीकरण</string>
+    <string name="conversation_title">बात चिट</string>
 </resources>

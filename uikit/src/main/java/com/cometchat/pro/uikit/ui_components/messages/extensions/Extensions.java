@@ -26,7 +26,9 @@ import com.cometchat.pro.uikit.ui_components.shared.cometchatReaction.ReactionUt
 import com.cometchat.pro.uikit.ui_components.shared.cometchatReaction.model.Reaction;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatStickers.model.Sticker;
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
+import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
+import com.google.android.material.snackbar.Snackbar;
 
 public class Extensions {
 
@@ -71,7 +73,7 @@ public class Extensions {
                 resultUrl = thumbnailGeneration.getString("url_small");
             }
         }catch (Exception e) {
-            Toast.makeText(context,"Error:"+e.getMessage(),Toast.LENGTH_LONG).show();
+            Log.e(TAG, "getThumbnailGeneration: "+e.getMessage());
         }
         return resultUrl;
     }
@@ -153,7 +155,7 @@ public class Extensions {
             else
                 return null;
         }  catch (Exception e) {
-            Log.e(TAG, "ExtensionError: "+e.getMessage() );
+            Log.e(TAG, "extensionCheckError: "+e.getMessage() );
         }
         return null;
     }
@@ -171,7 +173,7 @@ public class Extensions {
                     result = false;
             }
         }catch (Exception e) {
-            Log.e(TAG, "checkSentiment: "+e.getMessage());
+            Log.e(TAG, "checkSentimentError: "+e.getMessage());
         }
         return result;
     }
@@ -198,8 +200,7 @@ public class Extensions {
                 } else {
                     result = ((TextMessage)baseMessage).getText().trim();
                 }
-            }catch (Exception e) {
-                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
                 Log.e(TAG, "checkProfanityMessage:Error: "+e.getMessage() );
             }
         }
@@ -233,7 +234,6 @@ public class Extensions {
                 }
             }
             catch (JSONException e) {
-                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }
@@ -256,7 +256,7 @@ public class Extensions {
                 }
             }
         }catch (Exception e) {
-            Log.e(TAG, "userVotedOn: "+e.getMessage());
+            Log.e(TAG, "userVotedOnError: "+e.getMessage());
         }
         return result;
     }
@@ -269,7 +269,7 @@ public class Extensions {
                 voteCount = result.getInt("total");
             }
         }catch (Exception e) {
-            Log.e(TAG, "getVoteCount: "+e.getMessage());
+            Log.e(TAG, "getVoteCountError: "+e.getMessage());
         }
         return voteCount;
     }
@@ -285,7 +285,7 @@ public class Extensions {
                     }
                 }
             } catch (Exception e) {
-                Log.e(TAG, "getPollsResult: "+e.getMessage());
+                Log.e(TAG, "getPollsResultError: "+e.getMessage());
             }
         }
         return result;
@@ -308,32 +308,23 @@ public class Extensions {
     }
 
     public static void fetchStickers(ExtensionResponseListener extensionResponseListener) {
-        CometChat.isExtensionEnabled("stickers", new CometChat.CallbackListener<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                if (aBoolean) {
-                    CometChat.callExtension("stickers", "GET", "/v1/fetch", null, new CometChat.CallbackListener<JSONObject>() {
-                        @Override
-                        public void onSuccess(JSONObject jsonObject) {
-                            extensionResponseListener.OnResponseSuccess(jsonObject);
-                        }
-
-                        @Override
-                        public void onError(CometChatException e) {
-                            extensionResponseListener.OnResponseFailed(e);
-                        }
-                    });
-                } else {
-                    extensionResponseListener.OnResponseFailed(new CometChatException("ERR_EXTENSION_DISABLED",
-                            "Sticker Extension is disabled"));
+        if(CometChat.isExtensionEnabled("stickers")) {
+            CometChat.callExtension("stickers", "GET", "/v1/fetch", null, new CometChat.CallbackListener<JSONObject>() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    extensionResponseListener.OnResponseSuccess(jsonObject);
                 }
-            }
 
-            @Override
-            public void onError(CometChatException e) {
-                extensionResponseListener.OnResponseFailed(e);
-            }
-        });
+                @Override
+                public void onError(CometChatException e) {
+                    extensionResponseListener.OnResponseFailed(new CometChatException(e.getCode(),
+                            CometChatError.Extension.localized(e,"stickers")));
+                }
+            });
+        } else {
+            extensionResponseListener.OnResponseFailed(new CometChatException("ERR_EXTENSION_NOT_ENABLED",
+                    "Enable the extension from CometChat Pro dashboard","stickers"));
+        }
     }
 
     public static HashMap<String,List<Sticker>> extractStickersFromJSON(JSONObject jsonObject) {
@@ -614,7 +605,7 @@ public class Extensions {
         return result;
     }
 
-    public static String getTextTranslatedMessage(JSONObject jsonObject,String originalString) {
+    public static String getTextFromTranslatedMessage(JSONObject jsonObject, String originalString) {
         String result="";
         try {
             JSONObject metadataObject = jsonObject;
@@ -640,5 +631,52 @@ public class Extensions {
             Log.e(TAG, "isMessageTranslatedError: "+e.getMessage());
         }
         return result;
+    }
+
+    public static List<String> translateSmartReplyMessage(BaseMessage baseMessage,JSONObject replyObject,
+                                                    ExtensionResponseListener extensionResponseListener) {
+        List<String> resultList = new ArrayList<>();
+        try {
+            for (int i = 0;i<replyObject.length();i++) {
+                String localeLanguage = Locale.getDefault().getLanguage();
+                JSONObject body = new JSONObject();
+                JSONArray languages = new JSONArray();
+                languages.put(localeLanguage);
+                body.put("msgId", baseMessage.getId());
+                body.put("languages", languages);
+                if (i==0)
+                    body.put("text", replyObject.getString("reply_positive"));
+                else if (i==1)
+                    body.put("text",replyObject.getString("reply_neutral"));
+                else
+                    body.put("text",replyObject.getString("reply_negative"));
+
+                final String str = body.getString("text");
+                CometChat.callExtension("message-translation", "POST",
+                        "/v2/translate", body, new CometChat.CallbackListener<JSONObject>() {
+                            @Override
+                            public void onSuccess(JSONObject jsonObject) {
+                                if (Extensions.isMessageTranslated(jsonObject,str)) {
+                                    String translatedMessage = Extensions
+                                            .getTextFromTranslatedMessage(jsonObject,
+                                                    str);
+                                    resultList.add(translatedMessage);
+                                } else {
+                                    Log.e(TAG, "onSuccess: No Translation available" );
+                                }
+                            }
+
+                            @Override
+                            public void onError(CometChatException e) {
+                                Log.e(TAG, "onError: "+e.getMessage()+"\n"+e.getCode());
+                            }
+                        });
+            }
+            extensionResponseListener.OnResponseSuccess(resultList);
+        } catch (Exception e) {
+            extensionResponseListener.OnResponseFailed(new CometChatException("ERR_TRANSLATION_FAILED","Not able to translate smart reply"));
+            Log.e(TAG, "translateSmartReplyMessage: "+e.getMessage());
+        }
+        return resultList;
     }
 }

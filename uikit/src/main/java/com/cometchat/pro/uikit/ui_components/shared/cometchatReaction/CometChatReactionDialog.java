@@ -42,7 +42,7 @@ public class CometChatReactionDialog extends DialogFragment implements OnReactio
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         frameLayout = view.findViewById(R.id.frame);
-        bottomNavigationView = view.findViewById(R.id.bottom_navigation);
+        bottomNavigationView = view.findViewById(R.id.reaction_bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         FragmentReaction fragmentEmoji = new FragmentReactionPeople();
         fragmentEmoji.addEmojiconClickListener(emojiClickListener);

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layoutDirection="ltr"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -82,7 +83,6 @@
             tools:drawableEnd="@drawable/ic_double_tick"
             android:layout_alignBottom="@+id/cv_image_message_container"
             android:layout_toLeftOf="@+id/cv_image_message_container"
-            android:textColor="@color/secondaryTextColor"
             android:textStyle="bold"
             tools:visibility="visible"
             android:visibility="gone" />

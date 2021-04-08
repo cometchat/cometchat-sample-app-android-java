@@ -9,15 +9,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cometchat.pro.core.BlockedUsersRequest;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.R;
+import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
+import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -91,9 +91,9 @@ public class CometChatMorePrivacyActivity extends AppCompatActivity {
 
             @Override
             public void onError(CometChatException e) {
-                Utils.showCometChatDialog(CometChatMorePrivacyActivity.this,
-                        tvBlockUserCount,getResources().getString(R.string.block_user_list_error),true);
-                Toast.makeText(CometChatMorePrivacyActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+               CometChatSnackBar.show(CometChatMorePrivacyActivity.this,
+                        tvBlockUserCount,getResources().getString(R.string.block_user_list_error)+", "
+                               + CometChatError.localized(e), CometChatSnackBar.ERROR);
             }
         });
     }

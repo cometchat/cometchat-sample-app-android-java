@@ -17,6 +17,8 @@
     <color name="search_bg">#979797</color>
     <color name="shimmer">#ECECEC</color>
 
+    <color name="light_blue">#00BCD4</color>
+    <color name="orange">#FF9800</color>
     <color name="purple">#8867C5</color>
     <color name="dark_blue">#0020F5</color>
     <color name="green_600">#43A047</color>

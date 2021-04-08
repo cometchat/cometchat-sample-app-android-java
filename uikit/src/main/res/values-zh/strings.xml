@@ -349,4 +349,5 @@
     <string name="uploading">上载</string>
     <string name="retry">重试</string>
     <string name="updating">更新中</string>
+    <string name="conversation_title">对话内容</string>
 </resources>

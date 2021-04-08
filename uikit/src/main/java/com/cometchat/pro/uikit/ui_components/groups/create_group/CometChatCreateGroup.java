@@ -20,6 +20,8 @@ import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.Group;
 import com.cometchat.pro.uikit.R;
+import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
+import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -189,13 +191,13 @@ public class CometChatCreateGroup extends Fragment {
                 else if (etGroupCnfPassword.getText().toString().isEmpty())
                     etGroupCnfPassword.setError(getResources().getString(R.string.fill_this_field));
                 else if(etGroupPassword.getText().toString().equals(etGroupCnfPassword.getText().toString())) {
-                    Group group = new Group("group" + generateRandomString(25), etGroupName.getText().toString(), groupType, etGroupPassword.getText().toString());
+                    Group group = new Group(generateRandomString(25), etGroupName.getText().toString(), groupType, etGroupPassword.getText().toString());
                     createGroup(group);
                 }
                 else
                     if (etGroupPassword!=null)
-                        Utils.showCometChatDialog(getContext(),etGroupCnfPassword.getRootView(),
-                                getResources().getString(R.string.password_not_matched),true);
+                        CometChatSnackBar.show(getContext(),etGroupCnfPassword.getRootView(),
+                                getResources().getString(R.string.password_not_matched),CometChatSnackBar.WARNING);
             }
         }
         else {
@@ -225,7 +227,8 @@ public class CometChatCreateGroup extends Fragment {
 
             @Override
             public void onError(CometChatException e) {
-                Utils.showCometChatDialog(getContext(),etGroupName.getRootView(),getResources().getString(R.string.create_group_error),true);
+                CometChatSnackBar.show(getContext(),etGroupName.getRootView(),
+                        CometChatError.localized(e), CometChatSnackBar.ERROR);
                 Log.e(TAG, "onError: "+e.getMessage() );
             }
         });

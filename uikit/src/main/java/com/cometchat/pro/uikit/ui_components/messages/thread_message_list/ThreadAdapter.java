@@ -882,46 +882,27 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 }
             }
-            final String[] message = {txtMessage};
-            CometChat.isExtensionEnabled("profanity-filter", new CometChat.CallbackListener<Boolean>() {
-                @Override
-                public void onSuccess(Boolean aBoolean) {
-                    message[0] = Extensions.checkProfanityMessage(context,baseMessage);
-                }
+            String message = txtMessage;
+            if(CometChat.isExtensionEnabled("profanity-filter")) {
+                message = Extensions.checkProfanityMessage(context,baseMessage);
+            }
 
-                @Override
-                public void onError(CometChatException e) {
-                    e.printStackTrace();
-                    Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            CometChat.isExtensionEnabled("data-masking", new CometChat.CallbackListener<Boolean>() {
-                @Override
-                public void onSuccess(Boolean aBoolean) {
-                    if (aBoolean)
-                        message[0] = Extensions.checkDataMasking(context,baseMessage);
-                }
-
-                @Override
-                public void onError(CometChatException e) {
-                    e.printStackTrace();
-                    Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
-                }
-            });
+            if(CometChat.isExtensionEnabled("data-masking")) {
+                message = Extensions.checkDataMasking(context,baseMessage);
+            }
 
             if (baseMessage.getMetadata()!=null && baseMessage.getMetadata().has("values")) {
                 try {
                     if (Extensions.isMessageTranslated(baseMessage.getMetadata().getJSONObject("values"), ((TextMessage) baseMessage).getText())) {
                         String translatedMessage = Extensions.getTranslatedMessage(baseMessage);
-                        message[0] = message[0] + "\n(" + translatedMessage + ")";
+                        message = message + "\n(" + translatedMessage + ")";
                     }
                 } catch (JSONException e) {
                     Toast.makeText(context, context.getString(R.string.no_translation_available), Toast.LENGTH_SHORT).show();
                 }
             }
 
-            viewHolder.txtMessage.setText(message[0]);
+            viewHolder.txtMessage.setText(message);
             viewHolder.txtMessage.setTypeface(fontUtils.getTypeFace(FontUtils.robotoRegular));
 
             viewHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.primaryTextColor));

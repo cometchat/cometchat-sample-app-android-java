@@ -8,6 +8,7 @@
     android:layout_marginBottom="16dp">
 
     <RelativeLayout
+        android:layoutDirection="ltr"
         android:id="@+id/rl_message"
         android:animateLayoutChanges="true"
         android:layout_width="wrap_content"
@@ -52,7 +53,7 @@
                     android:layout_centerVertical="true"
                     android:layout_height="32dp"/>
                 <TextView
-                    android:layout_toRightOf="@+id/icon"
+                    android:layout_toEndOf="@+id/icon"
                     android:id="@+id/group_call_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

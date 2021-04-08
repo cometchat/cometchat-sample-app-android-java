@@ -353,4 +353,5 @@
     <string name="uploading">загрузка</string>
     <string name="retry">повторить попытку</string>
     <string name="updating">обновление</string>
+    <string name="conversation_title">Разговоры</string>
 </resources>

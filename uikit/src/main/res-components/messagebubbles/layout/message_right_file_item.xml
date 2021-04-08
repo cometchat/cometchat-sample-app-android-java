@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:layoutDirection="ltr"
     android:gravity="end"
     android:animateLayoutChanges="true">
 
@@ -130,7 +131,6 @@
             android:layout_alignBottom="@+id/cv_message_container"
             android:layout_marginBottom="8dp"
             android:textSize="12sp"
-            android:textColor="@color/secondaryTextColor"
             android:textStyle="bold"
             tools:visibility="visible"
             android:visibility="gone" />

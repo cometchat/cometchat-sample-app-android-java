@@ -26,7 +26,8 @@
         <activity android:name=".ui_components.messages.media_view.CometChatMediaViewActivity" />
         <activity android:name=".ui_components.messages.message_information.CometChatMessageInfoScreenActivity" />
         <activity android:name=".ui_components.calls.call_manager.CometChatStartCallActivity"
-            android:launchMode="singleTask"/>
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui_components.messages.thread_message_list.CometChatThreadMessageListActivity"
             android:windowSoftInputMode="adjustResize" />
@@ -46,7 +47,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="image/*" />
+                <data android:mimeType="image/*"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />

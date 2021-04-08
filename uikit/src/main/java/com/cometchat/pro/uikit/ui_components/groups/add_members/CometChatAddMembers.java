@@ -31,6 +31,8 @@ import com.cometchat.pro.core.UsersRequest;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.R;
+import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
+import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
@@ -244,7 +246,8 @@ public class CometChatAddMembers extends Fragment {
 
             @Override
             public void onError(CometChatException e) {
-                Utils.showCometChatDialog(getContext(),rvUserList,e.getMessage(),true);
+                CometChatSnackBar.show(getContext(),rvUserList,
+                        CometChatError.localized(e),CometChatSnackBar.ERROR);
             }
         });
     }
@@ -267,7 +270,8 @@ public class CometChatAddMembers extends Fragment {
 
             @Override
             public void onError(CometChatException e) {
-                Utils.showCometChatDialog(getContext(),rvUserList,e.getMessage(),true);
+                CometChatSnackBar.show(getContext(),rvUserList,
+                        CometChatError.localized(e), CometChatSnackBar.ERROR);
             }
         });
     }

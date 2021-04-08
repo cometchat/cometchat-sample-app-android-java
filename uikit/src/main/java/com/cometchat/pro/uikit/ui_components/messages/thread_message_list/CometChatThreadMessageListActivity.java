@@ -212,7 +212,7 @@ public class CometChatThreadMessageListActivity extends AppCompatActivity implem
              }
 
              fragment.setArguments(bundle);
-             getSupportFragmentManager().beginTransaction().replace(R.id.ChatFragment, fragment).commit();
+             getSupportFragmentManager().beginTransaction().replace(R.id.chat_fragment, fragment).commit();
          }
     }
 

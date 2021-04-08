@@ -24,8 +24,10 @@ import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.BaseMessage;
 import com.cometchat.pro.models.Group;
 import com.cometchat.pro.models.User;
+import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatCalls.CometChatCalls;
 import com.cometchat.pro.uikit.R;
+import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -166,7 +168,8 @@ public class MissedCall extends Fragment {
             @Override
             public void onError(CometChatException e) {
                 if (rvCallList != null)
-                    Utils.showCometChatDialog(getContext(),rvCallList,e.getMessage(),true);
+                    CometChatSnackBar.show(getContext(),rvCallList,CometChatError.localized(e)
+                            ,CometChatSnackBar.ERROR);
             }
         });
     }
@@ -194,7 +197,8 @@ public class MissedCall extends Fragment {
             @Override
             public void onError(CometChatException e) {
                 if (rvCallList!=null)
-                    Utils.showCometChatDialog(getContext(),rvCallList,getString(R.string.call_list_error),true);
+                    CometChatSnackBar.show(getContext(),rvCallList,
+                            CometChatError.localized(e),CometChatSnackBar.ERROR);
             }
         });
     }

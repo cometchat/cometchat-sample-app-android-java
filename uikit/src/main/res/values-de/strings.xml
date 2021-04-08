@@ -350,4 +350,5 @@
     <string name="uploading">Hochladen</string>
     <string name="retry">wiederholen</string>
     <string name="updating">Aktualisierung</string>
+    <string name="conversation_title">Gespräche</string>
 </resources>
