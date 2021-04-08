@@ -27,7 +27,7 @@ CometChat Kitchen Sink Sample App (built using CometChat UIKit) is a fully funct
 Before you begin, ensure you have met the following requirements:<br/>
  ✅ &nbsp; You have `Android Studio` installed in your machine.<br/>
  ✅ &nbsp; You have a `Android Device or Emulator` with Android Version 6.0 or above.<br/>
- ✅ &nbsp; You have read [CometChat Key Concepts](https://prodocs.cometchat.com/docs/concepts).<br/>
+ ✅ &nbsp; You have read [CometChat Key Concepts](https://prodocs.cometchat.com/v3.0-beta/docs/concepts).<br/>
 
 <hr/>
 
@@ -40,7 +40,7 @@ Simply clone the project from [android-java-chat-app](https://github.com/cometch
 
 To Run to sample app you have to do the following changes by Adding **APP_ID**, **AUTH_KEY** and  **REGION_CODE**
 
-   You can obtain your  *APP_ID*, *AUTH_KEY* and *REGION_CODE* from [CometChat-Pro Dashboard](https://app.cometchat.io/)
+   You can obtain your  *APP_ID*, *AUTH_KEY* and *REGION_CODE* from [CometChat-Pro Dashboard](https://app.cometchat.com/)
 
    - Open the project in Android Studio.
 
@@ -62,7 +62,7 @@ Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/andr
 
 ## Troubleshooting
 
-- To read the full documentation on UI Kit integration visit our [Documentation](https://prodocs.cometchat.com/docs/android-ui-kit)  .
+- To read the full documentation on UI Kit integration visit our [Documentation](https://prodocs.cometchat.com/v3.0-beta/docs/android-ui-kit)  .
 
 - Facing any issues while integrating or installing the UI Kit please <a href="https://app.cometchat.io/"> connect with us via real time support present in CometChat Dashboard.</a>.
 
@@ -82,7 +82,7 @@ Thanks to the following people who have contributed to this project:
 
 ## :mailbox: Contact
 
-Contact us via real time support present in [CometChat Dashboard.](https://app.cometchat.io/)
+Contact us via real time support present in [CometChat Dashboard.](https://app.cometchat.com/)
 
 ---
 
