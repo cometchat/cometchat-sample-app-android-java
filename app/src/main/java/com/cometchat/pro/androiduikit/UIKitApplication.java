@@ -40,33 +40,13 @@ public class UIKitApplication extends Application {
                 Toast.makeText(UIKitApplication.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+        UIKitSettings uiKitSettings = new UIKitSettings(this);
+        uiKitSettings.addConnectionListener(TAG);
         CometChatCallListener.addCallListener(TAG,this);
         createNotificationChannel();
     }
 
-    private void addConnectionListener(String tag) {
-        CometChat.addConnectionListener(tag, new CometChat.ConnectionListener() {
-            @Override
-            public void onConnected() {
-                Toast.makeText(getBaseContext(),"Connected",Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onConnecting() {
-
-            }
-
-            @Override
-            public void onDisconnected() {
-                Toast.makeText(getBaseContext(),"You have been disconnected.",Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFeatureThrottled() {
-
-            }
-        });
-    }
 
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
@@ -88,6 +68,7 @@ public class UIKitApplication extends Application {
     @Override
     public void onTerminate() {
         super.onTerminate();
+        CometChat.removeConnectionListener(TAG);
         CometChatCallListener.removeCallListener(TAG);
     }
 }

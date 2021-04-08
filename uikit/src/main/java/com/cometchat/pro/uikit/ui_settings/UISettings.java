@@ -58,6 +58,7 @@ public class UISettings {
     protected static boolean liveReaction = true;
     protected static boolean allowReactionOnMessage = true;
     protected static boolean allowMessageTranslation = true;
+    protected static boolean showReplyPrivately = false;
     protected static int emailColor = R.color.primaryTextColor;
     protected static int phoneColor = R.color.purple;
     protected static int urlColor = R.color.dark_blue;
@@ -259,4 +260,8 @@ public class UISettings {
     }
 
     public static boolean isTranslationAllowed() { return  allowMessageTranslation; }
+
+    public static boolean isShowReplyPrivately() {
+        return showReplyPrivately;
+    }
 }

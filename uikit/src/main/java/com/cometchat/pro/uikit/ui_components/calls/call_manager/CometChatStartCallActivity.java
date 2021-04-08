@@ -3,11 +3,18 @@ package com.cometchat.pro.uikit.ui_components.calls.call_manager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityManager;
+import android.app.PictureInPictureParams;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Rational;
+import android.view.Display;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -19,13 +26,16 @@ import com.cometchat.pro.core.CallSettings;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
-import com.cometchat.pro.repo.SettingsRepo;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.ui_components.calls.call_manager.ongoing_call.OngoingCallService;
+import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
+import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 import com.google.android.material.snackbar.Snackbar;
 
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
+
+import java.util.List;
 
 /**
  * CometChatStartCallActivity is activity class which is used to start a call. It takes sessionID
@@ -53,6 +63,7 @@ public class CometChatStartCallActivity extends AppCompatActivity {
     private OngoingCallService ongoingCallService;
 
     private Intent mServiceIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +73,7 @@ public class CometChatStartCallActivity extends AppCompatActivity {
         ongoingCallService = new OngoingCallService();
         mServiceIntent = new Intent(this,ongoingCallService.getClass());
         if (!isMyServiceRunning(ongoingCallService.getClass())) {
-            startService(mServiceIntent);
+            startForegroundService(mServiceIntent);
         }
 
         mainView = findViewById(R.id.call_view);
@@ -79,34 +90,52 @@ public class CometChatStartCallActivity extends AppCompatActivity {
                     .setSessionId(sessionID)
                     .build();
         Log.e( "startCallActivity: ",sessionID+" "+type);
-
         CometChat.startCall(callSettings, new CometChat.OngoingCallListener() {
-                @Override
-                public void onUserJoined(User user) {
-                    connectingLayout.setVisibility(View.GONE);
-                    Log.e("onUserJoined: ", user.getUid());
-                }
+            @Override
+            public void onUserListUpdated(List<User> list) {
+                Log.e( "onUserListUpdated: ",list.toString() );
+            }
 
-                @Override
-                public void onUserLeft(User user) {
-                    Snackbar.make(mainView, "User Left: " + user.getName(), Snackbar.LENGTH_LONG).show();
+            @Override
+            public void onUserJoined(User user) {
+                connectingLayout.setVisibility(View.GONE);
+                CometChatSnackBar.show(CometChatStartCallActivity.this,
+                        mainView, getString(R.string.user_joined)+":"+ user.getName(),
+                        CometChatSnackBar.INFO);
+                Log.e("onUserJoined: ", user.getUid());
+            }
+
+            @Override
+            public void onUserLeft(User user) {
+                if (user!=null) {
+                    CometChatSnackBar.show(CometChatStartCallActivity.this,
+                            mainView, getString(R.string.user_left)+":"+ user.getName(),
+                            CometChatSnackBar.INFO);
                     Log.e("onUserLeft: ", user.getUid());
+                    if (callSettings.isDefaultLayout()) {
+                        endCall();
+                    }
+                } else {
+                    Log.e( "onUserLeft: ","triggered" );
                 }
+            }
 
-                @Override
-                public void onError(CometChatException e) {
+            @Override
+            public void onError(CometChatException e) {
+                if (mServiceIntent!=null)
                     stopService(mServiceIntent);
-                    Log.e("onstartcallError: ", e.getMessage());
-                    Utils.showCometChatDialog(CometChatStartCallActivity.this,
-                            mainView,e.getCode()+" "+e.getMessage(), true);
-                }
+                Log.e("onstartcallError: ", e.getMessage());
+                CometChatSnackBar.show(CometChatStartCallActivity.this,
+                        mainView,CometChatError.localized(e), CometChatSnackBar.ERROR);
+            }
 
-                @Override
-                public void onCallEnded(Call call) {
+            @Override
+            public void onCallEnded(Call call) {
+                if (mServiceIntent!=null)
                     stopService(mServiceIntent);
-                    Log.e("TAG", "onCallEnded: ");
-                    finish();
-                }
+                Log.e("TAG", "onCallEnded: ");
+                finish();
+            }
         });
     }
 
@@ -125,20 +154,24 @@ public class CometChatStartCallActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (type!=null && type.equalsIgnoreCase(CometChatConstants.RECEIVER_TYPE_GROUP)) {
-            CometChat.endCall(sessionID, new CometChat.CallbackListener<Call>() {
-                @Override
-                public void onSuccess(Call call) {
-                    finish();
-                }
-
-                @Override
-                public void onError(CometChatException e) {
-                    Utils.showCometChatDialog(CometChatStartCallActivity.this,
-                            mainView,e.getCode()+" "+e.getMessage(), true);
-                }
-            });
+            endCall();
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void endCall() {
+        CometChat.endCall(sessionID, new CometChat.CallbackListener<Call>() {
+            @Override
+            public void onSuccess(Call call) {
+                finish();
+            }
+
+            @Override
+            public void onError(CometChatException e) {
+                CometChatSnackBar.show(CometChatStartCallActivity.this,
+                        mainView, CometChatError.localized(e), CometChatSnackBar.ERROR);
+            }
+        });
     }
 }

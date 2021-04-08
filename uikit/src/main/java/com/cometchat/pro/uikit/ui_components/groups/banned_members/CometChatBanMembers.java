@@ -24,7 +24,9 @@ import com.cometchat.pro.uikit.R;
 import java.util.List;
 
 import com.cometchat.pro.uikit.ui_components.groups.group_members.GroupMemberAdapter;
+import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
+import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 import com.cometchat.pro.uikit.ui_resources.utils.recycler_touch.ClickListener;
 import com.cometchat.pro.uikit.ui_resources.utils.recycler_touch.RecyclerTouchListener;
@@ -83,8 +85,8 @@ public class CometChatBanMembers extends Fragment {
             @Override
             public void onError(CometChatException e) {
                 if (bannedMemberRv!=null)
-                    Utils.showCometChatDialog(getContext(),bannedMemberRv,
-                            getResources().getString(R.string.ban_list_fetch_error),true);
+                    CometChatSnackBar.show(getContext(),bannedMemberRv,
+                            CometChatError.localized(e),CometChatSnackBar.ERROR);
             }
         });
     }
@@ -126,16 +128,17 @@ public class CometChatBanMembers extends Fragment {
             @Override
             public void onSuccess(String s) {
                 if (bannedMemberRv!=null)
-                    Utils.showCometChatDialog(getContext(),bannedMemberRv,
-                            groupMember.getName()+" "+getResources().getString(R.string.unbanned_successfully),false);
+                    CometChatSnackBar.show(getContext(),bannedMemberRv,
+                            groupMember.getName()+" "+getResources().getString(R.string.unbanned_successfully),CometChatSnackBar.SUCCESS);
                 groupMemberAdapter.removeGroupMember(groupMember);
             }
 
             @Override
             public void onError(CometChatException e) {
                 if (bannedMemberRv!=null)
-                    Utils.showCometChatDialog(getContext(),bannedMemberRv,
-                            String.format(getResources().getString(R.string.unban_error),groupMember.getName()),true);
+                    CometChatSnackBar.show(getContext(),bannedMemberRv,
+                            String.format(getResources().getString(R.string.unban_error),groupMember.getName())+
+                                    ", "+CometChatError.localized(e),CometChatSnackBar.ERROR);
             }
         });
     }

@@ -29,7 +29,6 @@
         <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button</item>
         <item name="textAppearanceOverline">@style/TextAppearance.MaterialComponents.Overline</item>
 
-
     </style>
 
     <style name="AppTheme.NoActionBar">

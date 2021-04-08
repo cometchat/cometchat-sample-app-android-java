@@ -47,6 +47,8 @@ import com.cometchat.pro.core.UsersRequest;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.R;
+import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
+import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
@@ -254,7 +256,8 @@ public class CometChatNewCallList extends AppCompatActivity {
             public void onError(CometChatException e) {
                 Log.e(TAG, "onError: " + e.getMessage());
                 stopHideShimmer();
-                Utils.showCometChatDialog(CometChatNewCallList.this,rvUserList,e.getMessage(),true);
+                CometChatSnackBar.show(CometChatNewCallList.this,rvUserList,
+                        CometChatError.localized(e),CometChatSnackBar.ERROR);
             }
         });
     }
@@ -277,7 +280,8 @@ public class CometChatNewCallList extends AppCompatActivity {
             @Override
             public void onError(CometChatException e) {
                 if (rvUserList!=null)
-                    Utils.showCometChatDialog(CometChatNewCallList.this,rvUserList,e.getMessage(),true);
+                    CometChatSnackBar.show(CometChatNewCallList.this,rvUserList,
+                            CometChatError.localized(e),CometChatSnackBar.ERROR);
             }
         });
     }

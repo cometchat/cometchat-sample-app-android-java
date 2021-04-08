@@ -15,12 +15,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.emoji.bundled.BundledEmojiCompatConfig;
 import androidx.emoji.text.EmojiCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
@@ -34,6 +36,8 @@ import com.cometchat.pro.models.TextMessage;
 import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.databinding.ActivityCometchatUnifiedBinding;
+import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
+import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -69,7 +73,7 @@ public class CometChatUI extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener,OnAlertDialogButtonClickListener {
 
     //Used to bind the layout with class
-    private ActivityCometchatUnifiedBinding activityCometChatUnifiedBinding;
+    private static ActivityCometchatUnifiedBinding activityCometChatUnifiedBinding;
 
     //Used to identify class in Log's
     private static final String TAG = CometChatUI.class.getSimpleName();
@@ -89,9 +93,14 @@ public class CometChatUI extends AppCompatActivity implements
 
     private Fragment active = new CometChatConversationList();
 
+    @VisibleForTesting
+    public static AppCompatActivity activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        activity = this;
 
         if (!CometChatCallListener.isInitialized)
             CometChatCallListener.addCallListener(TAG,this);
@@ -240,7 +249,9 @@ public class CometChatUI extends AppCompatActivity implements
                     if (progressDialog != null)
                         progressDialog.dismiss();
 
-                    Utils.showCometChatDialog(CometChatUI.this,activityCometChatUnifiedBinding.bottomNavigation,getString(R.string.unable_to_join_message),true);
+                    CometChatSnackBar.show(CometChatUI.this,
+                            activityCometChatUnifiedBinding.bottomNavigation,
+                            CometChatError.localized(e),CometChatSnackBar.ERROR);
                 }
             });
         }
@@ -369,7 +380,6 @@ public class CometChatUI extends AppCompatActivity implements
      * @see CometChatMessageListActivity
      */
     private void startGroupIntent(Group group) {
-
         Intent intent = new Intent(CometChatUI.this, CometChatMessageListActivity.class);
         intent.putExtra(UIKitConstants.IntentStrings.GUID, group.getGuid());
         intent.putExtra(UIKitConstants.IntentStrings.AVATAR, group.getIcon());
@@ -456,5 +466,15 @@ public class CometChatUI extends AppCompatActivity implements
         super.onPause();
         badgeDrawable.clearNumber();
         unreadCount.clear();    //Clear conversation count when app pauses or goes background.
+    }
+
+    @VisibleForTesting
+    public static ActivityCometchatUnifiedBinding getBinding() {
+        return activityCometChatUnifiedBinding;
+    }
+
+    @VisibleForTesting
+    public static AppCompatActivity getCometChatUIActivity() {
+        return activity;
     }
 }

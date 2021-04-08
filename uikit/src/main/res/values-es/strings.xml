@@ -358,4 +358,5 @@
     <string name="uploading">subiendo</string>
     <string name="retry">rever</string>
     <string name="updating">actualización</string>
+    <string name="conversation_title">Conversaciones</string>
 </resources>

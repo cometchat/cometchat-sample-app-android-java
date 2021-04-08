@@ -25,6 +25,7 @@ import android.os.Vibrator;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 import androidx.loader.content.CursorLoader;
@@ -39,6 +40,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -173,6 +175,7 @@ public class MediaUtils {
         PackageManager packageManager = activity.getPackageManager();
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/* video/*");
+//        galleryIntent.putExtra(Intent.EXTRA_MIME_TYPES,new String[]{"image/*", "video/*"});
         List<ResolveInfo> listGallery = packageManager.queryIntentActivities(galleryIntent, 0);
         for (ResolveInfo res : listGallery) {
             Intent intent = new Intent(galleryIntent);
@@ -298,6 +301,9 @@ public class MediaUtils {
         if (isGoogleDrive(fileUri)) {
             return saveDriveFile(context, fileUri);
         }
+        else if (isWhatsAppMedia(fileUri)) {
+            return getWhatsAppImage(context, fileUri);
+        }
         // SDK < API11
         else if (Build.VERSION.SDK_INT < 11) {
             realPath = getRealPathFromURI_BelowAPI11(context, fileUri);
@@ -311,6 +317,39 @@ public class MediaUtils {
             realPath = getRealPathFromURI_API19(context, fileUri);
         }
         return new File(realPath);
+    }
+
+    public static File getWhatsAppImage(Context context,Uri imageUri) {
+//        Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+        File file = null;
+        try {
+            if (imageUri != null) {
+                file = new File(context.getCacheDir(), "image");
+                InputStream inputStream = context.getContentResolver().openInputStream(imageUri);
+                try {
+
+                    OutputStream output = new FileOutputStream(file);
+                    try {
+                        byte[] buffer = new byte[4 * 1024]; // or other buffer size
+                        int read;
+
+                        while ((read = inputStream.read(buffer)) != -1) {
+                            output.write(buffer, 0, read);
+                        }
+
+                        output.flush();
+                    } finally {
+                        output.close();
+                    }
+                } finally {
+                    inputStream.close();
+                    //Upload Bytes.
+                }
+            }
+        } catch (Exception e) {
+            Toast.makeText(context,"File Uri is null",Toast.LENGTH_LONG).show();
+        }
+        return file;
     }
 
     public static File saveDriveFile(Context context, Uri uri) {
@@ -466,7 +505,7 @@ public class MediaUtils {
                     contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
                 }
 
-                final String selection = "_id=?";
+                final String selection = MediaStore.Images.Media._ID+"=?";
                 final String[] selectionArgs = new String[]{
                         split[1]
                 };
@@ -564,6 +603,9 @@ public class MediaUtils {
         return uri.getAuthority().contains("com.google.android.apps.docs.storage");
     }
 
+    public static boolean isWhatsAppMedia(Uri uri) {
+        return uri.getAuthority().contains("com.whatsapp.provider.media");
+    }
 
     /**
      * @param uri The Uri to check.

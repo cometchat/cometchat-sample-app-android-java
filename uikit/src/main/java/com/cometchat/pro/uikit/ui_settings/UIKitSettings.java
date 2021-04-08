@@ -1,7 +1,9 @@
 package com.cometchat.pro.uikit.ui_settings;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
@@ -10,6 +12,7 @@ import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.R;
 
 import com.cometchat.pro.uikit.ui_components.messages.message_list.CometChatMessageListActivity;
+import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
 
 public class UIKitSettings {
@@ -58,6 +61,32 @@ public class UIKitSettings {
         UISettings.urlColor = color;
     }
 
+    public void showReplyPrivately(boolean isVisible) {
+        UISettings.showReplyPrivately = isVisible;
+    }
+    public void addConnectionListener(String TAG) {
+        CometChat.addConnectionListener(TAG, new CometChat.ConnectionListener() {
+            @Override
+            public void onConnected() {
+                Toast.makeText(context,"OnConnected",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onConnecting() {
+                Toast.makeText(context,"OnConnecting",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onDisconnected() {
+                Toast.makeText(context,"OnDisConnected",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFeatureThrottled() {
+                Toast.makeText(context,"OnFeatureThrottled",Toast.LENGTH_LONG).show();
+            }
+        });
+    }
     @Deprecated
     public static void showCallNotification(boolean isVisible) {
         if (!isVisible) {

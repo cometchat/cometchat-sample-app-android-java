@@ -44,6 +44,8 @@ import com.cometchat.pro.core.UsersRequest;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.models.User;
+import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
+import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
@@ -253,7 +255,8 @@ public class CometChatUserList extends Fragment {
                 Log.e(TAG, "onError: " + e.getMessage());
                 stopHideShimmer();
                 if (getActivity()!=null)
-                    Utils.showCometChatDialog(context,rvUserList,e.getMessage(), true);
+                    CometChatSnackBar.show(context,rvUserList,CometChatError.localized(e),
+                            CometChatSnackBar.ERROR);
             }
         });
     }
@@ -275,7 +278,8 @@ public class CometChatUserList extends Fragment {
 
             @Override
             public void onError(CometChatException e) {
-                Utils.showCometChatDialog(context,rlSearchBox, e.getMessage(), true);
+                CometChatSnackBar.show(context,rlSearchBox, CometChatError.localized(e)
+                        , CometChatSnackBar.ERROR);
             }
         });
     }

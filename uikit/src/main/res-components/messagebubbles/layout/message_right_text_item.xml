@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layoutDirection="ltr"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:gravity="end"
@@ -90,18 +91,19 @@
             android:visibility="gone"
             android:layout_width="24dp"
             android:layout_height="24dp"/>
+
         <TextView
             android:id="@+id/txt_time"
-            android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="11:00 PM"
-            android:layout_marginBottom="8dp"
-            android:textSize="12sp"
             android:layout_alignBottom="@+id/cv_message_container"
+            android:layout_marginBottom="8dp"
             android:layout_toLeftOf="@+id/cv_message_container"
+            android:gravity="center_vertical"
+            android:textSize="12sp"
             android:textStyle="bold"
-            tools:visibility="visible"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:text="11:00 PM"
+            tools:visibility="visible" />
     </RelativeLayout>
 </LinearLayout>

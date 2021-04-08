@@ -350,4 +350,5 @@
     <string name="uploading">تحميل</string>
     <string name="retry">أعد المحاولة</string>
     <string name="updating">التحديث</string>
+    <string name="conversation_title">المحادثات</string>
 </resources>

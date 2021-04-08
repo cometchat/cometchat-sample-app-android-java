@@ -19,6 +19,8 @@ import com.cometchat.pro.core.MessagesRequest;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.BaseMessage;
 import com.cometchat.pro.uikit.R;
+import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
+import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 
 import java.util.ArrayList;
@@ -98,7 +100,7 @@ public class CometChatSharedImages extends Fragment {
             public void onError(CometChatException e) {
                 Log.e( "onError: ",e.getMessage() );
                 if (rvFiles!=null)
-                    Utils.showCometChatDialog(getContext(),rvFiles,e.getMessage(),true);
+                   CometChatSnackBar.show(getContext(),rvFiles, CometChatError.localized(e), CometChatSnackBar.ERROR);
             }
         });
     }

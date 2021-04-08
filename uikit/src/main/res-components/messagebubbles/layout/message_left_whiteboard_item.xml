@@ -8,6 +8,7 @@
     android:layout_marginBottom="16dp">
 
     <RelativeLayout
+        android:layoutDirection="ltr"
         android:id="@+id/rl_message"
         android:animateLayoutChanges="true"
         android:layout_width="wrap_content"

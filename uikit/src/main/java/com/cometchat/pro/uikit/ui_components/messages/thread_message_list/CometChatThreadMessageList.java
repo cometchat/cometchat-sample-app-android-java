@@ -78,12 +78,15 @@ import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.ui_components.messages.extensions.Extensions;
 import com.cometchat.pro.uikit.ui_components.messages.forward_message.CometChatForwardMessageActivity;
 import com.cometchat.pro.uikit.ui_components.messages.message_actions.CometChatMessageActions;
+import com.cometchat.pro.uikit.ui_components.messages.message_list.CometChatMessageListActivity;
+import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatComposeBox.CometChatComposeBox;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatReaction.listener.OnReactionClickListener;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatReaction.CometChatReactionDialog;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatReaction.model.Reaction;
+import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.cometchat.pro.uikit.ui_settings.UISettings;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatSmartReplies.CometChatSmartReplies;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -504,14 +507,17 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
                                             public void onSuccess(JSONObject jsonObject) {
                                                 // Voted successfully
                                                 Log.e(TAG, "onSuccess: "+jsonObject.toString());
-                                                Utils.showCometChatDialog(context,rvChatListView,
-                                                        context.getString(R.string.voted_success),false);
+                                                CometChatSnackBar.show(context,rvChatListView,
+                                                        context.getString(R.string.voted_success),CometChatSnackBar.SUCCESS);
                                             }
 
                                             @Override
                                             public void onError(CometChatException e) {
                                                 // Some error occured
-                                                Utils.showCometChatDialog(context,rvChatListView,e.getMessage(),true);
+                                                CometChatSnackBar.show(context,rvChatListView,
+                                                        CometChatError.Extension
+                                                                .localized(e,"polls"),
+                                                        CometChatSnackBar.ERROR);
                                             }
                                         });
                             } catch (Exception e) {
@@ -557,7 +563,10 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
 
                                     @Override
                                     public void onError(CometChatException e) {
-                                        Utils.showCometChatDialog(context,rvChatListView,e.getMessage(),true);
+                                        CometChatSnackBar.show(context,rvChatListView,
+                                                CometChatError.Extension
+                                                        .localized(e,"reactions"),
+                                                CometChatSnackBar.ERROR);
                                         // Some error occured.
                                     }
                                 });
@@ -775,7 +784,10 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
 
                                 @Override
                                 public void onError(CometChatException e) {
-                                    Utils.showCometChatDialog(context,rvChatListView,e.getMessage(),true);
+                                    CometChatSnackBar.show(context,rvChatListView,
+                                            CometChatError.Extension
+                                                    .localized(e,"reactions"),
+                                            CometChatSnackBar.ERROR);
                                     // Some error occured.
                                 }
                             });
@@ -1000,7 +1012,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
             @Override
             public void onError(CometChatException e) {
                 if (getActivity() != null) {
-                    Utils.showCometChatDialog(context,rvChatListView, e.getMessage(),true);
+                    CometChatSnackBar.show(context,rvChatListView,CometChatError.localized(e),CometChatSnackBar.ERROR);
                 }
             }
         });
@@ -1058,7 +1070,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
 
             @Override
             public void onError(CometChatException e) {
-                Utils.showCometChatDialog(context,rvChatListView,e.getMessage(),true);
+                CometChatSnackBar.show(context,rvChatListView,CometChatError.localized(e),CometChatSnackBar.ERROR);
                 Log.d(TAG, "onError: " + e.getMessage());
             }
         });
@@ -1098,7 +1110,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
     }
 
     private void showPermissionSnackBar(View view, String message) {
-        Utils.showCometChatDialog(context,view,message,true);
+        CometChatSnackBar.show(context,view,message,CometChatSnackBar.WARNING);
     }
 
     @Override
@@ -1130,8 +1142,8 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
         CometChat.unblockUsers(uids, new CometChat.CallbackListener<HashMap<String, String>>() {
             @Override
             public void onSuccess(HashMap<String, String> stringStringHashMap) {
-                Utils.showCometChatDialog(context,rvChatListView,
-                        name+" "+getResources().getString(R.string.unblocked_successfully),false);
+                CometChatSnackBar.show(context,rvChatListView,
+                        name+" "+getResources().getString(R.string.unblocked_successfully),CometChatSnackBar.SUCCESS);
                 blockUserLayout.setVisibility(GONE);
                 isBlockedByMe = false;
                 messagesRequest=null;
@@ -1139,7 +1151,8 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
 
             @Override
             public void onError(CometChatException e) {
-                Utils.showCometChatDialog(context,rvChatListView,e.getMessage(),true);
+                CometChatSnackBar.show(context,rvChatListView,CometChatError.localized(e)
+                        ,CometChatSnackBar.ERROR);
             }
         });
     }
@@ -1177,6 +1190,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
                 initMessageAdapter(baseMessages);
                 if (baseMessages.size() != 0) {
                     stopHideShimmer();
+                    noReplyMessages.setVisibility(GONE);
                     BaseMessage baseMessage = baseMessages.get(baseMessages.size() - 1);
                     markMessageAsRead(baseMessage);
                 }
@@ -1189,7 +1203,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
 
             @Override
             public void onError(CometChatException e) {
-                Utils.showCometChatDialog(context,rvChatListView,e.getMessage(),true);
+                CometChatSnackBar.show(context,rvChatListView,CometChatError.localized(e),CometChatSnackBar.ERROR);
                 Log.d(TAG, "onError: " + e.getMessage());
             }
         });
@@ -1406,7 +1420,8 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
                     messageAdapter.updateChangedMessage(mediaMessage);
                 }
                 if (getActivity() != null) {
-                    Utils.showCometChatDialog(context,rvChatListView,e.getMessage(),true);
+                    CometChatSnackBar.show(context,rvChatListView,CometChatError.localized(e)
+                            ,CometChatSnackBar.ERROR);
                 }
             }
         });
@@ -1442,7 +1457,8 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
 
             @Override
             public void onError(CometChatException e) {
-                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "getUser():onError: "+e.getCode());
+                Toast.makeText(context, CometChatError.localized(e), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -1476,7 +1492,8 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
 
             @Override
             public void onError(CometChatException e) {
-                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "getGroup():onError: "+e.getCode());
+                Toast.makeText(context, CometChatError.localized(e), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -1526,7 +1543,8 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
                     messageAdapter.updateChangedMessage(textMessage);
                 }
                 if (getActivity() != null) {
-                    Utils.showCometChatDialog(context,rvChatListView,e.getMessage(),true);
+                    CometChatSnackBar.show(context,rvChatListView,
+                            CometChatError.localized(e),CometChatSnackBar.ERROR);
                 }
                 Log.d(TAG, "onError: " + e.getMessage());
             }
@@ -1552,7 +1570,8 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
             @Override
             public void onError(CometChatException e) {
 
-                Utils.showCometChatDialog(context,rvChatListView,e.getMessage(),true);
+                CometChatSnackBar.show(context,rvChatListView,
+                        CometChatError.localized(e),CometChatSnackBar.ERROR);
                 Log.d(TAG, "onError: " + e.getMessage());
             }
         });
@@ -1590,7 +1609,8 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
 
             @Override
             public void onError(CometChatException e) {
-                Utils.showCometChatDialog(context,rvChatListView,e.getMessage(),true);
+                CometChatSnackBar.show(context,rvChatListView,
+                        CometChatError.localized(e),CometChatSnackBar.ERROR);
                 Log.d(TAG, "onError: " + e.getMessage());
             }
         });
@@ -1646,7 +1666,9 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
 
                 @Override
                 public void onError(CometChatException e) {
-                    Utils.showCometChatDialog(context,rvChatListView,e.getMessage(),true);
+                    CometChatSnackBar.show(context,rvChatListView,
+                            CometChatError.localized(e),
+                            CometChatSnackBar.ERROR);
                     Log.e(TAG, "onError: "+e.getMessage());
                 }
             });
@@ -2161,18 +2183,16 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
         bundle.putBoolean("replyVisible",replyVisible);
         bundle.putBoolean("forwardVisible",forwardVisible);
         bundle.putBoolean("translateVisible",translateVisible);
-        CometChat.isExtensionEnabled("reactions", new CometChat.CallbackListener<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                if (aBoolean)
-                    bundle.putBoolean("isReactionVisible",reactionVisible);
-            }
+        if(CometChat.isExtensionEnabled("reactions")) {
+            bundle.putBoolean("isReactionVisible",reactionVisible);
+        }
 
-            @Override
-            public void onError(CometChatException e) {
-                Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (!baseMessage.getSender().getUid().equalsIgnoreCase(loggedInUser.getUid())) {
+            bundle.putBoolean("privateReplyVisible", true);
+            bundle.putString("userAvatar",baseMessage.getSender().getAvatar());
+            bundle.putString("userName",baseMessage.getSender().getName());
+        }
+
         if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP) &&
                 baseMessage.getSender().getUid().equals(loggedInUser.getUid()))
             bundle.putBoolean("messageInfoVisible",true);
@@ -2189,6 +2209,21 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
     private void showBottomSheet(CometChatMessageActions messageActionFragment) {
         messageActionFragment.show(getFragmentManager(),messageActionFragment.getTag());
         messageActionFragment.setMessageActionListener(new CometChatMessageActions.MessageActionListener() {
+            @Override
+            public void onPrivateReplyToUser() {
+                if (baseMessage!=null) {
+                    User user = baseMessage.getSender();
+                    Intent intent = new Intent(context, CometChatMessageListActivity.class);
+                    intent.putExtra(UIKitConstants.IntentStrings.UID, user.getUid());
+                    intent.putExtra(UIKitConstants.IntentStrings.AVATAR, user.getAvatar());
+                    intent.putExtra(UIKitConstants.IntentStrings.STATUS, user.getStatus());
+                    intent.putExtra(UIKitConstants.IntentStrings.NAME, user.getName());
+                    intent.putExtra(UIKitConstants.IntentStrings.TYPE, CometChatConstants.RECEIVER_TYPE_USER);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            }
+
             @Override
             public void onThreadMessageClick() {
 
@@ -2330,11 +2365,12 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
                                     if (isParent) {
                                         if (Extensions.isMessageTranslated(jsonObject,textMessage.getText().toString())) {
                                             String translatedMessage = Extensions
-                                                    .getTextTranslatedMessage(jsonObject,
+                                                    .getTextFromTranslatedMessage(jsonObject,
                                                             textMessage.getText().toString());
                                             textMessage.setText(translatedMessage);
                                         } else {
-                                            Snackbar.make(rvChatListView,getString(R.string.no_translation_available),Snackbar.LENGTH_LONG).show();
+                                            CometChatSnackBar.show(context,rvChatListView,
+                                                    getString(R.string.no_translation_available),CometChatSnackBar.INFO);
                                         }
                                     } else {
                                         if (Extensions.isMessageTranslated(jsonObject,((TextMessage)baseMessage).getText())) {
@@ -2352,14 +2388,18 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
                                                 updateMessage(baseMessage);
                                             }
                                         } else {
-                                            Snackbar.make(rvChatListView,getString(R.string.no_translation_available),Snackbar.LENGTH_LONG).show();
+                                            CometChatSnackBar.show(context,rvChatListView,
+                                                    getString(R.string.no_translation_available),CometChatSnackBar.INFO);
                                         }
                                     }
                                 }
 
                                 @Override
                                 public void onError(CometChatException e) {
-                                    Toast.makeText(context,e.getCode(),Toast.LENGTH_LONG).show();
+                                    CometChatSnackBar.show(context,rvChatListView,
+                                            CometChatError.Extension
+                                                    .localized(e,"message-translation"),
+                                            CometChatSnackBar.ERROR);
                                 }
                             });
                 } catch (Exception e) {
@@ -2393,7 +2433,9 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
 
                     @Override
                     public void onError(CometChatException e) {
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                        CometChatSnackBar.show(context,rvChatListView,
+                                CometChatError.Extension.localized(e,"reactions"),
+                                CometChatSnackBar.ERROR);
                         Log.e(TAG, "onError: " + e.getCode() + e.getMessage() + e.getDetails());
                     }
                 });

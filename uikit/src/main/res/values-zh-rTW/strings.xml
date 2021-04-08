@@ -353,4 +353,5 @@
     <string name="uploading">上載</string>
     <string name="retry">重試</string>
     <string name="updating">更新中</string>
+    <string name="conversation_title">對話內容</string>
 </resources>

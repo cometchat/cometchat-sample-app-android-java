@@ -5,6 +5,7 @@
     android:gravity="end"
     android:layout_marginTop="8dp"
     android:layout_marginRight="8dp"
+    android:layoutDirection="ltr"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp">
@@ -56,21 +57,21 @@
                 android:id="@+id/join_whiteboard"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
+
         <TextView
             android:id="@+id/txt_time"
-            android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="11:00 PM"
-            android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@+id/cv_message_container"
             android:layout_alignBottom="@+id/cv_message_container"
+            android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
+            android:layout_toLeftOf="@+id/cv_message_container"
+            android:gravity="center_vertical"
             android:textSize="12sp"
-            android:textColor="@color/secondaryTextColor"
             android:textStyle="bold"
-            tools:visibility="visible"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            tools:text="11:00 PM"
+            tools:visibility="visible" />
         <HorizontalScrollView
             android:layout_alignEnd="@id/cv_message_container"
             android:layout_below="@+id/cv_message_container"

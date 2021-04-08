@@ -398,54 +398,22 @@ public class CometChatComposeBox extends RelativeLayout implements View.OnClickL
             bundle.putBoolean("isAudioVisible",isAudioVisible);
             bundle.putBoolean("isLocationVisible",isLocationVisible);
             bundle.putBoolean("isGroupCallVisible",isGroupCallVisible);
-            CometChat.isExtensionEnabled("document", new CometChat.CallbackListener<Boolean>() {
-                @Override
-                public void onSuccess(Boolean aBoolean) {
-                    if (aBoolean)
-                        bundle.putBoolean("isWriteBoardVisible",isWriteBoardVisible);
-                }
+            if (CometChat.isExtensionEnabled("document")) {
+                bundle.putBoolean("isWriteBoardVisible",isWriteBoardVisible);
+            }
 
-                @Override
-                public void onError(CometChatException e) {
-                    e.printStackTrace();
-                }
-            });
-            CometChat.isExtensionEnabled("whiteboard", new CometChat.CallbackListener<Boolean>() {
-                @Override
-                public void onSuccess(Boolean aBoolean) {
-                    if (aBoolean)
-                        bundle.putBoolean("isWhiteBoardVisible",isWhiteBoardVisible);
-                }
+            if (CometChat.isExtensionEnabled("whiteboard")) {
+                bundle.putBoolean("isWhiteBoardVisible",isWhiteBoardVisible);
+            }
 
-                @Override
-                public void onError(CometChatException e) {
-                    e.printStackTrace();
-                }
-            });
-            CometChat.isExtensionEnabled("stickers", new CometChat.CallbackListener<Boolean>() {
-                @Override
-                public void onSuccess(Boolean aBoolean) {
-                    if (aBoolean)
-                       bundle.putBoolean("isStickerVisible",isStickerVisible);
-                }
+            if (CometChat.isExtensionEnabled("stickers")) {
+                bundle.putBoolean("isStickerVisible",isStickerVisible);
+            }
 
-                @Override
-                public void onError(CometChatException e) {
-                    e.printStackTrace();
-                }
-            });
-            CometChat.isExtensionEnabled("polls", new CometChat.CallbackListener<Boolean>() {
-                @Override
-                public void onSuccess(Boolean aBoolean) {
-                    if (aBoolean)
-                        bundle.putBoolean("isPollsVisible",isPollVisible);
-                }
+            if (CometChat.isExtensionEnabled("polls")) {
+                bundle.putBoolean("isPollsVisible",isPollVisible);
+            }
 
-                @Override
-                public void onError(CometChatException e) {
-                    e.printStackTrace();
-                }
-            });
             composeBoxActionFragment.setArguments(bundle);
             composeBoxActionFragment.show(fm,composeBoxActionFragment.getTag());
         }
@@ -585,7 +553,7 @@ public class CometChatComposeBox extends RelativeLayout implements View.OnClickL
             mediaRecorder = new MediaRecorder();
             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
             audioFileNameWithPath = Utils.getOutputMediaFile(getContext());
             mediaRecorder.setOutputFile(audioFileNameWithPath);
             try {

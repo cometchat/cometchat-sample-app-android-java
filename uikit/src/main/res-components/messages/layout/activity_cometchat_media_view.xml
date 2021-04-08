@@ -18,10 +18,12 @@
     <com.cometchat.pro.uikit.ui_resources.utils.zoom_imageView.ZoomImageView
         android:visibility="gone"
         android:id="@+id/image_message"
+        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     <VideoView
         android:visibility="gone"
+        android:layout_below="@+id/toolbar"
         android:id="@+id/video_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

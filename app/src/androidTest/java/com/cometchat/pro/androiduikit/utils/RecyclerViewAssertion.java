@@ -8,6 +8,7 @@ import androidx.test.espresso.ViewAssertion;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Assert;
 
 public class RecyclerViewAssertion implements ViewAssertion {
     private final int expectedCount;
@@ -24,6 +25,12 @@ public class RecyclerViewAssertion implements ViewAssertion {
 
         RecyclerView recyclerView = (RecyclerView) view;
         RecyclerView.Adapter adapter = recyclerView.getAdapter();
-        MatcherAssert.assertThat(adapter.getItemCount(), Matchers.is(expectedCount));
+        if (adapter.getItemCount()<1) {
+            Assert.fail("No Conversation Found");
+        } else if (adapter.getItemCount()<expectedCount) {
+            Assert.assertTrue(expectedCount+" conversation found",true);
+        } else {
+            Assert.assertTrue(adapter.getItemCount()+" conversations",true);
+        }
     }
 }

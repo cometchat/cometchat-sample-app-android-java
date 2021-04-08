@@ -10,6 +10,7 @@ import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import androidx.annotation.NonNull;
 import com.cometchat.pro.uikit.R;
 
 import com.cometchat.pro.uikit.ui_components.messages.extensions.Extensions;
+import com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatReaction.model.Reaction;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -46,10 +48,17 @@ public class CometChatMessageActions extends BottomSheetDialogFragment {
     private TextView translateMessage;
     private TextView retryMessage;
 
+    private RelativeLayout messagePrivately;
+    private CometChatAvatar senderAvatar;
+    private TextView senderName;
+
+    private String userName;
+    private String userAvatar;
 
     private LinearLayout reactionsList;
     private ImageView showReactionDialog;
 
+    private boolean isPrivateReplyVisible;
     private boolean isShareVisible;
     private boolean isThreadVisible;
     private boolean isCopyVisible;
@@ -76,6 +85,9 @@ public class CometChatMessageActions extends BottomSheetDialogFragment {
 
     private void fetchArguments() {
         if (getArguments()!=null) {
+            isPrivateReplyVisible = getArguments().getBoolean("privateReplyVisible");
+            userAvatar = getArguments().getString("userAvatar");
+            userName = getArguments().getString("userName");
             isCopyVisible = getArguments().getBoolean("copyVisible");
             isThreadVisible = getArguments().getBoolean("threadVisible");
             isEditVisible = getArguments().getBoolean("editVisible");
@@ -107,6 +119,25 @@ public class CometChatMessageActions extends BottomSheetDialogFragment {
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 behavior.setPeekHeight(0);
             }
+        });
+
+        messagePrivately = view.findViewById(R.id.message_privately_layout);
+        senderAvatar = view.findViewById(R.id.sender_avatar);
+
+        if ((userName!=null && userName.isEmpty())
+                || (userAvatar!=null && userAvatar.isEmpty()))
+            messagePrivately.setVisibility(View.GONE);
+        else {
+            if (isPrivateReplyVisible)
+                messagePrivately.setVisibility(View.VISIBLE);
+            else
+                messagePrivately.setVisibility(View.GONE);
+            senderAvatar.setAvatar(userAvatar);
+        }
+
+        messagePrivately.setOnClickListener(v-> {
+            messageActionListener.onPrivateReplyToUser();
+            dismiss();
         });
         reactionsList = view.findViewById(R.id.initial_reactions);
         List<Reaction> reactions = Extensions.getInitialReactions(INITIAL_REACTION_COUNT);
@@ -158,6 +189,11 @@ public class CometChatMessageActions extends BottomSheetDialogFragment {
         copyMessage = view.findViewById(R.id.copy_message);
         shareMessage = view.findViewById(R.id.share_message);
         messageInfo = view.findViewById(R.id.message_info);
+
+        if (isPrivateReplyVisible)
+            messagePrivately.setVisibility(View.VISIBLE);
+        else
+            messagePrivately.setVisibility(View.GONE);
 
         if (isRetryVisible)
             retryMessage.setVisibility(View.VISIBLE);
@@ -315,6 +351,7 @@ public class CometChatMessageActions extends BottomSheetDialogFragment {
 
         void onTranslateMessageClick();
         void onRetryClick();
+        void onPrivateReplyToUser();
     }
 
     @Override

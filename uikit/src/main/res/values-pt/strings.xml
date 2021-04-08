@@ -351,4 +351,5 @@
     <string name="uploading">Enviando</string>
     <string name="retry">tentar novamente</string>
     <string name="updating">Atualizando</string>
+    <string name="conversation_title">Conversas</string>
 </resources>

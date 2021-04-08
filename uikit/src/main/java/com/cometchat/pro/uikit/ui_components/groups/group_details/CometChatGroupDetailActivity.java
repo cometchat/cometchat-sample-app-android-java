@@ -40,9 +40,11 @@ import com.cometchat.pro.models.GroupMember;
 import com.cometchat.pro.models.User;
 
 import com.cometchat.pro.uikit.ui_components.cometchat_ui.CometChatUI;
+import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatSharedMedia.CometChatSharedMedia;
+import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -593,8 +595,8 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
 
                 @Override
                 public void onError(CometChatException e) {
-                    Utils.showCometChatDialog(CometChatGroupDetailActivity.this,
-                            rvMemberList, getResources().getString(R.string.group_delete_error),true);
+                    CometChatSnackBar.show(CometChatGroupDetailActivity.this,
+                            rvMemberList, CometChatError.localized(e),CometChatSnackBar.ERROR);
                     Log.e(TAG, "onError: " + e.getMessage());
                 }
             });
@@ -603,6 +605,7 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
 
     private void launchUnified() {
         Intent intent = new Intent(CometChatGroupDetailActivity.this, CometChatUI.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }
@@ -625,8 +628,9 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
 
             @Override
             public void onError(CometChatException e) {
-                Utils.showCometChatDialog(CometChatGroupDetailActivity.this,
-                        rvMemberList, String.format(getResources().getString(R.string.cannot_remove_member),groupMember.getName()), true);
+                CometChatSnackBar.show(CometChatGroupDetailActivity.this,
+                        rvMemberList, String.format(getResources().getString(R.string.cannot_remove_member),groupMember.getName())
+                                +","+CometChatError.localized(e), CometChatSnackBar.ERROR);
                 Log.e(TAG, "onError: " + e.getMessage());
             }
         });
@@ -651,8 +655,9 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
 
             @Override
             public void onError(CometChatException e) {
-                Utils.showCometChatDialog(CometChatGroupDetailActivity.this,
-                        rvMemberList, String.format(getResources().getString(R.string.cannot_remove_member),groupMember.getName()),true);
+                CometChatSnackBar.show(CometChatGroupDetailActivity.this,
+                        rvMemberList, String.format(getResources().getString(R.string.cannot_remove_member),groupMember.getName())
+                                +","+CometChatError.localized(e),CometChatSnackBar.ERROR);
                 Log.e(TAG, "onError: " + e.getMessage());
             }
         });
@@ -714,8 +719,8 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
 
             @Override
             public void onError(CometChatException e) {
-                Utils.showCometChatDialog(CometChatGroupDetailActivity.this,
-                        rvMemberList, getResources().getString(R.string.group_member_list_error),true);
+                CometChatSnackBar.show(CometChatGroupDetailActivity.this,
+                        rvMemberList, CometChatError.localized(e),CometChatSnackBar.ERROR);
                 Log.e(TAG, "onError: " + e.getMessage());
             }
         });
@@ -769,8 +774,8 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(CometChatException e) {
-                        Utils.showCometChatDialog(CometChatGroupDetailActivity.this,
-                                rlAddMemberView, getResources().getString(R.string.leave_group_error), true);
+                        CometChatSnackBar.show(CometChatGroupDetailActivity.this,
+                                rlAddMemberView, CometChatError.localized(e), CometChatSnackBar.ERROR);
                         Log.e(TAG, "onError: " + e.getMessage());
                     }
                 });
@@ -1032,8 +1037,8 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Group group) {
                 if (rvMemberList!=null) {
-                    Utils.showCometChatDialog(CometChatGroupDetailActivity.this,
-                            rvMemberList,getResources().getString(R.string.group_updated),false);
+                    CometChatSnackBar.show(CometChatGroupDetailActivity.this,
+                            rvMemberList,getResources().getString(R.string.group_updated),CometChatSnackBar.SUCCESS);
                     getGroup();
                 }
                 dialog.dismiss();
@@ -1042,8 +1047,9 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
             @Override
             public void onError(CometChatException e) {
                 if (rvMemberList!=null) {
-                    Utils.showCometChatDialog(CometChatGroupDetailActivity.this,
-                            rvMemberList,getResources().getString(R.string.group_update_failed)+" "+e.getMessage(),true);
+                    CometChatSnackBar.show(CometChatGroupDetailActivity.this,
+                            rvMemberList,CometChatError.localized(e),
+                            CometChatSnackBar.ERROR);
                 }
                 dialog.dismiss();
             }
@@ -1084,7 +1090,8 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
 
             @Override
             public void onError(CometChatException e) {
-                Toast.makeText(CometChatGroupDetailActivity.this,"Error:"+e.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(CometChatGroupDetailActivity.this,CometChatError.localized(e),
+                        Toast.LENGTH_LONG).show();
             }
         });
     }

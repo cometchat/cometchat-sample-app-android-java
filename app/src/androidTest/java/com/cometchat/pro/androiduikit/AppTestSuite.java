@@ -11,7 +11,6 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses(
         {
                 MainActivityTest.class,
-                CreateUserActivity.class,
                 SelectActivityTest.class,
                 ComponentActivityTest.class
         })
