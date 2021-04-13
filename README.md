@@ -13,7 +13,7 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/cometchat-pro/android-java-chat-app)
 ![GitHub contributors](https://img.shields.io/github/contributors/cometchat-pro/android-java-chat-app)
 ![GitHub stars](https://img.shields.io/github/stars/cometchat-pro/android-java-chat-app?style=social)
-![Version](https://shields.io/badge/version-v2.1.1--1-orange)
+![Version](https://shields.io/badge/version-v3.0.0--beta1--2-orange)
 ![Twitter Follow](https://img.shields.io/twitter/follow/cometchat?style=social)
 
 <img src="https://files.readme.io/952af91-UI_Kit__1.png"/>
@@ -56,7 +56,7 @@ Build and run the Sample App.
 
 # Learn more about UI-Kit
 
-Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/android-java-chat-ui-kit/blob/master/README.md) inside your app.
+Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/android-java-chat-ui-kit/blob/v3/README.md) inside your app.
 <br/>
 <hr/>
 

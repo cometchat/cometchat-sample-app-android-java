@@ -1190,6 +1190,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
                 initMessageAdapter(baseMessages);
                 if (baseMessages.size() != 0) {
                     stopHideShimmer();
+                    noReplyMessages.setVisibility(GONE);
                     BaseMessage baseMessage = baseMessages.get(baseMessages.size() - 1);
                     markMessageAsRead(baseMessage);
                 }
@@ -1696,10 +1697,11 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
      * @param baseMessage is object of BaseMessage.class. It is message which is been marked as read.
      */
     private void markMessageAsRead(BaseMessage baseMessage) {
-        if (type.equals(CometChatConstants.RECEIVER_TYPE_USER))
-            CometChat.markAsRead(baseMessage.getId(), baseMessage.getSender().getUid(), baseMessage.getReceiverType());
-        else
-            CometChat.markAsRead(baseMessage.getId(), baseMessage.getReceiverUid(), baseMessage.getReceiverType());
+        CometChat.markAsRead(baseMessage); // used for v3
+//        if (type.equals(CometChatConstants.RECEIVER_TYPE_USER))
+//            CometChat.markAsRead(baseMessage.getId(), baseMessage.getSender().getUid(), baseMessage.getReceiverType());
+//        else
+//            CometChat.markAsRead(baseMessage.getId(), baseMessage.getReceiverUid(), baseMessage.getReceiverType());
     }
 
 

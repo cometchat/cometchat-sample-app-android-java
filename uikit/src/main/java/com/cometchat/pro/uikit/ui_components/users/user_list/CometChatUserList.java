@@ -38,6 +38,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.core.UsersRequest;
@@ -85,8 +86,6 @@ public class CometChatUserList extends Fragment {
 
     private boolean isSearching;
 
-    private CometChatUsersAdapter userListAdapter;
-
     private UsersRequest usersRequest;    // Use to fetch users
 
     private CometChatUsers rvUserList;  // Use to display list of users
@@ -103,6 +102,8 @@ public class CometChatUserList extends Fragment {
 
     private LinearLayout noUserLayout;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     private List<User> userList = new ArrayList<>();
 
     public CometChatUserList() {
@@ -116,6 +117,7 @@ public class CometChatUserList extends Fragment {
         View view = inflater.inflate(R.layout.fragment_cometchat_userlist, container, false);
         title = view.findViewById(R.id.tv_title);
         title.setTypeface(FontUtils.getInstance(getActivity()).getTypeFace(FontUtils.robotoMedium));
+        swipeRefreshLayout = view.findViewById(R.id.swipeToRefresh);
         rvUserList = view.findViewById(R.id.rv_user_list);
         noUserLayout = view.findViewById(R.id.no_user_layout);
         etSearch = view.findViewById(R.id.search_bar);
@@ -198,6 +200,16 @@ public class CometChatUserList extends Fragment {
                     events.OnItemClick(user,position);
             }
         });
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                usersRequest=null;
+                rvUserList.clear();
+                fetchUsers();
+            }
+        });
+
         return view;
     }
 
@@ -248,6 +260,8 @@ public class CometChatUserList extends Fragment {
                     rvUserList.setVisibility(View.VISIBLE);
                     noUserLayout.setVisibility(View.GONE);
                 }
+                if (swipeRefreshLayout.isRefreshing())
+                    swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
