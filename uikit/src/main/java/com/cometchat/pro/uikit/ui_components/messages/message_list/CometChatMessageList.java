@@ -2173,8 +2173,8 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
         checkOnGoingCall();
         if (!(resultIntentCode== UIKitConstants.RequestCode.GALLERY ||
                 resultIntentCode== UIKitConstants.RequestCode.CAMERA ||
-                resultIntentCode == UIKitConstants.RequestCode.FILE) ||
-                resultIntentCode == UIKitConstants.RequestCode.AUDIO) {
+                resultIntentCode == UIKitConstants.RequestCode.FILE ||
+                resultIntentCode == UIKitConstants.RequestCode.AUDIO)) {
             rvChatListView.removeItemDecoration(stickyHeaderDecoration);
             messagesRequest = null;
             messageAdapter = null;

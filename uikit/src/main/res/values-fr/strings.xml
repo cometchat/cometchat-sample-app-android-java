@@ -356,4 +356,101 @@
     <string name="retry">recommencez</string>
     <string name="updating">Mise à jour</string>
     <string name="conversation_title">Des conversations</string>
+    <string name = "updated_user_successfully"> Utilisateur mis à jour avec succès </string>
+    <string name = "user_left"> "User Left" </string>
+    <string name = "user_joined"> Utilisateur joint </string>
+    <string name = "connection_connected"> Connexion réussie </string>
+    <string name = "connection_in_progress"> Connexion en cours </string>
+    <string name = "connection_disconnected"> Vous êtes déconnecté. </string>
+    <string name = "no_internet_available"> Aucune connexion Internet disponible </string>
+    <string name = "you_have_blocked_by"> Vous avez été bloqué par </string>
+
+
+    <!--Error Message-->
+    <string name = "server_error"> Erreur de serveur </string>
+    <string name = "err_no_question"> La \" question \" du sondage est manquante </string>
+    <string name = "err_no_receiver"> Le \" receiver \" (UID / GUID) est manquant </string>
+    <string name = "err_no_receiver_type"> Le \" receiverType \" est manquant </string>
+    <string name = "err_no_options"> Les \" options \" du sondage sont soit manquantes soit invalides </string>
+    <string name = "err_poll_not_found"> ​​Le sondage n\'existe pas </string>
+    <string name = "err_no_poll_id"> Le sondage \" id \" est manquant </string>
+    <string name = "err_not_poll_creator"> Vous n\'êtes pas le créateur du sondage </string>
+
+    <string name="err_init_not_called">Veuillez appeler la méthode CometChat.init () de préférence dans la méthode onCreate () de la classe d\'application avant d\'appeler toute autre méthode liée à CometChat</string>
+    <string name="err_password_missing_message">Le mot de passe est obligatoire pour un groupe protégé</string>
+    <string name="err_limit_exceed_message">La limite a dépassé la limite maximale de %s</string>
+    <string name="err_user_not_logged_in_message">Veuillez vous connecter à CometChat avant d\'appeler cette méthode</string>
+    <string name="err_invalid_guid_message">Veuillez fournir un GUID valide</string>
+    <string name="err_invalid_uid_message">Veuillez fournir un UID valide</string>
+    <string name="err_blank_uid_message">L\'UID ne peut pas être vide. Veuillez fournir un UID valide</string>
+    <string name="err_uid_with_space_message">L\'UID ne peut pas contenir d\'espaces. Veuillez fournir un UID valide</string>
+    <string name="err_default_message">quelque chose s\'est mal passé</string>
+    <string name="err_call_not_initiated_message">L\'appel ne peut pas être annulé sans lancer un appel</string>
+    <string name="err_call_message">Une erreur s\'est produite lors de la connexion</string>
+    <string name="err_call_session_mismatch_message">Incompatibilité de session d\'appel. Veuillez vérifier l\'ID de session</string>
+    <string name="err_uid_guid_not_specified_message">UID et GUID non spécifiés Veuillez spécifier UID ou le GUID pour lequel le message doit être récupéré</string>
+    <string name="err_internet_unavailable">Pas de connexion Internet. Veuillez réessayer plus tard</string>
+    <string name="err_request_in_progress_message">Demande déjà en cours</string>
+    <string name="err_filters_missing_message">L\'horodatage \'ou\' MessageId \'ou\' updatedAfter \'est requis pour utiliser la méthode\' fetchNext () \'</string>
+    <string name="err_blank_auth_token_message">Auth token ne peux pas être vide. Veuillez fournir un auth token</string>
+    <string name="extension_is_not_enabled">L\'extension est désactivée. Veuillez activer l\'extension depuis CometChat Dashboard</string>
+    <string name="err_invalid_messageid_message">L\'ID de message fourni n\'est pas valide Veuillez fournir un identifiant de message valide</string>
+    <string name="err_invalid_message_type_message">Seuls TextMessage ou CustomMessage peuvent être modifiés. Veuillez fournir un message valide</string>
+    <string name="err_list_empty_message">La liste fournie est vide. Veuillez fournir une liste valide</string>
+    <string name="err_updatesonly_without_updatedafter_message">La méthode `updatesOnly()` ne peut pas être utilisée sans la méthode `setUpdatedAfter()`</string>
+    <string name="err_json_message">Erreur lors de l\'analyse de JSON</string>
+    <string name="err_logout_fail_message">Erreur lors de la déconnexion</string>
+    <string name="err_empty_appid_message">AppID ne peut pas être vide. Veuillez spécifier un appID valide</string>
+    <string name="err_non_positive_limit_message">La limite spécifiée doit être un nombre positif</string>
+    <string name="err_region_missing_message">Région non spécifiée. Veuillez spécifier la région dans la classe AppSettingsBuilder en utilisant la méthode `setRegion()`</string>
+    <string name="err_app_settings_null_message">Les AppSettings ne peuvent pas être null</string>
+    <string name="err_api_key_not_found_message">ApiKey ne peut pas être nul ou vide. Veuillez fournir une clé API valide</string>
+    <string name="err_invalid_sending_message_type_message">Le type de message que vous avez entré n\'est pas valide pour l\'action suivante</string>
+    <string name="err_message_text_empty_message">Le texte du message ne peut pas être vide</string>
+    <string name="err_file_object_invalid_message">L\'objet fichier ne peut pas être nul ou le chemin d\'accès au fichier n\'existe pas</string>
+    <string name="err_file_url_empty_message">L\'URL du message multimédia est définie comme nulle ou vide</string>
+    <string name="err_empty_custom_data_message">Le champ de données personnalisé ne peut pas être nul ou vide</string>
+    <string name="err_empty_group_name_message">Le nom du groupe ne peut pas être nul ou vide</string>
+    <string name="err_empty_group_type_message">Le type de groupe ne peut pas être nul ou vide</string>
+
+    <string name="err_login_in_progress_message">Connexion en cours. Veuillez attendre la fin de la demande de connexion</string>
+    <string name="err_invalid_message_message">Le message ne peut pas être nul. Veuillez passer un objet `BaseMessage` valide</string>
+    <string name="err_invalid_group_message">Le groupe ne peut pas être nul. Veuillez passer un objet `Groupe` valide</string>
+    <string name="err_invalid_call_message">L\'appel ne peut pas être nul. Veuillez passer un objet `Call` valide</string>
+    <string name="err_invalid_call_type_message">Type d\'appel non valide. Veuillez fournir un type d\'appel valide</string>
+    <string name="err_invalid_receiver_type_message">Type de récepteur non valide. Veuillez fournir un type de récepteur valide</string>
+    <string name="err_invalid_session_id_message">Type sessionId non valide. Veuillez fournir un identifiant de session valide</string>
+    <string name="err_activity_null_message">L\'activité fournie ne peut pas être nulle.</string>
+    <string name="err_view_null_message">Fourni RelativeLayout ne peut pas être nul</string>
+    <string name="err_invalid_fcm_token_message">Le jeton FCM fourni ne peut être nul ou vide. Veuillez fournir un jeton FCM valide</string>
+    <string name="err_invalid_group_type_message">Le type de groupe fourni ne peut pas être nul ou vide</string>
+    <string name="err_call_in_progress_message">L\'appel est en cours. Veuillez mettre fin à l\'appel précédent pour effectuer cette opération</string>
+    <string name="err_incorrect_initiator_message">Impossible d\'annuler l\'appel lancé par quelqu\'un d\'autre. Veuillez utiliser le statut «rejeté» à la place</string>
+    <string name="err_invalid_user_name_message">Nom non valide fourni pour l\'utilisateur. Veuillez fournir un nom valide</string>
+    <string name="err_invalid_user_message">L\'objet utilisateur ne peut pas être nul. Veuillez fournir un objet utilisateur valide</string>
+    <string name="err_invalid_group_name_message">Le nom du groupe ne peut pas être vide. Veuillez fournir un nom de groupe valide</string>
+    <string name="err_invalid_timestamp_message">L\'horodatage doit être positif. Veuillez fournir un horodatage valide</string>
+    <string name="err_invalid_category_message">Catégorie non valide. Veuillez fournir une catégorie valide</string>
+    <string name="err_empty_icon_message">Icône vide. Veuillez fournir une icône valide</string>
+    <string name="err_empty_description_message">Description vide. Veuillez fournir une description valide</string>
+    <string name="err_empty_metadata_message">Métadonnées vides. Veuillez fournir des métadonnées valides</string>
+    <string name="err_empty_scope_message">Portée non valide. Veuillez fournir une portée valide</string>
+    <string name="err_invalid_scope_message">Portée non valide. Veuillez fournir une portée valide</string>
+    <string name="err_invalid_conversation_with_message">Conversation invalide avec. Veuillez fournir une valeur valide pour conversationWith</string>
+    <string name="err_invalid_conversation_type_message">Type de conversationType valide. Veuillez fournir une valeur valide pour conversationWith</string>
+    <string name="err_invalid_media_message">Message multimédia non valide. Veuillez fournir un objet Fichier ou des détails de pièce jointe valides</string>
+    <string name="err_invalid_attachment_message">La pièce jointe ne peut pas être nulle. Veuillez fournir des détails de pièce jointe valides</string>
+    <string name="err_invalid_file_name_message">Nom de fichier non valide. Veuillez fournir un nom de fichier valide</string>
+    <string name="err_invalid_file_extension_message">Extension de fichier non valide. Veuillez fournir une extension de fichier valide</string>
+    <string name="err_invalid_file_mime_type_message">Type de fichier Mime non valide. Veuillez fournir un type de fichier mime valide</string>
+    <string name="err_invalid_file_url_message">URL de fichier non valide. Veuillez fournir une URL de fichier valide</string>
+    <string name="err_conversation_not_found_message">Conversation introuvable pour conversationWith %s et conversationType %s</string>
+    <string name="err_settings_not_found_message">Paramètres introuvables.</string>
+    <string name="err_invalid_feature_message">La fonctionnalité fournie ne peut pas être nulle ou vide. Veuillez fournir une fonctionnalité valide</string>
+    <string name="err_invalid_extension_message">L\'extension fournie ne peut pas être nulle ou vide.</string>
+    <string name="err_feature_not_found">Fonction fournie introuvable.</string>
+    <string name="extension_not_found">L\'extension fournie est introuvable.</string>
+
+
+
 </resources>

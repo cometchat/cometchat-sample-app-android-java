@@ -26,6 +26,7 @@ import com.cometchat.pro.core.CallSettings;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
+import com.cometchat.pro.rtc.model.AudioMode;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.ui_components.calls.call_manager.ongoing_call.OngoingCallService;
 import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
@@ -73,7 +74,7 @@ public class CometChatStartCallActivity extends AppCompatActivity {
         ongoingCallService = new OngoingCallService();
         mServiceIntent = new Intent(this,ongoingCallService.getClass());
         if (!isMyServiceRunning(ongoingCallService.getClass())) {
-            startForegroundService(mServiceIntent);
+            startService(mServiceIntent);
         }
 
         mainView = findViewById(R.id.call_view);
@@ -91,9 +92,15 @@ public class CometChatStartCallActivity extends AppCompatActivity {
                     .build();
         Log.e( "startCallActivity: ",sessionID+" "+type);
         CometChat.startCall(callSettings, new CometChat.OngoingCallListener() {
+
             @Override
             public void onUserListUpdated(List<User> list) {
                 Log.e( "onUserListUpdated: ",list.toString() );
+            }
+
+            @Override
+            public void onAudioModesUpdated(List<AudioMode> list) {
+                Log.e( "onAudioModeUpdated: ",list.toString() );
             }
 
             @Override
@@ -122,8 +129,7 @@ public class CometChatStartCallActivity extends AppCompatActivity {
 
             @Override
             public void onError(CometChatException e) {
-                if (mServiceIntent!=null)
-                    stopService(mServiceIntent);
+                stopService(mServiceIntent);
                 Log.e("onstartcallError: ", e.getMessage());
                 CometChatSnackBar.show(CometChatStartCallActivity.this,
                         mainView,CometChatError.localized(e), CometChatSnackBar.ERROR);
@@ -131,8 +137,7 @@ public class CometChatStartCallActivity extends AppCompatActivity {
 
             @Override
             public void onCallEnded(Call call) {
-                if (mServiceIntent!=null)
-                    stopService(mServiceIntent);
+                stopService(mServiceIntent);
                 Log.e("TAG", "onCallEnded: ");
                 finish();
             }

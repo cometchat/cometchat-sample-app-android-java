@@ -119,7 +119,6 @@
 
 
     <!--GroupErrors-->
-    <!--Not available in iOS-->
     <string name="you_cannot_perform_action">You cannot perform action on yourself</string>
     <string name="only_group_owner_removes_admin">Only group owner can remove admin.</string>
     <string name="removed_from_admin">is removed from admin privilege</string>
@@ -340,9 +339,15 @@
     <string name="updated_user_successfully">Updated User Successfully</string>
     <string name="user_left">"User Left "</string>
     <string name="user_joined">User Joined</string>
+    <string name="connection_connected">Connected Successfully</string>
+    <string name="connection_in_progress">Connection in Progress</string>
+    <string name="connection_disconnected">You are disconnected.</string>
+    <string name="no_internet_available">No Internet Available</string>
+    <string name="you_have_blocked_by">You have been blocked by </string>
+    <string name="you_ve_blocked">"You've blocked "</string>
 
     <!--Extension Error-->
-    <string name="extension_not_found">The extension with id %1$s does not exist</string>
+    <string name="extension_not_found">The extension with provided id does not exist</string>
     <string name="extension_is_not_enabled">Enable the extension from CometChat Pro dashboard</string>
     <string name="server_error">Server error</string>
     <string name="err_no_question">The \"question\" for the poll is missing</string>
@@ -423,12 +428,6 @@
     <string name="err_invalid_feature_message">Feature is not valid.</string>
     <string name="err_invalid_extension_message">This extension is invalid. Please check from Dashboard.</string>
     <string name="err_feature_not_found">Feature not found.</string>
-    <string name="connection_connected">Connected Successfully</string>
-    <string name="connection_in_progress">Connection in Progress</string>
-    <string name="connection_disconnected">You are disconnected.</string>
-    <string name="no_internet_available">No Internet Available</string>
-    <string name="you_ve_blocked">"You've blocked "</string>
-    <string name="you_have_blocked_by">You have been blocked by </string>
 
     <!--_______________________________-->
 </resources>

@@ -70,14 +70,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
-    <com.cometchat.pro.uikit.ui_components.shared.cometchatUsers.CometChatUsers
-        android:id="@+id/rv_user_list"
-        app:headers="true"
-        android:layout_below="@id/rl_search_box"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeToRefresh"
         android:layout_width="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/cometchat_user_list_row"
-        android:layout_height="match_parent"/>
+        android:layout_below="@id/rl_search_box"
+        android:layout_height="wrap_content">
+
+        <com.cometchat.pro.uikit.ui_components.shared.cometchatUsers.CometChatUsers
+            android:id="@+id/rv_user_list"
+            app:headers="true"
+            android:layout_width="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/cometchat_user_list_row"
+            android:layout_height="match_parent"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include layout="@layout/user_shimmer"/>
 

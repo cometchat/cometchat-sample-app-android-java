@@ -317,6 +317,9 @@ public class CometChatError {
         } else if (e.getCode().equalsIgnoreCase(ERROR_FEATURE_NOT_FOUND_MESSAGE)) {
             return new CometChatException(ERROR_FEATURE_NOT_FOUND_MESSAGE,
                     errorContext.getString(R.string.err_feature_not_found)).getMessage();
+        } else if (e.getCode().equalsIgnoreCase(ERROR_EXTENSION_NOT_FOUND_MESSAGE)) {
+            return new CometChatException(ERROR_EXTENSION_NOT_FOUND_MESSAGE,
+                    errorContext.getString(R.string.extension_not_found)).getMessage();
         }
 //        else if (e.getCode().equalsIgnoreCase())
         else {
@@ -327,8 +330,7 @@ public class CometChatError {
         public static String localized(CometChatException e,String extensionId) {
             if (e.getCode().equalsIgnoreCase(ERR_EXTENSION_NOT_FOUND)) {
                 return new CometChatException(ERR_EXTENSION_NOT_FOUND,
-                        String.format(errorContext.getString(R.string.extension_not_found),
-                                extensionId)).getMessage();
+                        extensionId+":"+errorContext.getString(R.string.extension_not_found)).getMessage();
             } else if (e.getCode().equalsIgnoreCase(ERR_EXTENSION_NOT_ENABLED)) {
                 return new CometChatException(ERR_EXTENSION_NOT_ENABLED,
                         errorContext.getString(R.string.extension_is_not_enabled)).getMessage();
