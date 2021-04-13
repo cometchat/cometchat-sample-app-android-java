@@ -84,12 +84,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
-    <com.cometchat.pro.uikit.ui_components.shared.cometchatGroups.CometChatGroups
-        android:id="@+id/rv_group_list"
-        android:layout_below="@+id/searchBar_vw"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeToRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/group_list_row"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:layout_below="@+id/searchBar_vw"
+        android:layout_height="wrap_content">
+        <com.cometchat.pro.uikit.ui_components.shared.cometchatGroups.CometChatGroups
+            android:id="@+id/rv_group_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/group_list_row"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

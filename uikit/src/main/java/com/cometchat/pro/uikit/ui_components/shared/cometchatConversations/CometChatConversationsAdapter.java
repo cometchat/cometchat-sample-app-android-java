@@ -359,7 +359,7 @@ public class CometChatConversationsAdapter extends RecyclerView.Adapter<CometCha
                                 conversation.getLastMessage().getCategory().equals(CometChatConstants.CATEGORY_MESSAGE) &&
                                 conversation.getLastMessage().getType().equals(CometChatConstants.MESSAGE_TYPE_TEXT)
                                 && ((TextMessage)conversation.getLastMessage()).getText()!=null
-                                && ((TextMessage)conversation.getLastMessage()).getText().contains(searchKeyword)) {
+                                && ((TextMessage)conversation.getLastMessage()).getText().toLowerCase().contains(searchKeyword.toLowerCase())) {
                             tempFilter.add(conversation);
                         }
                     }

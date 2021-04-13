@@ -1,0 +1,417 @@
+<resources>
+    <!-- BottomBar -->
+    <string name = "more"> Daugiau </string>
+    <string name = "users"> Vartotojai </string>
+    <string name = "chats"> Pokalbiai </string>
+    <string name = "groups"> Grupės </string>
+    <string name = "calls"> Skambučiai </string>
+
+
+    <!-- ComposeBox -->
+    <string name = "message"> Parašykite pranešimą </string>
+    <string name = "tap_to_start_conversation"> Palieskite, kad pradėtumėte pokalbį </string>
+    <string name = "edit_message"> Redaguoti pranešimą </string>
+
+    <!-- Blokuoti vartotoją -->
+    <string name = "unblock_user"> Atblokuoti naudotoją </string>
+    <string name = "block_user"> Blokuoti naudotoją </string>
+    <string name = "user_is_blocked">%1$s sėkmingai užblokuota </string>
+    <string name = "unblock"> Atblokuoti </string>
+    <string name = "block_user_list_error"> Užblokuoto vartotojo paieška nepavyko </string>
+    <string name = "you_wont_be_able_send_or_receive_messages"> Negalėsite siųsti ar gauti pranešimų </string>
+    <string name = "unblock_user_error"> Nepavyko atblokuoti naudotojo </string>
+    <string name = "unblock_user_question"> Ar norite atblokuoti %1$s </string>
+    <string name = "block_user_error"> Nepavyko užblokuoti %1$s </string>
+
+    <!-- Grupė -->
+    <string name = "create_group"> Kurti grupę </string>
+    <string name = "enter_group_name"> Įveskite grupės pavadinimą </string>
+    <string name = "make_group_admin"> Nustatykite grupės administratorių </string>
+    <string name = "is_now_admin">%1$s dabar yra administratorius </string>
+    <string name = "add_in"> Pridėti grupėje \" %1$s \" </string>
+    <string name = "leave_group"> Išeiti iš grupės </string>
+    <string name = "assign_as_admin"> Priskirti kaip grupės administratorių </string>
+    <string name = "remove_as_admin"> Pašalinkite %1$s kaip grupės administratorių </string>
+    <string name = "owner"> Savininkas </string>
+    <string name = "admin"> Administratorius </string>
+    <string name = "moderator"> Moderatorius </string>
+    <string name = "administrators"> Administratoriai </string>
+    <string name = "members"> Nariai </string>
+    <string name = "add_members"> Pridėti narių </string>
+    <string name = "join"> Prisijungti </string>
+    <string name = "unbanned_successfully"> sėkmingai uždrausta </string>
+    <string name = "make_group_moderator"> Padaryti moderatorių </string>
+    <string name = "remove_as_moderator"> Pašalinkite %1$s kaip grupės moderatorių </string>
+    <string name = "remove_from_moderator_privilege"> pašalinta iš moderatoriaus privilegijos </string>
+    <string name = "assign_as_moderator"> Priskirti kaip grupės moderatorių </string>
+    <string name = "is_now_moderator">%1$s dabar yra moderatorius </string>
+    <string name = "ban_member"> Uždrausti narį </string>
+
+    <!-- Grupės -->
+    <string name = "kindly_enter_group_details_to_proceed"> Prašome įvesti išsamią grupės informaciją, kad galėtumėte tęsti </string>
+    <string name = "unable_to_join_message"> Nepavyko prisijungti prie grupės </string>
+    <string name = "make_admin_question"> Ar norite %1$s sukurti kaip administratorių </string>
+    <string name = "remove_from_group"> ⚠️ Pašalinti iš %1$s </string>
+    <string name = "add_user_to_group"> Pridėkite %1$s prie \" %2$s \" </string>
+    <string name = "user_added_to_group">%1$s pridėta prie \" %2$s \" </string>
+    <string name = "user_removed_from_group">%1$s pašalinta iš \" %2$s \" </string>
+    <string name = "kicked_error"> Nepavyko spustelėti grupės nario </string>
+    <string name = "leave_group_message"> Ar norite išeiti iš grupės? </string>
+    <string name = "delete_group"> Ištrinti grupę </string>
+    <string name = "delete_group_message"> Ištrinti grupę </string>
+    <string name = "group_delete_error"> Nepavyko ištrinti grupės </string>
+    <string name = "cannot_remove_member"> Negalima pašalinti %1$s </string>
+    <string name = "leave_group_error"> Nepavyko išeiti iš grupės </string>
+    <string name = "load_more"> Įkelti daugiau </string>
+    <string name = "load_more_members"> Įkelkite daugiau %1$s narių </string>
+    <string name = "group_list_error"> Nepavyko gauti grupių sąrašo </string>
+    <string name = "password"> Slaptažodis </string>
+    <string name = "joining"> Prisijungimas </string>
+    <string name = "incorrect"> Neteisinga </string>
+    <string name = "banned_members"> Uždrausti nariai </string>
+    <string name = "ban_member_of_group"> Uždrausti %1$s nariai </string>
+    <string name = "unban_error"> Nepavyko panaikinti %1$s </string>
+    <string name = "enter_group_desc"> Įveskite grupės aprašą </string>
+    <string name = "enter_group_password"> Įveskite grupės slaptažodį </string>
+    <string name = "enter_group_cnf_pwd"> Patvirtinti slaptažodį </string>
+    <string name = "password_not_matched"> Slaptažodis neatitinka </string>
+    <string name = "enter_password_to_join"> Įveskite slaptažodį, kad prisijungtumėte prie %1$s </string>
+    <string name = "no_ban_members"> Nėra draudžiamų narių </string>
+    <string name = "moderators"> Moderatoriai </string>
+    <string name = "moderator_list_retrieve_error"> Nepavyko gauti moderatorių sąrašo. </string>
+    <string name = "make_moderator_question"> Ar norite %1$s sukurti kaip moderatorių </string>
+    <string name = "only_admin_removes_moderator"> Tik administratorius gali pašalinti moderatorių </string>
+    <string name = "update_group"> Atnaujinti grupę </string>
+    <string name = "enter_group_icon_url"> Įveskite grupės piktogramos URL </string>
+    <string name = "group_updated"> Grupė sėkmingai atnaujinta </string>
+    <string name = "group_update_failed"> Grupė neatnaujinta </string>
+    <string name = "enter_old_group_pwd"> Įveskite seną slaptažodį </string>
+    <string name = "enter_new_password"> Įveskite naują slaptažodį </string>
+    <string name = "group_alert"> Grupės įspėjimas </string>
+    <string name = "transfer_ownership_message"> Jūs esate grupės savininkas. Prieš palikdami grupę, perkelkite grupės nuosavybės teises kitam.</string>
+    <string name = "make_owner"> Padaryti savininku </string>
+    <string name = "make_owner_question"> Ar norite %1$s tapti savininku </string>
+    <string name = "user_is_owner">%1$s dabar yra savininkas </string>
+    <string name = "not_a_member"> Jūs nesate šios grupės narys (%1$s) </string>
+    <string name = "owner_alert"> Įspėjimas apie savininką </string>
+    <string name = "owner_alert_message"> Prieš palikdami grupę, perduokite grupės nuosavybės teises kitam nariui </string>
+    <array name = "groupType">
+        <item> viešoji grupė </item>
+        <item> privati ​​grupė </item>
+        <item> Slaptažodžiu apsaugota grupė </item>
+    </array>
+    <!---->
+    <!-- GroupErrors-->
+    <string name = "you_cannot_perform_action"> Negalite atlikti veiksmų su savimi </string>
+    <string name = "only_group_owner_removes_admin"> Tik grupės savininkas gali pašalinti administratorių. </string>
+    <string name = "removed_from_admin"> pašalinta iš administratoriaus privilegijos </string>
+    <string name = "update_group_member_error"> Nepavyko atnaujinti grupės nario </string>
+    <string name = "admin_list_retrieve_error"> Administratoriaus sąrašo paieška nepavyko </string>
+    <string name = "create_group_error"> Nepavyko sukurti grupės </string>
+    <string name = "update_scope_error"> Nepavyko operuoti %1$s </string>
+    <string name = "group_member_list_error"> klaida: nepavyko įkelti grupės narių sąrašo </string>
+    <string name = "ban_list_fetch_error"> Nepavyko gauti draudžiamų narių sąrašo </string>
+
+    <!-- leidimo klaida -->
+    <string name = "grant_camera_permission"> Prašome suteikti kameros leidimą iš programos nustatymo </string>
+    <string name = "grant_storage_permission"> Suteikite saugyklos leidimą iš programos nustatymo </string>
+    <string name = "file_not_exist"> Failas neegzistuoja </string>
+
+    <!-- Skambučiai -->
+    <string name = "video_call"> Vaizdo skambutis </string>
+    <string name = "audio_call"> Garso skambutis </string>
+    <string name = "missed_voice_call"> Praleistas balso skambutis </string>
+    <string name = "missed_video_call"> Praleistas vaizdo skambutis </string>
+
+    <!--Skambučiai -->
+    <string name = "call_list_error"> Nepavyko gauti skambučių sąrašo </string>
+    <string name = "no_call_message"> Jūs neatlikote jokių skambučių </string>
+    <string name = "calling"> Skambinimas </string>
+    <string name = "call_initiate_error"> Nepavyko inicijuoti skambučio </string>
+    <string name = "outgoing"> Siunčiama </string>
+    <string name = "incoming"> Gaunamasis </string>
+    <string name = "history"> Istorija </string>
+    <string name = "all"> Viskas </string>
+    <string name = "missed"> praleistas </string>
+    <string name = "new_call"> Naujas skambutis </string>
+    <string name = "incoming_audio_call"> Gaunamas garso skambutis </string>
+    <string name = "incoming_video_call"> Gaunamas vaizdo skambutis </string>
+    <string name = "missed_call"> Praleista </string>
+    <string name = "rejected_call"> Atmesta </string>
+    <string name = "ongoing_call"> Skambučio vyksta </string>
+    <string name = "ongoing_call_message"> Jau vyksta skambutis. Ar norėtumėte prisijungti? </string>
+    <string name = "tap_to_join_call"> Palieskite, kad prisijungtumėte prie vykstančio skambučio </string>
+    <!---->
+
+
+    <!-- Bendra terpė -->
+    <string name = "shared_media"> Bendrinama laikmena </string>
+
+    <string name = "no_media"> Nėra medijos </string>
+    <string name = "images"> Vaizdai </string>
+    <string name = "videos"> Vaizdo įrašai </string>
+    <string name = "files"> Failai </string>
+
+    <!-- Nėra duomenų -->
+    <string name = "no_conversations"> Jūs neturite pokalbių. </string>
+    <string name = "no_user_available"> Nėra vartotojų </string>
+    <string name = "no_group_available"> Nėra grupių </string>
+    <string name = "no_block_users"> Nėra blokuojančių naudotojų </string>
+    <string name = "no_missedcall_message"> Neturite praleistų skambučių </string>
+    <!---->
+
+    <!-- Pranešimų skiltis -->
+    <string name = "you"> Jūs </string>
+    <string name = "this_message_deleted"> ⚠️ Šis pranešimas buvo ištrintas </string>
+    <string name = "view_on_youtube"> Žiūrėti „Youtube“ </string>
+    <string name = "visit"> Apsilankymas </string>
+    <string name = "remove"> Pašalinti </string>
+    <string name = "cancel"> Atšaukti </string>
+    <string name = "text_copied"> Tekstas nukopijuotas į mainų sritį </string>
+    <string name = "delete_message"> Ištrinti pranešimą </string>
+    <string name = "send_message"> Siųsti pranešimą </string>
+    <string name = "privacy_and_security"> Privatumas ir amp; Saugumas </string>
+    <string name = "add">✅ Pridėti </string>
+    <string name = "forward_message"> Persiųsti pranešimą </string>
+    <string name = "actions"> Veiksmai </string>
+    <string name = "preferences"> Nuostatos </string>
+    <string name = "online"> Prisijungęs </string>
+    <string name = "offline"> Neprisijungus </string>
+    <string name = "reply_message"> Atsakyti pranešimą </string>
+    <string name = "share_message"> Bendrinti pranešimą </string>
+    <string name = "copy_message"> Kopijuoti pranešimą </string>
+    <string name = "start_thread"> Pradėti giją </string>
+    <string name = "message_information"> Pranešimo informacija </string>
+    <string name = "create_poll"> Sukurti apklausą </string>
+    <string name = "photo_video_library"> Nuotrauka ir amp; Vaizdo įrašų biblioteka </string>
+    <string name = "share_location"> Bendrinti vietą </string>
+    <string name = "create_a_poll"> Sukurkite apklausą </string>
+    <string name = "take_a_photo"> Fotografuokite </string>
+    <string name = "ok"> Gerai </string>
+    <string name = "send_sticker"> Siųsti lipdukus </string>
+    <string name = "you_created_whiteboard"> Sukūrėte naują bendradarbiavimo lentą. </string>
+    <string name = "has_shared_whiteboard"> pasidalijo bendradarbiavimo lenta. </string>
+    <string name = "you_created_document"> Sukūrėte naują bendradarbiavimo dokumentą. </string>
+    <string name = "has_shared_document"> pasidalijo bendru dokumentu. </string>
+    <string name = "launch"> Paleisti </string>
+
+    <string name = "yes"> Taip </string>
+    <string name = "fill_this_field"> Užpildykite šį lauką </string>
+    <string name = "send"> Siųsti </string>
+    <string name = "details"> Išsami informacija </string>
+    <string name = "privacy_support"> Privatumas ir amp; Palaikymas </string>
+    <string name = "user_title"> Vartotojas </string>
+    <string name = "search"> Paieška </string>
+    <string name = "custom_message"> Turite pranešimą </string>
+    <string name = "enter_avatar_url"> Įveskite pseudoportreto URL </string>
+    <string name = "enter_user_name"> Įveskite vartotojo vardą </string>
+    <string name = "update_user"> Atnaujinti naudotoją </string>
+    <string name = "shared_a_image"> Bendrino vaizdą </string>
+    <string name = "shared_a_audio"> Bendrino garso failą %1$s </string>
+    <string name = "shared_a_video"> Bendrino vaizdo įrašą </string>
+    <string name = "shared_a_file"> Bendrino failą %1$s </string>
+    <string name = "shared_a_sticker"> Bendrino animuotąjį paveiksliuką </string>
+    <string name = "shared_a_polls"> Bendrino apklausas: \n %1$s </string>
+    <string name = "share"> Bendrinti </string>
+    <string name = "sensitive_content"> Nesaugus turinys. </string>
+    <string name = "sentiment_content"> Šiame pranešime yra potencialiai neskelbtino turinio. </string>
+    <string name = "view"> Rodinys </string>
+    <string name = "sentiment_alert"> Sentimento įspėjimas </string>
+    <string name = "sentiment_alert_message"> Ar norite peržiūrėti šį pranešimą, jame gali būti neskelbtino turinio. </string>
+    <string name = "thread_in_name"> Sriegis %1$s </string>
+    <string name = "sentattxt"> Išsiųsta:%1$s </string>
+    <string name = "connecting_to_call"> Prisijungiama prie skambučio </string>
+    <string name = "read_at"> Skaityti: %1$s </string>
+    <string name = "delivered_at"> Pristatyta: %1$s </string>
+    <string name = "navigate"> Naršyti </string>
+    <string name = "grant_location_permission"> Prašome leisti buvimo vietos leidimą. </string>
+    <string name = "send_audio_files"> Siųsti garso failus </string>
+    <string name = "send_files"> Failai ir amp; Dokumentai </string>
+    <string name = "shared_location">%1$s bendrino vietą </string>
+    <string name = "no"> Ne </string>
+    <string name = "turn_on_gps"> Įjungti GPS </string>
+    <string name = "on"> ĮJUNGTA </string>
+    <string name = "gps_enabled"> GPS įjungtas </string>
+    <string name = "gps_disabled"> GPS išjungtas </string>
+    <string name = "option"> Parinktis </string>
+    <string name = "sending_media_message"> Medijos pranešimo siuntimas </string>
+    <string name = "enter_your_option"> Įveskite savo parinktį </string>
+    <string name = "enter_your_question"> Įveskite savo klausimą </string>
+    <string name = "question"> Klausimas </string>
+    <string name = "add_a_new_option"> Pridėti naują parinktį </string>
+    <string name = "unable_to_get_location"> Nepavyko gauti jūsų vietos </string>
+    <string name = "ended"> Baigėsi </string>
+    <string name = "ongoing"> Vyksta </string>
+    <string name = "share_whiteboard"> Bendrinti baltąją lentą </string>
+    <string name = "shared_a_whiteboard"> Bendrino lentą </string>
+    <string name = "share_writeboard"> Bendrinti rašymo lentą </string>
+    <string name = "shared_a_writeboard"> Bendrino rašymo lentą </string>
+    <string name = "you_sent"> Išsiuntėte %1$s </string>
+    <string name = "you_received"> Gavote %1$s </string>
+    <string name = "initiate_a_call"> Pradėkite skambutį </string>
+    <string name = "accept"> Priimti </string>
+    <string name = "add_admin"> Pridėti administratorių </string>
+    <string name = "add_moderator"> Pridėti moderatorių </string>
+    <string name = "add_new_option"> Pridėti naują parinktį </string>
+    <string name = "add_reaction"> Pridėti reakciją </string>
+    <string name = "added_successfully"> sėkmingai pridėta </string>
+    <string name = "you_deleted_this_message"> ⚠️ Ištrynėte šį pranešimą </string>
+    <string name = "yesterday"> Vakar </string>
+    <string name = "back"> atgal </string>
+    <string name = "ban"> Uždrausti </string>
+    <string name = "banned_successfully"> Sėkmingai uždrausta </string>
+    <string name = "blocked_successfully"> Sėkmingai užblokuota </string>
+    <string name = "create"> Sukurti </string>
+    <string name = "remove_from_admin_privilege">%1$s pašalinta iš administratoriaus privilegijos </string>
+    <string name = "view_members"> Peržiūrėti narius </string>
+    <string name = "decline"> Atmesti </string>
+    <string name = "deleted_successfully"> Sėkmingai ištrinta </string>
+    <string name = "unblocked_successfully"> sėkmingai atblokuotas </string>
+    <string name = "forward_to_5_at_a_time"> Negalite persiųsti pranešimo daugiau nei 5 nariams </string>
+    <string name = "sending"> Siunčiama .. </string>
+    <string name = "message_audio">🎵  Garsas </string>
+    <string name = "message_image">📷 Vaizdas </string>
+    <string name = "message_video">📹 Vaizdo įrašas </string>
+    <string name = "message_file">📁 Failas </string>
+    <string name = "call_accepted"> Skambutis priimtas </string>
+    <string name = "call_busy"> Skambučio užimta </string>
+    <string name = "call_cancelled"> Skambutis atšauktas </string>
+    <string name = "call_ended"> Skambutis baigtas </string>
+    <string name = "call_initiated"> Skambučio pradžia </string>
+    <string name = "call_rejected"> Skambutis atmestas </string>
+
+    <string name = "custom_message_document"> 📃 Dokumentas </string>
+    <string name = "custom_message_location"> 📍 Vieta </string>
+    <string name = "custom_message_not_supported"> Tinkintas pranešimas nepalaikomas </string>
+    <string name = "custom_message_poll"> "📊 Apklausos" </string>
+    <string name = "custom_message_sticker"> "💟 Lipdukas" </string>
+    <string name = "custom_message_whiteboard"> 📝 Lenta </string>
+    <string name = "delete_and_exit"> Ištrinti &amp; Išėjimas </string>
+    <string name = "password_protected_group"> Slaptažodžiu apsaugota grupė </string>
+    <string name = "private_group"> Privati ​​grupė </string>
+    <string name = "public_group"> Viešoji grupė </string>
+    <string name = "reply_in_thread"> Atsakyti gijoje </string>
+    <string name = "no_stickers_found"> ​​Nerasta jokių lipdukų </string>
+    <string name = "collaborative_document"> Bendradarbiavimo dokumentas </string>
+    <string name = "collaborative_whiteboard"> Bendra lenta </string>
+    <string name = "thread"> Sriegis </string>
+    <string name = "no_messages_found"> ​​Nerasta pranešimų </string>
+    <string name = "emoji"> jaustukas </string>
+    <string name = "close"> uždaryti </string>
+    <string name = "error"> klaida </string>
+    <string name = "group_members"> grupės nariai </string>
+    <string name = "no_thread_message"> Nėra gijų pranešimų </string>
+    <string name = "initiated"> inicijuotas </string>
+    <string name = "added"> pridėta </string>
+    <string name = "kicked_by"> spyrė </string>
+    <string name = "left"> kairė </string>
+    <string name = "joined"> prisijungė </string>
+    <string name = "unban"> Unban </string>
+    <string name = "made"> pagaminta </string>
+    <string name = "participant"> dalyvis </string>
+    <string name = "translate_message"> Versti pranešimą </string>
+    <string name = "no_translation_available"> Nėra vertimo </string>
+    <string name = "has_shared_group_call"> bendrino grupės skambutį. </string>
+    <string name = "you_created_group_call"> Jūs sukūrėte grupės skambutį. </string>
+    <string name = "custom_message_meeting"> "📹 Grupės skambutis" </string>
+    <string name = "start_group_call"> Pradėti grupės skambutį </string>
+    <string name = "retry"> Bandyti dar kartą </string>
+    <string name = "uploading"> Įkėlimas </string>
+    <string name = "voted_success"> Balsuota sėkmė </string>
+    <string name = "updating"> Atnaujinama </string>
+    <string name = "conversation_title"> Pokalbiai </string>
+    <string name = "updated_user_successfully"> Sėkmingai atnaujintas vartotojas </string>
+    <string name = "user_left"> "Vartotojo kairė" </string>
+    <string name = "user_joined"> Vartotojas prisijungė </string>
+    <string name = "connection_connected"> Prisijungta sėkmingai </string>
+    <string name = "connection_in_progress"> Vykdomas ryšys </string>
+    <string name = "connection_disconnected"> Jūs esate atjungtas. </string>
+    <string name = "no_internet_available"> Nėra interneto </string>
+    <string name = "you_have_blocked_by"> Jus užblokavo </string>
+    <string name = "you_ve_blocked"> "Užblokavote" </string>
+
+
+    <!-- plėtinio klaida -->
+    <string name = "extension_not_found">Pateikto plėtinio nepavyko rasti.</string>
+    <string name = "extension_is_not_enabled"> Įgalinti plėtinį iš „CometChat Pro“ informacijos suvestinės </string>
+    <string name = "server_error"> Serverio klaida </string>
+    <string name = "err_no_question"> Trūksta apklausos \" klausimo \" </string>
+    <string name = "err_no_receiver"> Trūksta \" imtuvo \" (UID / GUID) </string>
+    <string name = "err_no_receiver_type"> Trūksta \" receiverType \" </string>
+    <string name = "err_no_options"> Apklausos \" parinkčių \" nėra arba jos neteisingos </string>
+    <string name = "err_poll_not_found"> ​​Apklausa neegzistuoja </string>
+    <string name = "err_no_poll_id"> Trūksta apklausos \" id \" </string>
+    <string name = "err_not_poll_creator"> Jūs nesate apklausos kūrėjas </string>
+    <string name = "err_init_not_called"> Prieš iškviesdami bet kokius kitus metodus, susijusius su CometChat, prašome iškviesti metodą CometChat.init () pageidautina taikant programos onCreate () metodą </string>
+    <string name = "err_password_missing_message"> Slaptažodis yra privalomas saugomai grupei </string>
+    <string name = "err_limit_exceed_message"> Riba viršijo maksimalią ribą </string>
+    <string name = "err_user_not_logged_in_message"> Prieš iškviesdami šį metodą, prisijunkite prie „CometChat“ </string>
+    <string name = "err_invalid_guid_message"> Pateikite galiojantį GUID </string>
+    <string name = "err_invalid_uid_message"> Pateikite galiojantį UID </string>
+    <string name = "err_blank_uid_message"> UID negali būti tuščias. Pateikite galiojantį UID </string>
+    <string name = "err_uid_with_space_message"> UID negali būti tarpų. Pateikite galiojantį UID </string>
+    <string name = "err_default_message"> Kažkas ne taip </string>
+    <string name = "err_call_not_initiated_message"> Skambučio negalima atšaukti nepradėjus skambučio </string>
+    <string name = "err_call_message"> Prisijungiant kažkas nepavyko </string>
+    <string name = "err_call_session_mismatch_message"> Skambučio sesijos neatitikimas. Patikrinkite seanso ID </string>
+    <string name = "err_uid_guid_not_specified_message"> Nenurodytas ir UID, ir GUID. Nurodykite UID arba GUID, kuriam reikia gauti pranešimus </string>
+    <string name = "err_internet_unavailable"> Nėra interneto ryšio. Vėliau bandykite dar kartą </string>
+    <string name = "err_request_in_progress_message"> Užklausa jau vykdoma </string>
+    <string name = "err_filters_missing_message"> Laiko žymė \' arba \' MessageId \' arba updatedAfter reikalinga norint naudoti metodą \' fetchNext() \' </string>
+    <string name = "err_blank_auth_token_message"> Autentinis prieigos raktas negali būti tuščias. Pateikite galiojantį prieigos raktą </string>
+    <string name = "err_invalid_messageid_message"> Pateiktas pranešimo ID yra neteisingas. Pateikite galiojantį pranešimo ID </string>
+    <string name = "err_invalid_message_type_message"> Redaguoti galima tik „TextMessage“ arba „CustomMessage“. Pateikite galiojantį pranešimą </string>
+    <string name = "err_list_empty_message"> Pateiktas sąrašas tuščias. Pateikite galiojantį sąrašą </string>
+    <string name = "err_updatesonly_without_updatedafter_message"> Metodo „updatesOnly()“ negalima naudoti be metodo „setUpdatedAfter()“ </string>
+    <string name = "err_json_message"> Klaida analizuojant JSON </string>
+    <string name = "err_logout_fail_message"> Atsijungiant įvyko klaida </string>
+    <string name = "err_empty_appid_message"> „AppID“ negali būti tuščias. Nurodykite galiojantį programos ID </string>
+    <string name = "err_non_positive_limit_message"> Nurodyta riba turi būti teigiamas skaičius </string>
+    <string name = "err_region_missing_message"> Regionas nenurodytas. Nurodykite regioną „AppSettingsBuilder“ klasėje naudodami metodą „setRegion ()“ </string>
+    <string name = "err_app_settings_null_message"> „AppSettings“ negali būti niekinis </string>
+    <string name = "err_api_key_not_found_message"> ApiKey negali būti tuščias arba tuščias. Pateikite galiojantį „API“ raktą </string>
+    <string name = "err_login_in_progress_message"> Vyksta prisijungimas. Palaukite, kol baigsis prisijungimo užklausa </string>
+    <string name = "err_invalid_sending_message_type_message"> Įvestas pranešimo tipas netinkamas atliekant šį veiksmą </string>
+    <string name = "err_message_text_empty_message"> Pranešimo tekstas negali būti tuščias </string>
+    <string name = "err_file_object_invalid_message"> Failo objektas negali būti nulinis arba failo kelias neegzistuoja </string>
+    <string name = "err_file_url_empty_message"> Medijos pranešimo URL nustatytas kaip tuščias arba tuščias </string>
+    <string name = "err_empty_custom_data_message"> Tinkintų duomenų laukas negali būti tuščias arba tuščias </string>
+    <string name = "err_empty_group_name_message"> Grupės pavadinimas negali būti tuščias arba tuščias </string>
+    <string name = "err_empty_group_type_message"> Grupės tipas negali būti tuščias arba tuščias </string>
+    <string name = "err_invalid_message_message"> Pranešimas negali būti niekinis. Prašau perduoti galiojantį „BaseMessage“ objektą </string>
+    <string name = "err_invalid_group_message"> Grupė negali būti nulinė. Prašau perduoti galiojantį objektą „Grupė“ </string>
+    <string name = "err_invalid_call_message"> Skambutis negali būti nulinis. Prašau perduoti galiojantį objektą „Skambutis“ </string>
+    <string name = "err_invalid_call_type_message"> Netinkamas skambučio tipas. Pateikite galiojantį skambučio tipą </string>
+    <string name = "err_invalid_receiver_type_message"> Neteisingas imtuvo tipas. Pateikite galiojantį imtuvo tipą </string>
+    <string name = "err_invalid_session_id_message"> Netinkamas sessionId tipas. Pateikite galiojantį seanso ID </string>
+    <string name = "err_activity_null_message"> Pateikta veikla negali būti nulinė. </string>
+    <string name = "err_view_null_message"> Pateiktas „RelativeLayout“ negali būti nulinis </string>
+    <string name = "err_invalid_fcm_token_message"> Pateiktas FCM prieigos raktas negali būti tuščias arba tuščias. Pateikite galiojantį FCM prieigos raktą </string>
+    <string name = "err_invalid_group_type_message"> Pateiktas grupės tipas negali būti tuščias arba tuščias </string>
+    <string name = "err_call_in_progress_message"> Vyksta skambutis. Norėdami atlikti šią operaciją, užbaikite ankstesnį skambutį </string>
+    <string name = "err_incorrect_initiator_message"> Negalima atšaukti kito asmens inicijuoto skambučio. Vietoj to naudokite būseną „atmesta“ </string>
+    <string name = "err_invalid_user_name_message"> Vartotojui pateiktas neteisingas vardas. Pateikite galiojantį pavadinimą </string>
+    <string name = "err_invalid_user_message"> Vartotojo objektas negali būti nulinis. Pateikite galiojantį vartotojo objektą </string>
+    <string name = "err_invalid_group_name_message"> Grupės pavadinimas negali būti tuščias. Pateikite galiojantį grupės pavadinimą </string>
+    <string name = "err_invalid_timestamp_message"> Laiko žymė turi būti teigiama. Pateikite tinkamą laiko žymą </string>
+    <string name = "err_invalid_category_message"> Netinkama kategorija. Pateikite galiojančią kategoriją </string>
+    <string name = "err_empty_icon_message"> Tuščia piktograma. Pateikite galiojančią piktogramą </string>
+    <string name = "err_empty_description_message"> Tuščias aprašas. Pateikite galiojantį aprašymą </string>
+    <string name = "err_empty_metadata_message"> Tušti metaduomenys. Pateikite galiojančius metaduomenis </string>
+    <string name = "err_empty_scope_message"> Netinkama sritis. Pateikite galiojančią taikymo sritį </string>
+    <string name = "err_invalid_scope_message"> Netinkama sritis. Pateikite galiojančią taikymo sritį </string>
+    <string name = "err_invalid_conversation_with_message"> Neteisingas pokalbis su. Nurodykite tinkamą pokalbio su </string> vertę
+    <string name = "err_invalid_conversation_type_message"> Netinkamas pokalbio tipas. Nurodykite tinkamą pokalbio su </string> vertę
+    <string name = "err_invalid_media_message"> Neteisingas daugialypės terpės pranešimas. Pateikite galiojančią išsamią failo objekto arba priedo informaciją. </string>
+    <string name = "err_invalid_attachment_message"> Priedas negali būti niekinis. Pateikite galiojančią išsamią priedo informaciją </string>
+    <string name = "err_invalid_file_name_message"> Netinkamas failo pavadinimas. Pateikite galiojantį failo pavadinimą </string>
+    <string name = "err_invalid_file_extension_message"> Netinkamas failo plėtinys. Pateikite galiojantį failo plėtinį </string>
+    <string name = "err_invalid_file_mime_type_message"> Netinkamas failo MIME tipas. Pateikite galiojantį failo „mime“ tipą </string>
+    <string name = "err_invalid_file_url_message"> Netinkamas failo URL. Pateikite galiojantį failo URL </string>
+    <string name = "err_conversation_not_found_message"> Pokalbis nerastas </string>
+    <string name = "err_settings_not_found_message"> Nustatymai nerasti. </string>
+    <string name = "err_invalid_feature_message"> Funkcija netinkama. </string>
+    <string name = "err_invalid_extension_message"> Šis plėtinys neteisingas. Patikrinkite informacijos suvestinėje. </string>
+    <string name = "err_feature_not_found"> ​​Funkcija nerasta. </string>
+
+</resources>

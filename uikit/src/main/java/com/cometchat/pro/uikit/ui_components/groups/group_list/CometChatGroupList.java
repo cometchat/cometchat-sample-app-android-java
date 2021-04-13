@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -76,6 +77,8 @@ public class CometChatGroupList extends Fragment  {
 
     private LinearLayout noGroupLayout;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     private List<Group> groupList = new ArrayList<>();
 
     private static final String TAG = "CometChatGroupList";
@@ -95,6 +98,7 @@ public class CometChatGroupList extends Fragment  {
         noGroupLayout = view.findViewById(R.id.no_group_layout);
         etSearch = view.findViewById(R.id.search_bar);
         clearSearch = view.findViewById(R.id.clear_search);
+        swipeRefreshLayout = view.findViewById(R.id.swipeToRefresh);
 
         ivCreateGroup = view.findViewById(R.id.create_group);
         ivCreateGroup.setImageTintList(ColorStateList.valueOf(Color.parseColor(UISettings.getColor())));
@@ -183,6 +187,14 @@ public class CometChatGroupList extends Fragment  {
                     event.OnItemClick(group,position);
             }
         });
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                groupsRequest=null;
+                rvGroupList.clear();
+                fetchGroup();
+            }
+        });
         return view;
     }
 
@@ -215,6 +227,8 @@ public class CometChatGroupList extends Fragment  {
                     noGroupLayout.setVisibility(View.GONE);
                     rvGroupList.setVisibility(View.VISIBLE);
                 }
+                if (swipeRefreshLayout.isRefreshing())
+                    swipeRefreshLayout.setRefreshing(false);
             }
             @Override
             public void onError(CometChatException e) {

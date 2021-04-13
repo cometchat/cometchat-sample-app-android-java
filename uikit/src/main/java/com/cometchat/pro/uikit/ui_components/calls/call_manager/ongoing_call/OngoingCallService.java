@@ -63,7 +63,7 @@ public class OngoingCallService extends Service {
                 .setContentIntent(pendingIntent)
                 .setCategory(Notification.CATEGORY_CALL)
                 .build();
-        startForeground(1,notification);
+        notificationManager.notify(1,notification);
     }
 
     private Intent getCallIntent(String title) {
@@ -104,7 +104,7 @@ public class OngoingCallService extends Service {
     @Override
     public boolean stopService(Intent name) {
         stopTimer();
-        return stopService(name);
+        return super.stopService(name);
     }
 
     private Timer timer;
