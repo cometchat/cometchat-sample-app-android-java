@@ -10,7 +10,7 @@
 
 [![Platform](https://img.shields.io/badge/Platform-Android-brightgreen.svg)](#)
 [![Platform](https://img.shields.io/badge/Language-Java-yellowgreen.svg)](#)
-![GitHub repo size](https://img.shields.io/github/repo-size/cometchat-pro/android-java-chat-app)
+<img src="https://img.shields.io/badge/Repo%20Size-18.6%20MB-blue" />
 ![GitHub contributors](https://img.shields.io/github/contributors/cometchat-pro/android-java-chat-app)
 ![GitHub stars](https://img.shields.io/github/stars/cometchat-pro/android-java-chat-app?style=social)
 ![Version](https://shields.io/badge/version-v2.3.1--1-orange)
