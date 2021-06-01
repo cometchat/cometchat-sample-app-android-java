@@ -31,7 +31,7 @@ import com.cometchat.pro.uikit.ui_components.calls.call_manager.helper.CometChat
 import com.cometchat.pro.uikit.ui_components.calls.call_manager.helper.OutgoingAudioHelper;
 import com.cometchat.pro.uikit.ui_resources.utils.CallUtils;
 import com.cometchat.pro.uikit.ui_resources.utils.camera_preview.CameraPreview;
-import com.cometchat.pro.uikit.ui_settings.UISettings;
+import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 
 /**
@@ -175,11 +175,16 @@ public class CometChatCallActivity extends AppCompatActivity implements View.OnC
         hangUp.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.red_600)));
         mainView = findViewById(R.id.main_view);
         cometChatAudioHelper = new CometChatAudioHelper(this);
-        if (UISettings.isEnableCallSounds()) {
-            cometChatAudioHelper.initAudio();
-            String packageName = getPackageName();
-            notification = Uri.parse("android.resource://" + packageName + "/" + R.raw.incoming_call);
-        }
+        FeatureRestriction.isCallsSoundEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                if (booleanVal) {
+                    cometChatAudioHelper.initAudio();
+                    String packageName = getPackageName();
+                    notification = Uri.parse("android.resource://" + packageName + "/" + R.raw.incoming_call);
+                }
+            }
+        });
         setCallType(isVideo, isIncoming);
         if (!Utils.hasPermissions(this, Manifest.permission.RECORD_AUDIO) && !Utils.hasPermissions(this,Manifest.permission.CAMERA)) {
             requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.CAMERA},REQUEST_PERMISSION);

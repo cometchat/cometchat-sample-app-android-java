@@ -89,14 +89,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:padding="8dp"
             tools:visibility="visible"
             android:layout_alignBottom="@+id/record_time"
             android:visibility="gone"
             android:id="@+id/ivDelete"
-            android:src="@drawable/ic_delete_24dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:src="@drawable/ic_delete"
+            android:tint="@color/grey"
+            android:layout_width="24dp"
+            android:layout_height="24dp"/>
         <SeekBar
             tools:visibility="visible"
             android:visibility="gone"

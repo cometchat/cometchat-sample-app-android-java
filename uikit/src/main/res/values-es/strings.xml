@@ -451,5 +451,13 @@
     <string name="err_invalid_extension_message">La extensión proporcionada no puede ser nula ni estar vacía.</string>
     <string name="err_feature_not_found">Característica proporcionada no encontrada.</string>
     <string name="extension_not_found">No se pudo encontrar la extensión proporcionada.</string>
+    <string name="left">dejó el grupo</string>
+    <string name="downloading">descargando</string>
+    <string name="creating_group">creando grupo</string>
+    <string name="reply_privately">Enviar mensaje de forma privada</string>
+    <string name="view_profile">Ver perfil</string>
+    <string name="delete_conversation">eliminar la conversación</string>
+    <string name="delete_conversation_message">¿Quieres eliminar esta conversación?</string>
+    <string name="deleting_conversation">Eliminar conversación</string>
 
 </resources>

@@ -22,7 +22,6 @@ public class CometChatSnackBar {
     public static void show(Context context, View parentLayout, String message, String type) {
         customSnackBar(context,parentLayout,message,type);
     }
-
     private static void customSnackBar(Context context,View parentLayout,String message, String type) {
         Snackbar snackbar = Snackbar.make(parentLayout, "", Snackbar.LENGTH_INDEFINITE);
         // Get the Snackbar's layout view

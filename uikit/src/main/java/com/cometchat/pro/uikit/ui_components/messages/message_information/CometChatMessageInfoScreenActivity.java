@@ -32,7 +32,7 @@ import java.util.List;
 
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
-import com.cometchat.pro.uikit.ui_components.messages.extensions.Collaborative.CometChatCollaborativeActivity;
+import com.cometchat.pro.uikit.ui_components.messages.extensions.Collaborative.CometChatWebViewActivity;
 
 public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
 
@@ -246,7 +246,7 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         String boardUrl = getIntent().getStringExtra(UIKitConstants.IntentStrings.TEXTMESSAGE);
-                        Intent intent = new Intent(CometChatMessageInfoScreenActivity.this, CometChatCollaborativeActivity.class);
+                        Intent intent = new Intent(CometChatMessageInfoScreenActivity.this, CometChatWebViewActivity.class);
                         intent.putExtra(UIKitConstants.IntentStrings.URL, boardUrl);
                         startActivity(intent);
                   }
@@ -258,7 +258,7 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         String boardUrl = getIntent().getStringExtra(UIKitConstants.IntentStrings.TEXTMESSAGE);
-                        Intent intent = new Intent(CometChatMessageInfoScreenActivity.this, CometChatCollaborativeActivity.class);
+                        Intent intent = new Intent(CometChatMessageInfoScreenActivity.this, CometChatWebViewActivity.class);
                         intent.putExtra(UIKitConstants.IntentStrings.URL, boardUrl);
                         startActivity(intent);
                     }

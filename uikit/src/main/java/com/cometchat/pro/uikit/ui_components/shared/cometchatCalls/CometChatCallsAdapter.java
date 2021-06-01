@@ -25,7 +25,7 @@ import java.util.List;
 
 import com.cometchat.pro.uikit.databinding.CometchatCallListRowBinding;
 import com.cometchat.pro.uikit.ui_resources.utils.FontUtils;
-import com.cometchat.pro.uikit.ui_settings.UISettings;
+import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 
 /**
@@ -187,16 +187,19 @@ public class CometChatCallsAdapter extends RecyclerView.Adapter<CometChatCallsAd
                 callViewHolder.callListRowBinding.callMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_call_outgoing_24dp,0,0,0);
             }
         }
-        callViewHolder.callListRowBinding.calltimeTv.setText(Utils.getLastMessageDate(call.getInitiatedAt()));
+        callViewHolder.callListRowBinding.calltimeTv.setText(Utils.getLastMessageDate(context,call.getInitiatedAt()));
         callViewHolder.callListRowBinding.callMessage.setText(callMessageText);
         callViewHolder.callListRowBinding.getRoot().setTag(R.string.call, call);
-        if (UISettings.isEnableVoiceCalling() || UISettings.isEnableVideoCalling())
-            callViewHolder.callListRowBinding.callIv.setVisibility(View.VISIBLE);
-        else
-            callViewHolder.callListRowBinding.callIv.setVisibility(View.GONE);
+        if (call.getReceiverType().equalsIgnoreCase(CometChatConstants.RECEIVER_TYPE_USER)) {
+//            if(FeatureRestriction.isOneOnOneAudioCallEnabled() ||
+//                    FeatureRestriction.isOneOnOneVideoCallEnabled())
+                callViewHolder.callListRowBinding.callIv.setVisibility(View.VISIBLE);
+//            else
+//                callViewHolder.callListRowBinding.callIv.setVisibility(View.GONE);
+        }
 
         callViewHolder.callListRowBinding.callIv.setImageTintList(
-                ColorStateList.valueOf(Color.parseColor(UISettings.getColor())));
+                ColorStateList.valueOf(Color.parseColor(FeatureRestriction.getColor())));
 
     }
 

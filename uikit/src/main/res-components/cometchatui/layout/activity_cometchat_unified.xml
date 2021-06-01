@@ -31,10 +31,11 @@
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+            android:layout_gravity="bottom|center"
             app:elevation="8dp"
             android:layout_alignParentBottom="true"
-            app:labelVisibilityMode="unlabeled"
+            app:labelVisibilityMode="labeled"
+            app:layout_anchorGravity="bottom|end"
             app:itemIconSize="@dimen/bottom_nav_icon_size"
             app:menu="@menu/cometchat_navigation_bottom" />
 

@@ -28,6 +28,7 @@
             android:layout_height="100dp"/>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
+            android:visibility="gone"
             app:boxStrokeColor="@color/colorPrimary"
             app:boxStrokeWidth="1dp"
             android:layout_marginLeft="16dp"
@@ -159,7 +160,7 @@
             android:weightSum="2"
             android:layout_height="wrap_content">
             <com.google.android.material.button.MaterialButton
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/cancel"
@@ -167,7 +168,7 @@
                 android:layout_height="wrap_content"/>
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_weight="1"
                 android:id="@+id/updateGroupBtn"
                 android:textColor="@color/colorPrimary"

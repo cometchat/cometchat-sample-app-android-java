@@ -18,7 +18,7 @@
             android:id="@+id/tv_title"
             android:textColor="@color/primaryTextColor"
             android:text="@string/more"
-            android:textSize="22sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

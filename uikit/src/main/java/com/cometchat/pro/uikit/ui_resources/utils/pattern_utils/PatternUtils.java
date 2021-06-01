@@ -10,7 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.cometchat.pro.uikit.ui_settings.UISettings;
+import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 
 public class PatternUtils {
     public static void setHyperLinkSupport(Context context, TextView txtMessage) {
@@ -18,7 +18,7 @@ public class PatternUtils {
                 addPattern(Pattern.compile("(^|[\\s.:;?\\-\\]<\\(])" +
                                 "((https?://|www\\.|pic\\.)[-\\w;/?:@&=+$\\|\\_.!~*\\|'()\\[\\]%#,☺]+[\\w/#](\\(\\))?)" +
                                 "(?=$|[\\s',\\|\\(\\).:;?\\-\\[\\]>\\)])"),
-                        context.getResources().getColor(UISettings.getUrlColor()),
+                        context.getResources().getColor(FeatureRestriction.getUrlColor()),
                         new PatternBuilder.SpannableClickedListener() {
                             @Override
                             public void onSpanClicked(String text) {
@@ -31,7 +31,7 @@ public class PatternUtils {
                             }
                         }).into(txtMessage);
         new PatternBuilder().
-                addPattern(Patterns.PHONE, context.getResources().getColor(UISettings.getPhoneColor()),
+                addPattern(Patterns.PHONE, context.getResources().getColor(FeatureRestriction.getPhoneColor()),
                         new PatternBuilder.SpannableClickedListener() {
                             @Override
                             public void onSpanClicked(String text) {
@@ -42,7 +42,7 @@ public class PatternUtils {
                         }).into(txtMessage);
         new PatternBuilder().
                 addPattern(Pattern.compile("[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"),
-                        context.getResources().getColor(UISettings.getEmailColor()),
+                        context.getResources().getColor(FeatureRestriction.getEmailColor()),
                         new PatternBuilder.SpannableClickedListener() {
                             @Override
                             public void onSpanClicked(String text) {

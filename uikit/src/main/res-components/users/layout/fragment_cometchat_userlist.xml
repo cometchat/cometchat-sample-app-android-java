@@ -11,7 +11,7 @@
         android:visibility="gone"
         tools:visibility="visible"
         android:textColor="@color/primaryTextColor"
-        android:textSize="22sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textStyle="bold"
         android:layout_margin="16dp"
         android:layout_width="wrap_content"

@@ -450,7 +450,15 @@
     <string name="err_invalid_extension_message">L\'extension fournie ne peut pas être nulle ou vide.</string>
     <string name="err_feature_not_found">Fonction fournie introuvable.</string>
     <string name="extension_not_found">L\'extension fournie est introuvable.</string>
-
+    <string name="kicked_by">frappé</string>
+    <string name="left">la gauche</string>
+    <string name="downloading">Téléchargement</string>
+    <string name="creating_group">création d\'un groupe</string>
+    <string name="reply_privately">Envoyer un message en privé</string>
+    <string name="view_profile">Voir le profil</string>
+    <string name="delete_conversation">supprimer la conversation</string>
+    <string name="delete_conversation_message">Souhaitez-vous supprimer cette conversation?</string>
+    <string name="deleting_conversation">Suppression de la conversation</string>
 
 
 </resources>

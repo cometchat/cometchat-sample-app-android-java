@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.cometchat.pro.uikit.R;
 
-import com.cometchat.pro.uikit.ui_settings.UISettings;
+import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 
 public class CometChatCreateGroupActivity extends AppCompatActivity {
 
@@ -26,8 +26,8 @@ public class CometChatCreateGroupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_screen);
         Fragment fragment = new CometChatCreateGroup();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_fragment,fragment).commit();
-        if (UISettings.getColor()!=null)
-            getWindow().setStatusBarColor(Color.parseColor(UISettings.getColor()));
+        if (FeatureRestriction.getColor()!=null)
+            getWindow().setStatusBarColor(Color.parseColor(FeatureRestriction.getColor()));
     }
 
 

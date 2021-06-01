@@ -20,20 +20,31 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import com.cometchat.pro.uikit.R;
-import com.cometchat.pro.uikit.ui_components.messages.extensions.Collaborative.CometChatCollaborativeActivity;
+import com.cometchat.pro.uikit.ui_components.messages.extensions.Collaborative.CometChatWebViewActivity;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatReaction.ReactionUtils;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatReaction.model.Reaction;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatStickers.model.Sticker;
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
 import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
-import com.cometchat.pro.uikit.ui_resources.utils.Utils;
-import com.google.android.material.snackbar.Snackbar;
+import com.cometchat.pro.uikit.ui_settings.Feature;
 
 public class Extensions {
 
     private static final String TAG = "Extensions";
 
+    private static String linkPreview = Feature.Extension.linkPreview;
+    private static String smartReply = Feature.Extension.smartReply;
+    private static String imageModeration = Feature.Extension.imageModeration;
+    private static String thumbnailGeneration = Feature.Extension.thumbnailGeneration;
+    private static String dataMasking = Feature.Extension.dataMasking;
+    private static String reactions = Feature.Extension.reactions;
+    private static String polls = Feature.Extension.polls;
+    private static String profanityFilter = Feature.Extension.profanityFilter;
+    private static String whiteboard = Feature.Extension.whiteboard;
+    private static String document = Feature.Extension.document;
+    private static String sentimentAnalysis = Feature.Extension.sentimentalAnalysis;
+    private static String messageTranslation = Feature.Extension.messageTranslation;
+    private static String stickers = Feature.Extension.stickers;
 
     public static boolean getImageModeration(Context context, BaseMessage baseMessage) {
         boolean result = false;
@@ -107,47 +118,47 @@ public class Extensions {
                 JSONObject injectedObject = metadata.getJSONObject("@injected");
                 if (injectedObject != null && injectedObject.has("extensions")) {
                     JSONObject extensionsObject = injectedObject.getJSONObject("extensions");
-                    if (extensionsObject != null && extensionsObject.has("link-preview")) {
-                        JSONObject linkPreviewObject = extensionsObject.getJSONObject("link-preview");
+                    if (extensionsObject != null && extensionsObject.has(linkPreview)) {
+                        JSONObject linkPreviewObject = extensionsObject.getJSONObject(linkPreview);
                         JSONArray linkPreview = linkPreviewObject.getJSONArray("links");
                         if (linkPreview.length() > 0) {
                             extensionMap.put("linkPreview",linkPreview.getJSONObject(0));
                         }
 
                     }
-                    if (extensionsObject !=null && extensionsObject.has("smart-reply")) {
-                        extensionMap.put("smartReply",extensionsObject.getJSONObject("smart-reply"));
+                    if (extensionsObject !=null && extensionsObject.has(smartReply)) {
+                        extensionMap.put("smartReply",extensionsObject.getJSONObject(smartReply));
                     }
-                    if (extensionsObject!=null && extensionsObject.has("message-translation")) {
-                        extensionMap.put("messageTranslation",extensionsObject.getJSONObject("message-translation"));
+                    if (extensionsObject!=null && extensionsObject.has(messageTranslation)) {
+                        extensionMap.put("messageTranslation",extensionsObject.getJSONObject(messageTranslation));
                     }
-                    if (extensionsObject!=null && extensionsObject.has("profanity-filter")) {
-                        extensionMap.put("profanityFilter",extensionsObject.getJSONObject("profanity-filter"));
+                    if (extensionsObject!=null && extensionsObject.has(profanityFilter)) {
+                        extensionMap.put("profanityFilter",extensionsObject.getJSONObject(profanityFilter));
                     }
-                    if (extensionsObject!=null && extensionsObject.has("image-moderation")) {
-                        extensionMap.put("imageModeration",extensionsObject.getJSONObject("image-moderation"));
+                    if (extensionsObject!=null && extensionsObject.has(imageModeration)) {
+                        extensionMap.put("imageModeration",extensionsObject.getJSONObject(imageModeration));
                     }
-                    if (extensionsObject!=null && extensionsObject.has("thumbnail-generator")) {
-                        extensionMap.put("thumbnailGeneration",extensionsObject.getJSONObject("thumbnail-generator"));
+                    if (extensionsObject!=null && extensionsObject.has(thumbnailGeneration)) {
+                        extensionMap.put("thumbnailGeneration",extensionsObject.getJSONObject(thumbnailGeneration));
                     }
-                    if (extensionsObject!=null && extensionsObject.has("sentiment-analysis")) {
-                        extensionMap.put("sentimentAnalysis",extensionsObject.getJSONObject("sentiment-analysis"));
+                    if (extensionsObject!=null && extensionsObject.has(sentimentAnalysis)) {
+                        extensionMap.put("sentimentAnalysis",extensionsObject.getJSONObject(sentimentAnalysis));
                     }
-                    if (extensionsObject!=null && extensionsObject.has("polls")) {
-                        extensionMap.put("polls",extensionsObject.getJSONObject("polls"));
+                    if (extensionsObject!=null && extensionsObject.has(polls)) {
+                        extensionMap.put("polls",extensionsObject.getJSONObject(polls));
                     }
-                    if (extensionsObject!=null && extensionsObject.has("reactions")) {
-                        if (extensionsObject.get("reactions") instanceof JSONObject)
-                            extensionMap.put("reactions",extensionsObject.getJSONObject("reactions"));
+                    if (extensionsObject!=null && extensionsObject.has(reactions)) {
+                        if (extensionsObject.get(reactions) instanceof JSONObject)
+                            extensionMap.put("reactions",extensionsObject.getJSONObject(reactions));
                     }
-                    if (extensionsObject!=null && extensionsObject.has("whiteboard")) {
-                        extensionMap.put("whiteboard",extensionsObject.getJSONObject("whiteboard"));
+                    if (extensionsObject!=null && extensionsObject.has(whiteboard)) {
+                        extensionMap.put("whiteboard",extensionsObject.getJSONObject(whiteboard));
                     }
-                    if (extensionsObject!=null && extensionsObject.has("document")) {
-                        extensionMap.put("document",extensionsObject.getJSONObject("document"));
+                    if (extensionsObject!=null && extensionsObject.has(document)) {
+                        extensionMap.put("document",extensionsObject.getJSONObject(document));
                     }
-                    if (extensionsObject!=null && extensionsObject.has("data-masking")) {
-                        extensionMap.put("dataMasking",extensionsObject.getJSONObject("data-masking"));
+                    if (extensionsObject!=null && extensionsObject.has(dataMasking)) {
+                        extensionMap.put("dataMasking",extensionsObject.getJSONObject(dataMasking));
                     }
                 }
                 return extensionMap;
@@ -308,7 +319,7 @@ public class Extensions {
     }
 
     public static void fetchStickers(ExtensionResponseListener extensionResponseListener) {
-        if(CometChat.isExtensionEnabled("stickers")) {
+        if(CometChat.isExtensionEnabled(stickers)) {
             CometChat.callExtension("stickers", "GET", "/v1/fetch", null, new CometChat.CallbackListener<JSONObject>() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
@@ -523,7 +534,7 @@ public class Extensions {
                     String userName = CometChat.getLoggedInUser().getName().replace("//s+","_");
                     boardUrl = boardUrl+"&username="+userName;
                     Log.e(TAG, "openWhiteBoard: after "+boardUrl);
-                    Intent intent = new Intent(context, CometChatCollaborativeActivity.class);
+                    Intent intent = new Intent(context, CometChatWebViewActivity.class);
                     intent.putExtra(UIKitConstants.IntentStrings.URL, boardUrl);
                     context.startActivity(intent);
                 }
@@ -541,7 +552,7 @@ public class Extensions {
                 JSONObject whiteBoardData = extensionCheck.get("document");
                 if (whiteBoardData.has("document_url")) {
                     boardUrl = whiteBoardData.getString("document_url");
-                    Intent intent = new Intent(context, CometChatCollaborativeActivity.class);
+                    Intent intent = new Intent(context, CometChatWebViewActivity.class);
                     intent.putExtra(UIKitConstants.IntentStrings.URL, boardUrl);
                     context.startActivity(intent);
                 }

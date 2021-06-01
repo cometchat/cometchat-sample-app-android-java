@@ -48,9 +48,7 @@ public class CometChatMessageActions extends BottomSheetDialogFragment {
     private TextView translateMessage;
     private TextView retryMessage;
 
-    private RelativeLayout messagePrivately;
-    private CometChatAvatar senderAvatar;
-    private TextView senderName;
+    private TextView messagePrivately;
 
     private String userName;
     private String userAvatar;
@@ -86,8 +84,6 @@ public class CometChatMessageActions extends BottomSheetDialogFragment {
     private void fetchArguments() {
         if (getArguments()!=null) {
             isPrivateReplyVisible = getArguments().getBoolean("privateReplyVisible");
-            userAvatar = getArguments().getString("userAvatar");
-            userName = getArguments().getString("userName");
             isCopyVisible = getArguments().getBoolean("copyVisible");
             isThreadVisible = getArguments().getBoolean("threadVisible");
             isEditVisible = getArguments().getBoolean("editVisible");
@@ -121,8 +117,7 @@ public class CometChatMessageActions extends BottomSheetDialogFragment {
             }
         });
 
-        messagePrivately = view.findViewById(R.id.message_privately_layout);
-        senderAvatar = view.findViewById(R.id.sender_avatar);
+        messagePrivately = view.findViewById(R.id.reply_privately);
 
         if ((userName!=null && userName.isEmpty())
                 || (userAvatar!=null && userAvatar.isEmpty()))
@@ -132,7 +127,6 @@ public class CometChatMessageActions extends BottomSheetDialogFragment {
                 messagePrivately.setVisibility(View.VISIBLE);
             else
                 messagePrivately.setVisibility(View.GONE);
-            senderAvatar.setAvatar(userAvatar);
         }
 
         messagePrivately.setOnClickListener(v-> {

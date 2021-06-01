@@ -20,7 +20,7 @@
         android:usesCleartextTraffic="true"
         tools:node="merge"
         tools:targetApi="m">
-        <activity android:name=".ui_components.messages.extensions.Collaborative.CometChatCollaborativeActivity"/>
+        <activity android:name=".ui_components.messages.extensions.Collaborative.CometChatWebViewActivity"/>
         <activity
             android:name=".ui_components.messages.extensions.Reactions.CometChatReactionInfoActivity"/>
         <activity android:name=".ui_components.messages.media_view.CometChatMediaViewActivity" />
