@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.cometchat.pro.core.CometChat;
@@ -32,7 +31,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
 import com.cometchat.pro.uikit.ui_resources.utils.FontUtils;
-import com.cometchat.pro.uikit.ui_settings.UISettings;
+import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 import com.cometchat.pro.uikit.ui_components.userprofile.privacy_security.CometChatMorePrivacyActivity;
 
@@ -50,6 +49,8 @@ public class CometChatUserProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
+        CometChatError.init(getContext());
         moreInfoScreenBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_cometchat_user_profile, container, false);
         moreInfoScreenBinding.setUser(CometChat.getLoggedInUser());
         moreInfoScreenBinding.ivUser.setAvatar(CometChat.getLoggedInUser());
@@ -63,8 +64,8 @@ public class CometChatUserProfile extends Fragment {
             }
         });
 
-        if (UISettings.getColor()!=null) {
-            int widgetColor = Color.parseColor(UISettings.getColor());
+        if (FeatureRestriction.getColor()!=null) {
+            int widgetColor = Color.parseColor(FeatureRestriction.getColor());
             Drawable wrappedDrawable = DrawableCompat.wrap(getResources().
                     getDrawable(R.drawable.ic_security_24dp));
             wrappedDrawable.setTint(widgetColor);

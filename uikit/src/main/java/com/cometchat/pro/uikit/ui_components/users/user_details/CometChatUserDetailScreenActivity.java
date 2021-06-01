@@ -1,6 +1,7 @@
 package com.cometchat.pro.uikit.ui_components.users.user_details;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -13,7 +14,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +32,7 @@ import com.cometchat.pro.models.Group;
 import com.cometchat.pro.models.GroupMember;
 import com.cometchat.pro.models.User;
 
+import com.cometchat.pro.uikit.ui_components.messages.extensions.Collaborative.CometChatWebViewActivity;
 import com.cometchat.pro.uikit.ui_components.messages.message_list.CometChatMessageListActivity;
 import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar;
@@ -48,10 +49,8 @@ import com.cometchat.pro.uikit.ui_components.users.user_details.callHistroy.Call
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
 import com.cometchat.pro.uikit.ui_resources.utils.CallUtils;
 import com.cometchat.pro.uikit.ui_resources.utils.FontUtils;
-import com.cometchat.pro.uikit.ui_settings.UISettings;
+import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
-
-import okhttp3.internal.Util;
 
 public class CometChatUserDetailScreenActivity extends AppCompatActivity {
     private CometChatAvatar userAvatar;
@@ -74,8 +73,6 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
 
     private boolean isAlreadyAdded;
 
-    private TextView tvSendMessage;
-
     private LinearLayout blockUserLayout;
 
     private TextView tvBlockUser;
@@ -85,10 +82,6 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
     private boolean isBlocked;
 
     private FontUtils fontUtils;
-
-    private ImageView callBtn;
-
-    private ImageView videoCallBtn;
 
     private LinearLayout historyView;
 
@@ -102,11 +95,17 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
 
     private LinearLayout sharedMediaLayout;
 
+    private TextView viewProfile;
+
+    private String profileLink = "";
+
     private boolean inProgress;
 
     private boolean fromCallList;
 
     private View divider1,divider2,divider3;
+
+    private LinearLayout preferenceLayout;
 
     private List<BaseMessage> callList = new ArrayList<>();
 
@@ -126,20 +125,20 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
         userAvatar = findViewById(R.id.iv_user);
         userName = findViewById(R.id.tv_name);
         userStatus = findViewById(R.id.tv_status);
-        callBtn = findViewById(R.id.callBtn_iv);
-        videoCallBtn = findViewById(R.id.video_callBtn_iv);
+        preferenceLayout = findViewById(R.id.preference_layout);
         addBtn = findViewById(R.id.btn_add);
-        tvSendMessage = findViewById(R.id.tv_send_message);
         toolbar= findViewById(R.id.user_detail_toolbar);
         divider1 = findViewById(R.id.divider_1);
         divider2 = findViewById(R.id.divider_2);
         divider3 = findViewById(R.id.divider_3);
 
+        CometChatError.init(this);
+        viewProfile = findViewById(R.id.tv_view_profile);
+
         setSupportActionBar(toolbar);
          getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         addBtn.setTypeface(fontUtils.getTypeFace(FontUtils.robotoRegular));
-
 
         blockUserLayout = findViewById(R.id.block_user_layout);
 
@@ -158,8 +157,28 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
         sharedMediaView.setRecieverType(CometChatConstants.RECEIVER_TYPE_USER);
         sharedMediaView.reload();
 
-        if (!UISettings.isViewSharedMedia())
-            sharedMediaLayout.setVisibility(View.GONE);
+        if (profileLink==null || profileLink.isEmpty()) {
+            preferenceLayout.setVisibility(View.GONE);
+            viewProfile.setVisibility(View.GONE);
+        }
+
+        if(isAddMember)
+            preferenceLayout.setVisibility(View.VISIBLE);
+
+        viewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openProfile();
+            }
+        });
+
+        FeatureRestriction.isSharedMediaEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                if (!booleanVal)
+                    sharedMediaLayout.setVisibility(View.GONE);
+            }
+        });
 
         checkDarkMode();
         addBtn.setOnClickListener(view -> {
@@ -174,55 +193,20 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
             }
         });
 
-        tvSendMessage.setOnClickListener(view -> {
-              if (isAddMember || fromCallList){
-                  Intent intent=new Intent(CometChatUserDetailScreenActivity.this, CometChatMessageListActivity.class);
-                  intent.putExtra(UIKitConstants.IntentStrings.TYPE, CometChatConstants.RECEIVER_TYPE_USER);
-                  intent.putExtra(UIKitConstants.IntentStrings.UID,uid);
-                  intent.putExtra(UIKitConstants.IntentStrings.NAME,name);
-                  intent.putExtra(UIKitConstants.IntentStrings.AVATAR,avatar);
-                  intent.putExtra(UIKitConstants.IntentStrings.STATUS, CometChatConstants.USER_STATUS_OFFLINE);
-                  startActivity(intent);
-              }else
-                  onBackPressed();
+        FeatureRestriction.isBlockUserEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                if (!booleanVal) {
+                    blockUserLayout.setVisibility(View.GONE);
+                }
+            }
         });
-
-        if (!UISettings.isBlockUser())
-            blockUserLayout.setVisibility(View.GONE);
 
         tvBlockUser.setOnClickListener(view -> {
             if (isBlocked)
                unblockUser();
             else
                 blockUser();
-        });
-
-
-        if (UISettings.isEnableVideoCalling())
-            videoCallBtn.setVisibility(View.VISIBLE);
-        else
-            videoCallBtn.setVisibility(View.GONE);
-
-        if (UISettings.isEnableVoiceCalling())
-            callBtn.setVisibility(View.VISIBLE);
-        else
-            callBtn.setVisibility(View.GONE);
-
-        if (UISettings.getColor()!=null) {
-            getWindow().setStatusBarColor(Color.parseColor(UISettings.getColor()));
-            callBtn.setImageTintList(ColorStateList.valueOf(
-                    Color.parseColor(UISettings.getColor())));
-            videoCallBtn.setImageTintList(ColorStateList.valueOf(
-                    Color.parseColor(UISettings.getColor())));
-        }
-
-        callBtn.setOnClickListener(view -> {
-            callBtn.setClickable(false);
-            checkOnGoingCall(CometChatConstants.CALL_TYPE_AUDIO);
-        });
-        videoCallBtn.setOnClickListener(view ->{
-            videoCallBtn.setClickable(false);
-            checkOnGoingCall(CometChatConstants.CALL_TYPE_VIDEO);
         });
     }
 
@@ -239,50 +223,6 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
             divider3.setBackgroundColor(getResources().getColor(R.color.light_grey));
         }
     }
-
-    private void checkOnGoingCall(String callType) {
-        if(CometChat.getActiveCall()!=null && CometChat.getActiveCall().getCallStatus().equals(CometChatConstants.CALL_STATUS_ONGOING) && CometChat.getActiveCall().getSessionId()!=null) {
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle(getResources().getString(R.string.ongoing_call))
-                    .setMessage(getResources().getString(R.string.ongoing_call_message))
-                    .setPositiveButton(getResources().getString(R.string.join), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            CallUtils.joinOnGoingCall(CometChatUserDetailScreenActivity.this,CometChat.getActiveCall());
-                        }
-                    }).setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    callBtn.setClickable(true);
-                    videoCallBtn.setClickable(true);
-                }
-            }).create().show();
-        }
-        else {
-//            CallUtils.initiateCall(CometChatUserDetailScreenActivity.this,uid,CometChatConstants.RECEIVER_TYPE_USER,callType);
-            Call call = new Call(uid, CometChatConstants.RECEIVER_TYPE_USER,callType);
-            CometChat.initiateCall(call, new CometChat.CallbackListener<Call>() {
-                @Override
-                public void onSuccess(Call call) {
-                    CallUtils.startCallIntent(CometChatUserDetailScreenActivity.this,
-                            ((User)call.getCallReceiver()),call.getType(),true,
-                            call.getSessionId());
-                }
-
-                @Override
-                public void onError(CometChatException e) {
-                    callBtn.setClickable(true);
-                    videoCallBtn.setClickable(true);
-                    Log.e(TAG, "onError: "+e.getMessage());
-                    CometChatSnackBar.show(CometChatUserDetailScreenActivity.this,
-                            getWindow().getDecorView().getRootView(),
-                            CometChatError.localized(e),CometChatSnackBar.ERROR);
-                }
-            });
-        }
-    }
-
 
     private void handleIntent() {
 
@@ -314,6 +254,9 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
             userName.setText(name);
         }
 
+        if (getIntent().hasExtra(UIKitConstants.IntentStrings.LINK)) {
+            profileLink = getIntent().getStringExtra(UIKitConstants.IntentStrings.LINK);
+        }
         if (getIntent().hasExtra(UIKitConstants.IntentStrings.AVATAR)) {
             avatar = getIntent().getStringExtra(UIKitConstants.IntentStrings.AVATAR);
         }
@@ -339,6 +282,7 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
         if (isAddMember) {
             addBtn.setText(String.format(getResources().getString(R.string.add_user_to_group),name,groupName));
             historyView.setVisibility(View.GONE);
+            addBtn.setVisibility(View.VISIBLE);
         } else {
             fetchCallHistory();
             addBtn.setVisibility(View.GONE);
@@ -409,22 +353,28 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
     }
 
     private void addMember() {
+        ProgressDialog progressDialog = ProgressDialog.show(this, null,
+                String.format(getResources().getString(R.string.user_added_to_group),
+                        userName.getText().toString(), groupName));
         List<GroupMember> userList = new ArrayList<>();
         userList.add(new GroupMember(uid, CometChatConstants.SCOPE_PARTICIPANT));
         CometChat.addMembersToGroup(guid, userList, null, new CometChat.CallbackListener<HashMap<String, String>>() {
             @Override
             public void onSuccess(HashMap<String, String> stringStringHashMap) {
                 Log.e(TAG, "onSuccess: " + uid + "Group" + guid);
-                if(tvBlockUser!=null)
-                    CometChatSnackBar.show(CometChatUserDetailScreenActivity.this,
-                            tvBlockUser,String.format(getResources().getString(R.string.user_added_to_group),userName.getText().toString(), groupName),
-                            CometChatSnackBar.SUCCESS);
+                progressDialog.dismiss();
+//                if(tvBlockUser!=null) {
+//                    CometChatSnackBar.show(CometChatUserDetailScreenActivity.this,
+//                            tvBlockUser, String.format(getResources().getString(R.string.user_added_to_group), userName.getText().toString(), groupName),
+//                            CometChatSnackBar.SUCCESS);
+//                }
                 addBtn.setText(String.format(getResources().getString(R.string.remove_from_group),groupName));
                 isAlreadyAdded = true;
             }
 
             @Override
             public void onError(CometChatException e) {
+                progressDialog.dismiss();
                 CometChatSnackBar.show(CometChatUserDetailScreenActivity.this,
                         historyRv,CometChatError.localized(e),CometChatSnackBar.ERROR);
             }
@@ -432,15 +382,13 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
     }
 
     private void kickGroupMember() {
-
+        ProgressDialog progressDialog = ProgressDialog.show(this, null,
+                String.format(getResources().getString(R.string.user_removed_from_group),
+                        userName.getText().toString(),groupName));
         CometChat.kickGroupMember(uid, guid, new CometChat.CallbackListener<String>() {
             @Override
             public void onSuccess(String s) {
-                if (tvBlockUser!=null)
-                    CometChatSnackBar.show(CometChatUserDetailScreenActivity.this,
-                            tvBlockUser,
-                            String.format(getResources().getString(R.string.user_removed_from_group),userName.getText().toString(),groupName),
-                            CometChatSnackBar.SUCCESS);
+                progressDialog.dismiss();
                 addBtn.setText(String.format(getResources().getString(R.string.add_in),groupName));
                 addBtn.setVisibility(View.VISIBLE);
                 isAlreadyAdded = false;
@@ -448,6 +396,7 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
 
             @Override
             public void onError(CometChatException e) {
+                progressDialog.dismiss();
                 if (tvBlockUser!=null)
                     CometChatSnackBar.show(CometChatUserDetailScreenActivity.this,
                             tvBlockUser, CometChatError.localized(e),
@@ -458,16 +407,20 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
 
 
     private void unblockUser() {
+        ProgressDialog progressDialog = ProgressDialog.show(CometChatUserDetailScreenActivity.this,
+                null,
+                userName.getText().toString()+" "+getString(R.string.unblocked_successfully));
         ArrayList<String> uids = new ArrayList<>();
         uids.add(uid);
 
       CometChat.unblockUsers(uids, new CometChat.CallbackListener<HashMap<String, String>>() {
           @Override
           public void onSuccess(HashMap<String, String> stringStringHashMap) {
-              if (tvBlockUser!=null)
-                  CometChatSnackBar.show(CometChatUserDetailScreenActivity.this,
-                          tvBlockUser,
-                          userName.getText().toString()+" "+getResources().getString(R.string.unblocked_successfully),CometChatSnackBar.SUCCESS);
+//              if (tvBlockUser!=null)
+//                  CometChatSnackBar.show(CometChatUserDetailScreenActivity.this,
+//                          tvBlockUser,
+//                          userName.getText().toString()+" "+getResources().getString(R.string.unblocked_successfully),CometChatSnackBar.SUCCESS);
+              progressDialog.dismiss();
               isBlocked=false;
               setBlockUnblock();
           }
@@ -477,25 +430,28 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
               Log.d(TAG, "onError: "+e.getMessage());
               if (tvBlockUser!=null)
                   CometChatSnackBar.show(CometChatUserDetailScreenActivity.this,
-                          tvBlockUser,CometChatError.localized(e),CometChatSnackBar.ERROR);
+                          tvBlockUser,getString(R.string.unblock_user_error),CometChatSnackBar.ERROR);
           }
       });
     }
 
 
     private void blockUser() {
-
+        ProgressDialog progressDialog = ProgressDialog.show(CometChatUserDetailScreenActivity.this,
+                null,
+                String.format(getResources().getString(R.string.user_is_blocked),userName.getText().toString()));
         ArrayList<String> uids = new ArrayList<>();
         uids.add(uid);
         CometChat.blockUsers(uids, new CometChat.CallbackListener<HashMap<String, String>>() {
             @Override
             public void onSuccess(HashMap<String, String> stringStringHashMap) {
-                if (tvBlockUser!=null)
-                    CometChatSnackBar.show(CometChatUserDetailScreenActivity.this,
-                            tvBlockUser,
-                            String.format(getResources().getString(R.string.user_is_blocked),userName.getText().toString()),
-                            CometChatSnackBar.SUCCESS);
+//                if (tvBlockUser!=null)
+//                    CometChatSnackBar.show(CometChatUserDetailScreenActivity.this,
+//                            tvBlockUser,
+//                            String.format(getResources().getString(R.string.user_is_blocked),userName.getText().toString()),
+//                            CometChatSnackBar.SUCCESS);
                 isBlocked=true;
+                progressDialog.dismiss();
                 setBlockUnblock();
             }
 
@@ -504,8 +460,7 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
                 if (tvBlockUser!=null)
                     CometChatSnackBar.show(CometChatUserDetailScreenActivity.this,
                             tvBlockUser,
-                            String.format(getResources().getString(R.string.block_user_error),userName.getText().toString())
-                                    +","+ CometChatError.localized(e),
+                            getResources().getString(R.string.block_user_error),
                             CometChatSnackBar.ERROR);
                 Log.d(TAG, "onError: "+e.getMessage());
             }
@@ -516,8 +471,6 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         groupListener();
-        callBtn.setClickable(true);
-        videoCallBtn.setClickable(true);
     }
 
     @Override
@@ -549,6 +502,12 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
                 updateBtn(userAdded,R.string.remove_from_group);
             }
         });
+    }
+
+    private void openProfile() {
+        Intent intent = new Intent(CometChatUserDetailScreenActivity.this, CometChatWebViewActivity.class);
+        intent.putExtra(UIKitConstants.IntentStrings.URL,profileLink);
+        startActivity(intent);
     }
 
     private void updateBtn(User user, int resource_string) {

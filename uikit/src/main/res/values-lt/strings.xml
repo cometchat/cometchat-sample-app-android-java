@@ -413,5 +413,16 @@
     <string name = "err_invalid_feature_message"> Funkcija netinkama. </string>
     <string name = "err_invalid_extension_message"> Šis plėtinys neteisingas. Patikrinkite informacijos suvestinėje. </string>
     <string name = "err_feature_not_found"> ​​Funkcija nerasta. </string>
+    <string name="group">grupp</string>
+    <string name="blocked_users">užblokuotas vartotojas</string>
+    <string name="downloading">atsisiųsti</string>
+    <string name="creating_group">kurianti grupė</string>
+    <string name="reply_privately">Siųsti pranešimą privačiai</string>
+    <string name="view_profile">Peržiūrėti vartotojo profilį</string>
+    <string name="delete_conversation">Ištrinti pokalbį</string>
+    <string name="today">šiandien</string>
+    <string name="delete_conversation_message">Ar norėtumėte ištrinti šį pokalbį?</string>
+    <string name="deleting_conversation">Ištrinamas pokalbis</string>
+    <string name="is_typing">rašo ..</string>
 
 </resources>

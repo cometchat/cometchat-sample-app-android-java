@@ -33,7 +33,7 @@ public class OngoingCallService extends Service {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O)
             startMyOwnForeground();
         else
-            startForeground(1,new Notification());
+            this.startForeground(1,new Notification());
     }
 
     @Nullable
@@ -63,7 +63,7 @@ public class OngoingCallService extends Service {
                 .setContentIntent(pendingIntent)
                 .setCategory(Notification.CATEGORY_CALL)
                 .build();
-        notificationManager.notify(1,notification);
+        startForeground(1,notification);
     }
 
     private Intent getCallIntent(String title) {

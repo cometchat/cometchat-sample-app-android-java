@@ -26,6 +26,7 @@ import com.cometchat.pro.core.CallSettings;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
+import com.cometchat.pro.rtc.model.AudioMode;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.ui_components.calls.call_manager.ongoing_call.OngoingCallService;
 import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
@@ -64,6 +65,8 @@ public class CometChatStartCallActivity extends AppCompatActivity {
 
     private Intent mServiceIntent;
 
+    private boolean isDefaultCall;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +75,8 @@ public class CometChatStartCallActivity extends AppCompatActivity {
 
         ongoingCallService = new OngoingCallService();
         mServiceIntent = new Intent(this,ongoingCallService.getClass());
-        if (!isMyServiceRunning(ongoingCallService.getClass())) {
+        isDefaultCall = getIntent().getBooleanExtra(UIKitConstants.IntentStrings.IS_DEFAULT_CALL,false);
+        if (isDefaultCall && !isMyServiceRunning(ongoingCallService.getClass())) {
             startService(mServiceIntent);
         }
 
@@ -89,8 +93,13 @@ public class CometChatStartCallActivity extends AppCompatActivity {
             callSettings = new CallSettings.CallSettingsBuilder(this,mainView)
                     .setSessionId(sessionID)
                     .build();
+
         Log.e( "startCallActivity: ",sessionID+" "+type);
         CometChat.startCall(callSettings, new CometChat.OngoingCallListener() {
+            @Override
+            public void onAudioModesUpdated(List<AudioMode> list) {
+                Log.e( "onAudioModesUpdated: ",list.toString() );
+            }
 
             @Override
             public void onUserListUpdated(List<User> list) {

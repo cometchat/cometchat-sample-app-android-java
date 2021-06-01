@@ -12,11 +12,32 @@
     </data>
 
 
-    <RelativeLayout
-        android:clickable="true"
-        android:background="?attr/selectableItemBackground"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="72dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/view_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/red">
+        <ImageView
+            android:id="@+id/delete_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_delete" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/view_foreground"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:background="@color/textColorWhite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
             <RelativeLayout
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
@@ -25,13 +46,13 @@
                 android:layout_height="match_parent">
                 <com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar
                     android:id="@+id/av_user"
-                    android:layout_width="40dp"
+                    android:layout_width="48dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="4dp"
                     tools:src="@tools:sample/avatars"
-                    android:layout_height="40dp" />
+                    android:layout_height="48dp" />
                 <com.cometchat.pro.uikit.ui_components.shared.cometchatUserPresence.CometChatUserPresence
                     android:layout_width="16dp"
                     android:visibility="gone"
@@ -39,39 +60,55 @@
                     android:layout_alignBottom="@+id/av_user"
                     android:id="@+id/user_status"
                     android:layout_height="16dp"/>
-                <TextView
-                    android:ellipsize="end"
-                    android:id="@+id/txt_user_name"
-                    android:layout_width="match_parent"
+                <LinearLayout
                     android:layout_alignTop="@id/av_user"
-                    android:layout_toStartOf="@+id/messageTime"
-                    android:textDirection="locale"
-                    android:layout_marginStart="8dp"
                     android:layout_toEndOf="@id/av_user"
-                    android:layout_height="wrap_content"
-                    tools:text="@tools:sample/full_names"
+                    android:layout_toStartOf="@+id/messageTime"
+                    android:orientation="vertical"
                     android:layout_marginEnd="16dp"
-                    android:textSize="@dimen/name"
-                    android:maxLines="1"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:gravity="center_vertical"
-                    android:id="@+id/txt_user_message"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:textSize="@dimen/fourteen"
-                    android:layout_marginStart="8dp"
-                    android:layout_below="@id/txt_user_name"
-                    android:layout_toEndOf="@id/av_user"
-                    android:maxLines="1"
-                    android:layout_marginRight="8dp"
-                    android:layout_toStartOf="@+id/messageTime"
-                    tools:text="@string/online"
-                    android:visibility="visible" />
-
-
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:ellipsize="end"
+                        android:id="@+id/txt_user_name"
+                        android:layout_width="match_parent"
+                        android:textDirection="locale"
+                        android:layout_marginStart="8dp"
+                        android:layout_height="wrap_content"
+                        tools:text="@tools:sample/full_names"
+                        android:textSize="@dimen/name"
+                        android:maxLines="1"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_marginTop="4dp"
+                        tools:visibility="gone"
+                        android:visibility="gone"
+                        android:gravity="center_vertical"
+                        android:id="@+id/txt_in_thread"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:textSize="@dimen/eleven"
+                        android:drawableTint="@color/grey"
+                        android:drawablePadding="4dp"
+                        android:drawableEnd="@drawable/ic_baseline_in_thread_24"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/in_thread"
+                        android:layout_marginRight="8dp" />
+                    <TextView
+                        tools:visibility="gone"
+                        android:gravity="center_vertical"
+                        android:id="@+id/txt_user_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:textSize="@dimen/fourteen"
+                        android:layout_marginStart="8dp"
+                        android:maxLines="1"
+                        android:layout_marginRight="8dp"
+                        tools:text="@tools:sample/lorem/random"
+                        android:visibility="visible" />
+                </LinearLayout>
                 <TextView
                     android:id="@+id/tvSeprator"
                     android:layout_width="match_parent"
@@ -88,7 +125,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="16dp"
                     android:textSize="12sp"
-                    android:layout_alignTop="@id/txt_user_name"
+                    android:layout_alignTop="@id/av_user"
                     tools:text="11:50"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -107,6 +144,7 @@
             </RelativeLayout>
 
     </RelativeLayout>
+    </FrameLayout>
 
 </layout>
 

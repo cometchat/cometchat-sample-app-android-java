@@ -11,17 +11,18 @@
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <TextView
-        android:text="@string/groups"
-        android:id="@+id/tv_title"
-        android:textSize="22dp"
-        android:layout_toLeftOf="@+id/create_group"
-        android:textColor="@color/primaryTextColor"
-        android:textStyle="bold"
-        android:layout_margin="16dp"
-        android:textDirection="locale"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_toLeftOf="@+id/create_group"
+            android:text="@string/groups"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="@color/primaryTextColor"
+            android:textDirection="locale"
+            android:textStyle="bold" />
     <ImageView
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"

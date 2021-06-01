@@ -82,6 +82,12 @@ public class CometChatConversationsViewModel {
             conversationListAdapter.resetAdapterList();
     }
 
+    public Conversation getConversation(int position) {
+        Conversation conversation = null;
+        if (conversationListAdapter!=null)
+            conversation = conversationListAdapter.getItemAtPosition(position);
+        return conversation;
+    }
     public int size() {
         return conversationListAdapter.getItemCount();
     }

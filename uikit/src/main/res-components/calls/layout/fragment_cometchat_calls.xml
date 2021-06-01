@@ -12,7 +12,7 @@
         android:layout_height="wrap_content">
         <TextView
             android:text="@string/calls"
-            android:textSize="22sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textStyle="bold"
             android:textColor="@color/primaryTextColor"
             android:id="@+id/tv_title"

@@ -20,6 +20,7 @@ import com.cometchat.pro.core.Call;
 import com.cometchat.pro.core.MessagesRequest;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatCalls.CometChatCalls;
+import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.tabs.TabLayout;
 
@@ -28,7 +29,7 @@ import java.util.List;
 
 import com.cometchat.pro.uikit.ui_resources.utils.item_clickListener.OnItemClickListener;
 
-import com.cometchat.pro.uikit.ui_settings.UISettings;
+import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 
@@ -68,6 +69,10 @@ public class CometChatCallList extends Fragment {
 
     private ImageView phoneAddIv;
 
+    private boolean oneOnoneCallEnabled;
+
+    private boolean oneOnoneVideoCallEnabled;
+
     public CometChatCallList() {
         // Required empty public constructor
     }
@@ -78,7 +83,14 @@ public class CometChatCallList extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_cometchat_calls, container, false);
         tvTitle = view.findViewById(R.id.tv_title);
+        fetchSettings();
+        CometChatError.init(getContext());
         phoneAddIv = view.findViewById(R.id.add_phone_iv);
+        if (oneOnoneCallEnabled || oneOnoneVideoCallEnabled)
+            phoneAddIv.setVisibility(View.VISIBLE);
+        else
+            phoneAddIv.setVisibility(View.GONE);
+
         phoneAddIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,13 +106,13 @@ public class CometChatCallList extends Fragment {
             viewPager.setAdapter(tabAdapter);
         }
         tabLayout.setupWithViewPager(viewPager);
-        if (UISettings.getColor()!=null) {
-            phoneAddIv.setImageTintList(ColorStateList.valueOf(Color.parseColor(UISettings.getColor())));
+        if (FeatureRestriction.getColor()!=null) {
+            phoneAddIv.setImageTintList(ColorStateList.valueOf(Color.parseColor(FeatureRestriction.getColor())));
             Drawable wrappedDrawable = DrawableCompat.wrap(getResources().
                     getDrawable(R.drawable.tab_layout_background_active));
-            DrawableCompat.setTint(wrappedDrawable, Color.parseColor(UISettings.getColor()));
+            DrawableCompat.setTint(wrappedDrawable, Color.parseColor(FeatureRestriction.getColor()));
             tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).view.setBackground(wrappedDrawable);
-            tabLayout.setSelectedTabIndicatorColor(Color.parseColor(UISettings.getColor()));
+            tabLayout.setSelectedTabIndicatorColor(Color.parseColor(FeatureRestriction.getColor()));
         } else {
             tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).
                     view.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -109,10 +121,10 @@ public class CometChatCallList extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (UISettings.getColor()!=null) {
+                if (FeatureRestriction.getColor()!=null) {
                     Drawable wrappedDrawable = DrawableCompat.wrap(getResources().
                             getDrawable(R.drawable.tab_layout_background_active));
-                    DrawableCompat.setTint(wrappedDrawable, Color.parseColor(UISettings.getColor()));
+                    DrawableCompat.setTint(wrappedDrawable, Color.parseColor(FeatureRestriction.getColor()));
                     tab.view.setBackground(wrappedDrawable);
                 }
                 else
@@ -131,6 +143,21 @@ public class CometChatCallList extends Fragment {
         });
         checkDarkMode();
         return view;
+    }
+
+    private void fetchSettings() {
+        FeatureRestriction.isOneOnOneAudioCallEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                oneOnoneCallEnabled = booleanVal;
+            }
+        });
+        FeatureRestriction.isOneOnOneVideoCallEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                oneOnoneVideoCallEnabled = booleanVal;
+            }
+        });
     }
 
     private void checkDarkMode() {

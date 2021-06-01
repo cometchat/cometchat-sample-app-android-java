@@ -37,7 +37,6 @@
                 <LinearLayout
                     android:layout_marginStart="16dp"
                     android:layout_toEndOf="@id/iv_user"
-                    android:layout_toStartOf="@+id/video_callBtn_iv"
                     android:orientation="vertical"
                     android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
@@ -55,30 +54,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
-                <ImageView
-                    android:padding="8dp"
-                    android:clickable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:id="@+id/video_callBtn_iv"
-                    android:tint="@color/colorPrimary"
-                    android:layout_marginEnd="24dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/callBtn_iv"
-                    android:src="@drawable/ic_videocam_green_24dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <ImageView
-                    android:padding="8dp"
-                    android:clickable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:id="@+id/callBtn_iv"
-                    android:tint="@color/colorPrimary"
-                    android:layout_marginEnd="24dp"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"
-                    android:src="@drawable/ic_call_24dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
             </RelativeLayout>
 
     <!--End of User_Detail_Layout-->
@@ -143,7 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
-                    android:id="@+id/tv_send_message"
+                    android:id="@+id/tv_view_profile"
                     android:paddingTop="16dp"
                     android:paddingBottom="16dp"
                     android:clickable="true"
@@ -152,8 +127,7 @@
                     android:textSize="18sp"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    android:onClick="openChatScreen"
-                    android:text="@string/send_message"
+                    android:text="@string/view_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 

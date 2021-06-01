@@ -155,6 +155,12 @@ public class CometChatConversations extends RecyclerView {
     }
 
 
+    public Conversation getConversation(int position) {
+        Conversation conversation = null;
+        if (conversationViewModel!=null)
+            conversation = conversationViewModel.getConversation(position);
+        return conversation;
+    }
     /**
      * This method is used to update Reciept of conversation from conversationList.
      * @param messageReceipt is object of MessageReceipt which is recieved in real-time.

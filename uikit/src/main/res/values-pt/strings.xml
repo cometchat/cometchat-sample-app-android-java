@@ -444,5 +444,13 @@
     <string name="err_invalid_extension_message">A extensão fornecida não pode ser nula ou vazia.</string>
     <string name="err_feature_not_found">Recurso fornecido não encontrado.</string>
     <string name="extension_not_found">A extensão fornecida não foi encontrada.</string>
+    <string name="left">deixou o grupo</string>
+    <string name="downloading">baixando</string>
+    <string name="creating_group">criando grupo</string>
+    <string name="reply_privately">Enviar mensagem em particular</string>
+    <string name="view_profile">Ver perfil</string>
+    <string name="delete_conversation">apagar conversa</string>
+    <string name="delete_conversation_message">Você gostaria de excluir esta conversa?</string>
+    <string name="deleting_conversation">Excluindo a conversa</string>
 
 </resources>

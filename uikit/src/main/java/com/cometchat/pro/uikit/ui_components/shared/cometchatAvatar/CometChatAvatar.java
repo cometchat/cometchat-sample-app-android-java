@@ -32,7 +32,7 @@ import com.cometchat.pro.models.Group;
 import com.cometchat.pro.models.User;
 
 import com.cometchat.pro.uikit.R;
-import com.cometchat.pro.uikit.ui_settings.UISettings;
+import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 
 /**
@@ -242,8 +242,8 @@ public class CometChatAvatar extends AppCompatImageView {
         cornerRadius = (int) Utils.dpToPixel(2, getResources());
 
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        if (UISettings.getColor()!=null && !UISettings.getColor().isEmpty()) {
-            paint.setColor(Color.parseColor(UISettings.getColor()));
+        if (FeatureRestriction.getColor()!=null && !FeatureRestriction.getColor().isEmpty()) {
+            paint.setColor(Color.parseColor(FeatureRestriction.getColor()));
         }
         else
             paint.setColor(getResources().getColor(R.color.colorPrimary));
@@ -255,15 +255,13 @@ public class CometChatAvatar extends AppCompatImageView {
         borderPaint = new Paint();
         borderPaint.setStyle(Paint.Style.STROKE);
         borderPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
-        // borderPaint.setColor(ContextCompat.getColor(context, R.color.border_color));
-        // borderPaint.setStrokeWidth(context.getResources().getDimension(R.dimen.border_width));
 
         borderPaint.setColor(borderColor);
         borderPaint.setAntiAlias(true);
         borderPaint.setStrokeWidth(borderWidth);
 
-        if (UISettings.getColor()!=null && UISettings.getColor().isEmpty())
-            color = Color.parseColor(UISettings.getColor());
+        if (FeatureRestriction.getColor()!=null && FeatureRestriction.getColor().isEmpty())
+            color = Color.parseColor(FeatureRestriction.getColor());
         else
             color = getResources().getColor(R.color.colorPrimary);
 

@@ -17,7 +17,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.cometchat.pro.uikit.R;
-import com.cometchat.pro.uikit.ui_settings.UISettings;
+import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatStickers.listener.StickerClickListener;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatStickers.model.Sticker;
 import com.google.android.material.tabs.TabLayout;
@@ -98,12 +98,12 @@ public class StickerView extends RelativeLayout implements StickerClickListener 
             for (int i=0;i<tabLayout.getTabCount();i++) {
                 tabLayout.getTabAt(i).setCustomView(createTabItemView(adapter.getPageIcon(i)));
             }
-            if (UISettings.getColor()!=null) {
+            if (FeatureRestriction.getColor()!=null) {
                 Drawable wrappedDrawable = DrawableCompat.wrap(getResources().
                         getDrawable(R.drawable.tab_layout_background_active));
-                DrawableCompat.setTint(wrappedDrawable, Color.parseColor(UISettings.getColor()));
+                DrawableCompat.setTint(wrappedDrawable, Color.parseColor(FeatureRestriction.getColor()));
                 tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).view.setBackground(wrappedDrawable);
-                tabLayout.setSelectedTabIndicatorColor(Color.parseColor(UISettings.getColor()));
+                tabLayout.setSelectedTabIndicatorColor(Color.parseColor(FeatureRestriction.getColor()));
             } else {
                 tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).
                         view.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -112,10 +112,10 @@ public class StickerView extends RelativeLayout implements StickerClickListener 
             tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
-                    if (UISettings.getColor()!=null) {
+                    if (FeatureRestriction.getColor()!=null) {
                         Drawable wrappedDrawable = DrawableCompat.wrap(getResources().
                                 getDrawable(R.drawable.tab_layout_background_active));
-                        DrawableCompat.setTint(wrappedDrawable, Color.parseColor(UISettings.getColor()));
+                        DrawableCompat.setTint(wrappedDrawable, Color.parseColor(FeatureRestriction.getColor()));
                         tab.view.setBackground(wrappedDrawable);
                     }
                     else

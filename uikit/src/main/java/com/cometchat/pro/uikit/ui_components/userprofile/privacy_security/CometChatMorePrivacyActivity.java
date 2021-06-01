@@ -23,10 +23,8 @@ import java.util.List;
 
 import com.cometchat.pro.uikit.ui_components.users.block_users.CometChatBlockUserListActivity;
 import com.cometchat.pro.uikit.ui_resources.utils.FontUtils;
-import com.cometchat.pro.uikit.ui_settings.UISettings;
+import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
-
-import okhttp3.internal.Util;
 
 public class CometChatMorePrivacyActivity extends AppCompatActivity {
 
@@ -43,6 +41,7 @@ public class CometChatMorePrivacyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cometchat_more_privacy);
 
+        CometChatError.init(this);
         blockUserTv = findViewById(R.id.blocked_user_tv);
         tvBlockUserCount = findViewById(R.id.tv_blocked_user_count);
         MaterialToolbar toolbar = findViewById(R.id.privacy_toolbar);
@@ -52,9 +51,9 @@ public class CometChatMorePrivacyActivity extends AppCompatActivity {
          if (getSupportActionBar()!=null)
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if (UISettings.getColor()!=null)
+        if (FeatureRestriction.getColor()!=null)
             getWindow().setStatusBarColor(
-                    Color.parseColor(UISettings.getColor()));
+                    Color.parseColor(FeatureRestriction.getColor()));
          if (Utils.changeToolbarFont(toolbar)!=null){
              Utils.changeToolbarFont(toolbar).setTypeface(FontUtils.getInstance(this).getTypeFace(FontUtils.robotoMedium));
          }

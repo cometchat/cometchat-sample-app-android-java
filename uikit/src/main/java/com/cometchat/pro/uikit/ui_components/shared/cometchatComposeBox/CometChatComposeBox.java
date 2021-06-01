@@ -31,7 +31,6 @@ import androidx.core.view.inputmethod.InputContentInfoCompat;
 import androidx.fragment.app.FragmentManager;
 
 import com.cometchat.pro.core.CometChat;
-import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.uikit.R;
 
 import java.io.File;
@@ -42,10 +41,8 @@ import java.util.TimerTask;
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatComposeBox.listener.ComposeActionListener;
 import com.cometchat.pro.uikit.ui_resources.utils.audio_visualizer.AudioRecordView;
-import com.cometchat.pro.uikit.ui_settings.UISettings;
+import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
-
-import okhttp3.internal.Util;
 
 public class CometChatComposeBox extends RelativeLayout implements View.OnClickListener {
 
@@ -222,10 +219,6 @@ public class CometChatComposeBox extends RelativeLayout implements View.OnClickL
                 composeActionListener.onWriteboardClicked();
             }
 
-            @Override
-            public void onVideoMeetingClick() {
-                composeActionListener.onVideoMeetingClicked();
-            }
         });
         etComposeBox.addTextChangedListener(new TextWatcher() {
             @Override
@@ -284,38 +277,83 @@ public class CometChatComposeBox extends RelativeLayout implements View.OnClickL
             ivCamera.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
             ivFile.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
         }
-        if (UISettings.getColor()!=null) {
-            int settingsColor = Color.parseColor(UISettings.getColor());
+        if (FeatureRestriction.getColor()!=null) {
+            int settingsColor = Color.parseColor(FeatureRestriction.getColor());
             ivSend.setImageTintList(ColorStateList.valueOf(settingsColor));
         }
-        isPollVisible = UISettings.isSendPolls();
-        isFileVisible = UISettings.isSendFiles();
-        isGalleryVisible = UISettings.isSendPhotosVideo();
-        isCameraVisible = UISettings.isSendPhotosVideo();
-        isAudioVisible = UISettings.isSendVoiceNotes();
-        isLocationVisible = UISettings.isShareLocation();
-        isStickerVisible = UISettings.isStickerVisible();
-        isWhiteBoardVisible = UISettings.isWhiteBoardVisible();
-        isWriteBoardVisible = UISettings.isWriteBoardVisible();
-        isGroupCallVisible = UISettings.isEnableVideoCalling();
+        fetchSettings();
 
-        if (UISettings.isSendVoiceNotes()) {
-            ivMic.setVisibility(View.VISIBLE);
-        } else {
-            ivMic.setVisibility(GONE);
-        }
-        if (!UISettings.isEnableVideoCalling() &&
-                !UISettings.isSendPolls() &&
-                !UISettings.isSendFiles() &&
-                !UISettings.isSendPhotosVideo() &&
-                !UISettings.isSendVoiceNotes() &&
-                !UISettings.isShareLocation() &&
-                !UISettings.isStickerVisible() &&
-                !UISettings.isWhiteBoardVisible() && !UISettings.isWriteBoardVisible()) {
+        if (!isGroupCallVisible &&
+                !isPollVisible &&
+                !isFileVisible &&
+                !isGalleryVisible &&
+                !isAudioVisible &&
+                !isLocationVisible &&
+                !isStickerVisible &&
+                !isWhiteBoardVisible && !isWriteBoardVisible) {
             ivArrow.setVisibility(GONE);
         }
         a.recycle();
     }
+
+    private void fetchSettings() {
+        FeatureRestriction.isPollsEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                isPollVisible = booleanVal;
+            }
+        });
+        FeatureRestriction.isFilesEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                isFileVisible = booleanVal;
+            }
+        });
+        FeatureRestriction.isPhotosVideoEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                isGalleryVisible = booleanVal;
+                isCameraVisible = booleanVal;
+            }
+        });
+        FeatureRestriction.isVoiceNotesEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                isAudioVisible = booleanVal;
+            }
+        });
+        FeatureRestriction.isLocationSharingEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                isLocationVisible = booleanVal;
+            }
+        });
+        FeatureRestriction.isStickersEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                isStickerVisible = booleanVal;
+            }
+        });
+        FeatureRestriction.isCollaborativeWhiteBoardEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                isWhiteBoardVisible = booleanVal;
+            }
+        });
+        FeatureRestriction.isCollaborativeDocumentEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                isWriteBoardVisible = booleanVal;
+            }
+        });
+        FeatureRestriction.isGroupVideoCallEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                isGroupCallVisible = booleanVal;
+            }
+        });
+    }
+
     public void setText(String text)
     {
         etComposeBox.setText(text);

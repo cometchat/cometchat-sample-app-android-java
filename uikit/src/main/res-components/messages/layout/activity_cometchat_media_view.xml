@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:id="@+id/toolbar"
         android:layout_height="?actionBarSize"/>
-    <com.cometchat.pro.uikit.ui_resources.utils.zoom_imageView.ZoomImageView
+    <ImageView
         android:visibility="gone"
         android:id="@+id/image_message"
         android:layout_below="@+id/toolbar"

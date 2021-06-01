@@ -23,13 +23,13 @@
             android:orientation="vertical">
 
             <TextView
-                android:text="Conversation"
+                android:text="@string/chats"
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:textColor="@color/shimmer"
-                android:textSize="22sp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textStyle="bold" />
 
             <RelativeLayout
