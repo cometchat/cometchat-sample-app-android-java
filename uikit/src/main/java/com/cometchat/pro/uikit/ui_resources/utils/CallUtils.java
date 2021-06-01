@@ -132,6 +132,7 @@ public class CallUtils {
         intent.putExtra(UIKitConstants.IntentStrings.TYPE,call.getReceiverType());
         intent.putExtra(UIKitConstants.IntentStrings.SESSION_ID,call.getSessionId());
         ((Activity)context).finish();
+        intent.putExtra(UIKitConstants.IntentStrings.IS_DEFAULT_CALL,true);
         context.startActivity(intent);
     }
 
@@ -141,6 +142,7 @@ public class CallUtils {
         intent.putExtra(UIKitConstants.IntentStrings.TYPE,call.getReceiverType());
         intent.putExtra(UIKitConstants.IntentStrings.SESSION_ID,call.getSessionId());
         intent.putExtra(UIKitConstants.IntentStrings.GROUP_CALL_TYPE,call.getType());
+        intent.putExtra(UIKitConstants.IntentStrings.IS_DEFAULT_CALL,false);
         context.startActivity(intent);
     }
 

@@ -17,7 +17,7 @@
 
         <TextView
             android:text="@string/conversation_title"
-            android:textSize="22sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:visibility="gone"
             tools:visibility="visible"
             android:textStyle="bold"

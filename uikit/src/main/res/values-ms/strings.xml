@@ -444,4 +444,12 @@
     <string name="err_invalid_extension_message">Sambungan yang disediakan tidak boleh kosong atau kosong.</string>
     <string name="err_feature_not_found">Ciri yang disediakan tidak dijumpai.</string>
     <string name="extension_not_found">Sambungan yang disediakan tidak dapat dijumpai.</string>
+    <string name="left">meninggalkan kumpulan</string>
+    <string name="downloading">memuat turun</string>
+    <string name="creating_group">mewujudkan kumpulan</string>
+    <string name="reply_privately">Hantar Mesej secara tertutup</string>
+    <string name="view_profile">Lihat profil</string>
+    <string name="delete_conversation">padamkan perbualan</string>
+    <string name="delete_conversation_message">Adakah anda mahu memadamkan perbualan ini?</string>
+    <string name="deleting_conversation">Memadamkan Perbualan</string>
 </resources>

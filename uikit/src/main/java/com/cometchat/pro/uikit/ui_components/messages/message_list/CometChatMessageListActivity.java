@@ -1,7 +1,10 @@
 package com.cometchat.pro.uikit.ui_components.messages.message_list;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,11 +24,12 @@ import com.cometchat.pro.models.BaseMessage;
 import com.cometchat.pro.uikit.R;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
 import com.cometchat.pro.uikit.ui_components.messages.message_actions.listener.MessageActionCloseListener;
 import com.cometchat.pro.uikit.ui_components.messages.message_actions.listener.OnMessageLongClick;
-import com.cometchat.pro.uikit.ui_settings.UISettings;
+import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 
 /**
 
@@ -59,9 +63,6 @@ public class CometChatMessageListActivity extends AppCompatActivity implements M
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cometchat_message_list);
         activity = this;
-        if (UISettings.getColor() !=null) {
-            getWindow().setStatusBarColor(Color.parseColor(UISettings.getColor()));
-        }
 
         EmojiCompat.Config config = new BundledEmojiCompatConfig(this);
         EmojiCompat.init(config);
@@ -75,7 +76,7 @@ public class CometChatMessageListActivity extends AppCompatActivity implements M
 
               if (getIntent().hasExtra(UIKitConstants.IntentStrings.TYPE)&&
                       getIntent().getStringExtra(UIKitConstants.IntentStrings.TYPE).equals(CometChatConstants.RECEIVER_TYPE_USER)) {
-
+                  bundle.putString(UIKitConstants.IntentStrings.LINK,getIntent().getStringExtra(UIKitConstants.IntentStrings.LINK));
                   bundle.putString(UIKitConstants.IntentStrings.UID, getIntent().getStringExtra(UIKitConstants.IntentStrings.UID));
                   bundle.putString(UIKitConstants.IntentStrings.STATUS, getIntent().getStringExtra(UIKitConstants.IntentStrings.STATUS));
 

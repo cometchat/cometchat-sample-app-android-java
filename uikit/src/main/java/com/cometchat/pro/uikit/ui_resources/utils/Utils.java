@@ -40,6 +40,7 @@ import androidx.renderscript.Element;
 import androidx.renderscript.RenderScript;
 import androidx.renderscript.ScriptIntrinsicBlur;
 
+import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.Call;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.helpers.Logger;
@@ -139,10 +140,21 @@ public class Utils {
         return DateFormat.format("dd MMM yy", var2).toString();
     }
 
-    public static String getDate(long var0) {
+    public static String getDate(Context context,long var0) {
         Calendar var2 = Calendar.getInstance(Locale.ENGLISH);
-        var2.setTimeInMillis(var0);
-        return DateFormat.format("dd MMMM yyyy", var2).toString();
+        var2.setTimeInMillis(var0*1000L);
+
+        long currentTimeStamp = System.currentTimeMillis();
+
+        long diffTimeStamp = currentTimeStamp - var0 * 1000;
+        if (diffTimeStamp < 24 * 60 * 60 * 1000) {
+            return context.getString(R.string.today);
+
+        } else if (diffTimeStamp < 48 * 60 * 60 * 1000) {
+
+            return context.getString(R.string.yesterday);
+        } else
+            return DateFormat.format("dd MMMM yyyy", var2).toString();
     }
 
     public static List<User> userSort(List<User> userList) {
@@ -179,7 +191,7 @@ public class Utils {
 
         switch (lastMessage.getCategory()) {
 
-            case com.cometchat.pro.constants.CometChatConstants.CATEGORY_MESSAGE:
+            case CometChatConstants.CATEGORY_MESSAGE:
 
                 if (lastMessage instanceof TextMessage) {
 
@@ -187,17 +199,18 @@ public class Utils {
                         message = context.getString(R.string.you) +": "+ (((TextMessage) lastMessage).getText()==null
                                 ?context.getString(R.string.this_message_deleted):((TextMessage) lastMessage).getText());
                     else
-                        message = lastMessage.getSender().getName() + ": " + ((TextMessage) lastMessage).getText();
+                        message = lastMessage.getSender().getName() + ": " + (((TextMessage) lastMessage).getText()==null
+                                ?context.getString(R.string.this_message_deleted):((TextMessage) lastMessage).getText());
 
                 } else if (lastMessage instanceof MediaMessage) {
                     if (lastMessage.getDeletedAt()==0) {
-                        if (lastMessage.getType().equals(com.cometchat.pro.constants.CometChatConstants.MESSAGE_TYPE_IMAGE))
+                        if (lastMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_IMAGE))
                             message = context.getString(R.string.message_image);
-                        else if (lastMessage.getType().equals(com.cometchat.pro.constants.CometChatConstants.MESSAGE_TYPE_VIDEO))
+                        else if (lastMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_VIDEO))
                             message = context.getString(R.string.message_video);
-                        else if (lastMessage.getType().equals(com.cometchat.pro.constants.CometChatConstants.MESSAGE_TYPE_FILE))
+                        else if (lastMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_FILE))
                             message = context.getString(R.string.message_file);
-                        else if (lastMessage.getType().equals(com.cometchat.pro.constants.CometChatConstants.MESSAGE_TYPE_AUDIO))
+                        else if (lastMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_AUDIO))
                             message = context.getString(R.string.message_audio);
                     } else
                         message = context.getString(R.string.this_message_deleted);
@@ -211,7 +224,7 @@ public class Utils {
 //                    }
                 }
             break;
-            case com.cometchat.pro.constants.CometChatConstants.CATEGORY_CUSTOM:
+            case CometChatConstants.CATEGORY_CUSTOM:
                 if (lastMessage.getDeletedAt()==0) {
                     if (lastMessage.getType().equals(UIKitConstants.IntentStrings.LOCATION))
                         message = context.getString(R.string.custom_message_location);
@@ -231,23 +244,23 @@ public class Utils {
                     message = context.getString(R.string.this_message_deleted);
 
                 break;
-            case com.cometchat.pro.constants.CometChatConstants.CATEGORY_ACTION:
+            case CometChatConstants.CATEGORY_ACTION:
                 message = ((Action) lastMessage).getMessage();
                 break;
 
-            case com.cometchat.pro.constants.CometChatConstants.CATEGORY_CALL:
-                if (((Call)lastMessage).getCallStatus().equalsIgnoreCase(com.cometchat.pro.constants.CometChatConstants.CALL_STATUS_ENDED) ||
-                        ((Call) lastMessage).getCallStatus().equalsIgnoreCase(com.cometchat.pro.constants.CometChatConstants.CALL_STATUS_CANCELLED)) {
-                    if (lastMessage.getType().equalsIgnoreCase(com.cometchat.pro.constants.CometChatConstants.CALL_TYPE_AUDIO))
+            case CometChatConstants.CATEGORY_CALL:
+                if (((Call)lastMessage).getCallStatus().equalsIgnoreCase(CometChatConstants.CALL_STATUS_ENDED) ||
+                        ((Call) lastMessage).getCallStatus().equalsIgnoreCase(CometChatConstants.CALL_STATUS_CANCELLED)) {
+                    if (lastMessage.getType().equalsIgnoreCase(CometChatConstants.CALL_TYPE_AUDIO))
                         message = context.getString(R.string.incoming_audio_call);
                     else
                         message = context.getString(R.string.incoming_video_call);
-                } else if (((Call)lastMessage).getCallStatus().equalsIgnoreCase(com.cometchat.pro.constants.CometChatConstants.CALL_STATUS_ONGOING)) {
+                } else if (((Call)lastMessage).getCallStatus().equalsIgnoreCase(CometChatConstants.CALL_STATUS_ONGOING)) {
                     message = context.getString(R.string.ongoing_call);
-                } else if (((Call) lastMessage).getCallStatus().equalsIgnoreCase(com.cometchat.pro.constants.CometChatConstants.CALL_STATUS_CANCELLED) ||
-                        ((Call) lastMessage).getCallStatus().equalsIgnoreCase(com.cometchat.pro.constants.CometChatConstants.CALL_STATUS_UNANSWERED) ||
-                        ((Call) lastMessage).getCallStatus().equalsIgnoreCase(com.cometchat.pro.constants.CometChatConstants.CALL_STATUS_BUSY)) {
-                    if (lastMessage.getType().equalsIgnoreCase(com.cometchat.pro.constants.CometChatConstants.CALL_TYPE_AUDIO))
+                } else if (((Call) lastMessage).getCallStatus().equalsIgnoreCase(CometChatConstants.CALL_STATUS_CANCELLED) ||
+                        ((Call) lastMessage).getCallStatus().equalsIgnoreCase(CometChatConstants.CALL_STATUS_UNANSWERED) ||
+                        ((Call) lastMessage).getCallStatus().equalsIgnoreCase(CometChatConstants.CALL_STATUS_BUSY)) {
+                    if (lastMessage.getType().equalsIgnoreCase(CometChatConstants.CALL_TYPE_AUDIO))
                         message = context.getString(R.string.missed_voice_call);
                     else
                         message = context.getString(R.string.missed_video_call);
@@ -280,7 +293,7 @@ public class Utils {
         if (isScopeUpdate)
             groupMember = new GroupMember(user.getUid(), newScope);
         else
-            groupMember = new GroupMember(user.getUid(), com.cometchat.pro.constants.CometChatConstants.SCOPE_PARTICIPANT);
+            groupMember = new GroupMember(user.getUid(), CometChatConstants.SCOPE_PARTICIPANT);
 
         groupMember.setAvatar(user.getAvatar());
         groupMember.setName(user.getName());
@@ -299,7 +312,7 @@ public class Utils {
 //        }
     }
 
-    public static String getLastMessageDate(long timestamp) {
+    public static String getLastMessageDate(Context context,long timestamp) {
         String lastMessageTime = new SimpleDateFormat("h:mm a").format(new java.util.Date(timestamp * 1000));
         String lastMessageDate = new SimpleDateFormat("dd MMM yyyy").format(new java.util.Date(timestamp * 1000));
         String lastMessageWeek = new SimpleDateFormat("EEE").format(new java.util.Date(timestamp * 1000));
@@ -313,7 +326,7 @@ public class Utils {
 
         } else if (diffTimeStamp < 48 * 60 * 60 * 1000) {
 
-            return "Yesterday";
+            return context.getString(R.string.yesterday);
         } else if (diffTimeStamp < 7 * 24 * 60 * 60 * 1000) {
             return lastMessageWeek;
         } else {
@@ -349,7 +362,7 @@ public class Utils {
         return sb.toString();
     }
 
-    public static String getReceiptDate(long timestamp) {
+    public static String getReceiptDate(Context context,long timestamp) {
         String lastMessageTime = new SimpleDateFormat("h:mm a").format(new java.util.Date(timestamp * 1000));
         String lastMessageDate = new SimpleDateFormat("dd MMMM h:mm a").format(new java.util.Date(timestamp * 1000));
         String lastMessageWeek = new SimpleDateFormat("EEE h:mm a").format(new java.util.Date(timestamp * 1000));
@@ -363,7 +376,7 @@ public class Utils {
 
         } else if (diffTimeStamp < 48 * 60 * 60 * 1000) {
 
-            return "Yesterday";
+            return context.getString(R.string.yesterday);
         } else if (diffTimeStamp < 7 * 24 * 60 * 60 * 1000) {
             return lastMessageWeek;
         } else {
@@ -576,12 +589,6 @@ public class Utils {
         return dir;
     }
 
-    public static String  getPath(Context context, String folder) {
-
-        return Environment.getExternalStorageDirectory().toString() + "/" +
-                context.getResources().getString(R.string.app_name) + "/" + folder + "/";
-    }
-
     public static String getPath(final Context context, final Uri uri) {
         String absolutePath = getImagePathFromUri(context, uri);
         return absolutePath != null ? absolutePath : uri.toString();
@@ -728,7 +735,7 @@ public class Utils {
 
     public static Call getDirectCallData(BaseMessage baseMessage) {
         Call call = null;
-        String callType = com.cometchat.pro.constants.CometChatConstants.CALL_TYPE_VIDEO;
+        String callType = CometChatConstants.CALL_TYPE_VIDEO;
         try {
             if (((CustomMessage)baseMessage).getCustomData() != null) {
                 JSONObject customObject = ((CustomMessage)baseMessage).getCustomData();

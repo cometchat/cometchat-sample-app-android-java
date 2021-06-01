@@ -97,8 +97,6 @@ public class CometChatUsersAdapter extends RecyclerView.Adapter<CometChatUsersAd
         }
         if (user.getStatus().equals(CometChatConstants.USER_STATUS_ONLINE))
             userViewHolder.userListRowBinding.statusIndicator.setVisibility(View.VISIBLE);
-        else
-            userViewHolder.userListRowBinding.statusIndicator.setVisibility(View.GONE);
 
         userViewHolder.userListRowBinding.statusIndicator.setUserStatus(user.getStatus());
         userViewHolder.userListRowBinding.txtUserName.setText(user.getName());

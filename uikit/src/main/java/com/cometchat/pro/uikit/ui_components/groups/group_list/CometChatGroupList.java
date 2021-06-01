@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,9 +30,7 @@ import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.core.GroupsRequest;
 import com.cometchat.pro.exceptions.CometChatException;
-import com.cometchat.pro.helpers.CometChatHelper;
 import com.cometchat.pro.models.Action;
-import com.cometchat.pro.models.Conversation;
 import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.models.Group;
@@ -47,8 +44,9 @@ import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.cometchat.pro.uikit.ui_resources.utils.item_clickListener.OnItemClickListener;
 import com.cometchat.pro.uikit.ui_components.groups.create_group.CometChatCreateGroupActivity;
 import com.cometchat.pro.uikit.ui_resources.utils.FontUtils;
-import com.cometchat.pro.uikit.ui_settings.UISettings;
+import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 
 /*
 
@@ -77,11 +75,13 @@ public class CometChatGroupList extends Fragment  {
 
     private LinearLayout noGroupLayout;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
-
     private List<Group> groupList = new ArrayList<>();
 
     private static final String TAG = "CometChatGroupList";
+
+    private boolean isPublicGroupEnabled;
+    private boolean isPrivateGroupEnabled;
+    private boolean isPasswordGroupEnabled;
 
     public CometChatGroupList() {
         // Required empty public constructor
@@ -98,21 +98,58 @@ public class CometChatGroupList extends Fragment  {
         noGroupLayout = view.findViewById(R.id.no_group_layout);
         etSearch = view.findViewById(R.id.search_bar);
         clearSearch = view.findViewById(R.id.clear_search);
-        swipeRefreshLayout = view.findViewById(R.id.swipeToRefresh);
 
+        CometChatError.init(getContext());
         ivCreateGroup = view.findViewById(R.id.create_group);
-        ivCreateGroup.setImageTintList(ColorStateList.valueOf(Color.parseColor(UISettings.getColor())));
+        ivCreateGroup.setImageTintList(ColorStateList.valueOf(Color.parseColor(FeatureRestriction.getColor())));
 
-        if(UISettings.isGroupCreate())
-            ivCreateGroup.setVisibility(View.VISIBLE);
-        else
-            ivCreateGroup.setVisibility(View.GONE);
+        FeatureRestriction.isGroupSearchEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                if (booleanVal)
+                    etSearch.setVisibility(View.VISIBLE);
+                else
+                    etSearch.setVisibility(View.GONE);
+            }
+        });
+        FeatureRestriction.isGroupCreationEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                if (booleanVal)
+                    ivCreateGroup.setVisibility(View.VISIBLE);
+                else
+                    ivCreateGroup.setVisibility(View.GONE);
+
+            }
+        });
 
         if(Utils.isDarkMode(getContext())) {
             title.setTextColor(getResources().getColor(R.color.textColorWhite));
         } else {
             title.setTextColor(getResources().getColor(R.color.primaryTextColor));
         }
+
+        FeatureRestriction.isPublicGroupEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                isPublicGroupEnabled = booleanVal;
+                checkGroups();
+            }
+        });
+        FeatureRestriction.isPrivateGroupEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                isPrivateGroupEnabled = booleanVal;
+                checkGroups();
+            }
+        });
+        FeatureRestriction.isPasswordGroupEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                isPasswordGroupEnabled = booleanVal;
+                checkGroups();
+            }
+        });
 
         ivCreateGroup.setOnClickListener(view1 -> {
             Intent intent = new Intent(getContext(), CometChatCreateGroupActivity.class);
@@ -187,17 +224,15 @@ public class CometChatGroupList extends Fragment  {
                     event.OnItemClick(group,position);
             }
         });
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                groupsRequest=null;
-                rvGroupList.clear();
-                fetchGroup();
-            }
-        });
         return view;
     }
 
+    private void checkGroups() {
+        if (isPublicGroupEnabled || isPasswordGroupEnabled || isPrivateGroupEnabled) {
+            ivCreateGroup.setVisibility(View.VISIBLE);
+        } else
+            ivCreateGroup.setVisibility(View.GONE);
+    }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -217,8 +252,7 @@ public class CometChatGroupList extends Fragment  {
         groupsRequest.fetchNext(new CometChat.CallbackListener<List<Group>>() {
             @Override
             public void onSuccess(List<Group> groups) {
-                List<Group> filteredList = filterGroup(groups);
-                rvGroupList.setGroupList(filteredList); // sets the groups in rvGroupList i.e CometChatGroupList Component.
+                rvGroupList.setGroupList(groups); // sets the groups in rvGroupList i.e CometChatGroupList Component.
                 groupList.addAll(groups);
                 if (groupList.size()==0) {
                     noGroupLayout.setVisibility(View.VISIBLE);
@@ -227,8 +261,6 @@ public class CometChatGroupList extends Fragment  {
                     noGroupLayout.setVisibility(View.GONE);
                     rvGroupList.setVisibility(View.VISIBLE);
                 }
-                if (swipeRefreshLayout.isRefreshing())
-                    swipeRefreshLayout.setRefreshing(false);
             }
             @Override
             public void onError(CometChatException e) {
@@ -244,15 +276,15 @@ public class CometChatGroupList extends Fragment  {
             if (group.isJoined()) {
                 resultList.add(group);
             }
-            if (UISettings.getGroupListing()
+            if (UIKitSettings.getGroupsMode().toString()
                     .equalsIgnoreCase("public_groups") &&
                     group.getGroupType().equalsIgnoreCase(CometChatConstants.GROUP_TYPE_PUBLIC)) {
                 resultList.add(group);
-            } else if (UISettings.getGroupListing()
+            } else if (UIKitSettings.getGroupsMode().toString()
                     .equalsIgnoreCase("password_protected_groups") &&
                     group.getGroupType().equalsIgnoreCase(CometChatConstants.GROUP_TYPE_PASSWORD)) {
                 resultList.add(group);
-            } else if (UISettings.getGroupListing()
+            } else if (UIKitSettings.getGroupsMode().toString()
                     .equalsIgnoreCase("public_and_password_protected_groups")) {
                 resultList.add(group);
             }

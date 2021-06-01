@@ -443,4 +443,13 @@
     <string name="err_invalid_extension_message">提供的擴展名不能為null或為空。</string>
     <string name="err_feature_not_found">找不到提供的功能。</string>
     <string name="extension_not_found">找不到提供的擴展名。</string>
+    <string name="kicked_by">踢</string>
+    <string name="left">剩下</string>
+    <string name="downloading">正在下載</string>
+    <string name="creating_group">建立小组</string>
+    <string name="reply_privately">私下发送消息</string>
+    <string name="view_profile">查看資料</string>
+    <string name="delete_conversation">刪除對話</string>
+    <string name="delete_conversation_message">您要删除此对话吗？</string>
+    <string name="deleting_conversation">删除对话</string>
 </resources>

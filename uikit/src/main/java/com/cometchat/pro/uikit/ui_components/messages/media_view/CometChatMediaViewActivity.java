@@ -33,7 +33,7 @@ import com.cometchat.pro.uikit.ui_resources.utils.zoom_imageView.ZoomImageView;
 
 public class CometChatMediaViewActivity extends AppCompatActivity {
 
-    private ZoomImageView imageMessage;
+    private ImageView imageMessage;
     private VideoView videoMessage;
     private Toolbar toolbar;
     private String senderName;
@@ -58,7 +58,7 @@ public class CometChatMediaViewActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         toolbar.getNavigationIcon().setTint(getResources().getColor(R.color.textColorWhite));
         toolbar.setTitle(senderName);
-        toolbar.setSubtitle(Utils.getLastMessageDate(sentAt));
+        toolbar.setSubtitle(Utils.getLastMessageDate(this,sentAt));
         imageMessage = findViewById(R.id.image_message);
         videoMessage = findViewById(R.id.video_message);
         audioMessage = findViewById(R.id.audio_message);
@@ -66,17 +66,7 @@ public class CometChatMediaViewActivity extends AppCompatActivity {
         playBtn = findViewById(R.id.playBtn);
         if (mediaType.equals(CometChatConstants.MESSAGE_TYPE_IMAGE)) {
             Glide.with(this).asBitmap().load(mediaUrl)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE).into(new CustomTarget<Bitmap>() {
-                @Override
-                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                    imageMessage.setImageBitmap(resource);
-                }
-
-                @Override
-                public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                }
-            });
+                    .diskCacheStrategy(DiskCacheStrategy.NONE).into(imageMessage);
             imageMessage.setVisibility(View.VISIBLE);
         } else if (mediaType.equals(CometChatConstants.MESSAGE_TYPE_VIDEO)) {
             MediaController mediacontroller = new MediaController(this);

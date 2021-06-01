@@ -93,7 +93,7 @@ public class UIKitConstants {
 
         public static final String CUSTOM_MESSAGE = "custom_message" ;
 
-        public static final String LOCATION = "LOCATION" ;
+        public static final String LOCATION = "location" ;
 
         public static final String LOCATION_LATITUDE = "latitude";
 
@@ -122,6 +122,14 @@ public class UIKitConstants {
         public static final String GROUP_CALL = "meeting" ;
 
         public static final String GROUP_CALL_TYPE = "group_call_type";
+
+        public static final String IS_DEFAULT_CALL = "is_default_call";
+
+        public static final String INTENT_MEDIA_IMAGE_MESSAGE = "intent_media_image_message";
+
+        public static final String INTENT_MEDIA_VIDEO_MESSAGE = "intent_media_video_message";
+
+        public static final String LINK = "link";
 
         public static String POLL_QUESTION = "poll_question";
 

@@ -43,9 +43,9 @@ public class CometChatReceiptsAdapter extends RecyclerView.Adapter<CometChatRece
 
         receiptsHolder.tvName.setText(messageReceipt.getSender().getName());
         if (messageReceipt.getReadAt()!=0)
-            receiptsHolder.tvRead.setText(Utils.getReceiptDate(messageReceipt.getReadAt()));
+            receiptsHolder.tvRead.setText(Utils.getReceiptDate(context,messageReceipt.getReadAt()));
         if (messageReceipt.getDeliveredAt()!=0)
-            receiptsHolder.tvDelivery.setText(Utils.getReceiptDate(messageReceipt.getDeliveredAt()));
+            receiptsHolder.tvDelivery.setText(Utils.getReceiptDate(context,messageReceipt.getDeliveredAt()));
         if (messageReceipt.getSender().getAvatar()!=null)
             receiptsHolder.ivAvatar.setAvatar(messageReceipt.getSender().getAvatar());
         else

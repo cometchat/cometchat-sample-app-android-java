@@ -21,36 +21,21 @@
             android:layout_height="wrap_content"/>
 
     </HorizontalScrollView>
-    <RelativeLayout
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:paddingRight="16dp"
-        android:clickable="true"
-        android:foreground="?attr/selectableItemBackground"
-        android:paddingLeft="12dp"
-        android:id="@+id/message_privately_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar
-            android:layout_width="32dp"
-            android:layout_centerVertical="true"
-            android:id="@+id/sender_avatar"
-            tools:src="@tools:sample/avatars"
-            android:layout_height="32dp"/>
-        <TextView
-            android:layout_toRightOf="@+id/sender_avatar"
-            android:id="@+id/sender_name"
-            android:layout_centerVertical="true"
-            android:paddingLeft="12dp"
-            android:textStyle="bold"
-            android:text="Send Message Privately"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
+     <TextView
+         android:id="@+id/reply_privately"
+         android:padding="16dp"
+         android:drawableTint="@color/darkModeBackground"
+         android:drawableStart="@drawable/reply_privately"
+         android:drawablePadding="16dp"
+         android:textStyle="bold"
+         android:text="@string/reply_privately"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/translate_message"
         android:drawableStart="@drawable/ic_translate"
         android:drawablePadding="16dp"
+        android:drawableTint="@color/darkModeBackground"
         android:gravity="center_vertical"
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
@@ -65,7 +50,8 @@
         android:foreground="?attr/selectableItemBackground"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
-        android:drawableStart="@drawable/ic_info_image"
+        android:drawableStart="@drawable/info"
+         android:drawableTint="@color/darkModeBackground"
         android:textStyle="bold"
         android:text="@string/message_information"
         android:padding="16dp"
@@ -77,7 +63,8 @@
         android:foreground="?attr/selectableItemBackground"
         android:textStyle="bold"
         android:text="@string/start_thread"
-        android:drawableStart="@drawable/ic_thread_24dp"
+        android:drawableStart="@drawable/thread"
+        android:drawableTint="@color/darkModeBackground"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
         android:padding="16dp"
@@ -86,7 +73,8 @@
     <TextView
         android:id="@+id/reply_message"
         android:clickable="true"
-        android:drawableStart="@drawable/ic_reply"
+        android:drawableTint="@color/darkModeBackground"
+        android:drawableStart="@drawable/reply"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
         android:foreground="?attr/selectableItemBackground"
@@ -101,7 +89,8 @@
         android:foreground="?attr/selectableItemBackground"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
-        android:drawableStart="@drawable/ic_forward"
+        android:drawableStart="@drawable/forward"
+        android:drawableTint="@color/darkModeBackground"
         android:textStyle="bold"
         android:text="@string/forward_message"
         android:padding="16dp"
@@ -113,7 +102,8 @@
         android:foreground="?attr/selectableItemBackground"
         android:textStyle="bold"
         android:text="@string/copy_message"
-        android:drawableStart="@drawable/ic_content_copy_black_24dp"
+        android:drawableStart="@drawable/copy"
+        android:drawableTint="@color/darkModeBackground"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
         android:padding="16dp"
@@ -125,7 +115,8 @@
         android:foreground="?attr/selectableItemBackground"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
-        android:drawableStart="@drawable/ic_share_24dp"
+        android:drawableStart="@drawable/share"
+        android:drawableTint="@color/darkModeBackground"
         android:textStyle="bold"
         android:text="@string/share_message"
         android:padding="16dp"
@@ -137,7 +128,8 @@
         android:foreground="?attr/selectableItemBackground"
         android:textStyle="bold"
         android:text="@string/edit_message"
-        android:drawableStart="@drawable/ic_baseline_edit_24"
+        android:drawableStart="@drawable/ic_edit"
+        android:drawableTint="@color/darkModeBackground"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
         android:padding="16dp"
@@ -146,7 +138,7 @@
 
     <TextView
         android:id="@+id/delete_message"
-        android:drawableStart="@drawable/ic_delete_24dp"
+        android:drawableStart="@drawable/ic_delete"
         android:drawableTint="@color/red"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"

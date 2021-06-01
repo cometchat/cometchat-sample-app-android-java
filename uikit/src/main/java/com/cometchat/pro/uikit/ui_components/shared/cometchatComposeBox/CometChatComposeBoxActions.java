@@ -24,7 +24,6 @@ public class CometChatComposeBoxActions extends BottomSheetDialogFragment {
     private TextView stickerMessage;
     private TextView whiteBoardMessage;
     private TextView writeBoardMessage;
-    private TextView groupCallMessage;
 
     private boolean isGalleryVisible;
     private boolean isCameraVisible;
@@ -35,7 +34,6 @@ public class CometChatComposeBoxActions extends BottomSheetDialogFragment {
     private boolean isStickerVisible;
     private boolean isWhiteBoardVisible;
     private boolean isWriteBoardVisible;
-    private boolean isGroupCallVisible;
 
     private ComposeBoxActionListener composeBoxActionListener;
 
@@ -54,7 +52,6 @@ public class CometChatComposeBoxActions extends BottomSheetDialogFragment {
             isStickerVisible = getArguments().getBoolean("isStickerVisible");
             isWhiteBoardVisible = getArguments().getBoolean("isWhiteBoardVisible");
             isWriteBoardVisible = getArguments().getBoolean("isWriteBoardVisible");
-            isGroupCallVisible = getArguments().getBoolean("isGroupCallVisible");
         }
     }
 
@@ -84,12 +81,6 @@ public class CometChatComposeBoxActions extends BottomSheetDialogFragment {
         locationMessage = view.findViewById(R.id.location_message);
         whiteBoardMessage = view.findViewById(R.id.vw_whiteboard_message);
         writeBoardMessage = view.findViewById(R.id.writeboard_message);
-        groupCallMessage = view.findViewById(R.id.group_call_message);
-
-        if (isGroupCallVisible)
-            groupCallMessage.setVisibility(View.VISIBLE);
-        else
-            groupCallMessage.setVisibility(View.GONE);
 
         if (isWriteBoardVisible)
             writeBoardMessage.setVisibility(View.VISIBLE);
@@ -128,14 +119,6 @@ public class CometChatComposeBoxActions extends BottomSheetDialogFragment {
         else
             locationMessage.setVisibility(View.GONE);
 
-        groupCallMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (composeBoxActionListener!=null)
-                    composeBoxActionListener.onVideoMeetingClick();
-                dismiss();
-            }
-        });
         writeBoardMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -227,7 +210,6 @@ public class CometChatComposeBoxActions extends BottomSheetDialogFragment {
         void onStickerClick();
         void onWhiteBoardClick();
         void onWriteBoardClick();
-        void onVideoMeetingClick();
     }
 
 }

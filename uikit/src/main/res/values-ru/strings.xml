@@ -446,5 +446,13 @@
     <string name="err_invalid_extension_message">Предоставленное расширение не может быть пустым или пустым.</string>
     <string name="err_feature_not_found">Предоставленная функция не найдена.</string>
     <string name="extension_not_found">Предоставленное расширение не может быть найдено.</string>
+    <string name="left">покинул группу</string>
+    <string name="downloading">скачивание</string>
+    <string name="creating_group">создание группы</string>
+    <string name="reply_privately">Отправить сообщение в частном порядке</string>
+    <string name="view_profile">Просмотреть профиль</string>
+    <string name="delete_conversation">удалить беседу</string>
+    <string name="delete_conversation_message">Вы хотите удалить этот разговор?</string>
+    <string name="deleting_conversation">Удаление разговора</string>
 
 </resources>

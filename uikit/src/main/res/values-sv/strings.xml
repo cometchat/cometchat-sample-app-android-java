@@ -306,7 +306,7 @@
     <string name = "initiated"> initierad </string>
     <string name = "added"> lagt till </string>
     <string name = "kicked_by"> sparkade </string>
-    <string name = "left"> vänster </string>
+    <string name = "left">lämnade gruppen</string>
     <string name = "joined"> gick med </string>
     <string name = "unban"> Unban </string>
     <string name = "made"> gjort </string>
@@ -414,5 +414,15 @@
     <string name = "err_invalid_feature_message"> Funktionen är inte giltig. </string>
     <string name = "err_invalid_extension_message"> Detta tillägg är ogiltigt. Kontrollera från instrumentpanelen. </string>
     <string name = "err_feature_not_found"> ​​Funktionen hittades inte. </string>
+    <string name="group">grupp</string>
+    <string name="downloading">laddar ner</string>
+    <string name="creating_group">skapa grupp</string>
+    <string name="reply_privately">Skicka meddelande privat</string>
+    <string name="view_profile">Visa profil</string>
+    <string name="delete_conversation">radera konversation</string>
+    <string name="today">i dag</string>
+    <string name="delete_conversation_message">Vill du radera den här konversationen?</string>
+    <string name="deleting_conversation">Tar bort konversation</string>
+    <string name="is_typing">skriver..</string>
 
 </resources>

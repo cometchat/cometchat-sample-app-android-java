@@ -1,5 +1,6 @@
 package com.cometchat.pro.uikit.ui_components.users.block_users;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +25,6 @@ import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
 import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,6 +80,7 @@ public class CometChatBlockUserList extends Fragment {
         MaterialToolbar toolbar = view.findViewById(R.id.toolbar_blocked_user);
         setToolbar(toolbar);
 
+        CometChatError.init(getContext());
         rvUserList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -138,6 +139,8 @@ public class CometChatBlockUserList extends Fragment {
 
     private void unBlockUser(User user, View var1) {
 
+        ProgressDialog progressDialog = ProgressDialog.show(getContext(),null,
+                user.getName()+" "+getResources().getString(R.string.unblocked_successfully));
         ArrayList<String> uids = new ArrayList<>();
         uids.add(user.getUid());
         CometChat.unblockUsers(uids, new CometChat.CallbackListener<HashMap<String, String>>() {
@@ -146,15 +149,17 @@ public class CometChatBlockUserList extends Fragment {
                 if (userList.contains(user))
                     userList.remove(user);
                 blockedUserAdapter.removeUser(user);
-                CometChatSnackBar.show(getContext(),var1,
-                        user.getName()+" "+getResources().getString(R.string.unblocked_successfully),CometChatSnackBar.SUCCESS);
+                progressDialog.dismiss();
+//                CometChatSnackBar.show(getContext(),var1,
+//                        ,CometChatSnackBar.SUCCESS);
                 checkIfNoUserVisible();
             }
 
             @Override
             public void onError(CometChatException e) {
+                progressDialog.dismiss();
                 CometChatSnackBar.show(getContext(),var1,
-                        CometChatError.localized(e),CometChatSnackBar.ERROR);
+                       CometChatError.localized(e),CometChatSnackBar.ERROR);
                 Log.e(TAG, "onError: "+e.getMessage());
             }
         });

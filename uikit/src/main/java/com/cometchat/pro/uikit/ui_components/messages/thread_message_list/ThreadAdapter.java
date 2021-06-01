@@ -50,7 +50,7 @@ import com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAva
 import com.cometchat.pro.uikit.R;
 
 import com.cometchat.pro.uikit.ui_resources.utils.pattern_utils.PatternUtils;
-import com.cometchat.pro.uikit.ui_settings.UISettings;
+import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -990,7 +990,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Chip chip = new Chip(context);
                 chip.setChipStrokeWidth(2f);
                 chip.setChipBackgroundColor(ColorStateList.valueOf(context.getResources().getColor(android.R.color.transparent)));
-                chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(UISettings.getColor())));
+                chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(FeatureRestriction.getColor())));
                 chip.setText(str + " " + reactionOnMessage.get(str));
                 reactionLayout.addView(chip);
                 chip.setOnLongClickListener(new View.OnLongClickListener() {
@@ -1181,29 +1181,11 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return messageList.size();
     }
 
-//    @Override
-//    public long getHeaderId(int var1) {
-//
-//        BaseMessage baseMessage = messageList.get(var1);
-//        return Long.parseLong(Utils.getDateId(baseMessage.getSentAt() * 1000));
-//    }
-//
-//    @Override
-//    public DateItemHolder onCreateHeaderViewHolder(ViewGroup var1) {
-//        View view = LayoutInflater.from(var1.getContext()).inflate(R.layout.cc_message_list_header,
-//                var1, false);
-//
-//        return new DateItemHolder(view);
-//    }
-//
-//    @Override
-//    public void onBindHeaderViewHolder(DateItemHolder var1, int var2, long var3) {
-//        BaseMessage baseMessage = messageList.get(var2);
-//        Date date = new Date(baseMessage.getSentAt() * 1000L);
-//        String formattedDate = Utils.getDate(date.getTime());
-//        var1.txtMessageDate.setBackground(context.getResources().getDrawable(R.drawable.cc_rounded_date_button));
-//        var1.txtMessageDate.setText(formattedDate);
-//    }
+    public void remove(BaseMessage baseMessage) {
+        int index = messageList.indexOf(baseMessage);
+        messageList.remove(baseMessage);
+        notifyItemRemoved(index);
+    }
 
     /**
      * This method is used to maintain different viewType based on message category and type and

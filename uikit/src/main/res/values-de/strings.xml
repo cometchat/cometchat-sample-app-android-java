@@ -443,5 +443,13 @@
     <string name="err_invalid_extension_message">Die angegebene Erweiterung darf nicht null oder leer sein.</string>
     <string name="err_feature_not_found">Bereitgestellte Funktion nicht gefunden.</string>
     <string name="extension_not_found">Die bereitgestellte Erweiterung konnte nicht gefunden werden.</string>
+    <string name="left">verließ die</string>
+    <string name="downloading">wird heruntergeladen</string>
+    <string name="creating_group">Gruppe erstellen</string>
+    <string name="reply_privately">Nachricht privat senden</string>
+    <string name="view_profile">Profil anzeigen</string>
+    <string name="delete_conversation">Konversation löschen</string>
+    <string name="delete_conversation_message">Möchten Sie diese Konversation löschen?</string>
+    <string name="deleting_conversation">Gespräch löschen</string>
 
 </resources>

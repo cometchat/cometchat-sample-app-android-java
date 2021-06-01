@@ -444,4 +444,11 @@
     <string name="err_invalid_extension_message">बशर्ते विस्तार शून्य या रिक्त न हो।</string>
     <string name="err_feature_not_found">बशर्ते सुविधा नहीं मिली।</string>
     <string name="extension_not_found">प्रदान किया गया एक्सटेंशन नहीं मिला।</string>
+    <string name="downloading">डाउनलोड</string>
+    <string name="creating_group">समूह बनाना</string>
+    <string name="reply_privately">निजी तौर पर संदेश भेजें</string>
+    <string name="view_profile">प्रोफ़ाइल देखें</string>
+    <string name="delete_conversation">बातचीत मिटा दो</string>
+    <string name="delete_conversation_message">क्या आप इस वार्तालाप को हटाना चाहेंगे?</string>
+    <string name="deleting_conversation">वार्तालाप हटाना</string>
 </resources>

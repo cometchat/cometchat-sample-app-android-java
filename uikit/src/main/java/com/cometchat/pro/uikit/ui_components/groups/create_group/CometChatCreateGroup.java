@@ -2,6 +2,7 @@ package com.cometchat.pro.uikit.ui_components.groups.create_group;
 
 import androidx.fragment.app.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -22,11 +24,13 @@ import com.cometchat.pro.models.Group;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
 import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
+import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
 
 import com.cometchat.pro.uikit.ui_components.messages.message_list.CometChatMessageListActivity;
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
@@ -56,6 +60,8 @@ public class CometChatCreateGroup extends Fragment {
 
     private MaterialButton createGroupBtn;
 
+    private ArrayList<String> types = new ArrayList<>();
+
     private Spinner groupTypeSpinner;
 
     private String groupType;
@@ -67,7 +73,9 @@ public class CometChatCreateGroup extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_cometchat_create_group, container, false);
-
+        types.add(getString(R.string.public_group));
+        types.add(getString(R.string.private_group));
+        types.add(getString(R.string.password_protected_group));
         etGroupName = view.findViewById(R.id.group_name);
         etGroupDesc = view.findViewById(R.id.group_desc);
         etGroupPassword = view.findViewById(R.id.group_pwd);
@@ -95,6 +103,7 @@ public class CometChatCreateGroup extends Fragment {
 
         des2 = view.findViewById(R.id.tvDes2);
 
+        CometChatError.init(getContext());
         groupNameLayout = view.findViewById(R.id.input_group_name);
         groupDescLayout = view.findViewById(R.id.input_group_desc);
         groupPasswordLayout = view.findViewById(R.id.input_group_pwd);
@@ -123,6 +132,38 @@ public class CometChatCreateGroup extends Fragment {
 
             }
         });
+
+        ArrayAdapter adapter = new ArrayAdapter(
+                getContext(),android.R.layout.simple_list_item_1 ,types);
+
+        FeatureRestriction.isPublicGroupEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                if (!booleanVal) {
+                    types.remove(getString(R.string.public_group));
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+        FeatureRestriction.isPrivateGroupEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                if (!booleanVal) {
+                    types.remove(getString(R.string.private_group));
+                    adapter.notifyDataSetChanged();                }
+            }
+        });
+
+        FeatureRestriction.isPasswordGroupEnabled(new FeatureRestriction.OnSuccessListener() {
+            @Override
+            public void onSuccess(Boolean booleanVal) {
+                if (!booleanVal) {
+                    types.remove(getString(R.string.password_protected_group));
+                    adapter.notifyDataSetChanged();                }
+            }
+        });
+        groupTypeSpinner.setAdapter(adapter);
         createGroupBtn = view.findViewById(R.id.btn_create_group);
 
         createGroupBtn.setOnClickListener(new View.OnClickListener() {
@@ -206,9 +247,12 @@ public class CometChatCreateGroup extends Fragment {
     }
 
     private void createGroup(Group group) {
+        ProgressDialog progressDialog = ProgressDialog.show(getContext(),null,
+                getString(R.string.creating_group));
         CometChat.createGroup(group, new CometChat.CallbackListener<Group>() {
             @Override
             public void onSuccess(Group group) {
+                progressDialog.dismiss();
                 Intent intent = new Intent(getActivity(), CometChatMessageListActivity.class);
                 intent.putExtra(UIKitConstants.IntentStrings.NAME,group.getName());
                 intent.putExtra(UIKitConstants.IntentStrings.GROUP_OWNER,group.getOwner());

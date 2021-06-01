@@ -1,5 +1,6 @@
 package com.cometchat.pro.uikit.ui_components.groups.banned_members;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -51,6 +52,7 @@ public class CometChatBanMembers extends Fragment {
         groupMemberAdapter = new GroupMemberAdapter(getContext());
         bannedMemberRv.setAdapter(groupMemberAdapter);
         handleArguments();
+        CometChatError.init(getContext());
         getBannedMembers();
         bannedMemberRv.addOnItemTouchListener(new RecyclerTouchListener(getContext(), bannedMemberRv, new ClickListener() {
             @Override
@@ -124,12 +126,16 @@ public class CometChatBanMembers extends Fragment {
     }
 
     private void unBanMember() {
+        ProgressDialog progressDialog = ProgressDialog.show(getContext(),null,
+                groupMember.getName()+" "+
+                        getResources().getString(R.string.unbanned_successfully));
         CometChat.unbanGroupMember(groupMember.getUid(), guid, new CometChat.CallbackListener<String>() {
             @Override
             public void onSuccess(String s) {
-                if (bannedMemberRv!=null)
-                    CometChatSnackBar.show(getContext(),bannedMemberRv,
-                            groupMember.getName()+" "+getResources().getString(R.string.unbanned_successfully),CometChatSnackBar.SUCCESS);
+                progressDialog.dismiss();
+//                if (bannedMemberRv!=null)
+//                    CometChatSnackBar.show(getContext(),bannedMemberRv,
+//                            ,CometChatSnackBar.SUCCESS);
                 groupMemberAdapter.removeGroupMember(groupMember);
             }
 

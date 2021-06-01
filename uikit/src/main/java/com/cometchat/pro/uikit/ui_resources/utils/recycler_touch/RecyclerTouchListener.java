@@ -1,17 +1,28 @@
 package com.cometchat.pro.uikit.ui_resources.utils.recycler_touch;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
+import com.cometchat.pro.uikit.R;
+
+public class RecyclerTouchListener extends ItemTouchHelper.SimpleCallback implements RecyclerView.OnItemTouchListener {
     private ClickListener clickListener;
     private GestureDetector gestureDetector;
+    private RecyclerItemSwipeListener swipeListener;
+
+    public RecyclerTouchListener(RecyclerView recyclerView, int dragDirs, int swipeDirs, RecyclerItemSwipeListener listener) {
+        super(dragDirs, swipeDirs);
+        this.swipeListener = listener;
+    }
 
     public RecyclerTouchListener(Context var1, final RecyclerView var2, final ClickListener var3) {
+        super(0,0);
         this.clickListener = var3;
         this.gestureDetector = new GestureDetector(var1, new GestureDetector.SimpleOnGestureListener() {
             public boolean onSingleTapUp(MotionEvent var1) {
@@ -44,5 +55,59 @@ public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
     }
 
 
+    @Override
+    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+        return true;
+    }
+
+    @Override
+    public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+        if (viewHolder != null) {
+            final View foregroundView = viewHolder.itemView.findViewById(R.id.view_foreground);
+            if (foregroundView!=null)
+                getDefaultUIUtil().onSelected(foregroundView);
+        }
+    }
+
+    @Override
+    public void onChildDrawOver(Canvas c, RecyclerView recyclerView,
+                                RecyclerView.ViewHolder viewHolder, float dX, float dY,
+                                int actionState, boolean isCurrentlyActive) {
+        final View foregroundView = viewHolder.itemView.findViewById(R.id.view_foreground);
+        if (foregroundView!=null)
+            getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
+                    actionState, isCurrentlyActive);
+    }
+
+    @Override
+    public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        final View foregroundView = viewHolder.itemView.findViewById(R.id.view_foreground);
+        if (foregroundView!=null)
+            getDefaultUIUtil().clearView(foregroundView);
+    }
+
+    @Override
+    public void onChildDraw(Canvas c, RecyclerView recyclerView,
+                            RecyclerView.ViewHolder viewHolder, float dX, float dY,
+                            int actionState, boolean isCurrentlyActive) {
+        final View foregroundView = viewHolder.itemView.findViewById(R.id.view_foreground);
+        if (foregroundView!=null)
+            getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,
+                    actionState, isCurrentlyActive);
+    }
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+        swipeListener.onSwiped(viewHolder, direction, viewHolder.getAdapterPosition());
+    }
+
+    @Override
+    public int convertToAbsoluteDirection(int flags, int layoutDirection) {
+        return super.convertToAbsoluteDirection(flags, layoutDirection);
+    }
+
+    public interface RecyclerItemSwipeListener {
+        void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position);
+    }
 
 }

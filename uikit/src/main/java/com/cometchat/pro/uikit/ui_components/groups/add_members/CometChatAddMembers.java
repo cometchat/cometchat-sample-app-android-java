@@ -94,7 +94,7 @@ public class CometChatAddMembers extends Fragment {
         etSearch = view.findViewById(R.id.search_bar);
 
         toolbar = view.findViewById(R.id.add_member_toolbar);
-
+        CometChatError.init(getContext());
         setToolbar(toolbar);
 
         checkDarkMode();
@@ -167,6 +167,7 @@ public class CometChatAddMembers extends Fragment {
                     intent.putExtra(UIKitConstants.IntentStrings.NAME, user.getName());
                     intent.putExtra(UIKitConstants.IntentStrings.AVATAR, user.getAvatar());
                     intent.putExtra(UIKitConstants.IntentStrings.STATUS, user.getStatus());
+                    intent.putExtra(UIKitConstants.IntentStrings.LINK,user.getLink());
                     intent.putExtra(UIKitConstants.IntentStrings.IS_BLOCKED_BY_ME, user.isBlockedByMe());
                     intent.putExtra(UIKitConstants.IntentStrings.TYPE, CometChatConstants.RECEIVER_TYPE_GROUP);
                     intent.putExtra(UIKitConstants.IntentStrings.GUID, guid);
@@ -231,7 +232,6 @@ public class CometChatAddMembers extends Fragment {
             int LIMIT = 30;
             usersRequest = new UsersRequest.UsersRequestBuilder().setLimit(LIMIT).build();
         }
-
         makeUserRequest(usersRequest);
     }
 
