@@ -41,7 +41,6 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:id="@+id/inputLayout"
             android:animateLayoutChanges="true"
             android:layout_below="@id/tvDes2"
             android:layout_marginStart="32dp"

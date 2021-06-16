@@ -94,6 +94,7 @@ public class CometChatStartCallActivity extends AppCompatActivity {
                     .setSessionId(sessionID)
                     .build();
 
+        CometChatError.init(this);
         Log.e( "startCallActivity: ",sessionID+" "+type);
         CometChat.startCall(callSettings, new CometChat.OngoingCallListener() {
             @Override

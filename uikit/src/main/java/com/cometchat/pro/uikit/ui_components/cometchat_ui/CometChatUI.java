@@ -148,26 +148,20 @@ public class CometChatUI extends AppCompatActivity implements
         CometChatGroupList.setItemClickListener(new OnItemClickListener<Group>() {
             @Override
             public void OnItemClick(Group g, int position) {
-                FeatureRestriction.isGroupChatEnabled(new FeatureRestriction.OnSuccessListener() {
-                    @Override
-                    public void onSuccess(Boolean booleanVal) {
-                        group = g;
-                        if (group.isJoined()) {
-                            startGroupIntent(group);
-                        } else {
-                            if (group.getGroupType().equals(CometChatConstants.GROUP_TYPE_PASSWORD)) {
-                                View dialogview = getLayoutInflater().inflate(R.layout.cc_dialog, null);
-                                TextView tvTitle = dialogview.findViewById(R.id.textViewDialogueTitle);
-                                tvTitle.setText(String.format(getResources().getString(R.string.enter_password_to_join),group.getName()));
-                                new CustomAlertDialogHelper(CometChatUI.this, getResources().getString(R.string.password), dialogview, getResources().getString(R.string.join),
-                                        "", getResources().getString(R.string.cancel), CometChatUI.this, 1, false);
-                            } else if (group.getGroupType().equals(CometChatConstants.GROUP_TYPE_PUBLIC)) {
-                                joinGroup(group);
-                            }
-                        }
-
+                group = g;
+                if (group.isJoined()) {
+                    startGroupIntent(group);
+                } else {
+                    if (group.getGroupType().equals(CometChatConstants.GROUP_TYPE_PASSWORD)) {
+                        View dialogview = getLayoutInflater().inflate(R.layout.cc_dialog, null);
+                        TextView tvTitle = dialogview.findViewById(R.id.textViewDialogueTitle);
+                        tvTitle.setText(String.format(getResources().getString(R.string.enter_password_to_join),group.getName()));
+                        new CustomAlertDialogHelper(CometChatUI.this, getResources().getString(R.string.password), dialogview, getResources().getString(R.string.join),
+                                "", getResources().getString(R.string.cancel), CometChatUI.this, 1, false);
+                    } else if (group.getGroupType().equals(CometChatConstants.GROUP_TYPE_PUBLIC)) {
+                        joinGroup(group);
                     }
-                });
+                }
             }
         });
     }
@@ -176,13 +170,7 @@ public class CometChatUI extends AppCompatActivity implements
         CometChatUserList.setItemClickListener(new OnItemClickListener<User>() {
             @Override
             public void OnItemClick(User user, int position) {
-                FeatureRestriction.isOneOnOneChatEnabled(new FeatureRestriction.OnSuccessListener() {
-                    @Override
-                    public void onSuccess(Boolean booleanVal) {
-                        if (booleanVal)
-                            startUserIntent(user);
-                    }
-                });
+                startUserIntent(user);
             }
         });
     }

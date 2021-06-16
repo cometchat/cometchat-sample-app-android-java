@@ -52,15 +52,9 @@ public class CometChatError {
         } else if (e.getCode().equalsIgnoreCase(ERROR_UID_WITH_SPACE_MESSAGE)) {
             return new CometChatException(ERROR_UID_WITH_SPACE_MESSAGE,
                     errorContext.getString(R.string.err_uid_with_space_message)).getMessage();
-        } else if (e.getCode().equalsIgnoreCase(ERROR_UID_GUID_NOT_SPECIFIED_MESSAGE)) {
-            return new CometChatException(ERROR_UID_GUID_NOT_SPECIFIED_MESSAGE,
-                    errorContext.getString(R.string.err_uid_guid_not_specified_message)).getMessage();
         } else if (e.getCode().equalsIgnoreCase(ERROR_INTERNET_UNAVAILABLE_MESSAGE)) {
             return new CometChatException(ERROR_INTERNET_UNAVAILABLE_MESSAGE,
                     errorContext.getString(R.string.err_internet_unavailable)).getMessage();
-        } else if (e.getCode().equalsIgnoreCase(ERROR_REQUEST_IN_PROGRESS_MESSAGE)) {
-            return new CometChatException(ERROR_REQUEST_IN_PROGRESS_MESSAGE,
-                    errorContext.getString(R.string.err_request_in_progress_message)).getMessage();
         } else if (e.getCode().equalsIgnoreCase(ERROR_EMPTY_GROUP_NAME_MESSAGE)) {
             return new CometChatException(ERROR_EMPTY_GROUP_NAME_MESSAGE,
                     errorContext.getString(R.string.err_empty_group_name_message)).getMessage();

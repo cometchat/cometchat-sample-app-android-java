@@ -679,7 +679,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
             ivMoreOption.setVisibility(GONE);
         }
         if (replyCount>0) {
-            tvReplyCount.setText(replyCount + " Replies");
+            tvReplyCount.setText(replyCount +" "+ getString(R.string.replies));
             noReplyMessages.setVisibility(GONE);
         }
         else {
@@ -1714,6 +1714,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
      * @param baseMessage is object of BaseMessage.class. It is message which is been marked as read.
      */
     private void markMessageAsRead(BaseMessage baseMessage) {
+//        CometChat.markAsRead(baseMessage);
         if (type.equals(CometChatConstants.RECEIVER_TYPE_USER))
             CometChat.markAsRead(baseMessage.getId(), baseMessage.getSender().getUid(), baseMessage.getReceiverType());
         else
@@ -1880,9 +1881,9 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
     private void setReply() {
         replyCount = replyCount+1;
         if (replyCount==1)
-            tvReplyCount.setText(replyCount+" Reply");
+            tvReplyCount.setText(replyCount+" "+getString(R.string.reply));
         else
-            tvReplyCount.setText(replyCount+" Replies");
+            tvReplyCount.setText(replyCount+" "+getString(R.string.replies));
     }
 
     private void checkSmartReply(BaseMessage lastMessage) {
@@ -2325,6 +2326,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
     private void showBottomSheet(CometChatMessageActions messageActionFragment) {
         messageActionFragment.show(getFragmentManager(),messageActionFragment.getTag());
         messageActionFragment.setMessageActionListener(new CometChatMessageActions.MessageActionListener() {
+
             @Override
             public void onPrivateReplyToUser() {
                 if (baseMessage!=null) {
@@ -2356,9 +2358,10 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
             }
 
             @Override
-            public void onReplyMessageClick() {
+            public void onReplyMessageClick() {}
 
-            }
+            @Override
+            public void onReplyMessagePrivately() {}
 
             @Override
             public void onForwardMessageClick() {

@@ -12,7 +12,6 @@ import com.cometchat.pro.core.AppSettings;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.androiduikit.constants.AppConfig;
-import com.cometchat.pro.helpers.Logger;
 import com.cometchat.pro.uikit.ui_components.calls.call_manager.listener.CometChatCallListener;
 import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 

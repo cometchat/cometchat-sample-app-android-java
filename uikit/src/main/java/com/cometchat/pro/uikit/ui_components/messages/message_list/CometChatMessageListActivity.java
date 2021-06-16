@@ -88,6 +88,12 @@ public class CometChatMessageListActivity extends AppCompatActivity implements M
                   bundle.putString(UIKitConstants.IntentStrings.GROUP_DESC,getIntent().getStringExtra(UIKitConstants.IntentStrings.GROUP_DESC));
                   bundle.putString(UIKitConstants.IntentStrings.GROUP_PASSWORD,getIntent().getStringExtra(UIKitConstants.IntentStrings.GROUP_PASSWORD));
               }
+
+              if (getIntent().hasExtra(UIKitConstants.IntentStrings.MESSAGE)) {
+                  bundle.putString(UIKitConstants.IntentStrings.MESSAGE,
+                          getIntent().getStringExtra(UIKitConstants.IntentStrings.MESSAGE));
+              }
+
               fragment.setArguments(bundle);
              getSupportFragmentManager().beginTransaction().replace(R.id.chat_fragment, fragment).commit();
          }
