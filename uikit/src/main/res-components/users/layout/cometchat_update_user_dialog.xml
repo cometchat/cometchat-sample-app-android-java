@@ -34,7 +34,6 @@
             android:layout_marginTop="16dp"
             android:padding="8dp"
             android:hint="@string/enter_avatar_url"
-            android:id="@+id/avatar_url_tl"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
@@ -53,7 +52,6 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
             android:hint="@string/enter_user_name"
-            android:id="@+id/user_name_tl"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText

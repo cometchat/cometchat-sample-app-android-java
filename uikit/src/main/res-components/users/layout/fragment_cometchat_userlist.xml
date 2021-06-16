@@ -71,7 +71,6 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeToRefresh"
         android:layout_width="match_parent"
         android:layout_below="@id/rl_search_box"
         android:layout_height="wrap_content">

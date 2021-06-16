@@ -3,6 +3,7 @@ package com.cometchat.pro.uikit.ui_components.shared.cometchatConversations;
 import android.content.Context;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,8 @@ import com.cometchat.pro.uikit.ui_resources.utils.FontUtils;
 import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
+
+import org.json.JSONObject;
 
 /**
  * Purpose - ConversationListAdapter is a subclass of RecyclerView Adapter which is used to display
@@ -172,9 +175,11 @@ public class CometChatConversationsAdapter extends RecyclerView.Adapter<CometCha
         conversationViewHolder.conversationListRowBinding.messageTime.setTypeface(fontUtils.getTypeFace(FontUtils.robotoRegular));
 
         if (conversation.getConversationType().equals(CometChatConstants.RECEIVER_TYPE_USER)) {
-            name = ((User) conversation.getConversationWith()).getName();
-            avatar = ((User) conversation.getConversationWith()).getAvatar();
-            status = ((User)conversation.getConversationWith()).getStatus();
+            User conversationUser = ((User) conversation.getConversationWith());
+            name = conversationUser.getName();
+            avatar = conversationUser.getAvatar();
+            status = conversationUser.getStatus();
+            Log.e("Conversation:",conversation.getConversationWith().toString());
             if (status.equals(CometChatConstants.USER_STATUS_ONLINE)) {
                 conversationViewHolder.conversationListRowBinding.userStatus.setVisibility(View.VISIBLE);
                 conversationViewHolder.conversationListRowBinding.userStatus.setUserStatus(status);
@@ -322,7 +327,17 @@ public class CometChatConversationsAdapter extends RecyclerView.Adapter<CometCha
         if (filterConversationList.contains(conversation)) {
             Conversation oldConversation = filterConversationList.get(filterConversationList.indexOf(conversation));
             filterConversationList.remove(oldConversation);
-            if (conversation.getLastMessage().getType().equalsIgnoreCase(UIKitConstants.IntentStrings.LOCATION) || conversation.getLastMessage().getCategory().equalsIgnoreCase(CometChatConstants.CATEGORY_MESSAGE))
+            JSONObject metadata = conversation.getLastMessage().getMetadata();
+            boolean incrementUnreadCount = false;
+            boolean isCategoryMessage = conversation.getLastMessage().getCategory()
+                    .equalsIgnoreCase(CometChatConstants.CATEGORY_MESSAGE);
+            try {
+                if (metadata.has("incrementUnreadCount"))
+                    incrementUnreadCount = metadata.getBoolean("incrementUnreadCount");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (incrementUnreadCount || isCategoryMessage)
                 conversation.setUnreadMessageCount(oldConversation.getUnreadMessageCount() + 1);
             filterConversationList.add(0, conversation);
         } else {

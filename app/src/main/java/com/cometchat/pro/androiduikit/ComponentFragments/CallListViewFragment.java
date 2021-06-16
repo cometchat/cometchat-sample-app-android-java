@@ -161,7 +161,7 @@ public class CallListViewFragment extends Fragment {
             public void onError(CometChatException e) {
                 Log.e( "onError: ",e.getMessage() );
                 if (rvCallList!=null)
-                    Snackbar.make(rvCallList, com.cometchat.pro.uikit.R.string.call_list_error,Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(rvCallList, R.string.err_default_message,Snackbar.LENGTH_LONG).show();
             }
         });
     }

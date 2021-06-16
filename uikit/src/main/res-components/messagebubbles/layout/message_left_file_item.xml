@@ -77,7 +77,6 @@
                 android:layout_height="wrap_content">
                 <ImageView
                     android:tint="@color/primaryTextColor"
-                    android:id="@+id/ivIcon"
                     android:src="@drawable/ic_insert_drive_file_black_24dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>

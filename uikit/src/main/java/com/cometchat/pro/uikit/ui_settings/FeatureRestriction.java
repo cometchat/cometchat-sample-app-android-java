@@ -2,7 +2,6 @@ package com.cometchat.pro.uikit.ui_settings;
 
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
-import com.cometchat.pro.uikit.R;
 
 public class FeatureRestriction {
     public static boolean isGroupActionMessagesEnabled() {
@@ -14,7 +13,7 @@ public class FeatureRestriction {
     }
 
     public static String getColor() {
-        return UIKitSettings.color;
+        return UIKitSettings.UIcolor;
     }
 
 

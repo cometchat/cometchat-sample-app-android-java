@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content">
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
-                    android:text="Decline"
+                    android:text="@string/decline"
                     android:id="@+id/decline_incoming"
                     android:layout_marginTop="16dp"
                     app:backgroundTint="@color/red"
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"/>
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
-                    android:text="Answer"
+                    android:text="@string/accept"
                     android:id="@+id/accept_incoming"
                     android:layout_marginTop="16dp"
                     app:backgroundTint="@color/colorPrimary"

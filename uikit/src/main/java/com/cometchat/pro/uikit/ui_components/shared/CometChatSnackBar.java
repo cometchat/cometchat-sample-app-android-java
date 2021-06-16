@@ -44,7 +44,7 @@ public class CometChatSnackBar {
             dialogView.setBackgroundColor(context.getResources().getColor(R.color.red));
         } else if (type.equalsIgnoreCase(INFO)) {
             snackbar.setDuration(Snackbar.LENGTH_LONG);
-            iconImage.setImageResource(R.drawable.ic_info_image);
+            iconImage.setImageResource(R.drawable.ic_info);
             iconImage.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.textColorWhite)));
             closeImage.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.textColorWhite)));
             messageTv.setTextColor(ColorStateList.valueOf(context.getResources().getColor(R.color.textColorWhite)));

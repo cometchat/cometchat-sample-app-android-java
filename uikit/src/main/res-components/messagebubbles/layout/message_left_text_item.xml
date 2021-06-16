@@ -38,15 +38,12 @@
             android:background="@drawable/cc_message_bubble_left"
             android:layout_marginStart="10dp">
             <include
-                android:layout_below="@+id/go_txt_message"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
+                android:layout_margin="8dp"
                 layout="@layout/message_left_reply_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <RelativeLayout
+                android:layout_below="@+id/replyLayout"
                 android:backgroundTint="@color/red_600"
                 android:background="@drawable/cc_message_bubble_left"
                 android:visibility="gone"
@@ -56,7 +53,6 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:textSize="12dp"
-                    android:id="@+id/sentiment_message"
                     android:textStyle="italic"
                     android:textColor="@color/textColorWhite"
                     android:layout_toLeftOf="@+id/view_sentiment"
@@ -75,14 +71,16 @@
                     android:layout_height="wrap_content"/>
             </RelativeLayout>
             <TextView
-                android:maxWidth="270dp"
+                android:layout_below="@+id/replyLayout"
+                android:maxWidth="200dp"
                 android:id="@+id/go_txt_message"
                 android:autoLink="web|all"
                 android:layout_width="wrap_content"
                 tools:text="message"
                 android:textColor="@color/primaryTextColor"
                 android:focusable="true"
-                android:padding="10dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginEnd="10dp"

@@ -460,7 +460,8 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
                 if (tvBlockUser!=null)
                     CometChatSnackBar.show(CometChatUserDetailScreenActivity.this,
                             tvBlockUser,
-                            getResources().getString(R.string.block_user_error),
+                            String.format(getResources().getString(R.string.block_user_error),
+                                    userName.getText().toString()),
                             CometChatSnackBar.ERROR);
                 Log.d(TAG, "onError: "+e.getMessage());
             }

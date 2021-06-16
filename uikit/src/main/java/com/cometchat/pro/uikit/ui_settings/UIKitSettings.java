@@ -25,16 +25,13 @@ import java.util.Locale;
 public class UIKitSettings {
 
     //style
-    protected static String color = "#03A9F4";
+    protected static String UIcolor = "#03A9F4";
     //BottomBar
     private static boolean users = true;
     private static boolean groups = true;
     private static boolean conversations = true;
     private static boolean calls = true;
     private static boolean userSettings = true;
-
-    //main
-    @Deprecated private static boolean enableSendingMessage = true;
 
     private static boolean sendMessageInOneOneOne = true;
     private static boolean sendMessageInGroup = true;
@@ -329,7 +326,7 @@ public class UIKitSettings {
     }
 
     public static void setColor(String color) {
-        color = color;
+        UIcolor = color;
     }
 
     public static void users(boolean showUsers) {

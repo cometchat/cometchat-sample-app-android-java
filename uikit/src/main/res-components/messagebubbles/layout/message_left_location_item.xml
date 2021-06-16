@@ -27,7 +27,7 @@
             android:layout_toEndOf="@+id/iv_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_below="@+id/tv_user"
             android:id="@+id/cv_message_container"
             android:layout_width="wrap_content"
@@ -43,6 +43,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
+                    android:src="@drawable/default_map"
+                    android:scaleType="centerCrop"
                     android:layout_width="250dp"
                     android:layout_height="150dp"
                     android:id="@+id/iv_map"/>
@@ -73,17 +75,9 @@
                         android:paddingLeft="4dp"
                         android:textStyle="italic"
                         android:paddingBottom="4dp"/>
-                    <com.google.android.material.button.MaterialButton
-                        android:layout_width="match_parent"
-                        android:textColor="@color/primaryTextColor"
-                        android:text="@string/navigate"
-                        app:cornerRadius="8dp"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:id="@+id/navigate_btn"
-                        android:layout_height="wrap_content"/>
                 </LinearLayout>
             </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
         <HorizontalScrollView
             android:layout_alignStart="@id/cv_message_container"
             android:layout_below="@+id/cv_message_container"
