@@ -273,7 +273,7 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
                             avatar = ((Group) conversation.getConversationWith()).getIcon();
                         }
                         chip.setText(name);
-                        Glide.with(CometChatForwardMessageActivity.this).load(avatar).placeholder(R.drawable.ic_contacts_24dp).transform(new CircleCrop()).into(new SimpleTarget<Drawable>() {
+                        Glide.with(CometChatForwardMessageActivity.this).load(avatar).placeholder(R.drawable.ic_contacts).transform(new CircleCrop()).into(new SimpleTarget<Drawable>() {
                             @Override
                             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                                 chip.setChipIcon(resource);

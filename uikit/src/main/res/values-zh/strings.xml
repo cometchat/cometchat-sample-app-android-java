@@ -276,7 +276,6 @@
     <string name="view_profile">查看资料</string>
     <string name="delete_conversation_message">您要删除此对话吗？</string>
     <string name="deleting_conversation">删除对话</string>
-    <string name="reply_in_thread">在聊天中回复</string>
     <string name="offline">离线</string>
     <string name="new_messages">新消息</string>
     <string name="new_message">新消息</string>

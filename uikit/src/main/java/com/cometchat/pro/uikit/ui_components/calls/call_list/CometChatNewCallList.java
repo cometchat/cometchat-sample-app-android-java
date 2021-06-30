@@ -101,10 +101,11 @@ public class CometChatNewCallList extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_cometchat_userlist);
+        fetchSettings();
         title = findViewById(R.id.tv_title);
         CometChatError.init(this);
         ImageView imageView = new ImageView(this);
-        imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_close_24dp));
+        imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_back_arrow_selected));
         if (FeatureRestriction.getColor()!=null) {
             getWindow().setStatusBarColor(Color.parseColor(FeatureRestriction.getColor()));
             imageView.setImageTintList(ColorStateList.valueOf(
@@ -113,7 +114,6 @@ public class CometChatNewCallList extends AppCompatActivity {
             imageView.setImageTintList(
                     ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
 
-        fetchSettings();
         imageView.setClickable(true);
         imageView.setPadding(8,8,8,8);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -128,11 +128,11 @@ public class CometChatNewCallList extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        title.setTypeface(FontUtils.getInstance(this).getTypeFace(FontUtils.robotoMedium));
         RelativeLayout.LayoutParams titleLayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         titleLayoutParams.setMargins(16,32,16,48);
         titleLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         title.setLayoutParams(titleLayoutParams);
+        title.setTextAppearance(R.style.TextAppearance_AppCompat_Large);
         title.setText(getResources().getString(R.string.new_call));
         rvUserList = findViewById(R.id.rv_user_list);
         etSearch = findViewById(R.id.search_bar);
@@ -201,9 +201,7 @@ public class CometChatNewCallList extends AppCompatActivity {
             }
         });
 
-        if (audioCallEnabled || videoCallEnabled) {
-            // Used to trigger event on click of user item in rvUserList (RecyclerView)
-            rvUserList.setItemClickListener(new OnItemClickListener<User>() {
+        rvUserList.setItemClickListener(new OnItemClickListener<User>() {
                 @Override
                 public void OnItemClick(User var, int position) {
                     User user = var;
@@ -229,7 +227,7 @@ public class CometChatNewCallList extends AppCompatActivity {
                     alertDialog.show();
                 }
             });
-        }
+
         fetchUsers();
     }
 

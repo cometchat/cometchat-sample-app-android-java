@@ -284,7 +284,6 @@
     <string name="view_profile">Voir le profil</string>
     <string name="delete_conversation_message">Souhaitez-vous supprimer cette conversation?</string>
     <string name="deleting_conversation">Suppression de la conversation</string>
-    <string name="reply_in_thread">Répondre dans le chat</string>
     <string name="offline">hors ligne</string>
     <string name="new_messages">Nouveaux messages</string>
     <string name="new_message">Nouveau message</string>

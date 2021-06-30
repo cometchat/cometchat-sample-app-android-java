@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ic_lightblue_circular_background"/>
-    <item android:drawable="@drawable/ic_add_24dp" android:gravity="center_horizontal" />
-</layer-list>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:drawable="@drawable/add_circle_filled"/>
+    <item android:state_focused="true" android:drawable="@drawable/add_circle_filled"/>
+    <item android:drawable="@drawable/add_circle"/>
+</selector>

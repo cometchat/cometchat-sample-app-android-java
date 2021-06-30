@@ -78,6 +78,8 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
 
     private CometChatAvatar groupIcon;
 
+    private ImageView editGroup;
+
     private String groupType;
 
     private String ownerId;
@@ -124,8 +126,6 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
 
     private TextView tvLoadMore;
 
-    private List<GroupMember> groupMembers = new ArrayList<>();
-
     private AlertDialog.Builder dialog;
 
     private TextView tvMemberCount;
@@ -167,6 +167,13 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
         tvGroupName = findViewById(R.id.tv_group_name);
         tvGroupDesc = findViewById(R.id.group_description);
         tvGroupName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        editGroup = findViewById(R.id.edit_group);
+
+        editGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateGroupDialog();
@@ -224,6 +231,13 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
 //        rvMemberList.setNestedScrollingEnabled(false);
 
         handleIntent();
+
+        if (loggedInUserScope.equalsIgnoreCase(CometChatConstants.SCOPE_ADMIN))
+            editGroup.setVisibility(View.VISIBLE);
+        else
+            editGroup.setVisibility(View.GONE);
+
+
         checkDarkMode();
 
         sharedMediaLayout = findViewById(R.id.shared_media_layout);
@@ -368,8 +382,8 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.group_action_menu, menu);
-
-        menu.findItem(R.id.item_make_admin).setVisible(false);
+        if (!ownerId.equalsIgnoreCase(loggedInUser.getUid()))
+            menu.findItem(R.id.item_make_admin).setVisible(false);
 
         menu.setHeaderTitle(getString(R.string.group_alert));
     }
@@ -382,9 +396,30 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
             kickMember();
         } else if(item.getItemId() == R.id.item_ban) {
             banMember();
+        } else if (item.getItemId() == R.id.item_make_admin) {
+            transferOwner(groupMember);
         }
 
         return super.onContextItemSelected(item);
+    }
+
+    private void transferOwner(GroupMember groupMember) {
+        CometChat.transferGroupOwnership(guid, groupMember.getUid(), new CometChat.CallbackListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                CometChatSnackBar.show(CometChatGroupDetailActivity.this,
+                        rvMemberList,
+                        String.format(getResources().getString(R.string.user_is_owner),groupMember.getName()), CometChatSnackBar.SUCCESS);
+            }
+
+            @Override
+            public void onError(CometChatException e) {
+                CometChatSnackBar.show(CometChatGroupDetailActivity.this,
+                        rvMemberList,
+                        String.format(getResources().getString(R.string.update_scope_error)+e.getCode(),groupMember.getName())
+                                +", "+CometChatError.localized(e),CometChatSnackBar.ERROR);
+            }
+        });
     }
 
 
@@ -495,6 +530,10 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
         }
         if (getIntent().hasExtra(UIKitConstants.IntentStrings.GROUP_DESC)) {
             gDesc = getIntent().getStringExtra(UIKitConstants.IntentStrings.GROUP_DESC);
+            if (gDesc!=null) {
+                if (!gDesc.isEmpty())
+                    tvGroupDesc.setVisibility(View.VISIBLE);
+            }
             tvGroupDesc.setText(gDesc);
         }
         if (getIntent().hasExtra(UIKitConstants.IntentStrings.GROUP_PASSWORD)) {

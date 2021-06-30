@@ -32,7 +32,6 @@ public class UIKitApplication extends Application {
                 UIKitSettings.setAppID(AppConfig.AppDetails.APP_ID);
                 UIKitSettings.setAuthKey(AppConfig.AppDetails.AUTH_KEY);
                 CometChat.setSource("ui-kit","android","java");
-                Log.d(TAG, "onSuccess: "+s);
             }
 
             @Override

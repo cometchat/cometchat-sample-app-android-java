@@ -27,7 +27,7 @@
                     android:id="@+id/backIcon"
                     android:paddingRight="16dp"
                     android:clickable="true"
-                    android:src="@drawable/ic_arrow_back_24dp"
+                    android:src="@drawable/ic_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView

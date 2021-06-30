@@ -10,7 +10,7 @@
         android:id="@+id/groupDetailToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:navigationIcon="@drawable/ic_close_24dp"
+        app:navigationIcon="@drawable/ic_back_arrow_selected"
         app:title="@string/details" />
 
     <androidx.core.widget.NestedScrollView
@@ -38,6 +38,7 @@
                     tools:src="@tools:sample/avatars" />
 
                 <LinearLayout
+                    android:layout_toLeftOf="@+id/edit_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -57,11 +58,20 @@
                         tools:text="@tools:sample/full_names" />
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/group_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="@tools:sample/lorem/random" />
                 </LinearLayout>
+                <ImageView
+                    android:layout_marginRight="16dp"
+                    android:id="@+id/edit_group"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -86,7 +96,7 @@
                     android:gravity="center"
                     android:drawablePadding="8dp"
                     android:layout_marginEnd="16dp"
-                    android:drawableEnd="@drawable/ic_arrow_right_24dp"
+                    android:drawableEnd="@drawable/ic_arrow_right"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
@@ -122,7 +132,7 @@
                     android:gravity="center"
                     android:drawablePadding="8dp"
                     android:layout_marginEnd="16dp"
-                    android:drawableEnd="@drawable/ic_arrow_right_24dp"
+                    android:drawableEnd="@drawable/ic_arrow_right"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
@@ -160,7 +170,7 @@
                     android:gravity="center"
                     android:drawablePadding="8dp"
                     android:layout_marginEnd="16dp"
-                    android:drawableEnd="@drawable/ic_arrow_right_24dp"
+                    android:drawableEnd="@drawable/ic_arrow_right"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
@@ -204,8 +214,8 @@
 
                 <ImageView
                     android:id="@+id/ivAdd"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
                     android:src="@drawable/ic_add" />

@@ -136,8 +136,13 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
         viewProfile = findViewById(R.id.tv_view_profile);
 
         setSupportActionBar(toolbar);
-         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         addBtn.setTypeface(fontUtils.getTypeFace(FontUtils.robotoRegular));
 
         blockUserLayout = findViewById(R.id.block_user_layout);
@@ -336,20 +341,6 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
             tvBlockUser.setText(getResources().getString(R.string.block_user));
             tvBlockUser.setTextColor(getResources().getColor(R.color.red));
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-         if (item.getItemId()==android.R.id.home){
-             onBackPressed();
-         }
-        return super.onOptionsItemSelected(item);
     }
 
     private void addMember() {

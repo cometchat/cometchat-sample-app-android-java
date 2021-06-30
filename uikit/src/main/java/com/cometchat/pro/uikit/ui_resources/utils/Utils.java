@@ -11,7 +11,10 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.media.AudioManager;
@@ -76,6 +79,8 @@ import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
 import com.google.android.material.snackbar.Snackbar;
 
 import kotlin.ranges.RangesKt;
+
+import static android.os.Environment.DIRECTORY_DOCUMENTS;
 
 public class Utils {
 
@@ -657,10 +662,18 @@ public class Utils {
         if (!var0.exists() && !var0.mkdirs()) {
             return null;
         } else {
-            String var1 = Environment.getExternalStorageDirectory() + "/" + context.getResources().getString(R.string.app_name) + "/"
-                    + "audio/";
-            createDirectory(var1);
-            return var1 + (new SimpleDateFormat("yyyyMMddHHmmss")).format(new Date()) + ".mp3";
+            String dir;
+            if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
+                dir = Environment.getExternalStorageDirectory()+"/"+context.getResources().getString(R.string.app_name) + "/"
+                        + "audio/";
+            } else {
+                dir = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOCUMENTS).getPath()+"/"+context.getResources().getString(R.string.app_name) + "/"
+                        + "audio/";
+            }
+//            String var1 = Environment.getExternalStorageDirectory() + "/" + context.getResources().getString(R.string.app_name) + "/"
+//                    + "audio/";
+            createDirectory(dir);
+            return dir + (new SimpleDateFormat("yyyyMMddHHmmss")).format(new Date()) + ".mp3";
         }
     }
 
@@ -709,6 +722,19 @@ public class Utils {
         }
     }
 
+    public static Bitmap drawableToBitmap (Drawable drawable) {
+
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable)drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
     public static String getAddress(Context context, double latitude, double longitude) {
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
         try {

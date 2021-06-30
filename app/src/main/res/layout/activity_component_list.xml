@@ -68,7 +68,7 @@
                         android:id="@+id/avatar_right_arrow"
                         android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
-                        android:src="@drawable/ic_arrow_right_24dp"
+                        android:src="@drawable/ic_arrow_right"
                         android:layout_width="32dp"
                         android:layout_height="32dp"/>
                 </RelativeLayout>
@@ -105,7 +105,7 @@
                         android:id="@+id/statusrightArrow"
                         android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
-                        android:src="@drawable/ic_arrow_right_24dp"
+                        android:src="@drawable/ic_arrow_right"
                         android:layout_width="32dp"
                         android:layout_height="32dp"/>
                 </RelativeLayout>
@@ -142,7 +142,7 @@
                         android:id="@+id/badgerightArrow"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
-                        android:src="@drawable/ic_arrow_right_24dp"
+                        android:src="@drawable/ic_arrow_right"
                         android:layout_width="32dp"
                         android:layout_height="32dp"/>
                 </RelativeLayout>
@@ -179,7 +179,7 @@
                         android:id="@+id/uservwrightArrow"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
-                        android:src="@drawable/ic_arrow_right_24dp"
+                        android:src="@drawable/ic_arrow_right"
                         android:layout_width="32dp"
                         android:layout_height="32dp"/>
                 </RelativeLayout>
@@ -216,7 +216,7 @@
                         android:id="@+id/groupvwrightArrow"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
-                        android:src="@drawable/ic_arrow_right_24dp"
+                        android:src="@drawable/ic_arrow_right"
                         android:layout_width="32dp"
                         android:layout_height="32dp"/>
                 </RelativeLayout>
@@ -254,7 +254,7 @@
                         android:id="@+id/conversation_right_arrow"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
-                        android:src="@drawable/ic_arrow_right_24dp"
+                        android:src="@drawable/ic_arrow_right"
                         android:layout_width="32dp"
                         android:layout_height="32dp"/>
                 </RelativeLayout>
@@ -291,7 +291,7 @@
                         android:id="@+id/callList_right_arrow"
                         android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
-                        android:src="@drawable/ic_arrow_right_24dp"
+                        android:src="@drawable/ic_arrow_right"
                         android:layout_width="32dp"
                         android:layout_height="32dp"/>
                 </RelativeLayout>

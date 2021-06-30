@@ -1,22 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Android UI Kit</string>
-    <string name="title_activity_screen">ScreenActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_tools">Tools</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="avatar_description">This component will be the class of AppCompatImageView which is customizable to display Avatar</string>
     <string name="statusIndicator_description">This component will be the class of View which is customizable to display status of the user</string>
     <string name="badgeCount_description">This component will be the class of LinearLayout which is customizable to display the unread count of the messages in conversations.</string>
@@ -33,6 +18,5 @@
     <string name="circle" tools:ignore="ExtraTranslation">circle</string>
     <string name="uicomponent_description" tools:ignore="ExtraTranslation">It show\'s list of core component which users can use at their end to create thier own chat app within minutes.</string>
     <string name="callList_description">This component will be the class of RecyclerView which is customizable to display list of calls.</string>
-    <string name="sharedMediaVw_description"><![CDATA[This component is a custom component it includes three tabs which show images,videos & files.]]></string>
 
 </resources>

@@ -12,8 +12,7 @@
             android:focusable="true"
             android:layout_margin="8dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_arrow_back_24dp"
-            android:tint="@color/primaryTextColor"
+            android:src="@drawable/ic_back_arrow_selected"
             android:id="@+id/back_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

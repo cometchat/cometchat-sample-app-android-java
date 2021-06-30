@@ -68,7 +68,7 @@
                 app:boxCornerRadiusTopStart="24dp"
                 app:boxStrokeColor="@color/secondaryTextColor"
                 app:boxStrokeWidth="1dp"
-                app:endIconDrawable="@drawable/ic_arrow_right_24dp"
+                app:endIconDrawable="@drawable/ic_arrow_right"
                 app:endIconMode="custom"
                 app:endIconTint="@color/primaryTextColor">
 

@@ -132,6 +132,7 @@ public class ComponentLoadActivity extends AppCompatActivity implements OnAlertD
         intent.putExtra(UIKitConstants.IntentStrings.AVATAR, user.getAvatar());
         intent.putExtra(UIKitConstants.IntentStrings.STATUS, user.getStatus());
         intent.putExtra(UIKitConstants.IntentStrings.NAME, user.getName());
+        intent.putExtra(UIKitConstants.IntentStrings.LINK,user.getLink());
         intent.putExtra(UIKitConstants.IntentStrings.TYPE, CometChatConstants.RECEIVER_TYPE_USER);
         startActivity(intent);
     }

@@ -113,7 +113,7 @@ public class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAdapter.
         } else if (groupMember.getScope().equals(CometChatConstants.SCOPE_MODERATOR)){
             groupMemberViewHolder.userListRowBinding.txtUserScope.setText(R.string.moderator);
         } else {
-            groupMemberViewHolder.userListRowBinding.txtUserScope.setText("");
+            groupMemberViewHolder.userListRowBinding.txtUserScope.setText(R.string.participant);
         }
 
         groupMemberViewHolder.userListRowBinding.txtUserName.setTypeface(fontUtils.getTypeFace(FontUtils.robotoMedium));

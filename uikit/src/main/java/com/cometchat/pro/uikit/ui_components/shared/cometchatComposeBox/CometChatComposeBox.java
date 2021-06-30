@@ -66,7 +66,7 @@ public class CometChatComposeBox extends RelativeLayout implements View.OnClickL
 
     private boolean isOpen,isRecording,isPlaying,voiceMessage;
 
-    public ImageView ivAudio,ivCamera,ivGallery, ivFile,ivSend,ivArrow,ivMic,ivDelete;
+    public ImageView ivSend,ivArrow,ivMic,ivDelete;
 
     private SeekBar voiceSeekbar;
 
@@ -151,29 +151,17 @@ public class CometChatComposeBox extends RelativeLayout implements View.OnClickL
         voiceMessageLayout=this.findViewById(R.id.voiceMessageLayout);
         recordTime=this.findViewById(R.id.record_time);
         voiceSeekbar=this.findViewById(R.id.voice_message_seekbar);
-        ivCamera=this.findViewById(R.id.ivCamera);
-        ivGallery=this.findViewById(R.id.ivImage);
-        ivAudio = this.findViewById(R.id.ivAudio);
-        ivFile =this.findViewById(R.id.ivFile);
-        ivSend=this.findViewById(R.id.ivSend);
         ivArrow=this.findViewById(R.id.ivArrow);
         etComposeBox=this.findViewById(R.id.etComposeBox);
-        rlActionContainer=this.findViewById(R.id.rlActionContainers);
+        ivSend=this.findViewById(R.id.ivSend);
 
         ivArrow.setImageTintList(ColorStateList.valueOf(color));
-        ivCamera.setImageTintList(ColorStateList.valueOf(color));
-        ivGallery.setImageTintList(ColorStateList.valueOf(color));
-        ivFile.setImageTintList(ColorStateList.valueOf(color));
         ivSend.setImageTintList(ColorStateList.valueOf(color));
 
-        ivAudio.setOnClickListener(this);
         ivArrow.setOnClickListener(this);
         ivSend.setOnClickListener(this);
         ivDelete.setOnClickListener(this);
-        ivFile.setOnClickListener(this);
         ivMic.setOnClickListener(this);
-        ivGallery.setOnClickListener(this);
-        ivCamera.setOnClickListener(this);
 
 
         composeBoxActionFragment = new CometChatComposeBoxActions();
@@ -257,25 +245,18 @@ public class CometChatComposeBox extends RelativeLayout implements View.OnClickL
 
         if (Utils.isDarkMode(context)) {
             composeBox.setBackgroundColor(getResources().getColor(R.color.darkModeBackground));
-            ivAudio.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.textColorWhite)));
-            ivMic.setImageDrawable(getResources().getDrawable(R.drawable.ic_mic_white_24dp));
+            ivMic.setImageDrawable(getResources().getDrawable(R.drawable.ic_microphone_white_selected));
             flBox.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.textColorWhite)));
             etComposeBox.setTextColor(getResources().getColor(R.color.textColorWhite));
             ivArrow.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.textColorWhite)));
             ivSend.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.textColorWhite)));
-            ivCamera.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.textColorWhite)));
-            ivGallery.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.textColorWhite)));
-            ivFile.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.textColorWhite)));
         } else {
             composeBox.setBackgroundColor(getResources().getColor(R.color.textColorWhite));
-            ivAudio.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-            ivMic.setImageDrawable(getResources().getDrawable(R.drawable.ic_mic_grey_24dp));
+            ivMic.setImageDrawable(getResources().getDrawable(R.drawable.ic_microphone_grey_selected));
             etComposeBox.setTextColor(getResources().getColor(R.color.primaryTextColor));
             ivSend.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
             flBox.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.grey)));
             ivArrow.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.grey)));
-            ivCamera.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-            ivFile.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
         }
         if (FeatureRestriction.getColor()!=null) {
             int settingsColor = Color.parseColor(FeatureRestriction.getColor());
@@ -362,18 +343,10 @@ public class CometChatComposeBox extends RelativeLayout implements View.OnClickL
     {
 
         ivSend.setImageTintList(ColorStateList.valueOf(color));
-        ivCamera.setImageTintList(ColorStateList.valueOf(color));
-        ivGallery.setImageTintList(ColorStateList.valueOf(color));
-        ivFile.setImageTintList(ColorStateList.valueOf(color));
-
         ivArrow.setImageTintList(ColorStateList.valueOf(color));
     }
     public void setComposeBoxListener(ComposeActionListener composeActionListener){
         this.composeActionListener=composeActionListener;
-
-        this.composeActionListener.getCameraActionView(ivCamera);
-        this.composeActionListener.getGalleryActionView(ivGallery);
-        this.composeActionListener.getFileActionView(ivFile);
     }
 
     @Override
@@ -385,18 +358,12 @@ public class CometChatComposeBox extends RelativeLayout implements View.OnClickL
             etComposeBox.setVisibility(View.VISIBLE);
             ivArrow.setVisibility(View.VISIBLE);
             ivMic.setVisibility(View.VISIBLE);
-            ivMic.setImageDrawable(getResources().getDrawable(R.drawable.ic_mic_grey_24dp));
+            ivMic.setImageDrawable(getResources().getDrawable(R.drawable.ic_microphone_grey_selected));
             isPlaying = false;
             isRecording = false;
             voiceMessage = false;
             ivDelete.setVisibility(GONE);
             ivSend.setVisibility(View.GONE);
-        }
-        if (view.getId()==R.id.ivCamera){
-//           composeActionListener.onCameraActionClicked(ivCamera);
-        }
-        if (view.getId()==R.id.ivImage){
-//           composeActionListener.onGalleryActionClicked(ivGallery);
         }
         if (view.getId()==R.id.ivSend){
             if (!voiceMessage) {
@@ -413,15 +380,9 @@ public class CometChatComposeBox extends RelativeLayout implements View.OnClickL
                 isRecording = false;
                 isPlaying = false;
                 voiceMessage = false;
-                ivMic.setImageResource(R.drawable.ic_mic_grey_24dp);
+                ivMic.setImageResource(R.drawable.ic_microphone_grey_selected);
             }
 
-        }
-        if(view.getId()==R.id.ivAudio) {
-//            composeActionListener.onAudioActionClicked(ivAudio);
-        }
-        if (view.getId()==R.id.ivFile){
-//           composeActionListener.onFileActionClicked(ivFile);
         }
         if(view.getId()==R.id.ivArrow) {
 //            if (isOpen) {

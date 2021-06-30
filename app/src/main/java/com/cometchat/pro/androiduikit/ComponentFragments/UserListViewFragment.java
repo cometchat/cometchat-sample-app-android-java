@@ -51,6 +51,7 @@ public class UserListViewFragment extends Fragment {
                 intent.putExtra(UIKitConstants.IntentStrings.TYPE, CometChatConstants.RECEIVER_TYPE_USER);
                 intent.putExtra(UIKitConstants.IntentStrings.NAME,user.getName());
                 intent.putExtra(UIKitConstants.IntentStrings.UID,user.getUid());
+                intent.putExtra(UIKitConstants.IntentStrings.LINK,user.getLink());
                 intent.putExtra(UIKitConstants.IntentStrings.AVATAR,user.getAvatar());
                 intent.putExtra(UIKitConstants.IntentStrings.STATUS,user.getStatus());
                 startActivity(intent);

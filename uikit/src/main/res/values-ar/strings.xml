@@ -277,7 +277,6 @@
     <string name="view_profile">عرض الصفحة الشخصية</string>
     <string name="delete_conversation_message">هل ترغب في حذف هذه المحادثة؟</string>
     <string name="deleting_conversation">حذف المحادثة</string>
-    <string name="reply_in_thread">الرد في الدردشة</string>
     <string name="err_internet_unavailable">لا يوجد إنترنت متاح</string>
     <string name="offline">غير متصل على الانترنت</string>
     <string name="new_messages">رسائل جديدة</string>

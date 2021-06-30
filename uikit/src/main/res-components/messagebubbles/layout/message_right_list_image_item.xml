@@ -80,7 +80,7 @@
             android:layout_marginBottom="8dp"
             android:textSize="12sp"
             android:layout_gravity="center"
-            tools:drawableEnd="@drawable/ic_double_tick"
+            tools:drawableEnd="@drawable/ic_message_read"
             android:layout_alignBottom="@+id/cv_image_message_container"
             android:layout_toLeftOf="@+id/cv_image_message_container"
             android:textStyle="bold"

@@ -150,7 +150,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="11:00 PM"
-            tools:drawableEnd="@drawable/ic_double_tick"
+            tools:drawableEnd="@drawable/ic_message_read"
             android:textSize="12sp"
             android:layout_alignBottom="@+id/cv_link_message_container"
             android:layout_gravity="center"

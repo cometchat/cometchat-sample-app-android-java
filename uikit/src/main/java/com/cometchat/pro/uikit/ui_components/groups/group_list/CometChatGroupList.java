@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -40,6 +41,7 @@ import com.cometchat.pro.uikit.ui_components.shared.cometchatGroups.CometChatGro
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
 import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.cometchat.pro.uikit.ui_resources.utils.item_clickListener.OnItemClickListener;
 import com.cometchat.pro.uikit.ui_components.groups.create_group.CometChatCreateGroupActivity;
@@ -65,9 +67,13 @@ public class CometChatGroupList extends Fragment  {
 
     private CometChatGroups rvGroupList;   //Uses to display list of groups.
 
-    private GroupsRequest groupsRequest;    //Uses to fetch Groups.
+    private SwipeRefreshLayout swipeRefreshLayout;
 
+    private GroupsRequest groupsRequest;    //Uses to fetch Groups.
+    private TextView title;
     private EditText etSearch;    //Uses to perform search operations on groups.
+
+    private boolean isGroupCreateVisible = true;
 
     private ImageView clearSearch;
 
@@ -87,14 +93,59 @@ public class CometChatGroupList extends Fragment  {
         // Required empty public constructor
     }
 
+
+    public void setGroupCreateVisible(boolean isVisible) {
+        Bundle bundle = null;
+        if (getArguments()!=null) {
+            bundle = getArguments();
+        } else {
+            bundle = new Bundle();
+        }
+        bundle.putBoolean(UIKitConstants.IntentStrings.CREATE_GROUP_VISIBLE, isVisible);
+        setArguments(bundle);
+    }
+
+    public void isGroupCreateVisible() {
+        if (getArguments()!=null) {
+            isGroupCreateVisible = getArguments()
+                    .getBoolean(UIKitConstants.IntentStrings.CREATE_GROUP_VISIBLE, true);
+            if (isGroupCreateVisible)
+                ivCreateGroup.setVisibility(View.VISIBLE);
+            else
+                ivCreateGroup.setVisibility(View.GONE);
+        }
+    }
+
+    public void setTitleVisible(boolean isVisible) {
+        Bundle bundle = null;
+        if (getArguments()!=null) {
+            bundle = getArguments();
+        } else {
+            bundle = new Bundle();
+        }
+        bundle.putBoolean(UIKitConstants.IntentStrings.IS_TITLE_VISIBLE,isVisible);
+        setArguments(bundle);
+    }
+
+    public void isTitleVisible() {
+        if (getArguments()!=null) {
+            boolean isVisible = getArguments()
+                    .getBoolean(UIKitConstants.IntentStrings.IS_TITLE_VISIBLE, true);
+            if (isVisible)
+                title.setVisibility(View.VISIBLE);
+            else
+                title.setVisibility(View.GONE);
+        }
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_cometchat_grouplist, container, false);
-        TextView title = view.findViewById(R.id.tv_title);
+        title = view.findViewById(R.id.tv_title);
         title.setTypeface(FontUtils.getInstance(getActivity()).getTypeFace(FontUtils.robotoMedium));
         rvGroupList=view.findViewById(R.id.rv_group_list);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
         noGroupLayout = view.findViewById(R.id.no_group_layout);
         etSearch = view.findViewById(R.id.search_bar);
         clearSearch = view.findViewById(R.id.clear_search);
@@ -103,6 +154,15 @@ public class CometChatGroupList extends Fragment  {
         ivCreateGroup = view.findViewById(R.id.create_group);
         ivCreateGroup.setImageTintList(ColorStateList.valueOf(Color.parseColor(FeatureRestriction.getColor())));
 
+        isTitleVisible();
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                groupsRequest = null;
+                rvGroupList.clear();
+                fetchGroup();
+            }
+        });
         FeatureRestriction.isGroupSearchEnabled(new FeatureRestriction.OnSuccessListener() {
             @Override
             public void onSuccess(Boolean booleanVal) {
@@ -115,7 +175,7 @@ public class CometChatGroupList extends Fragment  {
         FeatureRestriction.isGroupCreationEnabled(new FeatureRestriction.OnSuccessListener() {
             @Override
             public void onSuccess(Boolean booleanVal) {
-                if (booleanVal)
+                if (booleanVal && isGroupCreateVisible)
                     ivCreateGroup.setVisibility(View.VISIBLE);
                 else
                     ivCreateGroup.setVisibility(View.GONE);
@@ -224,11 +284,13 @@ public class CometChatGroupList extends Fragment  {
                     event.OnItemClick(group,position);
             }
         });
+        isGroupCreateVisible();
         return view;
     }
 
     private void checkGroups() {
-        if (isPublicGroupEnabled || isPasswordGroupEnabled || isPrivateGroupEnabled) {
+        if ((isPublicGroupEnabled || isPasswordGroupEnabled || isPrivateGroupEnabled)
+                && isGroupCreateVisible) {
             ivCreateGroup.setVisibility(View.VISIBLE);
         } else
             ivCreateGroup.setVisibility(View.GONE);
@@ -254,6 +316,8 @@ public class CometChatGroupList extends Fragment  {
             public void onSuccess(List<Group> groups) {
                 rvGroupList.setGroupList(groups); // sets the groups in rvGroupList i.e CometChatGroupList Component.
                 groupList.addAll(groups);
+                if (swipeRefreshLayout.isRefreshing())
+                    swipeRefreshLayout.setRefreshing(false);
                 if (groupList.size()==0) {
                     noGroupLayout.setVisibility(View.VISIBLE);
                     rvGroupList.setVisibility(View.GONE);

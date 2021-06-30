@@ -277,7 +277,6 @@
     <string name="view_profile">Ver perfil</string>
     <string name="delete_conversation_message">Você gostaria de excluir esta conversa?</string>
     <string name="deleting_conversation">Excluindo a conversa</string>
-    <string name="reply_in_thread">Responder em bate-papos</string>
     <string name="offline">desligado</string>
     <string name="new_messages">Novas mensagens</string>
     <string name="new_message">Nova mensagem</string>

@@ -83,20 +83,17 @@ public class CometChatCallList extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_cometchat_calls, container, false);
         tvTitle = view.findViewById(R.id.tv_title);
-        fetchSettings();
         CometChatError.init(getContext());
         phoneAddIv = view.findViewById(R.id.add_phone_iv);
-        if (oneOnoneCallEnabled || oneOnoneVideoCallEnabled)
-            phoneAddIv.setVisibility(View.VISIBLE);
-        else
-            phoneAddIv.setVisibility(View.GONE);
-
         phoneAddIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openUserListScreen();
             }
         });
+
+        fetchSettings();
+
         viewPager = view.findViewById(R.id.viewPager);
         tabLayout = view.findViewById(R.id.tabLayout);
         if (getActivity() != null) {
@@ -149,13 +146,15 @@ public class CometChatCallList extends Fragment {
         FeatureRestriction.isOneOnOneAudioCallEnabled(new FeatureRestriction.OnSuccessListener() {
             @Override
             public void onSuccess(Boolean booleanVal) {
-                oneOnoneCallEnabled = booleanVal;
+                if (booleanVal)
+                    phoneAddIv.setVisibility(View.VISIBLE);
             }
         });
         FeatureRestriction.isOneOnOneVideoCallEnabled(new FeatureRestriction.OnSuccessListener() {
             @Override
             public void onSuccess(Boolean booleanVal) {
-                oneOnoneVideoCallEnabled = booleanVal;
+                if (booleanVal)
+                    phoneAddIv.setVisibility(View.VISIBLE);
             }
         });
     }

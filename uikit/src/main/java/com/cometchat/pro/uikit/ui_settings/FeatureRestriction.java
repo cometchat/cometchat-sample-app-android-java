@@ -16,7 +16,6 @@ public class FeatureRestriction {
         return UIKitSettings.UIcolor;
     }
 
-
     public static void isUserListEnabled(OnSuccessListener onSuccessListener) {
         CometChat.isFeatureEnabled(Feature.chat_users_list_enabled, new CometChat.CallbackListener<Boolean>() {
             @Override
@@ -993,6 +992,14 @@ public class FeatureRestriction {
                 e.printStackTrace();
             }
         });
+    }
+
+    public static void isDeleteConversationEnabled(OnSuccessListener onSuccessListener) {
+        onSuccessListener.onSuccess(UIKitSettings.isDeleteConversation());
+    }
+
+    public static void isStartConversationEnabled(OnSuccessListener onSuccessListener) {
+        onSuccessListener.onSuccess(UIKitSettings.isStartConversation());
     }
 
     public interface OnSuccessListener {

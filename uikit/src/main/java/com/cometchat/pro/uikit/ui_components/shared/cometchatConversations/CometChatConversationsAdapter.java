@@ -219,15 +219,15 @@ public class CometChatConversationsAdapter extends RecyclerView.Adapter<CometCha
 
             if (baseMessage.getReadAt() != 0) {
                 txtTime.setText(Utils.getLastMessageDate(context,baseMessage.getSentAt()));
-                txtTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_double_tick, 0, 0, 0);
+                txtTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_message_read, 0, 0, 0);
                 txtTime.setCompoundDrawablePadding(10);
             } else if (baseMessage.getDeliveredAt() != 0) {
                 txtTime.setText(Utils.getHeaderDate(baseMessage.getSentAt()*1000));
-                txtTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_done_all_black_24dp, 0, 0, 0);
+                txtTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_message_delivered, 0, 0, 0);
                 txtTime.setCompoundDrawablePadding(10);
             } else {
                 txtTime.setText(Utils.getHeaderDate(baseMessage.getSentAt()*1000));
-                txtTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_black_24dp, 0, 0, 0);
+                txtTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_message_sent, 0, 0, 0);
                 txtTime.setCompoundDrawablePadding(10);
             }
         } else {
