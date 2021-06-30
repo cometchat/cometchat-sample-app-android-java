@@ -15,7 +15,6 @@
         android:gravity="center"
         tools:context=".SelectActivity">
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/directIntent"
                 android:layout_margin="8dp"
                 android:layout_width="match_parent"
                 app:rippleColor="@color/colorAccent"
@@ -66,7 +65,6 @@
             </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/usingScreen"
             android:layout_margin="8dp"
             android:layout_width="match_parent"
             app:cardCornerRadius="16dp"
@@ -211,7 +209,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/usingComponent"
             android:layout_margin="8dp"
             android:layout_width="match_parent"
             app:rippleColor="@color/colorAccent"

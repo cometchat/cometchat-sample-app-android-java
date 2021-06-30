@@ -74,6 +74,7 @@ public class CallListViewFragment extends Fragment {
                     intent.putExtra(UIKitConstants.IntentStrings.UID, user.getUid());
                     intent.putExtra(UIKitConstants.IntentStrings.NAME, user.getName());
                     intent.putExtra(UIKitConstants.IntentStrings.AVATAR, user.getAvatar());
+                    intent.putExtra(UIKitConstants.IntentStrings.LINK,user.getLink());
                     intent.putExtra(UIKitConstants.IntentStrings.STATUS, user.getStatus());
                     intent.putExtra(UIKitConstants.IntentStrings.IS_BLOCKED_BY_ME, user.isBlockedByMe());
                     intent.putExtra(UIKitConstants.IntentStrings.FROM_CALL_LIST,true);

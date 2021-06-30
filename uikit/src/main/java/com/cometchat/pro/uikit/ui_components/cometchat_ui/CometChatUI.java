@@ -40,6 +40,7 @@ import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.databinding.ActivityCometchatUnifiedBinding;
 import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
 import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
+import com.cometchat.pro.uikit.ui_resources.utils.EncryptionUtils;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -61,6 +62,11 @@ import com.cometchat.pro.uikit.ui_resources.utils.custom_alertDialog.OnAlertDial
 import com.cometchat.pro.uikit.ui_resources.utils.item_clickListener.OnItemClickListener;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
+
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Purpose - CometChatUnified class is main class used to launch the fully working chat application.
@@ -120,8 +126,6 @@ public class CometChatUI extends AppCompatActivity implements
         initViewComponent();
         // It performs action on click of user item in CometChatUserListScreen.
         setUserClickListener();
-
-
 
         //It performs action on click of group item in CometChatGroupListScreen.
         //It checks whether the logged-In user is already a joined a group or not and based on it perform actions.

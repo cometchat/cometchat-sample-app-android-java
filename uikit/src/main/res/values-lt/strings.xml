@@ -307,7 +307,6 @@
     <string name="delete_conversation_message">Ar norėtumėte ištrinti šį pokalbį?</string>
     <string name="deleting_conversation">Ištrinamas pokalbis</string>
     <string name="is_typing">rašo ..</string>
-    <string name="reply_in_thread">Atsakyti pokalbiuose</string>
     <string name="offline">neprisijungęs</string>
     <string name="new_messages">Nauji pranešimai</string>
     <string name="new_message">Nauja žinutė</string>

@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/icon"
-                    android:src="@drawable/ic_videocam_24dp"
+                    android:src="@drawable/ic_video_call"
                     android:tint="@color/textColorWhite"
                     android:layout_width="32dp"
                     android:layout_centerVertical="true"
@@ -50,7 +50,8 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginBottom="16dp"
-                android:textColor="@color/primaryTextColor"
+                android:textColor="@color/colorPrimary"
+                android:background="@color/textColorWhite"
                 app:backgroundTint="@color/textColorWhite"
                 app:cornerRadius="8dp"
                 android:id="@+id/join_call"

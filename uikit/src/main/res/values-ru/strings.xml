@@ -283,7 +283,6 @@
     <string name="reply">ответы</string>
     <string name="decline">Отклонить</string>
     <string name="accept">Принять</string>
-    <string name="reply_in_thread">Ответить в ветке</string>
     <string name="votes">голоса</string>
     <string name="vote">проголосовать</string>
     <string name="delivered">Доставлено</string>

@@ -6,7 +6,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignParentEnd="true"
-    app:cardCornerRadius="4dp"
+    app:cardCornerRadius="8dp"
     app:cardElevation="0dp"
     app:cardBackgroundColor="@android:color/transparent"
     android:orientation="vertical"
@@ -21,9 +21,9 @@
         />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:maxWidth="200dp"
-        android:padding="8dp"
-        android:minWidth="180dp"
+        android:maxWidth="250dp"
+        android:padding="16dp"
+        android:minWidth="200dp"
         android:background="@drawable/left_border_rmessage"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxWidth="150dp"
+            android:maxWidth="200dp"
             android:maxLines="1"
             android:textColor="@color/textColorWhite"
             android:textStyle="bold"

@@ -28,7 +28,7 @@
                     android:layout_centerVertical="true"
                     android:padding="8dp"
                     android:id="@+id/icon"
-                    android:src="@drawable/ic_writeboard_24dp"
+                    android:src="@drawable/ic_collaborative_document"
                     android:tint="@color/textColorWhite"
                     android:layout_width="36dp"
                     android:layout_height="36dp"/>

@@ -2696,7 +2696,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
                 String messageStr = String.format(getResources().getString(R.string.shared_a_audio),
                         Utils.getFileSize(((MediaMessage) baseMessage).getAttachment().getFileSize()));
                 replyMessage.setText(messageStr);
-                replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_library_music_24dp, 0, 0, 0);
+                replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_audio, 0, 0, 0);
             } else if (baseMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_VIDEO)) {
                 replyMessage.setText(getResources().getString(R.string.shared_a_video));
                 Glide.with(context).load(((MediaMessage) baseMessage).getAttachment().getFileUrl()).into(replyMedia);
@@ -2704,7 +2704,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
                 String messageStr = String.format(getResources().getString(R.string.shared_a_file),
                         Utils.getFileSize(((MediaMessage) baseMessage).getAttachment().getFileSize()));
                 replyMessage.setText(messageStr);
-                replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_insert_drive_file_black_24dp, 0, 0, 0);
+                replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_file_upload, 0, 0, 0);
             }
             composeBox.ivSend.setVisibility(View.VISIBLE);
             replyMessageLayout.setVisibility(View.VISIBLE);

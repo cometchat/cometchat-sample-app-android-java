@@ -277,7 +277,6 @@
     <string name="view_profile">प्रोफ़ाइल देखें</string>
     <string name="delete_conversation_message">क्या आप इस वार्तालाप को हटाना चाहेंगे?</string>
     <string name="deleting_conversation">वार्तालाप हटाना</string>
-    <string name="reply_in_thread">चैट में जवाब दें</string>
     <string name="offline">ऑफ़लाइन</string>
     <string name="new_messages">नए संदेश</string>
     <string name="new_message">नया संदेश</string>

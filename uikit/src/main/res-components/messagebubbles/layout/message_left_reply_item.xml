@@ -19,7 +19,7 @@
         android:alpha="0.2"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:maxWidth="200dp"
+        android:maxWidth="250dp"
         android:padding="16dp"
         android:minWidth="200dp"
         android:background="@drawable/left_border_lmessage"
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxWidth="150dp"
+            android:maxWidth="200dp"
             android:maxLines="1"
             android:textColor="@color/primaryTextColor"
             android:textStyle="bold"
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxWidth="150dp"
+            android:maxWidth="200dp"
             android:maxLines="3"
             android:textColor="@color/primaryTextColor"
             app:layout_constraintStart_toStartOf="parent"

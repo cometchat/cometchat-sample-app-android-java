@@ -276,7 +276,6 @@
     <string name="view_profile">Profil anzeigen</string>
     <string name="delete_conversation_message">Möchten Sie diese Konversation löschen?</string>
     <string name="deleting_conversation">Gespräch löschen</string>
-    <string name="reply_in_thread">Im Thread antworten</string>
     <string name="offline">offline</string>
     <string name="new_messages">Neue Nachrichten</string>
     <string name="new_message">Neue Nachricht</string>

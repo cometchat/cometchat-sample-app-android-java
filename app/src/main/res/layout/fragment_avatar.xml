@@ -74,7 +74,6 @@
                     android:layout_height="wrap_content"/>
                 <RadioButton
                     android:layout_margin="8dp"
-                    android:id="@+id/rectangle"
                     android:text="Rectangle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>

@@ -48,7 +48,7 @@
                     android:padding="8dp"
                     android:id="@+id/icon"
                     android:tint="@color/grey_200"
-                    android:src="@drawable/ic_writeboard_24dp"
+                    android:src="@drawable/ic_collaborative_document"
                     android:layout_width="36dp"
                     android:layout_height="36dp"/>
                 <TextView

@@ -1,10 +1,10 @@
 apply plugin: 'com.android.library'
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -90,6 +90,6 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     //cometchat
-    compileOnly 'com.cometchat:pro-android-chat-sdk:2.3.5'
+    compileOnly'com.cometchat:pro-android-chat-sdk:2.3.5'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.0'
 }

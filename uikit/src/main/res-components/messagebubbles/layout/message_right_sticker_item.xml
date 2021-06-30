@@ -32,7 +32,7 @@
             android:textSize="12sp"
             android:textStyle="bold"
             android:visibility="gone"
-            tools:drawableEnd="@drawable/ic_double_tick"
+            tools:drawableEnd="@drawable/ic_message_read"
             tools:text="11:00 PM"
             tools:visibility="visible" />
         <HorizontalScrollView

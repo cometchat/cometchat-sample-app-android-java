@@ -5,11 +5,8 @@
     <color name="colorAccent">#69c9ff</color>
     <color name="primaryTextColor">#FF000000</color>
     <color name="textColorWhite">#FFFFFF</color>
-    <color name="bottom">#FAFAFA</color>
     <color name="secondaryTextColor">#6b000000</color>
     <color name="light_grey">#eeeeee</color>
-    <color name="message_bubble_grey">#e0e0e0</color>
-    <color name="message_text_grey">#757575</color>
     <color name="menu_background_grey">#40bdbdbd</color>
 
     <!--Used in color palette-->

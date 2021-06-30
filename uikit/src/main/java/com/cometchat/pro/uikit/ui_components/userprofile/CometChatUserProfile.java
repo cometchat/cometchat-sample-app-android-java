@@ -25,6 +25,7 @@ import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.databinding.FragmentCometchatUserProfileBinding;
 import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar;
+import com.cometchat.pro.uikit.ui_components.users.block_users.CometChatBlockUserListActivity;
 import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -60,18 +61,10 @@ public class CometChatUserProfile extends Fragment {
         moreInfoScreenBinding.privacyAndSecurity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(), CometChatMorePrivacyActivity.class));
+                startActivity(new Intent(getContext(), CometChatBlockUserListActivity.class));
             }
         });
 
-        if (FeatureRestriction.getColor()!=null) {
-            int widgetColor = Color.parseColor(FeatureRestriction.getColor());
-            Drawable wrappedDrawable = DrawableCompat.wrap(getResources().
-                    getDrawable(R.drawable.ic_security_24dp));
-            wrappedDrawable.setTint(widgetColor);
-            DrawableCompat.setTint(wrappedDrawable, widgetColor);
-            moreInfoScreenBinding.ivSecurity.setImageDrawable(wrappedDrawable);
-        }
         if(Utils.isDarkMode(getContext())) {
             moreInfoScreenBinding.tvTitle.setTextColor(getResources().getColor(R.color.textColorWhite));
             moreInfoScreenBinding.tvSeperator.setBackgroundColor(getResources().getColor(R.color.grey));
@@ -82,7 +75,7 @@ public class CometChatUserProfile extends Fragment {
             moreInfoScreenBinding.tvSeperator1.setBackgroundColor(getResources().getColor(R.color.light_grey));
         }
 
-        moreInfoScreenBinding.userContainer.setOnClickListener(new View.OnClickListener() {
+        moreInfoScreenBinding.editUserProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateUserDialog();
@@ -109,7 +102,7 @@ public class CometChatUserProfile extends Fragment {
         }
         else {
             avatar.setVisibility(View.VISIBLE);
-            avatar_url.setVisibility(View.GONE);
+            avatar_url.setVisibility(View.VISIBLE);
         }
         avatar_url.addTextChangedListener(new TextWatcher() {
             @Override

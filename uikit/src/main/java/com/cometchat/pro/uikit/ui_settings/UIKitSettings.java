@@ -33,6 +33,9 @@ public class UIKitSettings {
     private static boolean calls = true;
     private static boolean userSettings = true;
 
+    private static boolean startConversation = true;
+    private static boolean deleteConversation = true;
+
     private static boolean sendMessageInOneOneOne = true;
     private static boolean sendMessageInGroup = true;
 
@@ -327,6 +330,15 @@ public class UIKitSettings {
 
     public static void setColor(String color) {
         UIcolor = color;
+    }
+
+
+    public static void deleteConversation(boolean isEnabled) {
+        deleteConversation = isEnabled;
+    }
+
+    public static void startConversation(boolean isEanbled) {
+        startConversation = isEanbled;
     }
 
     public static void users(boolean showUsers) {
@@ -904,4 +916,11 @@ public class UIKitSettings {
         return hideDeleteMessage;
     }
 
+    public static boolean isDeleteConversation() {
+        return deleteConversation;
+    }
+
+    public static boolean isStartConversation() {
+        return startConversation;
+    }
 }

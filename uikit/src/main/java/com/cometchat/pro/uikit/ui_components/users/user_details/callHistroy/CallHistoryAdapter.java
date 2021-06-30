@@ -136,20 +136,23 @@ public class CallHistoryAdapter extends RecyclerView.Adapter<CallHistoryAdapter.
             callMessageText = callMessageText+" "+context.getResources().getString(R.string.audio_call);
             isVideo = false;
         }
-        if (isVideo)
-        {
-            callViewHolder.callHistoryRowBinding.callInfoTv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_videocam_24dp,0,0,0);
+        if (isVideo) {
+            if(isIncoming) {
+                callViewHolder.callHistoryRowBinding.callInfoTv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_incoming_video_call,0,0,0);
+            } else {
+                callViewHolder.callHistoryRowBinding.callInfoTv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_outgoing_video_call,0,0,0);
+            }
         }
         else
         {
             if (isIncoming && isMissed) {
                 callViewHolder.callHistoryRowBinding.callInfoTv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_call_missed_incoming_24dp,0,0,0);
             } else if(isIncoming && !isMissed) {
-                callViewHolder.callHistoryRowBinding.callInfoTv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_call_incoming_24dp,0,0,0);
+                callViewHolder.callHistoryRowBinding.callInfoTv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_incoming_call,0,0,0);
             } else if (!isIncoming && isMissed) {
                 callViewHolder.callHistoryRowBinding.callInfoTv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_call_missed_outgoing_24dp,0,0,0);
             } else {
-                callViewHolder.callHistoryRowBinding.callInfoTv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_call_outgoing_24dp,0,0,0);
+                callViewHolder.callHistoryRowBinding.callInfoTv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_outgoing_call,0,0,0);
             }
         }
         callViewHolder.callHistoryRowBinding.callTimeTv.setText(Utils.getHeaderDate(call.getInitiatedAt()*1000));

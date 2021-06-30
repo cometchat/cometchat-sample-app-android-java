@@ -305,7 +305,6 @@
     <string name="delete_conversation_message">Vill du radera den här konversationen?</string>
     <string name="deleting_conversation">Tar bort konversation</string>
     <string name="is_typing">skriver..</string>
-    <string name="reply_in_thread">Svara i chatt</string>
     <string name="offline">off-line</string>
     <string name="new_messages">Nya meddelanden</string>
     <string name="new_message">Nytt meddelande</string>

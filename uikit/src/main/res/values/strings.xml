@@ -273,11 +273,11 @@
     <string name="joined">joined</string>
     <string name="unban">Unban</string>
     <string name="made">made</string>
-    <string name="participant">participant</string>
+    <string name="participant">Participant</string>
     <string name="translate_message">Translate Message</string>
     <string name="no_translation_available">No translation available</string>
-    <string name="has_shared_group_call">has shared a group call.</string>
-    <string name="you_created_group_call">You\'ve created a group call.</string>
+    <string name="has_shared_group_call">has initiated a group call.</string>
+    <string name="you_created_group_call">You\'ve initiated a group call.</string>
     <string name="custom_message_meeting">"📹 Group Call "</string>
     <string name="retry">Retry</string>
     <string name="uploading">Uploading</string>
@@ -331,6 +331,10 @@
     <string name="new_message"> New Message</string>
     <string name="new_messages">" New Messages"</string>
     <string name="offline">offline</string>
-    <string name="reply_in_thread">Reply in Thread</string>
     <string name="err_internet_unavailable">No Internet Available</string>
+    <string name="select_user">Select User</string>
+    <string name="select_group">Select Group</string>
+    <string name="search_users">Search Users</string>
+    <string name="search_groups">Search Groups</string>
+    <string name="background_location_permission_title">Allow Background Location Permisssion</string>
 </resources>

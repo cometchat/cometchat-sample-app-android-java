@@ -143,7 +143,7 @@ public class CometChatMessageActions extends BottomSheetDialogFragment {
             });
         }
         ImageView addEmojiView = new ImageView(getContext());
-        addEmojiView.setImageDrawable(getResources().getDrawable(R.drawable.add_emoji));
+        addEmojiView.setImageDrawable(getResources().getDrawable(R.drawable.ic_reactions));
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 (int)Utils.dpToPx(getContext(),36),(int)Utils.dpToPx(getContext(),36));
         layoutParams.topMargin = 8;
