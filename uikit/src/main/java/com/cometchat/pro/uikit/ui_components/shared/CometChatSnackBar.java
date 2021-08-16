@@ -37,21 +37,21 @@ public class CometChatSnackBar {
         ImageView closeImage = dialogView.findViewById(R.id.iv_close);
         ImageView iconImage = dialogView.findViewById(R.id.iv_icon);
         if (type.equalsIgnoreCase(ERROR)) {
-            iconImage.setImageResource(R.drawable.ic_baseline_error_24);
+            iconImage.setImageResource(R.drawable.ic_error);
             iconImage.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.textColorWhite)));
             closeImage.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.textColorWhite)));
             messageTv.setTextColor(ColorStateList.valueOf(context.getResources().getColor(R.color.textColorWhite)));
             dialogView.setBackgroundColor(context.getResources().getColor(R.color.red));
         } else if (type.equalsIgnoreCase(INFO)) {
             snackbar.setDuration(Snackbar.LENGTH_LONG);
-            iconImage.setImageResource(R.drawable.ic_info_image);
+            iconImage.setImageResource(R.drawable.ic_info);
             iconImage.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.textColorWhite)));
             closeImage.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.textColorWhite)));
             messageTv.setTextColor(ColorStateList.valueOf(context.getResources().getColor(R.color.textColorWhite)));
             dialogView.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
         } else if (type.equalsIgnoreCase(WARNING)) {
             snackbar.setDuration(Snackbar.LENGTH_LONG);
-            iconImage.setImageResource(R.drawable.ic_warning_image);
+            iconImage.setImageResource(R.drawable.ic_report);
             iconImage.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.textColorWhite)));
             closeImage.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.textColorWhite)));
             messageTv.setTextColor(ColorStateList.valueOf(context.getResources().getColor(R.color.textColorWhite)));

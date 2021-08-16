@@ -67,6 +67,8 @@ public class UIKitConstants {
 
         public static final String MESSAGE_TYPE_IMAGE_SIZE = "file_size";
 
+        public static final String MESSAGE = "message";
+
         public static final String SHOW_MODERATORLIST = "is_moderator";
 
         public static final String GROUP_DESC = "group_description";
@@ -109,7 +111,7 @@ public class UIKitConstants {
 
         public static final String TRANSFER_OWNERSHIP = "transfer_ownership";
 
-        public static final String STICKERS = "Sticker";
+        public static final String STICKERS = "extension_sticker";
 
         public static final String REACTION_INFO = "reaction_info";
 
@@ -130,6 +132,9 @@ public class UIKitConstants {
         public static final String INTENT_MEDIA_VIDEO_MESSAGE = "intent_media_video_message";
 
         public static final String LINK = "link";
+
+        public static final String IS_TITLE_VISIBLE = "IS_TITLE_VISIBLE";
+        public static final String CREATE_GROUP_VISIBLE = "IS_CREATE_GROUP_VISIBLE";
 
         public static String POLL_QUESTION = "poll_question";
 

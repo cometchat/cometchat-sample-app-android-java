@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             tools:text="11:00 PM"
             android:layout_marginBottom="16dp"
-            tools:drawableEnd="@drawable/ic_double_tick"
+            tools:drawableEnd="@drawable/ic_message_read"
             android:textSize="12sp"
             android:layout_toLeftOf="@id/cv_image_message_container"
             android:layout_gravity="center"

@@ -8,7 +8,6 @@
     <TextView
         android:id="@+id/tv_title"
         android:text="@string/users"
-        android:visibility="gone"
         tools:visibility="visible"
         android:textColor="@color/primaryTextColor"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
@@ -29,11 +28,11 @@
         <EditText
             android:focusedByDefault="false"
             android:id="@+id/search_bar"
-            android:hint="@string/search"
+            android:hint="@string/search_users"
             android:imeOptions="actionSearch"
             android:maxLines="1"
             android:inputType="text"
-            android:drawableStart="@drawable/ic_search_24dp"
+            android:drawableStart="@drawable/ic_search"
             android:drawablePadding="5dp"
             android:padding="8dp"
             android:background="@drawable/search_box"
@@ -71,8 +70,8 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeToRefresh"
         android:layout_width="match_parent"
+        android:id="@+id/swipe_refresh"
         android:layout_below="@id/rl_search_box"
         android:layout_height="wrap_content">
 

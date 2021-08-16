@@ -28,6 +28,7 @@ import com.cometchat.pro.uikit.ui_components.messages.message_actions.listener.M
 import com.cometchat.pro.uikit.ui_components.messages.message_actions.listener.OnMessageLongClick;
 
 import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 
 /**
 
@@ -109,8 +110,8 @@ public class CometChatThreadMessageListActivity extends AppCompatActivity implem
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cometchat_message_list);
 
-        if (FeatureRestriction.getColor() !=null) {
-            getWindow().setStatusBarColor(Color.parseColor(FeatureRestriction.getColor()));
+        if (UIKitSettings.getColor() !=null) {
+            getWindow().setStatusBarColor(Color.parseColor(UIKitSettings.getColor()));
         }
         EmojiCompat.Config config = new BundledEmojiCompatConfig(this);
         EmojiCompat.init(config);

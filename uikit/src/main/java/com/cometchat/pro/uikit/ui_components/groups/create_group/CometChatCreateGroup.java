@@ -89,7 +89,7 @@ public class CometChatCreateGroup extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!etGroupPassword.getText().toString().isEmpty() && s.toString().equals(etGroupPassword.getText().toString())) {
-                    groupCnfPasswordLayout.setEndIconDrawable(getResources().getDrawable(R.drawable.ic_check_black_24dp));
+                    groupCnfPasswordLayout.setEndIconDrawable(getResources().getDrawable(R.drawable.ic_baseline_check_circle_24));
                     groupCnfPasswordLayout.setEndIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.green_600)));
                 }
             }

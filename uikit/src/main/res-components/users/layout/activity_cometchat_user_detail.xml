@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:id="@+id/user_detail_toolbar"
         app:title="@string/user_title"
+        app:navigationIcon="@drawable/ic_back_arrow_selected"
         android:layout_height="wrap_content"/>
 
     <androidx.core.widget.NestedScrollView
@@ -28,12 +29,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="72dp">
                 <com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar
-                    android:layout_width="40dp"
+                    android:layout_width="36dp"
                     tools:src="@tools:sample/avatars"
+                    app:corner_radius="18dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:id="@+id/iv_user"
-                    android:layout_height="40dp"/>
+                    android:layout_height="36dp"/>
                 <LinearLayout
                     android:layout_marginStart="16dp"
                     android:layout_toEndOf="@id/iv_user"

@@ -2,11 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/item_remove"
+        android:icon="@drawable/ic_delete"
         android:title="@string/remove" />
     <item android:id="@+id/item_ban"
+        android:icon="@drawable/ic_block_24dp"
         android:title="@string/ban_member" />
 
     <item android:id="@+id/item_make_admin"
+        android:icon="@drawable/ic_add_users_to_group"
         android:title="@string/make_group_admin"/>
 
 </menu>

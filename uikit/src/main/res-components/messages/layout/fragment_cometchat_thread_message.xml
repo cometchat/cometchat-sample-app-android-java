@@ -143,8 +143,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <ImageView
-                            android:id="@+id/ivIcon"
-                            android:src="@drawable/ic_insert_drive_file_black_24dp"
+                            android:src="@drawable/ic_file_upload"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                         <TextView
@@ -225,7 +224,7 @@
                         android:id="@+id/whiteboard_icon"
                         android:background="@drawable/cc_message_bubble_right"
                         android:backgroundTint="@color/grey_200"
-                        android:src="@drawable/ic_whiteboard_24dp"
+                        android:src="@drawable/ic_collaborative_whiteboard"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <TextView
@@ -265,7 +264,7 @@
                         android:id="@+id/writeboard_icon"
                         android:background="@drawable/cc_message_bubble_right"
                         android:backgroundTint="@color/grey_200"
-                        android:src="@drawable/ic_whiteboard_24dp"
+                        android:src="@drawable/ic_collaborative_whiteboard"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <TextView
@@ -286,7 +285,6 @@
                         android:layout_marginBottom="8dp"
                         app:backgroundTint="@color/grey_100"
                         app:cornerRadius="16dp"
-                        android:id="@+id/join_writeboard"
                         android:layout_height="wrap_content"/>
                 </RelativeLayout>
             </RelativeLayout>
@@ -321,7 +319,7 @@
                     android:layout_height="wrap_content">
                     <ImageView
                         android:id="@+id/add_reaction"
-                        android:src="@drawable/add_emoji"
+                        android:src="@drawable/ic_reactions"
                         android:clickable="true"
                         android:layout_marginRight="16dp"
                         android:foreground="?selectableItemBackground"
@@ -331,8 +329,7 @@
                         android:id="@+id/ic_forward_option"
                         android:clickable="true"
                         android:foreground="?selectableItemBackground"
-                        android:tint="@color/primaryTextColor"
-                        android:src="@drawable/ic_baseline_forward_24"
+                        android:src="@drawable/ic_forward"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <ImageView
@@ -357,7 +354,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <ImageView
-                    android:src="@drawable/ic_chat"
+                    android:src="@drawable/ic_chats"
                     android:alpha="0.7"
                     android:layout_width="64dp"
                     android:layout_height="64dp"/>

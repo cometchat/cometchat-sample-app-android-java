@@ -101,7 +101,8 @@ public class CometChatBlockUserList extends Fragment {
                 if (getActivity()!=null) {
                     MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(getActivity());
                     alert.setTitle(getResources().getString(R.string.unblock));
-                    alert.setMessage(String.format(getResources().getString(R.string.unblock_user_question),user.getName()));
+                    String message = String.format(getResources().getString(R.string.unblock_user_question),user.getName());
+                    alert.setMessage(message);
                     alert.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {

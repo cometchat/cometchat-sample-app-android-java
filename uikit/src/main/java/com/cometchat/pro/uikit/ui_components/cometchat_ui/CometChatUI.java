@@ -40,6 +40,8 @@ import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.databinding.ActivityCometchatUnifiedBinding;
 import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
 import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
+import com.cometchat.pro.uikit.ui_resources.utils.EncryptionUtils;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -61,6 +63,11 @@ import com.cometchat.pro.uikit.ui_resources.utils.custom_alertDialog.OnAlertDial
 import com.cometchat.pro.uikit.ui_resources.utils.item_clickListener.OnItemClickListener;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
+
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Purpose - CometChatUnified class is main class used to launch the fully working chat application.
@@ -121,8 +128,6 @@ public class CometChatUI extends AppCompatActivity implements
         // It performs action on click of user item in CometChatUserListScreen.
         setUserClickListener();
 
-
-
         //It performs action on click of group item in CometChatGroupListScreen.
         //It checks whether the logged-In user is already a joined a group or not and based on it perform actions.
         setGroupClickListener();
@@ -148,26 +153,20 @@ public class CometChatUI extends AppCompatActivity implements
         CometChatGroupList.setItemClickListener(new OnItemClickListener<Group>() {
             @Override
             public void OnItemClick(Group g, int position) {
-                FeatureRestriction.isGroupChatEnabled(new FeatureRestriction.OnSuccessListener() {
-                    @Override
-                    public void onSuccess(Boolean booleanVal) {
-                        group = g;
-                        if (group.isJoined()) {
-                            startGroupIntent(group);
-                        } else {
-                            if (group.getGroupType().equals(CometChatConstants.GROUP_TYPE_PASSWORD)) {
-                                View dialogview = getLayoutInflater().inflate(R.layout.cc_dialog, null);
-                                TextView tvTitle = dialogview.findViewById(R.id.textViewDialogueTitle);
-                                tvTitle.setText(String.format(getResources().getString(R.string.enter_password_to_join),group.getName()));
-                                new CustomAlertDialogHelper(CometChatUI.this, getResources().getString(R.string.password), dialogview, getResources().getString(R.string.join),
-                                        "", getResources().getString(R.string.cancel), CometChatUI.this, 1, false);
-                            } else if (group.getGroupType().equals(CometChatConstants.GROUP_TYPE_PUBLIC)) {
-                                joinGroup(group);
-                            }
-                        }
-
+                group = g;
+                if (group.isJoined()) {
+                    startGroupIntent(group);
+                } else {
+                    if (group.getGroupType().equals(CometChatConstants.GROUP_TYPE_PASSWORD)) {
+                        View dialogview = getLayoutInflater().inflate(R.layout.cc_dialog, null);
+                        TextView tvTitle = dialogview.findViewById(R.id.textViewDialogueTitle);
+                        tvTitle.setText(String.format(getResources().getString(R.string.enter_password_to_join),group.getName()));
+                        new CustomAlertDialogHelper(CometChatUI.this, getResources().getString(R.string.password), dialogview, getResources().getString(R.string.join),
+                                "", getResources().getString(R.string.cancel), CometChatUI.this, 1, false);
+                    } else if (group.getGroupType().equals(CometChatConstants.GROUP_TYPE_PUBLIC)) {
+                        joinGroup(group);
                     }
-                });
+                }
             }
         });
     }
@@ -176,13 +175,7 @@ public class CometChatUI extends AppCompatActivity implements
         CometChatUserList.setItemClickListener(new OnItemClickListener<User>() {
             @Override
             public void OnItemClick(User user, int position) {
-                FeatureRestriction.isOneOnOneChatEnabled(new FeatureRestriction.OnSuccessListener() {
-                    @Override
-                    public void onSuccess(Boolean booleanVal) {
-                        if (booleanVal)
-                            startUserIntent(user);
-                    }
-                });
+                startUserIntent(user);
             }
         });
     }
@@ -206,9 +199,9 @@ public class CometChatUI extends AppCompatActivity implements
 
         activityCometChatUnifiedBinding.bottomNavigation.setOnNavigationItemSelectedListener(this);
 
-        if (FeatureRestriction.getColor()!=null && !FeatureRestriction.getColor().isEmpty()) {
-            getWindow().setStatusBarColor(Color.parseColor(FeatureRestriction.getColor()));
-            int widgetColor = Color.parseColor(FeatureRestriction.getColor());
+        if (UIKitSettings.getColor()!=null && !UIKitSettings.getColor().isEmpty()) {
+            getWindow().setStatusBarColor(Color.parseColor(UIKitSettings.getColor()));
+            int widgetColor = Color.parseColor(UIKitSettings.getColor());
             ColorStateList colorStateList = new ColorStateList(new int[][] {
                     { -android.R.attr.state_selected }, {} }, new int[] { Color.GRAY, widgetColor });
 

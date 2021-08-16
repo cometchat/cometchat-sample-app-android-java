@@ -18,6 +18,7 @@
             android:id="@+id/iv_user"
             tools:src="@tools:sample/avatars"
             android:layout_marginBottom="4dp"
+            app:corner_radius="12dp"
             android:layout_marginStart="4dp"
             android:layout_height="24dp"/>
         <TextView
@@ -46,8 +47,7 @@
                 <ImageView
                     android:layout_marginTop="8dp"
                     android:id="@+id/icon"
-                    android:src="@drawable/ic_videocam_24dp"
-                    android:tint="@color/grey_200"
+                    android:src="@drawable/ic_video_call_selected"
                     android:layout_width="32dp"
                     android:layout_marginLeft="8dp"
                     android:layout_centerVertical="true"
@@ -69,8 +69,9 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginBottom="16dp"
+                android:background="@color/textColorWhite"
                 app:backgroundTint="@color/textColorWhite"
-                android:textColor="@color/primaryTextColor"
+                android:textColor="@color/colorPrimary"
                 app:cornerRadius="8dp"
                 android:id="@+id/join_call"
                 android:layout_height="wrap_content"/>

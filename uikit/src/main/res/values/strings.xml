@@ -64,22 +64,17 @@
 
     <!--Groups -->
     <string name="kindly_enter_group_details_to_proceed">Kindly, enter group details to proceed</string>
-    <string name="unable_to_join_message">Unable to join group</string>
     <string name="make_admin_question">Do you like to make %1$s as a Admin</string>
     <string name="remove_from_group">⚠️ Remove from %1$s</string>
     <string name="add_user_to_group">Add  %1$s  to \" %2$s \"</string>
     <string name="user_added_to_group">%1$s is added to \"  %2$s \"</string>
     <string name="user_removed_from_group">%1$s is removed from \" %2$s \"</string>
-    <string name="kicked_error">Group Member Kicked Failed</string>
     <string name="leave_group_message">Would you like to leave from group ?</string>
     <string name="delete_group">Delete Group</string>
     <string name="delete_group_message">Delete the group</string>
-    <string name="group_delete_error">Group Deletion Failed</string>
     <string name="cannot_remove_member">Can\'t remove %1$s</string>
-    <string name="leave_group_error">Unable to leave group</string>
     <string name="load_more">Load More</string>
     <string name="load_more_members">Load more %1$s members</string>
-    <string name="group_list_error">Unable to fetch Group List</string>
     <string name="password">Password</string>
     <string name="joining">Joining</string>
     <string name="incorrect">Incorrect</string>
@@ -93,13 +88,11 @@
     <string name="enter_password_to_join">Enter Password to join %1$s</string>
     <string name="no_ban_members">No Banned Members</string>
     <string name="moderators">Moderators</string>
-    <string name="moderator_list_retrieve_error">Unable to retrieve moderator list.</string>
     <string name="make_moderator_question">Do you like to make %1$s as a Moderator</string>
     <string name="only_admin_removes_moderator">Only Admin can remove moderator</string>
     <string name="update_group">Update Group</string>
     <string name="enter_group_icon_url">Enter Group Icon Url</string>
     <string name="group_updated">Group Successfully Updated</string>
-    <string name="group_update_failed">Group not updated</string>
     <string name="enter_old_group_pwd">Enter Old Password</string>
     <string name="enter_new_password">Enter new password</string>
     <string name="group_alert">Group Alert</string>
@@ -108,8 +101,6 @@
     <string name="make_owner_question">Do you like to make %1$s as a Owner</string>
     <string name="user_is_owner">%1$s is now Owner</string>
     <string name="not_a_member">You are not a member of this group (%1$s)</string>
-    <string name="owner_alert">Owner Alert</string>
-    <string name="owner_alert_message">Please transfer group ownership to another member before leaving the group</string>
     <array name="groupType">
         <item>Public Group</item>
         <item>Private Group</item>
@@ -123,11 +114,7 @@
     <string name="only_group_owner_removes_admin">Only group owner can remove admin.</string>
     <string name="removed_from_admin">is removed from admin privilege</string>
     <string name="update_group_member_error">Unable to update Group Member</string>
-    <string name="admin_list_retrieve_error" >Admin list retrieval failed</string>
-    <string name="create_group_error">Unable to create a group</string>
     <string name="update_scope_error">Operation failed on %1$s</string>
-    <string name="group_member_list_error">Error : Not able to load group member list</string>
-    <string name="ban_list_fetch_error">Unable to fetch Banned Members List</string>
 
     <!--Permission Error-->
     <string name="grant_camera_permission">Please grant camera permission from app setting</string>
@@ -139,9 +126,14 @@
     <string name="audio_call">Audio Call</string>
     <string name="missed_voice_call">Missed voice call</string>
     <string name="missed_video_call">Missed video call</string>
+    <string name="rejected_voice_call">Rejected voice call</string>
+    <string name="rejected_video_call">Rejected video call</string>
+    <string name="outgoing_voice_call">Outgoing voice call</string>
+    <string name="outgoing_video_call">Outgoing video call</string>
+    <string name="incoming_audio_call">Incoming Audio Call</string>
+    <string name="incoming_video_call">Incoming Video Call</string>
 
     <!--Calls -->
-    <string name="call_list_error">Unable to fetch Call List</string>
     <string name="no_call_message">You have not made any calls</string>
     <string name="calling">Calling</string>
     <string name="call_initiate_error">Unable to initiate call</string>
@@ -151,8 +143,6 @@
     <string name="all">All</string>
     <string name="missed">Missed</string>
     <string name="new_call">New Call</string>
-    <string name="incoming_audio_call">Incoming Audio Call</string>
-    <string name="incoming_video_call">Incoming Video Call</string>
     <string name="missed_call">Missed</string>
     <string name="rejected_call">Rejected</string>
     <string name="ongoing_call">Call is Ongoing</string>
@@ -186,14 +176,12 @@
     <string name="cancel">Cancel</string>
     <string name="text_copied">Text Copied to clipboard</string>
     <string name="delete_message">Delete Message</string>
-    <string name="send_message">Send Message</string>
     <string name="privacy_and_security">Privacy &amp; Security</string>
     <string name="add">Add</string>
     <string name="forward_message">Forward Message</string>
     <string name="actions">Actions</string>
     <string name="preferences">Preferences</string>
     <string name="online">Online</string>
-    <string name="offline">Offline</string>
     <string name="reply_message">Reply Message</string>
     <string name="share_message">Share message</string>
     <string name="copy_message">Copy Message</string>
@@ -238,8 +226,6 @@
     <string name="thread_in_name">Thread in %1$s</string>
     <string name="sentattxt">Sent at : %1$s</string>
     <string name="connecting_to_call">Connecting to call</string>
-    <string name="read_at">Read At : %1$s</string>
-    <string name="delivered_at">Delivered At : %1$s</string>
     <string name="navigate">Navigate</string>
     <string name="grant_location_permission">Please allow location permission.</string>
     <string name="send_audio_files">Send Audio Files</string>
@@ -251,7 +237,6 @@
     <string name="gps_enabled">GPS enabled</string>
     <string name="gps_disabled">GPS disabled</string>
     <string name="option">Option</string>
-    <string name="sending_media_message">Sending Media Message</string>
     <string name="enter_your_option">Enter your option</string>
     <string name="enter_your_question">Enter your Question</string>
     <string name="question">Question</string>
@@ -263,59 +248,28 @@
     <string name="shared_a_whiteboard">Shared a Whiteboard</string>
     <string name="share_writeboard">Share Document</string>
     <string name="shared_a_writeboard">Shared a Document</string>
-    <string name="you_sent">You sent a %1$s </string>
     <string name="you_received">You received a %1$s</string>
     <string name="initiate_a_call">Initiate a call</string>
-    <string name="accept">Accept</string>
-    <string name="add_admin">Add Admin</string>
-    <string name="add_moderator">Add Moderator</string>
-    <string name="add_new_option">Add new option</string>
-    <string name="add_reaction">Add Reaction</string>
-    <string name="added_successfully">added successfully</string>
-    <string name="you_deleted_this_message">⚠️ You deleted this message</string>
     <string name="yesterday">Yesterday</string>
-    <string name="back">back</string>
     <string name="ban">Ban</string>
     <string name="banned_successfully">Banned Successfully</string>
-    <string name="blocked_successfully">Blocked Successfully</string>
-    <string name="create">Create</string>
-    <string name="remove_from_admin_privilege">%1$s is removed from admin privilege</string>
-    <string name="view_members">View Members</string>
-    <string name="decline">Decline</string>
-    <string name="deleted_successfully">Deleted Successfully</string>
+    <string name="no_banned_members_found">No Banned Members Found</string>
     <string name="unblocked_successfully">unblocked successfully</string>
     <string name="forward_to_5_at_a_time">You cannot forward message to more than 5 members</string>
-    <string name="sending">Sending..</string>
-    <string name="message_audio">Audio</string>
-    <string name="message_image">Image</string>
-    <string name="message_video">Video</string>
-    <string name="message_file">File</string>
-    <string name="call_accepted">Call Accepted</string>
-    <string name="call_busy">Call Busy</string>
-    <string name="call_cancelled">Call Cancelled</string>
+    <string name="message_audio">🎵 Audio</string>
+    <string name="message_image">📷 Photo</string>
+    <string name="message_video">📹 Video</string>
+    <string name="message_file">📁 File</string>
     <string name="call_ended">Call Ended</string>
-    <string name="call_initiated">Call Initiated</string>
-    <string name="call_rejected">Call Rejected</string>
     <string name="custom_message_document">📃 Document</string>
     <string name="custom_message_location">📍 Location</string>
-    <string name="custom_message_not_supported">Custom Message not supported</string>
     <string name="custom_message_poll">"📊 Polls "</string>
     <string name="custom_message_sticker">"💟 Sticker "</string>
     <string name="custom_message_whiteboard">📝 Whiteboard</string>
-    <string name="delete_and_exit">Delete &amp; Exit</string>
     <string name="password_protected_group">Password Protected Group</string>
     <string name="private_group">Private Group</string>
     <string name="public_group">Public Group</string>
-    <string name="reply_in_thread">Reply in Thread</string>
-    <string name="no_stickers_found">No stickers found</string>
-    <string name="collaborative_document">Collaborative Document</string>
-    <string name="collaborative_whiteboard">Collaborative Whiteboard</string>
-    <string name="thread">Thread</string>
-    <string name="no_messages_found">No messages found</string>
-    <string name="emoji">emoji</string>
-    <string name="close">close</string>
     <string name="error">Error</string>
-    <string name="group_members">Group Members</string>
     <string name="no_thread_message">No Thread Messages</string>
     <string name="initiated">initiated</string>
     <string name="added">added</string>
@@ -324,13 +278,12 @@
     <string name="joined">joined</string>
     <string name="unban">Unban</string>
     <string name="made">made</string>
-    <string name="participant">participant</string>
+    <string name="participant">Participant</string>
     <string name="translate_message">Translate Message</string>
     <string name="no_translation_available">No translation available</string>
-    <string name="has_shared_group_call">has shared a group call.</string>
-    <string name="you_created_group_call">You\'ve created a group call.</string>
+    <string name="has_shared_group_call">has initiated a group call.</string>
+    <string name="you_created_group_call">You\'ve initiated a group call.</string>
     <string name="custom_message_meeting">"📹 Group Call "</string>
-    <string name="start_group_call">Start a Group Call</string>
     <string name="retry">Retry</string>
     <string name="uploading">Uploading</string>
     <string name="voted_success">Voted Success</string>
@@ -339,9 +292,6 @@
     <string name="updated_user_successfully">Updated User Successfully</string>
     <string name="user_left">"User Left "</string>
     <string name="user_joined">User Joined</string>
-    <string name="connection_connected">Connected Successfully</string>
-    <string name="connection_in_progress">Connection in Progress</string>
-    <string name="connection_disconnected">You are disconnected.</string>
     <string name="no_internet_available">No Internet Available</string>
     <string name="you_have_blocked_by">You have been blocked by </string>
     <string name="you_ve_blocked">"You've blocked "</string>
@@ -357,31 +307,39 @@
     <string name="err_poll_not_found">Poll does not exist</string>
     <string name="err_no_poll_id">The poll \"id\" is missing</string>
     <string name="err_not_poll_creator">You are not the creator of poll</string>
-    <string name="err_init_not_called">Please call the CometChat.init() method preferably in the onCreate() method of the application class before calling any other methods related to CometChat</string>
     <string name="err_password_missing_message">Password is mandatory for a protected group</string>
-    <string name="err_limit_exceed_message">Limit exceeded max limit</string>
-    <string name="err_user_not_logged_in_message">Please log in to CometChat before calling this method</string>
     <string name="err_invalid_guid_message">Please provide a valid GUID</string>
     <string name="err_invalid_uid_message">Please provide a valid UID</string>
     <string name="err_blank_uid_message">UID cannot be blank. Please provide a valid UID</string>
     <string name="err_uid_with_space_message">UID cannot contain spaces. Please provide a valid UID</string>
     <string name="err_default_message">Something went wrong, please try again</string>
-    <string name="err_message_text_empty_message">Message text cannot be empty</string>
     <string name="err_empty_group_name_message">Group Name cannot be null or empty</string>
-    <string name="err_invalid_message_message">Message cannot be null. Please pass a valid `BaseMessage` object</string>
-    <string name="err_invalid_user_name_message">Invalid name provided for the user. Please provide a valid name</string>
-    <string name="err_invalid_group_name_message">Group name cannot be empty. Please provide a valid group name</string>
 
     <string name="downloading">Downloading</string>
     <string name="creating_group">Creating Group</string>
-    <string name="reply_privately">Send Message Privately</string>
+    <string name="send_message_privately">Send Message Privately</string>
     <string name="view_profile">View Profile</string>
-    <string name="delete_conversation">Delete this conversation</string>
     <string name="today">Today</string>
     <string name="in_thread">In a thread</string>
     <string name="delete_conversation_message">Would you like to delete this conversation?</string>
     <string name="deleting_conversation">Deleting Conversation</string>
     <string name="is_typing">is typing..</string>
-
-    <!--_______________________________-->
+    <string name="reply_message_privately">Reply Privately</string>
+    <string name="replies"> Replies</string>
+    <string name="reply"> Reply</string>
+    <string name="accept">Answer</string>
+    <string name="decline">Decline</string>
+    <string name="votes">Votes</string>
+    <string name="vote">Vote</string>
+    <string name="read">Read</string>
+    <string name="delivered">Delivered</string>
+    <string name="new_message"> New Message</string>
+    <string name="new_messages">" New Messages"</string>
+    <string name="offline">offline</string>
+    <string name="err_internet_unavailable">No Internet Available</string>
+    <string name="select_user">Select User</string>
+    <string name="select_group">Select Group</string>
+    <string name="search_users">Search Users</string>
+    <string name="search_groups">Search Groups</string>
+    <string name="background_location_permission_title">Allow Background Location Permisssion</string>
 </resources>

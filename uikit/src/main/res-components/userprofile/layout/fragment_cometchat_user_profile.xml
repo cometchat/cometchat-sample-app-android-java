@@ -28,13 +28,14 @@
             android:layout_width="match_parent"
             android:layout_height="72dp">
             <com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar
-                android:layout_width="40dp"
                 tools:src="@tools:sample/avatars"
                 app:avatar="@{user}"
+                android:layout_width="36dp"
+                app:corner_radius="18dp"
+                android:layout_height="36dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:id="@+id/iv_user"
-                android:layout_height="40dp"/>
+                android:id="@+id/iv_user"/>
             <LinearLayout
                 android:layout_marginStart="16dp"
                 android:layout_toEndOf="@+id/iv_user"
@@ -55,6 +56,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
+            <ImageView
+                android:id="@+id/edit_user_profile"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:tint="@color/colorPrimary"
+                android:src="@drawable/ic_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         </RelativeLayout>
 
         <TextView
@@ -73,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="@string/preferences"
+                android:text="@string/privacy_and_security"
                 android:textAllCaps="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -87,7 +96,7 @@
                 <ImageView
                     android:layout_gravity="center"
                     android:id="@+id/ivNotification"
-                    android:src="@drawable/ic_notification"
+                    android:src="@drawable/ic_notifications"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
@@ -102,7 +111,7 @@
                 <ImageView
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_arrow_right_24dp"
+                    android:src="@drawable/ic_arrow_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </RelativeLayout>
@@ -114,30 +123,23 @@
                 android:foreground="?attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <ImageView
+                    android:id="@+id/ivSecurity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_gravity="center"
-                    android:id="@+id/ivSecurity"
-                    android:src="@drawable/ic_security"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:src="@drawable/ic_privacy" />
                 <TextView
                     android:layout_toRightOf="@+id/ivSecurity"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:text="@string/privacy_and_security"
+                    android:text="@string/blocked_users"
                     android:layout_centerVertical="true"
                     android:textStyle="bold"
                     android:textSize="18sp"
-                    android:layout_toLeftOf="@+id/privacy_security_arrow"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <ImageView
-                    android:id="@+id/privacy_security_arrow"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_arrow_right_24dp"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </RelativeLayout>
 
@@ -151,7 +153,7 @@
                 <ImageView
                     android:id="@+id/ivChats"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_chat"
+                    android:src="@drawable/ic_chats"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
@@ -166,7 +168,7 @@
                 <ImageView
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_arrow_right_24dp"
+                    android:src="@drawable/ic_arrow_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </RelativeLayout>

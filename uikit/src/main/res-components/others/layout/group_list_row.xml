@@ -18,14 +18,15 @@
 
         <com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar
             android:id="@+id/av_group"
-            android:layout_width="40dp"
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             tools:src="@tools:sample/avatars"
             app:avatar="@{group}"
-            android:layout_height="40dp" />
+            android:layout_width="36dp"
+            app:corner_radius="18dp"
+            android:layout_height="36dp"/>
 
         <com.cometchat.pro.uikit.ui_components.shared.cometchatUserPresence.CometChatUserPresence
             android:id="@+id/statusIndicator"

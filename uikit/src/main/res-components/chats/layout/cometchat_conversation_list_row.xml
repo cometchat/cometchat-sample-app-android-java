@@ -18,24 +18,9 @@
         android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/view_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/red">
-        <ImageView
-            android:id="@+id/delete_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            android:src="@drawable/ic_delete" />
-    </RelativeLayout>
-    <RelativeLayout
         android:id="@+id/view_foreground"
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
-        android:background="@color/textColorWhite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
             <RelativeLayout
@@ -46,16 +31,18 @@
                 android:layout_height="match_parent">
                 <com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar
                     android:id="@+id/av_user"
-                    android:layout_width="48dp"
+                    android:layout_width="36dp"
+                    app:corner_radius="18dp"
+                    android:layout_height="36dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="4dp"
-                    tools:src="@tools:sample/avatars"
-                    android:layout_height="48dp" />
+                    tools:src="@tools:sample/avatars"/>
                 <com.cometchat.pro.uikit.ui_components.shared.cometchatUserPresence.CometChatUserPresence
                     android:layout_width="16dp"
                     android:visibility="gone"
+                    app:cardCornerRadius="8dp"
                     android:layout_alignEnd="@+id/av_user"
                     android:layout_alignBottom="@+id/av_user"
                     android:id="@+id/user_status"
@@ -96,12 +83,25 @@
                         android:text="@string/in_thread"
                         android:layout_marginRight="8dp" />
                     <TextView
+                        android:gravity="center_vertical"
+                        android:id="@+id/typingIndicator"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:textSize="@dimen/fourteen"
+                        android:layout_marginStart="8dp"
+                        android:maxLines="1"
+                        android:visibility="gone"
+                        android:layout_marginRight="8dp"
+                        android:text="@string/is_typing"/>
+                    <TextView
                         tools:visibility="gone"
                         android:gravity="center_vertical"
                         android:id="@+id/txt_user_message"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
+                        android:ellipsize="end"
                         android:textSize="@dimen/fourteen"
                         android:layout_marginStart="8dp"
                         android:maxLines="1"
@@ -134,6 +134,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_below="@id/messageTime"
                         android:id="@+id/messageCount"
+                    app:cardCornerRadius="16dp"
                         android:layout_width="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:layout_marginTop="4dp"

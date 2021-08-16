@@ -234,10 +234,10 @@ public class CometChatCallActivity extends AppCompatActivity implements View.OnC
             outgoingCallView.setVisibility(View.GONE);
             if (isVideoCall) {
                 callMessage.setText(getResources().getString(R.string.incoming_video_call));
-                callMessage.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_videocam_white_24dp),null,null,null);
+                callMessage.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_incoming_video_call),null,null,null);
             } else {
                 callMessage.setText(getResources().getString(R.string.incoming_audio_call));
-                callMessage.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_call_incoming_24dp),null,null,null);
+                callMessage.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_incoming_call),null,null,null);
             }
         } else {
             callTv.setText(getString(R.string.calling));
@@ -248,7 +248,7 @@ public class CometChatCallActivity extends AppCompatActivity implements View.OnC
             if (isVideoCall) {
                 cameraPreview = new CameraPreview(this);
                 cameraFrame.addView(cameraPreview);
-                hangUp.setImageDrawable(getResources().getDrawable(R.drawable.ic_videocam_white_24dp));
+                hangUp.setImageDrawable(getResources().getDrawable(R.drawable.ic_videocall));
 
             } else {
                 hangUp.setImageDrawable(getResources().getDrawable(R.drawable.ic_call_end_white_24dp));

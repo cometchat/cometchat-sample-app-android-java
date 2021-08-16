@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/message_actions"
-    android:orientation="vertical"
+<LinearLayout android:orientation="vertical"
     android:layout_width="match_parent"
     android:elevation="4dp"
     android:padding="8dp"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <HorizontalScrollView
         android:scrollbars="none"
         android:layout_width="match_parent"
@@ -21,21 +18,33 @@
             android:layout_height="wrap_content"/>
 
     </HorizontalScrollView>
-     <TextView
-         android:id="@+id/reply_privately"
-         android:padding="16dp"
-         android:drawableTint="@color/darkModeBackground"
-         android:drawableStart="@drawable/reply_privately"
-         android:drawablePadding="16dp"
-         android:textStyle="bold"
-         android:text="@string/reply_privately"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/reply_privately"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_send_message_in_private"
+        android:drawablePadding="16dp"
+        android:padding="16dp"
+        android:text="@string/send_message_privately"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/reply_message_privately"
+        android:clickable="true"
+        android:drawableStart="@drawable/ic_reply_message_in_private"
+        android:drawablePadding="16dp"
+        android:gravity="center_vertical"
+        android:foreground="?attr/selectableItemBackground"
+        android:textStyle="bold"
+        android:text="@string/reply_message_privately"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/translate_message"
         android:drawableStart="@drawable/ic_translate"
         android:drawablePadding="16dp"
-        android:drawableTint="@color/darkModeBackground"
         android:gravity="center_vertical"
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
@@ -50,8 +59,7 @@
         android:foreground="?attr/selectableItemBackground"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
-        android:drawableStart="@drawable/info"
-         android:drawableTint="@color/darkModeBackground"
+        android:drawableStart="@drawable/ic_info"
         android:textStyle="bold"
         android:text="@string/message_information"
         android:padding="16dp"
@@ -63,8 +71,7 @@
         android:foreground="?attr/selectableItemBackground"
         android:textStyle="bold"
         android:text="@string/start_thread"
-        android:drawableStart="@drawable/thread"
-        android:drawableTint="@color/darkModeBackground"
+        android:drawableStart="@drawable/ic_threaded_message"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
         android:padding="16dp"
@@ -73,8 +80,7 @@
     <TextView
         android:id="@+id/reply_message"
         android:clickable="true"
-        android:drawableTint="@color/darkModeBackground"
-        android:drawableStart="@drawable/reply"
+        android:drawableStart="@drawable/ic_reply_message"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
         android:foreground="?attr/selectableItemBackground"
@@ -89,8 +95,7 @@
         android:foreground="?attr/selectableItemBackground"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
-        android:drawableStart="@drawable/forward"
-        android:drawableTint="@color/darkModeBackground"
+        android:drawableStart="@drawable/ic_forward"
         android:textStyle="bold"
         android:text="@string/forward_message"
         android:padding="16dp"
@@ -102,8 +107,7 @@
         android:foreground="?attr/selectableItemBackground"
         android:textStyle="bold"
         android:text="@string/copy_message"
-        android:drawableStart="@drawable/copy"
-        android:drawableTint="@color/darkModeBackground"
+        android:drawableStart="@drawable/ic_copy_paste"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
         android:padding="16dp"
@@ -115,8 +119,7 @@
         android:foreground="?attr/selectableItemBackground"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
-        android:drawableStart="@drawable/share"
-        android:drawableTint="@color/darkModeBackground"
+        android:drawableStart="@drawable/ic_share"
         android:textStyle="bold"
         android:text="@string/share_message"
         android:padding="16dp"
@@ -129,7 +132,6 @@
         android:textStyle="bold"
         android:text="@string/edit_message"
         android:drawableStart="@drawable/ic_edit"
-        android:drawableTint="@color/darkModeBackground"
         android:drawablePadding="16dp"
         android:gravity="center_vertical"
         android:padding="16dp"

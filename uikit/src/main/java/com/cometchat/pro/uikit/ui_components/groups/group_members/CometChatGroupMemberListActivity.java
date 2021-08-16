@@ -13,6 +13,7 @@ import com.cometchat.pro.uikit.R;
 
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
 import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 
 public class CometChatGroupMemberListActivity extends AppCompatActivity {
 
@@ -42,8 +43,8 @@ public class CometChatGroupMemberListActivity extends AppCompatActivity {
         bundle.putBoolean(UIKitConstants.IntentStrings.TRANSFER_OWNERSHIP,transferOwnerShip);
         fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_fragment,fragment).commit();
-        if (FeatureRestriction.getColor()!=null)
-            getWindow().setStatusBarColor(Color.parseColor(FeatureRestriction.getColor()));
+        if (UIKitSettings.getColor()!=null)
+            getWindow().setStatusBarColor(Color.parseColor(UIKitSettings.getColor()));
     }
 
 

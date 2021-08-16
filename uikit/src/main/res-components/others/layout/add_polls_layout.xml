@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"/>
                 <ImageView
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/ic_add_circle_grey_32dp"
+                    android:src="@drawable/ic_add_circle_grey"
                     android:layout_width="24dp"
                     android:layout_height="24dp"/>
             </RelativeLayout>

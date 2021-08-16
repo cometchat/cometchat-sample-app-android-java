@@ -39,6 +39,7 @@
             <com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar
                 android:layout_width="48dp"
                 android:id="@+id/caller_av"
+                app:corner_radius="24dp"
                 android:layout_margin="16dp"
                 android:layout_alignParentEnd="true"
                 tools:src="@tools:sample/avatars"
@@ -51,7 +52,7 @@
                 android:layout_height="wrap_content">
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
-                    android:text="Decline"
+                    android:text="@string/decline"
                     android:id="@+id/decline_incoming"
                     android:layout_marginTop="16dp"
                     app:backgroundTint="@color/red"
@@ -62,7 +63,7 @@
                     android:layout_height="wrap_content"/>
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
-                    android:text="Answer"
+                    android:text="@string/accept"
                     android:id="@+id/accept_incoming"
                     android:layout_marginTop="16dp"
                     app:backgroundTint="@color/colorPrimary"
@@ -110,8 +111,8 @@
             android:layout_below="@+id/calling_tv"
             tools:src="@tools:sample/avatars"
             android:layout_width="200dp"
+            app:corner_radius="100dp"
             android:id="@+id/user_av"
-            app:avatar_shape="circle"
             android:layout_centerHorizontal="true"
             android:layout_height="200dp"/>
         <TextView

@@ -136,8 +136,13 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
         viewProfile = findViewById(R.id.tv_view_profile);
 
         setSupportActionBar(toolbar);
-         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         addBtn.setTypeface(fontUtils.getTypeFace(FontUtils.robotoRegular));
 
         blockUserLayout = findViewById(R.id.block_user_layout);
@@ -338,20 +343,6 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-         if (item.getItemId()==android.R.id.home){
-             onBackPressed();
-         }
-        return super.onOptionsItemSelected(item);
-    }
-
     private void addMember() {
         ProgressDialog progressDialog = ProgressDialog.show(this, null,
                 String.format(getResources().getString(R.string.user_added_to_group),
@@ -460,7 +451,8 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
                 if (tvBlockUser!=null)
                     CometChatSnackBar.show(CometChatUserDetailScreenActivity.this,
                             tvBlockUser,
-                            getResources().getString(R.string.block_user_error),
+                            String.format(getResources().getString(R.string.block_user_error),
+                                    userName.getText().toString()),
                             CometChatSnackBar.ERROR);
                 Log.d(TAG, "onError: "+e.getMessage());
             }

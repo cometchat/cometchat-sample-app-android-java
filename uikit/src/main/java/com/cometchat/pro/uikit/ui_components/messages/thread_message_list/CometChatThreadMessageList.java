@@ -105,6 +105,7 @@ import com.cometchat.pro.uikit.ui_resources.utils.item_clickListener.OnItemClick
 import com.cometchat.pro.uikit.ui_resources.utils.keyboard_utils.KeyBoardUtils;
 import com.cometchat.pro.uikit.ui_resources.utils.sticker_header.StickyHeaderDecoration;
 import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -679,7 +680,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
             ivMoreOption.setVisibility(GONE);
         }
         if (replyCount>0) {
-            tvReplyCount.setText(replyCount + " Replies");
+            tvReplyCount.setText(replyCount +" "+ getString(R.string.replies));
             noReplyMessages.setVisibility(GONE);
         }
         else {
@@ -775,7 +776,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
             Chip chip = new Chip(context);
             chip.setChipStrokeWidth(2f);
             chip.setChipBackgroundColor(ColorStateList.valueOf(context.getResources().getColor(android.R.color.transparent)));
-            chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(FeatureRestriction.getColor())));
+            chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(UIKitSettings.getColor())));
             chip.setText(key + " " + reactionInfo.get(key));
             reactionLayout.addView(chip);
             chip.setOnClickListener(new View.OnClickListener() {
@@ -1714,11 +1715,11 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
      * @param baseMessage is object of BaseMessage.class. It is message which is been marked as read.
      */
     private void markMessageAsRead(BaseMessage baseMessage) {
-        CometChat.markAsRead(baseMessage);
-//        if (type.equals(CometChatConstants.RECEIVER_TYPE_USER))
-//            CometChat.markAsRead(baseMessage.getId(), baseMessage.getSender().getUid(), baseMessage.getReceiverType());
-//        else
-//            CometChat.markAsRead(baseMessage.getId(), baseMessage.getReceiverUid(), baseMessage.getReceiverType());
+//        CometChat.markAsRead(baseMessage);
+        if (type.equals(CometChatConstants.RECEIVER_TYPE_USER))
+            CometChat.markAsRead(baseMessage.getId(), baseMessage.getSender().getUid(), baseMessage.getReceiverType());
+        else
+            CometChat.markAsRead(baseMessage.getId(), baseMessage.getReceiverUid(), baseMessage.getReceiverType());
     }
 
 
@@ -1881,9 +1882,9 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
     private void setReply() {
         replyCount = replyCount+1;
         if (replyCount==1)
-            tvReplyCount.setText(replyCount+" Reply");
+            tvReplyCount.setText(replyCount+" "+getString(R.string.reply));
         else
-            tvReplyCount.setText(replyCount+" Replies");
+            tvReplyCount.setText(replyCount+" "+getString(R.string.replies));
     }
 
     private void checkSmartReply(BaseMessage lastMessage) {
@@ -2326,6 +2327,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
     private void showBottomSheet(CometChatMessageActions messageActionFragment) {
         messageActionFragment.show(getFragmentManager(),messageActionFragment.getTag());
         messageActionFragment.setMessageActionListener(new CometChatMessageActions.MessageActionListener() {
+
             @Override
             public void onPrivateReplyToUser() {
                 if (baseMessage!=null) {
@@ -2357,9 +2359,10 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
             }
 
             @Override
-            public void onReplyMessageClick() {
+            public void onReplyMessageClick() {}
 
-            }
+            @Override
+            public void onReplyMessagePrivately() {}
 
             @Override
             public void onForwardMessageClick() {
@@ -2694,7 +2697,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
                 String messageStr = String.format(getResources().getString(R.string.shared_a_audio),
                         Utils.getFileSize(((MediaMessage) baseMessage).getAttachment().getFileSize()));
                 replyMessage.setText(messageStr);
-                replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_library_music_24dp, 0, 0, 0);
+                replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_audio, 0, 0, 0);
             } else if (baseMessage.getType().equals(CometChatConstants.MESSAGE_TYPE_VIDEO)) {
                 replyMessage.setText(getResources().getString(R.string.shared_a_video));
                 Glide.with(context).load(((MediaMessage) baseMessage).getAttachment().getFileUrl()).into(replyMedia);
@@ -2702,7 +2705,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
                 String messageStr = String.format(getResources().getString(R.string.shared_a_file),
                         Utils.getFileSize(((MediaMessage) baseMessage).getAttachment().getFileSize()));
                 replyMessage.setText(messageStr);
-                replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_insert_drive_file_black_24dp, 0, 0, 0);
+                replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_file_upload, 0, 0, 0);
             }
             composeBox.ivSend.setVisibility(View.VISIBLE);
             replyMessageLayout.setVisibility(View.VISIBLE);

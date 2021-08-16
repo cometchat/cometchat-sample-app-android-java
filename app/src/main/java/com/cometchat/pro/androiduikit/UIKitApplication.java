@@ -4,7 +4,6 @@ import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
-import android.util.Log;
 import android.widget.Toast;
 
 
@@ -32,7 +31,6 @@ public class UIKitApplication extends Application {
                 UIKitSettings.setAppID(AppConfig.AppDetails.APP_ID);
                 UIKitSettings.setAuthKey(AppConfig.AppDetails.AUTH_KEY);
                 CometChat.setSource("ui-kit","android","java");
-                Log.d(TAG, "onSuccess: "+s);
             }
 
             @Override

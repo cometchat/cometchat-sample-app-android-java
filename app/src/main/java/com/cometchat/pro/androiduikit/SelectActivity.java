@@ -63,7 +63,6 @@ public class SelectActivity extends AppCompatActivity {
         } else {
             logout.setBackgroundColor(getResources().getColor(R.color.textColorWhite));
         }
-
         unifiedLaunch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

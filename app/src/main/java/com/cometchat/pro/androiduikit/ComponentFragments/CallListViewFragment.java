@@ -74,6 +74,7 @@ public class CallListViewFragment extends Fragment {
                     intent.putExtra(UIKitConstants.IntentStrings.UID, user.getUid());
                     intent.putExtra(UIKitConstants.IntentStrings.NAME, user.getName());
                     intent.putExtra(UIKitConstants.IntentStrings.AVATAR, user.getAvatar());
+                    intent.putExtra(UIKitConstants.IntentStrings.LINK,user.getLink());
                     intent.putExtra(UIKitConstants.IntentStrings.STATUS, user.getStatus());
                     intent.putExtra(UIKitConstants.IntentStrings.IS_BLOCKED_BY_ME, user.isBlockedByMe());
                     intent.putExtra(UIKitConstants.IntentStrings.FROM_CALL_LIST,true);
@@ -161,7 +162,7 @@ public class CallListViewFragment extends Fragment {
             public void onError(CometChatException e) {
                 Log.e( "onError: ",e.getMessage() );
                 if (rvCallList!=null)
-                    Snackbar.make(rvCallList, com.cometchat.pro.uikit.R.string.call_list_error,Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(rvCallList, R.string.err_default_message,Snackbar.LENGTH_LONG).show();
             }
         });
     }

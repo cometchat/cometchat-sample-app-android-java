@@ -28,20 +28,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
-        android:drawableStart="@drawable/ic_done_all_black_24dp"
+        android:drawableStart="@drawable/ic_message_delivered"
         android:drawableTint="@color/grey"
         android:drawablePadding="4dp"
         android:layout_alignTop="@id/ivAvatar"
-        android:text="Delivered"
+        android:text="@string/delivered"
         android:layout_toEndOf="@+id/ivAvatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <TextView
         android:drawablePadding="4dp"
-        android:drawableStart="@drawable/ic_double_tick"
+        android:drawableStart="@drawable/ic_message_read"
         android:layout_alignBottom="@id/ivAvatar"
-        android:text="Read"
+        android:text="@string/read"
         android:layout_toEndOf="@+id/ivAvatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

@@ -12,8 +12,6 @@
         <TextView
             android:padding="16dp"
             android:gravity="center"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/textColorWhite"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:text="@string/update_group"
             android:layout_width="match_parent"
@@ -36,7 +34,6 @@
             android:layout_marginTop="16dp"
             android:padding="8dp"
             android:hint="@string/enter_group_icon_url"
-            android:id="@+id/groupicon_url_tl"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
@@ -55,7 +52,6 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
             android:hint="@string/enter_group_name"
-            android:id="@+id/group_name_tl"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
@@ -73,7 +69,6 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
             android:hint="@string/enter_group_desc"
-            android:id="@+id/group_desc_tl"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
@@ -164,6 +159,7 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/cancel"
+                android:textColor="@color/red"
                 android:id="@+id/cancelBtn"
                 android:layout_height="wrap_content"/>
             <com.google.android.material.button.MaterialButton

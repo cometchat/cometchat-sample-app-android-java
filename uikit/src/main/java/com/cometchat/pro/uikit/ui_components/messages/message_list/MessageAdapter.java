@@ -29,6 +29,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.emoji.text.EmojiCompat;
 import androidx.emoji.text.EmojiSpan;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,9 +42,11 @@ import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.Call;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
+import com.cometchat.pro.helpers.CometChatHelper;
 import com.cometchat.pro.models.Action;
 import com.cometchat.pro.models.Attachment;
 import com.cometchat.pro.models.CustomMessage;
+import com.cometchat.pro.models.Group;
 import com.cometchat.pro.uikit.R;
 
 import com.cometchat.pro.uikit.ui_components.messages.extensions.Extensions;
@@ -56,7 +59,9 @@ import com.cometchat.pro.models.User;
 
 import com.cometchat.pro.uikit.ui_resources.utils.pattern_utils.PatternUtils;
 import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
@@ -580,7 +585,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public void onSuccess(Boolean booleanVal) {
                 if (baseMessage.getReplyCount()!=0 && booleanVal) {
                     viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
-                    viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
+                    viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" "+context.getResources().getString(R.string.replies));
                 } else {
                     viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
                 }
@@ -622,7 +627,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             context.startActivity(intent);
         });
         viewHolder.optionGroup.removeAllViews();
-        viewHolder.totalCount.setText("0 Votes");
+        viewHolder.totalCount.setText("0"+context.getString(R.string.votes));
         ArrayList<String> optionList = new ArrayList<>();
         try {
             JSONObject jsonObject = ((CustomMessage) baseMessage).getCustomData();
@@ -630,13 +635,20 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ArrayList<String> voterInfo = Extensions.getVoterInfo(baseMessage,options.length());
             viewHolder.tvQuestion.setText(jsonObject.getString("question"));
                 for (int k = 0; k < options.length(); k++) {
-                    viewHolder.totalCount.setText(Extensions.getVoteCount(baseMessage)+" Votes");
-                        LinearLayout linearLayout = new LinearLayout(context);
+                    int voteCount = Extensions.getVoteCount(baseMessage);
+                    if (voteCount==1) {
+                        viewHolder.totalCount.setText(voteCount +
+                                context.getString(R.string.vote));
+                    } else {
+                        viewHolder.totalCount.setText(voteCount +
+                                context.getString(R.string.votes));
+                    }
+                    LinearLayout linearLayout = new LinearLayout(context);
                         LinearLayout.LayoutParams layoutParams = new LinearLayout
                                 .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                                 ViewGroup.LayoutParams.WRAP_CONTENT);
                         linearLayout.setPadding(8,8,8,8);
-                        linearLayout.setBackgroundColor(Color.parseColor(FeatureRestriction.getColor()));
+                        linearLayout.setBackgroundColor(Color.parseColor(UIKitSettings.getColor()));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(context.getResources()
                                 .getColor(R.color.textColorWhite)));
                         layoutParams.bottomMargin = (int) Utils.dpToPx(context, 8);
@@ -653,7 +665,6 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             textViewOption.setTextColor(context.getResources().getColor(R.color.primaryTextColor));
                         String optionStr = options.getString(String.valueOf(k + 1));
                         textViewOption.setText(optionStr);
-                        int voteCount = Extensions.getVoteCount(baseMessage);
                         if (voteCount>0) {
                             int percentage = Math.round((Integer.parseInt(voterInfo.get(k)) * 100) /
                                     voteCount);
@@ -689,7 +700,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                     public void onSuccess(JSONObject jsonObject) {
                                                         // Voted successfully
                                                         viewHolder.loadingProgress.setVisibility(View.VISIBLE);
-                                                        viewHolder.totalCount.setText("0 Votes");
+                                                        viewHolder.totalCount.setText("0"+context.getString(R.string.votes));
                                                         Log.e(TAG, "onSuccess: " + jsonObject.toString());
                                                         Toast.makeText(context, context.getString(R.string.voted_success), Toast.LENGTH_LONG).show();
                                                     }
@@ -794,7 +805,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             if (baseMessage.getReplyCount()!=0) {
                 viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
-                viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
+                viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" "+context.getResources().getString(R.string.replies));
             } else {
                 viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
             }
@@ -837,7 +848,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } else {
                         setSelectedMessage(baseMessage.getId());
                     }
-                    notifyDataSetChanged();
+                    notifyItemChanged(i);
                 }
 
             });
@@ -850,7 +861,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         isLongClickEnabled = true;
                         setLongClickSelectedItem(baseMessage);
                         messageLongClick.setLongMessageClick(longselectedItemList);
-                        notifyDataSetChanged();
+                        notifyItemChanged(i);
                     }
                     return true;
                 }
@@ -896,7 +907,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             if (baseMessage.getReplyCount()!=0) {
                 viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
-                viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
+                viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" "+context.getResources().getString(R.string.replies));
             } else {
                 viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
             }
@@ -939,7 +950,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } else {
                         setSelectedMessage(baseMessage.getId());
                     }
-                    notifyDataSetChanged();
+                    notifyItemChanged(i);
                 }
 
             });
@@ -952,7 +963,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         isLongClickEnabled = true;
                         setLongClickSelectedItem(baseMessage);
                         messageLongClick.setLongMessageClick(longselectedItemList);
-                        notifyDataSetChanged();
+                        notifyItemChanged(i);
                     }
                     return true;
                 }
@@ -1001,7 +1012,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             if (baseMessage.getReplyCount()!=0) {
                 viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
-                viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
+                viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" "+context.getResources().getString(R.string.replies));
             } else {
                 viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
             }
@@ -1044,7 +1055,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } else {
                         setSelectedMessage(baseMessage.getId());
                     }
-                    notifyDataSetChanged();
+                    notifyItemChanged(i);
                 }
 
             });
@@ -1057,7 +1068,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         isLongClickEnabled = true;
                         setLongClickSelectedItem(baseMessage);
                         messageLongClick.setLongMessageClick(longselectedItemList);
-                        notifyDataSetChanged();
+                        notifyItemChanged(i);
                     }
                     return true;
                 }
@@ -1099,7 +1110,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public void onSuccess(Boolean booleanVal) {
                 if (baseMessage.getReplyCount()!=0 && booleanVal) {
                     viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
-                    viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
+                    viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" "+context.getResources().getString(R.string.replies));
                 } else {
                     viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
                 }
@@ -1147,6 +1158,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Glide.with(context)
                     .load(mapUrl)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.default_map)
                     .into(viewHolder.ivMap);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -1154,7 +1166,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
         viewHolder.senderTxt.setText(String.format(context.getString(R.string.shared_location),baseMessage.getSender().getName()));
-        viewHolder.navigateBtn.setOnClickListener(new View.OnClickListener() {
+        viewHolder.ivMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -1193,7 +1205,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             else {
                 setSelectedMessage(baseMessage.getId());
             }
-            notifyDataSetChanged();
+            notifyItemChanged(i);
         });
         viewHolder.rlMessageBubble.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -1203,7 +1215,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     isLocationMessageClick = true;
                     setLongClickSelectedItem(baseMessage);
                     messageLongClick.setLongMessageClick(longselectedItemList);
-                    notifyDataSetChanged();
+                    notifyItemChanged(i);
                 }
                 return true;
             }
@@ -1242,7 +1254,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     viewHolder.tvUser.setText(baseMessage.getSender().getName());
                 }
             } else {
-                viewHolder.playBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor(FeatureRestriction.getColor())));
+                viewHolder.playBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor(UIKitSettings.getColor())));
             }
 
             FeatureRestriction.isThreadedMessagesEnabled(new FeatureRestriction.OnSuccessListener() {
@@ -1250,7 +1262,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 public void onSuccess(Boolean booleanVal) {
                     if (baseMessage.getReplyCount()!=0 && booleanVal) {
                         viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
-                        viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
+                        viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" "+context.getResources().getString(R.string.replies));
                     } else {
                         viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
                     }
@@ -1321,7 +1333,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         isImageMessageClick = true;
                         setLongClickSelectedItem(baseMessage);
                         messageLongClick.setLongMessageClick(longselectedItemList);
-                        notifyDataSetChanged();
+                        notifyItemChanged(i);
                     }
                     return true;
                 }
@@ -1383,7 +1395,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                   public void onSuccess(Boolean booleanVal) {
                       if (baseMessage.getReplyCount()!=0 && booleanVal) {
                           viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
-                          viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
+                          viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" "+context.getResources().getString(R.string.replies));
                       } else {
                           viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
                       }
@@ -1435,7 +1447,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                   MediaUtils.openFile(((MediaMessage) baseMessage).getAttachment().getFileUrl(),context);
                   setSelectedMessage(baseMessage.getId());
 //                  }
-                  notifyDataSetChanged();
+                  notifyItemChanged(i);
               });
               viewHolder.rlMessageBubble.setOnLongClickListener(new View.OnLongClickListener() {
                   @Override
@@ -1444,7 +1456,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                           isImageMessageClick = true;
                           setLongClickSelectedItem(baseMessage);
                           messageLongClick.setLongMessageClick(longselectedItemList);
-                          notifyDataSetChanged();
+                          notifyItemChanged(i);
                       }
                       return true;
                   }
@@ -1518,7 +1530,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public void onSuccess(Boolean booleanVal) {
                 if (baseMessage.getReplyCount()!=0 && booleanVal) {
                     viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
-                    viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
+                    viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" "+context.getResources().getString(R.string.replies));
                 } else {
                     viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
                 }
@@ -1603,7 +1615,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     isImageMessageClick = true;
                     setLongClickSelectedItem(baseMessage);
                     messageLongClick.setLongMessageClick(longselectedItemList);
-                    notifyDataSetChanged();
+                    notifyItemChanged(i);
                 }
                 return true;
             }
@@ -1687,7 +1699,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         viewHolder.stickerView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_defaulf_image));
         try {
-            Glide.with(context).load(((CustomMessage)baseMessage).getCustomData().getString("url")).into(viewHolder.stickerView);
+            Glide.with(context).load(((CustomMessage)baseMessage).getCustomData().getString("sticker_url")).into(viewHolder.stickerView);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1697,7 +1709,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public void onSuccess(Boolean booleanVal) {
                 if (baseMessage.getReplyCount()!=0 && booleanVal) {
                     viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
-                    viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
+                    viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" "+context.getResources().getString(R.string.replies));
                 } else {
                     viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
                 }
@@ -1751,7 +1763,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     isImageMessageClick = true;
                     setLongClickSelectedItem(baseMessage);
                     messageLongClick.setLongMessageClick(longselectedItemList);
-                    notifyDataSetChanged();
+                    notifyItemChanged(i);
                 }
                 return true;
             }
@@ -1792,7 +1804,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public void onSuccess(Boolean booleanVal) {
                 if (baseMessage.getReplyCount()!=0 && booleanVal) {
                     viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
-                    viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
+                    viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" "+context.getResources().getString(R.string.replies));
                 } else {
                     viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
                 }
@@ -1849,7 +1861,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     isImageMessageClick = true;
                     setLongClickSelectedItem(baseMessage);
                     messageLongClick.setLongMessageClick(longselectedItemList);
-                    notifyDataSetChanged();
+                    notifyItemChanged(i);
                 }
                 return true;
             }
@@ -2068,15 +2080,15 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 progressBar.setVisibility(View.GONE);
                             if (baseMessage.getReadAt() != 0) {
                                 txtTime.setText(Utils.getHeaderDate(baseMessage.getReadAt() * 1000));
-                                txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_double_tick, 0);
+                                txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_message_read, 0);
                                 txtTime.setCompoundDrawablePadding(10);
                             } else if (baseMessage.getDeliveredAt() != 0) {
                                 txtTime.setText(Utils.getHeaderDate(baseMessage.getDeliveredAt() * 1000));
-                                txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_done_all_black_24dp, 0);
+                                txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_message_delivered, 0);
                                 txtTime.setCompoundDrawablePadding(10);
                             } else if (baseMessage.getSentAt()>0){
                                 txtTime.setText(Utils.getHeaderDate(baseMessage.getSentAt() * 1000));
-                                txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_black_24dp, 0);
+                                txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_message_sent, 0);
                                 txtTime.setCompoundDrawablePadding(10);
                             } else if (baseMessage.getSentAt()==-1) {
                                 txtTime.setText("");
@@ -2165,72 +2177,86 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
              if (baseMessage.getMetadata()!=null) {
                  try {
                      JSONObject metaData = baseMessage.getMetadata();
-                     String messageType = metaData.getString("type");
-                     String message = metaData.getString("message");
-                     viewHolder.replyLayout.setVisibility(View.VISIBLE);
-                     viewHolder.replyMessage.setText(message);
-                     if (metaData.has("name")) {
+                     if (metaData.has("reply-message")) {
+                         JSONObject replyMessageJSON = metaData.getJSONObject("reply-message");
+                         BaseMessage replyMessage = CometChatHelper.processMessage(replyMessageJSON);
+                         String messageType = replyMessage.getType();
+                         viewHolder.replyLayout.setVisibility(View.VISIBLE);
                          viewHolder.replyUser.setVisibility(View.VISIBLE);
-                         viewHolder.replyUser.setText(metaData.getString("name"));
+                         if (replyMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_USER))
+                             viewHolder.replyUser.setText(replyMessage.getSender().getName());
+                         else
+                             viewHolder.replyUser.setText(replyMessage.getSender().getName()+
+                                     " ~ "+((Group)replyMessage.getReceiver()).getName());
+                         if (messageType.equals(CometChatConstants.MESSAGE_TYPE_TEXT)) {
+                            String message = ((TextMessage)replyMessage).getText();
+                            if(CometChat.isExtensionEnabled("profanity-filter")) {
+                                message = Extensions.checkProfanityMessage(context,replyMessage);
+                            }
+                            if(CometChat.isExtensionEnabled("data-masking")) {
+                                message = Extensions.checkDataMasking(context,replyMessage);
+                            }
+                            viewHolder.replyMessageImage.setVisibility(View.GONE);
+                            viewHolder.replyMessage.setText(message);
+                         } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_IMAGE)) {
+                             viewHolder.replyMessage.setText(context.getResources().getString(R.string.message_image));
+                             viewHolder.replyMessageImage.setVisibility(View.GONE);
+                         } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_AUDIO)) {
+                             viewHolder.replyMessageImage.setVisibility(View.GONE);
+                                 viewHolder.replyMessage.setText(context.getResources()
+                                         .getString(R.string.message_audio));
+                         } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_VIDEO)) {
+                             viewHolder.replyMessageImage.setVisibility(View.GONE);
+                             viewHolder.replyMessage.setText(context.getResources().getString(R.string.message_video));
+                         } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_FILE)) {
+                                 viewHolder.replyMessage.setText(context.getResources().getString(R.string.message_file));
+                             viewHolder.replyMessageImage.setVisibility(View.GONE);
+                         } else if (messageType.equals(UIKitConstants.IntentStrings.LOCATION)) {
+                             viewHolder.replyMessage.setText(R.string.custom_message_location);
+                             viewHolder.replyMessageImage.setImageResource(R.drawable.default_map);
+                         } else if (messageType.equals(UIKitConstants.IntentStrings.POLLS)) {
+                             viewHolder.replyMessageImage.setVisibility(View.GONE);
+                             viewHolder.replyMessage.setText(context.getString(R.string.custom_message_poll));
+                         } else if (messageType.equals(UIKitConstants.IntentStrings.STICKERS)) {
+                             viewHolder.replyMessageImage.setVisibility(View.GONE);
+                             viewHolder.replyMessage.setText(String.format(context.getString(R.string.custom_message_sticker)));
+                         } else if (messageType.equals(UIKitConstants.IntentStrings.WHITEBOARD)) {
+                             viewHolder.replyMessageImage.setVisibility(View.GONE);
+                             viewHolder.replyMessage.setText(context.getString(R.string.custom_message_whiteboard));
+                         } else if (messageType.equals(UIKitConstants.IntentStrings.WRITEBOARD)) {
+                             viewHolder.replyMessageImage.setVisibility(View.GONE);
+                             viewHolder.replyMessage.setText(context.getString(R.string.custom_message_document));
+                         } else if (messageType.equals(UIKitConstants.IntentStrings.GROUP_CALL)) {
+                             viewHolder.replyMessageImage.setVisibility(View.GONE);
+                             viewHolder.replyMessage.setText(context.getString(R.string.custom_message_meeting));
+                         }
+                         viewHolder.rlMessageBubble.setOnLongClickListener(new View.OnLongClickListener() {
+                             @Override
+                             public boolean onLongClick(View view) {
+                                 if (!isImageMessageClick) {
+                                     isLongClickEnabled = true;
+                                     isTextMessageClick = true;
+                                     setLongClickSelectedItem(baseMessage);
+                                     messageLongClick.setLongMessageClick(longselectedItemList);
+                                     notifyItemChanged(i);
+                                 }
+                                 return true;
+                             }
+                         });
                      } else {
-                         viewHolder.replyUser.setVisibility(View.GONE);
+                         viewHolder.replyLayout.setVisibility(View.GONE);
                      }
-                 }catch (Exception e) {
-                     Log.e(TAG, "setTextData: "+e.getMessage());
+                 } catch(Exception e){
+                     Log.e(TAG, "setTextData: " + e.getMessage());
                  }
              }
-
-//                     if (messageType.equals(CometChatConstants.MESSAGE_TYPE_TEXT)) {
-//                     } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_IMAGE)) {
-//                         viewHolder.replyMessage.setText(context.getResources().getString(R.string.shared_a_image));
-//                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_photo,0,0,0);
-//                     } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_AUDIO)) {
-//                         viewHolder.replyMessage.setText(String.format(context.getResources().getString(R.string.shared_a_audio),""));
-//                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_library_music_24dp,0,0,0);
-//                     } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_VIDEO)) {
-//                         viewHolder.replyMessage.setText(context.getResources().getString(R.string.shared_a_video));
-//                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_videocam_24dp,0,0,0);
-//                     } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_FILE)) {
-//                         viewHolder.replyMessage.setText(String.format(context.getResources().getString(R.string.shared_a_file),""));
-//                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_insert_drive_file_black_24dp,0,0,0);
-//                     } else if (messageType.equals(UIKitConstants.IntentStrings.LOCATION)) {
-//                         viewHolder.replyMessage.setText(String.format(context
-//                                 .getString(R.string.shared_location),"").trim());
-//                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_near_me_24dp,0,0,0);
-//                     } else if (messageType.equals(UIKitConstants.IntentStrings.POLLS)) {
-//                         viewHolder.replyMessage.setText(String.format(context.getString(R.string.shared_a_polls),message));
-//                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_poll_24dp,0,0,0);
-//                     } else if (messageType.equals(UIKitConstants.IntentStrings.STICKERS)) {
-//                         viewHolder.replyMessage.setText(String.format(context.getString(R.string.shared_a_sticker)));
-//                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.default_sticker,0,0,0);
-//                     } else if (messageType.equals(UIKitConstants.IntentStrings.WHITEBOARD)) {
-//                         viewHolder.replyMessage.setText(context.getString(R.string.shared_a_whiteboard));
-//                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_whiteboard_24dp,0,0,0);
-//                     } else if (messageType.equals(UIKitConstants.IntentStrings.WRITEBOARD)) {
-//                         viewHolder.replyMessage.setText(context.getString(R.string.shared_a_writeboard));
-//                         viewHolder.replyMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_writeboard_24dp,0,0,0);
-//                     }
-                     viewHolder.rlMessageBubble.setOnLongClickListener(new View.OnLongClickListener() {
-                         @Override
-                         public boolean onLongClick(View view) {
-                             if (!isImageMessageClick) {
-                                 isLongClickEnabled = true;
-                                 isTextMessageClick = true;
-                                 setLongClickSelectedItem(baseMessage);
-                                 messageLongClick.setLongMessageClick(longselectedItemList);
-                                 notifyDataSetChanged();
-                             }
-                             return true;
-                         }
-                     });
-
 
             FeatureRestriction.isThreadedMessagesEnabled(new FeatureRestriction.OnSuccessListener() {
                 @Override
                 public void onSuccess(Boolean booleanVal) {
                     if (baseMessage.getReplyCount()!=0 && booleanVal) {
                         viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
-                        viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
+                        viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" "+context.getResources().getString(R.string.replies));
                     } else {
                         viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
                     }
@@ -2323,7 +2349,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         isTextMessageClick = true;
                         setLongClickSelectedItem(baseMessage);
                         messageLongClick.setLongMessageClick(longselectedItemList);
-                        notifyDataSetChanged();
+                        notifyItemChanged(i);
                     }
                     return true;
                 }
@@ -2387,7 +2413,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     Chip chip = new Chip(context);
                     chip.setChipStrokeWidth(2f);
                     chip.setChipBackgroundColor(ColorStateList.valueOf(context.getResources().getColor(android.R.color.transparent)));
-                    chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(FeatureRestriction.getColor())));
+                    chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(UIKitSettings.getColor())));
                     chip.setText(str + " " + reactionOnMessage.get(str));
                     reactionLayout.addView(chip);
                     chip.setOnLongClickListener(new View.OnLongClickListener() {
@@ -2485,12 +2511,12 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         {
             if (baseMessage.getSender().equals(CometChat.getLoggedInUser())) {
                 if (view instanceof CardView) {
-                    ((CardView)view).setCardBackgroundColor(Color.parseColor(FeatureRestriction.getColor()));
+                    ((CardView)view).setCardBackgroundColor(Color.parseColor(UIKitSettings.getColor()));
                 } else {
                     if (Build.VERSION.SDK_INT >= 29) {
-                        view.getBackground().setColorFilter(new PorterDuffColorFilter(Color.parseColor(FeatureRestriction.getColor()), PorterDuff.Mode.SRC_ATOP));
+                        view.getBackground().setColorFilter(new PorterDuffColorFilter(Color.parseColor(UIKitSettings.getColor()), PorterDuff.Mode.SRC_ATOP));
                     } else {
-                        view.getBackground().setColorFilter(Color.parseColor(FeatureRestriction.getColor()), PorterDuff.Mode.SRC_ATOP);
+                        view.getBackground().setColorFilter(Color.parseColor(UIKitSettings.getColor()), PorterDuff.Mode.SRC_ATOP);
                     }
                 }
             } else {
@@ -2580,7 +2606,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 public void onSuccess(Boolean booleanVal) {
                     if (baseMessage.getReplyCount()!=0 && booleanVal) {
                         viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
-                        viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" Replies");
+                        viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" "+context.getResources().getString(R.string.replies));
                     } else {
                         viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
                     }
@@ -2654,7 +2680,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 else {
                     setSelectedMessage(baseMessage.getId());
                 }
-                notifyDataSetChanged();
+                notifyItemChanged(i);
 
             });
             viewHolder.rlMessageBubble.setOnLongClickListener(new View.OnLongClickListener() {
@@ -2665,7 +2691,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         isTextMessageClick = true;
                         setLongClickSelectedItem(baseMessage);
                         messageLongClick.setLongMessageClick(longselectedItemList);
-                        notifyDataSetChanged();
+                        notifyItemChanged(i);
                     }
                     return true;
                 }
@@ -2706,7 +2732,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private void setAvatar(CometChatAvatar avatar, String avatarUrl, String name) {
 
         if (avatarUrl != null && !avatarUrl.isEmpty())
-            Glide.with(context).load(avatarUrl).into(avatar);
+            avatar.setAvatar(avatarUrl);
         else
             avatar.setInitials(name);
 
@@ -2990,6 +3016,16 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return messageList.indexOf(baseMessage);
     }
 
+    public void updateReplyCount(int parentMessageId) {
+        for(BaseMessage baseMessage : messageList) {
+            if (baseMessage.getId()==parentMessageId) {
+                int replyCount = baseMessage.getReplyCount();
+                baseMessage.setReplyCount(++replyCount);
+                notifyItemChanged(messageList.indexOf(baseMessage));
+            }
+        }
+    }
+
     class ImageMessageViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imageView;
@@ -3140,9 +3176,10 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private RelativeLayout sentimentVw;     //sentiment extension layout
         private TextView viewSentimentMessage;  //sentiment extension text
 
-        private RelativeLayout replyLayout;     //reply message layout
+        private MaterialCardView replyLayout;     //reply message layout
         private TextView replyUser;             //reply message sender name
         private TextView replyMessage;          //reply message text
+        private ImageView replyMessageImage;
 
         private ChipGroup reactionLayout;
 
@@ -3161,6 +3198,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             rlMessageBubble = view.findViewById(R.id.rl_message);
             replyLayout = view.findViewById(R.id.replyLayout);
             replyUser = view.findViewById(R.id.reply_user);
+            replyMessageImage = view.findViewById(R.id.reply_image);
             replyMessage = view.findViewById(R.id.reply_message);
             tvThreadReplyCount = view.findViewById(R.id.thread_reply_count);
             sentimentVw = view.findViewById(R.id.sentiment_layout);
@@ -3234,9 +3272,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public ImageView ivMap;
         public TextView tvAddress;
         public TextView senderTxt;
-        public MaterialButton navigateBtn;
 
-        public CardView cvMessageView;
+        public MaterialCardView cvMessageView;
 
         public TextView tvThreadReplyCount;
         public TextView txtTime;
@@ -3259,7 +3296,6 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ivUser = itemView.findViewById(R.id.iv_user);
             tvThreadReplyCount = itemView.findViewById(R.id.thread_reply_count);
             senderTxt = itemView.findViewById(R.id.sender_location_txt);
-            navigateBtn = itemView.findViewById(R.id.navigate_btn);
             reactionLayout = itemView.findViewById(R.id.reactions_layout);
             this.view = itemView;
         }

@@ -67,6 +67,7 @@ public class ConversationListViewFragment extends Fragment {
                     intent.putExtra(UIKitConstants.IntentStrings.UID,((User)conversation.getConversationWith()).getUid());
                     intent.putExtra(UIKitConstants.IntentStrings.AVATAR,((User)conversation.getConversationWith()).getAvatar());
                     intent.putExtra(UIKitConstants.IntentStrings.STATUS,((User)conversation.getConversationWith()).getStatus());
+                    intent.putExtra(UIKitConstants.IntentStrings.LINK,((User)conversation.getConversationWith()).getLink());
                 }
                 startActivity(intent);
             }

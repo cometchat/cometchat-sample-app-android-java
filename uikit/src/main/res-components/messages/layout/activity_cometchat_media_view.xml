@@ -10,7 +10,7 @@
         android:elevation="8dp"
         app:titleTextColor="@color/textColorWhite"
         app:subtitleTextColor="@color/textColorWhite"
-        app:navigationIcon="@drawable/ic_arrow_back_24dp"
+        app:navigationIcon="@drawable/ic_back"
         android:background="@color/grey"
         android:layout_width="match_parent"
         android:id="@+id/toolbar"

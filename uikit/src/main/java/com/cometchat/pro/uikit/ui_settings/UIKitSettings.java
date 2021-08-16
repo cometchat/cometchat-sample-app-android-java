@@ -25,7 +25,7 @@ import java.util.Locale;
 public class UIKitSettings {
 
     //style
-    protected static String color = "#03A9F4";
+    protected static String UIcolor = "#03A9F4";
     //BottomBar
     private static boolean users = true;
     private static boolean groups = true;
@@ -33,8 +33,8 @@ public class UIKitSettings {
     private static boolean calls = true;
     private static boolean userSettings = true;
 
-    //main
-    @Deprecated private static boolean enableSendingMessage = true;
+    private static boolean startConversation = true;
+    private static boolean deleteConversation = true;
 
     private static boolean sendMessageInOneOneOne = true;
     private static boolean sendMessageInGroup = true;
@@ -179,6 +179,10 @@ public class UIKitSettings {
 
     public static void showReplyPrivately(boolean isEnable) {
         showReplyPrivately = isEnable;
+    }
+
+    public static String getColor() {
+        return UIcolor;
     }
 
     public void addConnectionListener(String TAG) {
@@ -329,7 +333,16 @@ public class UIKitSettings {
     }
 
     public static void setColor(String color) {
-        color = color;
+        UIcolor = color;
+    }
+
+
+    public static void deleteConversation(boolean isEnabled) {
+        deleteConversation = isEnabled;
+    }
+
+    public static void startConversation(boolean isEanbled) {
+        startConversation = isEanbled;
     }
 
     public static void users(boolean showUsers) {
@@ -448,7 +461,7 @@ public class UIKitSettings {
 
 
     public static void sendStickers(boolean isEnable) {
-         sendStickers = isEnable;
+        sendStickers = isEnable;
     }
 
     public static void unreadCount(boolean isEnable) { unreadCount = isEnable; }
@@ -907,4 +920,11 @@ public class UIKitSettings {
         return hideDeleteMessage;
     }
 
+    public static boolean isDeleteConversation() {
+        return deleteConversation;
+    }
+
+    public static boolean isStartConversation() {
+        return startConversation;
+    }
 }

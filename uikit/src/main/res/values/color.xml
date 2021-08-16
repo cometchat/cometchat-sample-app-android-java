@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#03A9F4</color>
-    <color name="colorSecondary">#169CD8</color>
+    <color name="colorPrimary">#3399FF</color>
+    <color name="colorSecondary">#808080</color>
     <color name="colorPrimaryDark">#2196F3</color>
     <color name="primaryTextColor">#000000</color>
 
@@ -13,17 +13,12 @@
     <color name="menu_background_grey">#40bdbdbd</color>
     <color name="online_green">#E64CAF50</color>
     <color name="red">#eecc0000</color>
-    <color name="file_icon">#B1AEAE</color>
-    <color name="search_bg">#979797</color>
     <color name="shimmer">#ECECEC</color>
 
-    <color name="light_blue">#00BCD4</color>
     <color name="orange">#FF9800</color>
     <color name="purple">#8867C5</color>
     <color name="dark_blue">#0020F5</color>
     <color name="green_600">#43A047</color>
-    <color name="green_100">#C8E6C9</color>
-    <color name="red_100">#FFCDD2</color>
     <color name="red_600">#E53935</color>
     <color name="grey">#B96B6B6B</color>
     <color name="grey_100">#C4C4C4</color>

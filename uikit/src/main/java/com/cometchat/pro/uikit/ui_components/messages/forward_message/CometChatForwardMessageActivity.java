@@ -231,10 +231,10 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                 if (editable.toString().length()!=0) {
-                     if (conversationListAdapter != null)
-                         conversationListAdapter.getFilter().filter(editable.toString());
-                 }
+                if (editable.toString().length()!=0) {
+                    if (conversationListAdapter != null)
+                        conversationListAdapter.getFilter().filter(editable.toString());
+                }
             }
         });
 
@@ -273,7 +273,7 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
                             avatar = ((Group) conversation.getConversationWith()).getIcon();
                         }
                         chip.setText(name);
-                        Glide.with(CometChatForwardMessageActivity.this).load(avatar).placeholder(R.drawable.ic_contacts_24dp).transform(new CircleCrop()).into(new SimpleTarget<Drawable>() {
+                        Glide.with(CometChatForwardMessageActivity.this).load(avatar).placeholder(R.drawable.ic_contacts).transform(new CircleCrop()).into(new SimpleTarget<Drawable>() {
                             @Override
                             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                                 chip.setChipIcon(resource);
@@ -294,7 +294,7 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
                     checkUserList();
                 }
                 else {
-                   CometChatSnackBar.show(CometChatForwardMessageActivity.this,
+                    CometChatSnackBar.show(CometChatForwardMessageActivity.this,
                             selectedUsers,
                             getString(R.string.forward_to_5_at_a_time), CometChatSnackBar.WARNING);
                 }
@@ -333,7 +333,11 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
                             }
 
                         }).start();
-                    } else if (messageType != null && messageType.equals(CometChatConstants.MESSAGE_TYPE_IMAGE)) {
+                    } else if (messageType != null &&
+                            (messageType.equals(CometChatConstants.MESSAGE_TYPE_IMAGE) ||
+                                    messageType.equals(CometChatConstants.MESSAGE_TYPE_AUDIO) ||
+                                    messageType.equals(CometChatConstants.MESSAGE_TYPE_FILE) ||
+                                    messageType.equals(CometChatConstants.MESSAGE_TYPE_VIDEO))) {
                         new Thread(() -> {
                             for (int i = 0; i <= userList.size() - 1; i++) {
                                 Conversation conversation = new ArrayList<>(userList.values()).get(i);
@@ -547,9 +551,9 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-         if (item.getItemId()==android.R.id.home){
-             onBackPressed();
-         }
+        if (item.getItemId()==android.R.id.home){
+            onBackPressed();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -582,7 +586,7 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
 
             @Override
             public void onError(CometChatException e) {
-               CometChatSnackBar.show(CometChatForwardMessageActivity.this,
+                CometChatSnackBar.show(CometChatForwardMessageActivity.this,
                         rvConversationList, CometChatError.localized(e), CometChatSnackBar.ERROR);
             }
         });

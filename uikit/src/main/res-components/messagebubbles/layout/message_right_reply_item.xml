@@ -1,52 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:layout_width="wrap_content"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:visibility="gone"
-    tools:visibility="visible"
-    android:background="@drawable/left_border_rmessage"
-    android:layout_height="wrap_content"
-    android:minWidth="120dp"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/replyLayout"
-    android:alpha="0.7"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-    <LinearLayout
-        android:id="@+id/reply_user_info"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentEnd="true"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@android:color/transparent"
+    android:orientation="vertical"
+    android:maxWidth="200dp"
+    android:visibility="gone"
+    tools:visibility="visible">
+    <ImageView
+        android:alpha="0.2"
+        android:background="@color/primaryTextColor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:maxWidth="250dp"
+        android:padding="16dp"
+        android:minWidth="200dp"
+        android:background="@drawable/left_border_rmessage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <TextView
+            android:id="@+id/reply_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxWidth="200dp"
             android:maxLines="1"
             android:textColor="@color/textColorWhite"
-            android:ellipsize="end"
-            android:id="@+id/reply_user"
-            tools:text="@tools:sample/full_names"
             android:textStyle="bold"
-            android:maxWidth="150dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@tools:sample/full_names" />
+        <androidx.cardview.widget.CardView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <ImageView
-            android:layout_toRightOf="@+id/reply_user"
-            android:id="@+id/reply_media"
-            android:layout_marginLeft="16dp"
-            tools:src="@tools:sample/avatars"
-            android:layout_width="24dp"
-            android:layout_height="24dp"/>
-    </LinearLayout>
-    <TextView
-        android:layout_below="@+id/reply_user_info"
-        android:textStyle="italic"
-        android:maxLines="3"
-        android:ellipsize="end"
-        android:drawablePadding="8dp"
-        android:gravity="center"
-        android:drawableTint="@color/textColorWhite"
-        android:id="@+id/reply_message"
-        android:maxWidth="200dp"
-        tools:text="@string/replyTxt"
-        android:textColor="@color/textColorWhite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-</RelativeLayout>
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp">
+            <ImageView
+                android:id="@+id/reply_image"
+                android:layout_width="48dp"
+                android:background="@drawable/cc_message_bubble_right"
+                android:layout_height="48dp"
+                android:scaleType="centerCrop"
+                tools:src="@tools:sample/avatars" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:id="@+id/reply_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxWidth="150dp"
+            android:maxLines="3"
+            android:textColor="@color/textColorWhite"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reply_user"
+            tools:text="@string/replyTxt" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

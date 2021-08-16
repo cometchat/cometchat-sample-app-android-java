@@ -51,7 +51,9 @@ import com.cometchat.pro.uikit.R;
 
 import com.cometchat.pro.uikit.ui_resources.utils.pattern_utils.PatternUtils;
 import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
@@ -789,15 +791,15 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 progressBar.setVisibility(View.GONE);
             if (baseMessage.getReadAt() != 0) {
                 txtTime.setText(Utils.getHeaderDate(baseMessage.getReadAt() * 1000));
-                txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_double_tick, 0);
+                txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_message_read, 0);
                 txtTime.setCompoundDrawablePadding(10);
             } else if (baseMessage.getDeliveredAt() != 0) {
                 txtTime.setText(Utils.getHeaderDate(baseMessage.getDeliveredAt() * 1000));
-                txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_done_all_black_24dp, 0);
+                txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_message_delivered, 0);
                 txtTime.setCompoundDrawablePadding(10);
             } else if (baseMessage.getSentAt()>0){
                 txtTime.setText(Utils.getHeaderDate(baseMessage.getSentAt() * 1000));
-                txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_black_24dp, 0);
+                txtTime.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_message_sent, 0);
                 txtTime.setCompoundDrawablePadding(10);
             } else if (baseMessage.getSentAt()==-1) {
                 txtTime.setText("");
@@ -990,7 +992,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Chip chip = new Chip(context);
                 chip.setChipStrokeWidth(2f);
                 chip.setChipBackgroundColor(ColorStateList.valueOf(context.getResources().getColor(android.R.color.transparent)));
-                chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(FeatureRestriction.getColor())));
+                chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(UIKitSettings.getColor())));
                 chip.setText(str + " " + reactionOnMessage.get(str));
                 reactionLayout.addView(chip);
                 chip.setOnLongClickListener(new View.OnLongClickListener() {
@@ -1169,7 +1171,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private void setAvatar(CometChatAvatar avatar, String avatarUrl, String name) {
 
         if (avatarUrl != null && !avatarUrl.isEmpty())
-            Glide.with(context).load(avatarUrl).into(avatar);
+            avatar.setAvatar(avatarUrl);
         else
             avatar.setInitials(name);
 
@@ -1485,7 +1487,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private int type;
         private CometChatAvatar ivUser;
         private RelativeLayout rlMessageBubble;
-        private RelativeLayout replyLayout;
+        private MaterialCardView replyLayout;
         private TextView replyUser;
         private TextView replyMessage;
         private RelativeLayout sentimentVw;

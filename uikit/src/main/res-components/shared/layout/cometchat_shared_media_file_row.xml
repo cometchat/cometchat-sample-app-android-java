@@ -19,7 +19,7 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_insert_drive_file_black_24dp"
+                android:src="@drawable/ic_file_upload"
                 android:layout_width="70dp"
                 android:tint="@color/secondaryTextColor"
                 android:layout_height="70dp"/>

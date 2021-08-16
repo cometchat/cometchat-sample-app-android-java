@@ -3,37 +3,24 @@ package com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.Outline;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.PixelFormat;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewOutlineProvider;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.databinding.BindingMethod;
-import androidx.databinding.BindingMethods;
 
 import com.bumptech.glide.Glide;
+import com.cometchat.pro.models.AppEntity;
 import com.cometchat.pro.models.Group;
 import com.cometchat.pro.models.User;
 
 import com.cometchat.pro.uikit.R;
-import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
-import com.cometchat.pro.uikit.ui_resources.utils.Utils;
+import com.google.android.material.card.MaterialCardView;
 
 /**
  * Purpose - This class is a subclass of AppCompatImageView, It is a component which is been used by developer
@@ -45,21 +32,10 @@ import com.cometchat.pro.uikit.ui_resources.utils.Utils;
  *
  * Modified on  - 20th January 2020
  *
-*/
-@BindingMethods(value = {@BindingMethod(type = CometChatAvatar.class, attribute = "app:avatar", method = "setAvatar"),
-                   @BindingMethod(type = CometChatAvatar.class, attribute = "app:avatar_name", method = "setInitials")})
-public class CometChatAvatar extends AppCompatImageView {
+ */
+public class CometChatAvatar extends MaterialCardView {
 
     private static final String TAG = CometChatAvatar.class.getSimpleName();
-
-    private final Class avatar = CometChatAvatar.class;
-
-    private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
-
-    /*
-     * Path of them image to be clipped (to be shown)
-     * */
-    Path clipPath;
 
     /*
      * Place holder drawable (with background color and initials)
@@ -72,47 +48,11 @@ public class CometChatAvatar extends AppCompatImageView {
     String text;
 
     /*
-     * Used to set size and color of the member initials
-     * */
-    TextPaint textPaint;
-
-    /*
-     * Used as background of the initials with user specific color
-     * */
-    Paint paint;
-
-    /*
-     * To draw border
-     */
-    private Paint borderPaint;
-
-    /*
-     * Shape to be drawn
-     * */
-    int shape;
-
-    /*
-     * Constants to define shape
-     * */
-    protected static final int CIRCLE = 0;
-    protected static final int RECTANGLE = 1;
-
-    /*
      * User whose avatar should be displayed
      * */
     //User user;
     String avatarUrl;
 
-    /*
-     * Image width and height (both are same and com.cometchat.pro.uikit.UI_Resources.constant, defined in dimens.xml
-     * We cache them in this field
-     * */
-    private int imageSize;
-
-    /*
-     * We will set it as 2dp
-     * */
-    int cornerRadius;
 
     /*
      * Bounds of the canvas in float
@@ -127,9 +67,15 @@ public class CometChatAvatar extends AppCompatImageView {
 
     private int borderColor;
 
+    private int backgroundColor;
+
     private float borderWidth;
 
-    private float borderRadius;
+    private float radius;
+
+    private MaterialCardView cardView;
+    private ImageView imageView;
+    private TextView textView;
 
     public CometChatAvatar(Context context) {
         super(context);
@@ -140,177 +86,68 @@ public class CometChatAvatar extends AppCompatImageView {
         super(context, attrs);
         this.context = context;
         getAttributes(attrs);
-        init();
     }
 
     public CometChatAvatar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
         getAttributes(attrs);
-        init();
     }
 
     private void getAttributes(AttributeSet attrs) {
+        View view =View.inflate(context, R.layout.cometchat_avatar,null);
         TypedArray a = getContext().getTheme().obtainStyledAttributes(
                 attrs,
                 R.styleable.Avatar,
                 0, 0);
+        /*
+         * Get the shape and set shape field accordingly
+         * */
+        drawable = a.getDrawable(R.styleable.Avatar_image);
+        radius = a.getDimension(R.styleable.Avatar_corner_radius,16);
+        backgroundColor = a.getColor(R.styleable.Avatar_background_color,
+                getResources().getColor(R.color.colorPrimary));
+        avatarUrl = a.getString(R.styleable.Avatar_avatar);
+//            borderRadius = a.getInteger(R.styleable.Avatar_cornerRadius,8);
+        borderColor = a.getColor(R.styleable.Avatar_border_color,getResources().getColor(R.color.colorPrimary));
+        //          backgroundColor = a.getColor(R.styleable.Avatar_backgroundColor,getResources().getColor(R.color.colorPrimary));
+        borderWidth = a.getDimension(R.styleable.Avatar_border_width,1f);
 
-        try {
 
-            /*
-             * Get the shape and set shape field accordingly
-             * */
-            String avatarShape = a.getString(R.styleable.Avatar_avatar_shape);
-            avatarUrl = a.getString(R.styleable.Avatar_avatar);
-            borderColor =a.getColor(R.styleable.Avatar_border_color,Color.WHITE);
-            borderWidth=a.getDimension(R.styleable.Avatar_border_width,1);
+        addView(view);
 
 
+        cardView = view.findViewById(R.id.cardView);
+        setRadius(radius);
+        cardView.setCardBackgroundColor(backgroundColor);
+        imageView = view.findViewById(R.id.image);
+        textView = view.findViewById(R.id.text);
+        if (drawable!=null)
+            imageView.setImageDrawable(drawable);
+    }
 
-            /*
-             * If the attribute is not specified, consider circle shape
-             * */
-            if (avatarShape == null) {
-                shape = CIRCLE;
-            } else {
-                if (new String("rectangle").equalsIgnoreCase(avatarShape)) {
-                    shape = RECTANGLE;
-                } else {
-                    shape = CIRCLE;
+    private void setAvatar(@NonNull User user) {
+
+        if (user!=null) {
+            if (user.getAvatar() != null) {
+                avatarUrl = user.getAvatar();
+                if (isValidContextForGlide(context)) {
+                    setValues();
                 }
+            } else {
+                if (user.getName()!=null&&!user.getName().isEmpty()) {
+                    if (user.getName().length() > 2) {
+                        text = user.getName().substring(0, 2);
+                    } else {
+                        text = user.getName();
+                    }
+                }else {
+                    text="??";
+                }
+                imageView.setVisibility(View.GONE);
+                textView.setText(text);
             }
-        } finally {
-            a.recycle();
         }
-    }
-
-    @Override
-    public ScaleType getScaleType() {
-        return SCALE_TYPE;
-    }
-
-    @Override
-    public void setScaleType(ScaleType scaleType) {
-        if (scaleType != SCALE_TYPE) {
-            throw new IllegalArgumentException(String.format("ScaleType %1$s not supported.", scaleType));
-        }
-    }
-
-    public void setShape(String shapestr)
-    {
-        if (shapestr.equalsIgnoreCase("circle")) {
-            shape = CIRCLE;
-        } else {
-            shape = RECTANGLE;
-        }
-    }
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        init();
-    }
-
-    @Override
-    public void setAdjustViewBounds(boolean adjustViewBounds) {
-        if (adjustViewBounds) {
-            throw new IllegalArgumentException("adjustViewBounds not supported.");
-        }
-    }
-
-    @Override
-    public void setPadding(int left, int top, int right, int bottom) {
-        super.setPadding(left, top, right, bottom);
-        init();
-    }
-
-    @Override
-    public void setPaddingRelative(int start, int top, int end, int bottom) {
-        super.setPaddingRelative(start, top, end, bottom);
-        init();
-    }
-    /*
-     * Initialize fields
-     * */
-    protected void init() {
-        rectF = new RectF();
-        clipPath = new Path();
-        rectF.set(calculateBounds());
-
-        //imageSize = getResources().getDimensionPixelSize(R.dimen.avatar_size);
-        imageSize = getHeight();
-        cornerRadius = (int) Utils.dpToPixel(2, getResources());
-
-        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        if (FeatureRestriction.getColor()!=null && !FeatureRestriction.getColor().isEmpty()) {
-            paint.setColor(Color.parseColor(FeatureRestriction.getColor()));
-        }
-        else
-            paint.setColor(getResources().getColor(R.color.colorPrimary));
-
-        textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        textPaint.setTextSize(16f * getResources().getDisplayMetrics().scaledDensity);
-        textPaint.setColor(Color.WHITE);
-
-        borderPaint = new Paint();
-        borderPaint.setStyle(Paint.Style.STROKE);
-        borderPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
-
-        borderPaint.setColor(borderColor);
-        borderPaint.setAntiAlias(true);
-        borderPaint.setStrokeWidth(borderWidth);
-
-        if (FeatureRestriction.getColor()!=null && FeatureRestriction.getColor().isEmpty())
-            color = Color.parseColor(FeatureRestriction.getColor());
-        else
-            color = getResources().getColor(R.color.colorPrimary);
-
-        setOutlineProvider(new OutlineProvider());
-    }
-
-   private RectF calculateBounds() {
-        int availableWidth  = getWidth() - getPaddingLeft() - getPaddingRight();
-        int availableHeight = getHeight() - getPaddingTop() - getPaddingBottom();
-
-        int sideLength = Math.min(availableWidth, availableHeight);
-
-        float left = getPaddingLeft() + (availableWidth - sideLength) / 2f;
-        float top = getPaddingTop() + (availableHeight - sideLength) / 2f;
-
-        return new RectF(left, top, left + sideLength, top + sideLength);
-    }
-
-    /**
-     * This method is used to check if the user parameter passed is null or not. If it is not null then
-     * it will show avatar of user, else it will show default drawable or first two letter of user name.
-     *
-     * @param user is an object of User.class.
-     * @see User
-     */
-    public void setAvatar(@NonNull User user) {
-
-         if (user!=null) {
-             if (user.getAvatar() != null) {
-                 avatarUrl = user.getAvatar();
-                 if (isValidContextForGlide(context)) {
-                     init();
-                     setValues();
-                 }
-             } else {
-                  if (user.getName()!=null&&!user.getName().isEmpty()) {
-                      if (user.getName().length() > 2) {
-                          text = user.getName().substring(0, 2);
-                      } else {
-                          text = user.getName();
-                      }
-                  }else {
-                      text="??";
-                  }
-                 init();
-                 setImageDrawable(drawable);
-                 setDrawable();
-             }
-         }
 
     }
 
@@ -321,28 +158,34 @@ public class CometChatAvatar extends AppCompatImageView {
      * @param group is an object of Group.class.
      * @see Group
      */
-    public void setAvatar(@NonNull Group group) {
+    private void setAvatar(@NonNull Group group) {
 
-         if (group!=null) {
+        if (group!=null) {
 
-             if (group.getIcon() != null) {
-                 avatarUrl = group.getIcon();
-                 if (isValidContextForGlide(context))
-                     init();
-                 setValues();
-             } else {
-                 if (group.getName().length() > 2)
-                     text = group.getName().substring(0, 2);
-                 else {
-                     text = group.getName();
-                 }
-
-                 init();
-                 setDrawable();
-                 setImageDrawable(drawable);
-             }
-         }
+            if (group.getIcon() != null) {
+                avatarUrl = group.getIcon();
+                if (isValidContextForGlide(context))
+                    setValues();
+            } else {
+                if (group.getName().length() > 2)
+                    text = group.getName().substring(0, 2);
+                else {
+                    text = group.getName();
+                }
+                imageView.setVisibility(View.GONE);
+                textView.setText(text);
+            }
+        }
     }
+
+    public void setAvatar(AppEntity appEntity) {
+        if (appEntity instanceof User) {
+            setAvatar((User)appEntity);
+        } else if (appEntity instanceof Group) {
+            setAvatar((Group)appEntity);
+        }
+    }
+
     /**
      * This method is used to set image by using url passed in parameter..
      *
@@ -353,7 +196,6 @@ public class CometChatAvatar extends AppCompatImageView {
 
         this.avatarUrl = avatarUrl;
         if (isValidContextForGlide(context))
-            init();
             setValues();
 
     }
@@ -366,7 +208,6 @@ public class CometChatAvatar extends AppCompatImageView {
         this.drawable = drawable;
         this.avatarUrl = avatarUrl;
         if (isValidContextForGlide(context)) {
-            init();
             setValues();
         }
     }
@@ -387,16 +228,28 @@ public class CometChatAvatar extends AppCompatImageView {
         }else {
             text=name;
         }
-        setDrawable();
-        setImageDrawable(drawable);
+        imageView.setVisibility(View.GONE);
+        textView.setText(text);
+        textView.setVisibility(View.VISIBLE);
     }
 
+    public void setAvatar(String url,String name) {
+        setAvatar(url);
+        if (url==null)
+            setInitials(name);
+    }
     public float getBorderWidth() {
         return borderWidth;
     }
     public Drawable getDrawable()
     {
         return drawable;
+    }
+
+    public void setDrawable(Drawable drawable) {
+        imageView.setImageDrawable(drawable);
+        imageView.setVisibility(View.VISIBLE);
+        textView.setVisibility(View.GONE);
     }
     /*
      * Set user specific fields in here
@@ -408,12 +261,10 @@ public class CometChatAvatar extends AppCompatImageView {
                     Glide.with(context)
                             .load(avatarUrl)
                             .placeholder(drawable)
-                            .centerCrop()
-                            .override(imageSize, imageSize)
-                            .into(this);
+                            .into(imageView);
                 }
-            } else {
-                setImageDrawable(drawable);
+                imageView.setVisibility(View.VISIBLE);
+                textView.setVisibility(View.GONE);
             }
         } catch (Exception e) {
             Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
@@ -435,98 +286,13 @@ public class CometChatAvatar extends AppCompatImageView {
     }
 
 
-    /*
-     * Create placeholder drawable
-     * */
-    private void setDrawable() {
-        drawable = new Drawable() {
-            @Override
-            public void draw(@NonNull Canvas canvas) {
-
-                int centerX = Math.round(canvas.getWidth() * 0.5f);
-                int centerY = Math.round(canvas.getHeight() * 0.5f);
-
-                /*
-                 * To draw text
-                 * */
-                if (text != null) {
-                    float textWidth = textPaint.measureText(text) * 0.5f;
-                    float textBaseLineHeight = textPaint.getFontMetrics().ascent * -0.4f;
-
-                    /*
-                     * Draw the background color before drawing initials text
-                     * */
-                    if (shape == RECTANGLE) {
-                        canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, paint);
-                    } else {
-                        canvas.drawCircle(centerX,
-                                centerY,
-                                Math.max(canvas.getHeight() / 2, textWidth / 2),
-                                paint);
-                    }
-
-                    /*
-                     * Draw the text above the background color
-                     * */
-                    canvas.drawText(text, centerX - textWidth, centerY + textBaseLineHeight, textPaint);
-                }
-            }
-
-            @Override
-            public void setAlpha(int alpha) {
-
-            }
-
-            @Override
-            public void setColorFilter(ColorFilter colorFilter) {
-
-            }
-
-            @Override
-            public int getOpacity() {
-                return PixelFormat.UNKNOWN;
-            }
-        };
-    }
-
-    /*
-     * Set the canvas bounds here
-     * */
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int screenWidth = MeasureSpec.getSize(widthMeasureSpec);
-        int screenHeight = MeasureSpec.getSize(heightMeasureSpec);
-        rectF.set(0, 0, screenWidth, screenHeight);
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        if (shape == RECTANGLE) {
-            canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, borderPaint);
-            clipPath.addRoundRect(rectF, cornerRadius, cornerRadius, Path.Direction.CCW);
-        } else {
-            canvas.drawCircle(rectF.centerX(), rectF.centerY(), (rectF.height() / 2)-borderWidth, borderPaint);
-
-            clipPath.addCircle(rectF.centerX(), rectF.centerY(), (rectF.height() / 2)-borderWidth, Path.Direction.CCW);
-        }
-
-        canvas.clipPath(clipPath);
-        super.onDraw(canvas);
-    }
-
-    @Override
-    public void setBackgroundColor(int color) {
-        this.paint.setColor(color);
-    }
-
     /**
      * This method is used to set border color of avatar.
      * @param color
      */
     public void setBorderColor(@ColorInt int color) {
         this.borderColor = color;
-        this.borderPaint.setColor(color);
+        cardView.setStrokeColor(color);
     }
 
     /**
@@ -536,19 +302,17 @@ public class CometChatAvatar extends AppCompatImageView {
     public void setBorderWidth(int borderWidth) {
 
         this.borderWidth = borderWidth;
-        this.borderPaint.setStrokeWidth(borderWidth);
-        invalidate();
+        cardView.setStrokeWidth(borderWidth);
     }
 
-    private class OutlineProvider extends ViewOutlineProvider {
-
-        @Override
-        public void getOutline(View view, Outline outline) {
-            Rect bounds = new Rect();
-            rectF.roundOut(bounds);
-            outline.setRoundRect(bounds, bounds.width() / 2.0f);
-        }
-
+    public void setCornerRadius(int radius) {
+        this.radius = radius;
+        cardView.setRadius(radius);
+        setRadius(radius);
     }
 
+    public void setBackgroundColor(@ColorInt int color) {
+        this.backgroundColor = color;
+        imageView.setBackgroundColor(backgroundColor);
+    }
 }
