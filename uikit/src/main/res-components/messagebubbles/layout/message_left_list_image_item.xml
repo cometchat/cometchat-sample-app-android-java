@@ -15,6 +15,7 @@
         <com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar
             android:id="@+id/iv_user"
             android:layout_width="24dp"
+            app:corner_radius="12dp"
             android:layout_height="24dp"
             android:layout_alignTop="@id/cv_image_message_container"
             android:layout_marginStart="4dp"

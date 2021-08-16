@@ -27,6 +27,7 @@ import com.cometchat.pro.uikit.databinding.CometchatCallListRowBinding;
 import com.cometchat.pro.uikit.ui_resources.utils.FontUtils;
 import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 
 /**
  * Purpose - CallListAdapter is a subclass of RecyclerView Adapter which is used to display
@@ -203,7 +204,7 @@ public class CometChatCallsAdapter extends RecyclerView.Adapter<CometChatCallsAd
         }
 
         callViewHolder.callListRowBinding.callIv.setImageTintList(
-                ColorStateList.valueOf(Color.parseColor(FeatureRestriction.getColor())));
+                ColorStateList.valueOf(Color.parseColor(UIKitSettings.getColor())));
 
     }
 

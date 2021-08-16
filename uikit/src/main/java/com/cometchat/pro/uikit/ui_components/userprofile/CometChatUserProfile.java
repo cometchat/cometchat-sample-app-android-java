@@ -120,7 +120,7 @@ public class CometChatUserProfile extends Fragment {
                 if(!s.toString().isEmpty())
                 {
                     avatar.setVisibility(View.VISIBLE);
-                    Glide.with(getContext()).load(s.toString()).into(avatar);
+                    avatar.setAvatar(s.toString());
                 } else
                     avatar.setVisibility(View.GONE);
             }

@@ -15,6 +15,7 @@ import com.cometchat.pro.helpers.CometChatHelper;
 import com.cometchat.pro.models.BaseMessage;
 import com.cometchat.pro.models.Conversation;
 import com.cometchat.pro.models.MessageReceipt;
+import com.cometchat.pro.models.TypingIndicator;
 import com.cometchat.pro.uikit.R;
 
 import java.util.List;
@@ -187,5 +188,10 @@ public class CometChatConversations extends RecyclerView {
 
     public int size() {
         return conversationViewModel.size();
+    }
+
+    public void setTypingIndicator(TypingIndicator typingIndicator, boolean b) {
+        if (conversationViewModel!=null)
+            conversationViewModel.setTypingIndicator(typingIndicator,b);
     }
 }

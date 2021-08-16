@@ -275,7 +275,7 @@
     <string name="left">покинул группу</string>
     <string name="downloading">скачивание</string>
     <string name="creating_group">Создание группы</string>
-    <string name="reply_privately">Отправить сообщение в частном порядке</string>
+    <string name="send_message_privately">Отправить сообщение в частном порядке</string>
     <string name="view_profile">Просмотреть профиль</string>
     <string name="delete_conversation_message">Вы хотите удалить этот разговор?</string>
     <string name="deleting_conversation">Удаление разговора</string>
@@ -291,4 +291,13 @@
     <string name="new_message"> Новое сообщение</string>
     <string name="offline">Не в сети</string>
     <string name="reply_message_privately">Ответить лично</string>
+    <string name="select_user">Выбрать пользователя</string>
+    <string name="select_group">Выбрать группу</string>
+    <string name="search_users">Поиск пользователей</string>
+    <string name="search_groups">Поисковые группы</string>
+    <string name="rejected_voice_call">Отклоненный голосовой вызов</string>
+    <string name="rejected_video_call">Отклоненный видеовызов</string>
+    <string name="outgoing_voice_call">Исходящий голосовой вызов</string>
+    <string name="outgoing_video_call">Исходящий видеозвонок</string>
+    <string name="no_banned_members_found">Забаненные участники не найдены</string>
 </resources>

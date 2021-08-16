@@ -10,10 +10,14 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.StringDef;
 import androidx.databinding.BindingMethod;
 import androidx.databinding.BindingMethods;
 
+import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.uikit.R;
+import com.cometchat.pro.uikit.ui_resources.utils.Utils;
+import com.google.android.material.card.MaterialCardView;
 
 /**
  * Purpose - StatusIndicator is a subclass of View and it is used as component to display status
@@ -26,17 +30,19 @@ import com.cometchat.pro.uikit.R;
  */
 
 @BindingMethods(value ={@BindingMethod(type = CometChatUserPresence.class, attribute = "app:user_status", method = "setUserStatus")})
-public class CometChatUserPresence extends View {
+public class CometChatUserPresence extends MaterialCardView {
 
-    private Paint paint;
-    RectF rectF;
-    int status;
+    @Presence
+    String status;
 
     /*
      * Constants to define shape
      * */
-    protected static final int OFFLINE = 0;
-    protected static final int ONLINE = 1;
+    @StringDef({Presence.ONLINE, Presence.OFFLINE})
+    public @interface Presence {
+        String OFFLINE = CometChatConstants.USER_STATUS_OFFLINE;
+        String ONLINE = CometChatConstants.USER_STATUS_ONLINE;
+    }
 
     public CometChatUserPresence(Context context) {
         super(context);
@@ -55,30 +61,25 @@ public class CometChatUserPresence extends View {
         init();
     }
 
-    public void setUserStatus(String userStatus) {
-
-        if ("online".equalsIgnoreCase(userStatus)) {
-            status = ONLINE ;
-        } else {
-            status = OFFLINE;
-        }
+    public void setUserStatus(@Presence String userStatus) {
+        status = userStatus;
         setValues();
     }
 
     private void setValues() {
-        if(status == ONLINE)
-            paint.setColor(Color.parseColor("#4CAF50"));
+        if (status == Presence.ONLINE)
+            setCardBackgroundColor(getResources().getColor(R.color.online_green));
         else {
-            paint.setColor(Color.parseColor("#6b000000"));
+            setCardBackgroundColor(getResources().getColor(R.color.offline));
         }
-
+        if (Utils.isDarkMode(getContext())) {
+            setStrokeColor(getResources().getColor(R.color.darkModeBackground));
+        } else {
+            setStrokeColor(getResources().getColor(R.color.textColorWhite));
+        }
+        setStrokeWidth(2);
         invalidate();
     }
-
-  private void setColor(@ColorInt int color){
-        paint.setColor(color);
-        invalidate();
-  }
 
 
     private void getAttributes(AttributeSet attrs) {
@@ -86,36 +87,23 @@ public class CometChatUserPresence extends View {
 
         String userStatus = a.getString(R.styleable.StatusIndicator_user_status);
         if (userStatus == null) {
-            status = OFFLINE;
+            status = Presence.OFFLINE;
         } else {
             if (getContext().getString(R.string.online).equalsIgnoreCase(userStatus)) {
-                status = ONLINE ;
+                status = Presence.ONLINE;
             } else {
-                status = OFFLINE;
+                status = Presence.OFFLINE;
             }
         }
     }
 
-    protected void init(){
-        paint = new Paint();
-        rectF = new RectF();
-
-        if(status == ONLINE)
-            paint.setColor(Color.parseColor("#4CAF50"));
-        else
-            paint.setColor(Color.parseColor("#6b000000"));
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int screenWidth = MeasureSpec.getSize(widthMeasureSpec);
-        int screenHeight = MeasureSpec.getSize(heightMeasureSpec);
-        rectF.set(0, 0, screenWidth, screenHeight);
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        canvas.drawCircle(rectF.centerX(), rectF.centerY(),(rectF.height() / 2), paint);
+    protected void init() {
+        if (status == Presence.ONLINE) {
+            setVisibility(View.VISIBLE);
+            setCardBackgroundColor(Color.parseColor("#3BDF2F"));
+        } else {
+            setVisibility(View.GONE);
+            setCardBackgroundColor(Color.parseColor("#C4C4C4"));
+        }
     }
 }

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.models.MessageReceipt;
+import com.cometchat.pro.models.TypingIndicator;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.models.BaseMessage;
 import com.cometchat.pro.models.Conversation;
@@ -66,6 +67,9 @@ public class CometChatConversationsAdapter extends RecyclerView.Adapter<CometCha
 
     private FontUtils fontUtils;
 
+    private TypingIndicator typingIndicator;
+
+    private boolean isTypingVisible;
     /**
      * It is constructor which takes conversationList as parameter and bind it with conversationList
      * and filterConversationList in adapter.
@@ -179,7 +183,6 @@ public class CometChatConversationsAdapter extends RecyclerView.Adapter<CometCha
             name = conversationUser.getName();
             avatar = conversationUser.getAvatar();
             status = conversationUser.getStatus();
-            Log.e("Conversation:",conversation.getConversationWith().toString());
             if (status.equals(CometChatConstants.USER_STATUS_ONLINE)) {
                 conversationViewHolder.conversationListRowBinding.userStatus.setVisibility(View.VISIBLE);
                 conversationViewHolder.conversationListRowBinding.userStatus.setUserStatus(status);
@@ -193,8 +196,22 @@ public class CometChatConversationsAdapter extends RecyclerView.Adapter<CometCha
 
         conversationViewHolder.conversationListRowBinding.messageCount.setCount(conversation.getUnreadMessageCount());
         conversationViewHolder.conversationListRowBinding.txtUserName.setText(name);
-        conversationViewHolder.conversationListRowBinding.messageCount.setCountBackground(Color.parseColor(FeatureRestriction.getColor()));
+        conversationViewHolder.conversationListRowBinding.messageCount.setCountBackground(Color.parseColor(UIKitSettings.getColor()));
 
+        if (typingIndicator!=null) {
+            if (typingIndicator.getReceiverType().equalsIgnoreCase(CometChatConstants.RECEIVER_TYPE_USER)) {
+                conversationViewHolder.conversationListRowBinding.typingIndicator.setText(context.getString(R.string.is_typing));
+            } else {
+                conversationViewHolder.conversationListRowBinding.typingIndicator.setText(typingIndicator.getSender().getName()+" "+context.getString(R.string.is_typing));
+            }
+            if (isTypingVisible) {
+                conversationViewHolder.conversationListRowBinding.txtUserMessage.setVisibility(View.VISIBLE);
+                conversationViewHolder.conversationListRowBinding.typingIndicator.setVisibility(View.GONE);
+            } else {
+                conversationViewHolder.conversationListRowBinding.txtUserMessage.setVisibility(View.GONE);
+                conversationViewHolder.conversationListRowBinding.typingIndicator.setVisibility(View.VISIBLE);
+            }
+        }
 
         if (avatar != null && !avatar.isEmpty()) {
             conversationViewHolder.conversationListRowBinding.avUser.setAvatar(avatar);
@@ -299,6 +316,19 @@ public class CometChatConversationsAdapter extends RecyclerView.Adapter<CometCha
         }
         notifyDataSetChanged();
     }
+
+    public void setTypingIndicator(TypingIndicator typingIndicator, boolean b) {
+        for(Conversation conversation : filterConversationList) {
+            if (conversation.getConversationId()
+                    .contains(typingIndicator.getReceiverId())) {
+                this.typingIndicator = typingIndicator;
+                isTypingVisible = b;
+                int index= filterConversationList.indexOf(conversation);
+                notifyItemChanged(index);
+            }
+        }
+    }
+
 
     /**
      * This method is used to remove the conversation from filterConversationList

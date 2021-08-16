@@ -16,6 +16,7 @@
             android:layout_width="24dp"
             android:id="@+id/iv_user"
             tools:src="@tools:sample/avatars"
+            app:corner_radius="12dp"
             android:layout_marginBottom="4dp"
             android:layout_marginStart="4dp"
             android:layout_height="24dp"/>

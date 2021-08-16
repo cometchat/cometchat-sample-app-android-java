@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.cometchat.pro.models.Conversation;
 import com.cometchat.pro.models.MessageReceipt;
+import com.cometchat.pro.models.TypingIndicator;
 
 import java.util.List;
 
@@ -90,5 +91,10 @@ public class CometChatConversationsViewModel {
     }
     public int size() {
         return conversationListAdapter.getItemCount();
+    }
+
+    public void setTypingIndicator(TypingIndicator typingIndicator, boolean b) {
+        if (conversationListAdapter!=null)
+            conversationListAdapter.setTypingIndicator(typingIndicator,b);
     }
 }

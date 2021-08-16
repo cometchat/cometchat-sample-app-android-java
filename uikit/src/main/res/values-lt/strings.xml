@@ -301,7 +301,7 @@
     <string name="blocked_users">užblokuotas vartotojas</string>
     <string name="downloading">atsisiųsti</string>
     <string name="creating_group">kurianti grupė</string>
-    <string name="reply_privately">Siųsti pranešimą privačiai</string>
+    <string name="send_message_privately">Siųsti pranešimą privačiai</string>
     <string name="view_profile">Peržiūrėti vartotojo profilį</string>
     <string name="today">šiandien</string>
     <string name="delete_conversation_message">Ar norėtumėte ištrinti šį pokalbį?</string>
@@ -319,5 +319,14 @@
     <string name="reply">Atsakyti</string>
     <string name="replies">Atsakymai</string>
     <string name="reply_message_privately">Atsakykite privačiai</string>
+    <string name="select_user">Pasirinkite Vartotojas</string>
+    <string name="select_group">Pasirinkite Grupė</string>
+    <string name="search_users">Ieškoti naudotojų</string>
+    <string name="search_groups">Ieškoti grupėse</string>
+    <string name="rejected_voice_call">Atmestas balso skambutis</string>
+    <string name="rejected_video_call">Atmestas vaizdo skambutis</string>
+    <string name="outgoing_voice_call">Išeinantis balso skambutis</string>
+    <string name="outgoing_video_call">Išeinantis vaizdo skambutis</string>
+    <string name="no_banned_members_found">Nerasta uždraustų narių</string>
 
 </resources>

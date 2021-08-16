@@ -59,6 +59,7 @@ import com.cometchat.pro.models.User;
 
 import com.cometchat.pro.uikit.ui_resources.utils.pattern_utils.PatternUtils;
 import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
@@ -647,7 +648,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                                 ViewGroup.LayoutParams.WRAP_CONTENT);
                         linearLayout.setPadding(8,8,8,8);
-                        linearLayout.setBackgroundColor(Color.parseColor(FeatureRestriction.getColor()));
+                        linearLayout.setBackgroundColor(Color.parseColor(UIKitSettings.getColor()));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(context.getResources()
                                 .getColor(R.color.textColorWhite)));
                         layoutParams.bottomMargin = (int) Utils.dpToPx(context, 8);
@@ -1253,7 +1254,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     viewHolder.tvUser.setText(baseMessage.getSender().getName());
                 }
             } else {
-                viewHolder.playBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor(FeatureRestriction.getColor())));
+                viewHolder.playBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor(UIKitSettings.getColor())));
             }
 
             FeatureRestriction.isThreadedMessagesEnabled(new FeatureRestriction.OnSuccessListener() {
@@ -2412,7 +2413,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     Chip chip = new Chip(context);
                     chip.setChipStrokeWidth(2f);
                     chip.setChipBackgroundColor(ColorStateList.valueOf(context.getResources().getColor(android.R.color.transparent)));
-                    chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(FeatureRestriction.getColor())));
+                    chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(UIKitSettings.getColor())));
                     chip.setText(str + " " + reactionOnMessage.get(str));
                     reactionLayout.addView(chip);
                     chip.setOnLongClickListener(new View.OnLongClickListener() {
@@ -2510,12 +2511,12 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         {
             if (baseMessage.getSender().equals(CometChat.getLoggedInUser())) {
                 if (view instanceof CardView) {
-                    ((CardView)view).setCardBackgroundColor(Color.parseColor(FeatureRestriction.getColor()));
+                    ((CardView)view).setCardBackgroundColor(Color.parseColor(UIKitSettings.getColor()));
                 } else {
                     if (Build.VERSION.SDK_INT >= 29) {
-                        view.getBackground().setColorFilter(new PorterDuffColorFilter(Color.parseColor(FeatureRestriction.getColor()), PorterDuff.Mode.SRC_ATOP));
+                        view.getBackground().setColorFilter(new PorterDuffColorFilter(Color.parseColor(UIKitSettings.getColor()), PorterDuff.Mode.SRC_ATOP));
                     } else {
-                        view.getBackground().setColorFilter(Color.parseColor(FeatureRestriction.getColor()), PorterDuff.Mode.SRC_ATOP);
+                        view.getBackground().setColorFilter(Color.parseColor(UIKitSettings.getColor()), PorterDuff.Mode.SRC_ATOP);
                     }
                 }
             } else {
@@ -2731,7 +2732,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private void setAvatar(CometChatAvatar avatar, String avatarUrl, String name) {
 
         if (avatarUrl != null && !avatarUrl.isEmpty())
-            Glide.with(context).load(avatarUrl).into(avatar);
+            avatar.setAvatar(avatarUrl);
         else
             avatar.setInitials(name);
 

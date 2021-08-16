@@ -7,9 +7,11 @@
         <attr name="avatar_initials" format="string" />
         <attr name="border_color" format="color" />
         <attr name="border_width" format="dimension" />
-
-
+        <attr name="corner_radius" format="dimension"/>
+        <attr name="background_color" format="color"/>
+        <attr name="image" format="reference"/>
     </declare-styleable>
+
 
     <declare-styleable name="StatusIndicator">
         <attr name="user_status" format="string" />

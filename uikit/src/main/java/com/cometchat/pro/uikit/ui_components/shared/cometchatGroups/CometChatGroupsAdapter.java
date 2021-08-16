@@ -21,6 +21,7 @@ import java.util.List;
 
 import com.cometchat.pro.uikit.ui_resources.utils.FontUtils;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 
 /**
  * Purpose - GroupListAdapter is a subclass of RecyclerView Adapter which is used to display
@@ -96,7 +97,7 @@ public class CometChatGroupsAdapter extends RecyclerView.Adapter<CometChatGroups
             groupViewHolder.groupListRowBinding.txtUserName.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
 
         groupViewHolder.groupListRowBinding.executePendingBindings();
-        groupViewHolder.groupListRowBinding.avGroup.setBackgroundColor(Color.parseColor(FeatureRestriction.getColor()));
+        groupViewHolder.groupListRowBinding.avGroup.setBackgroundColor(Color.parseColor(UIKitSettings.getColor()));
         groupViewHolder.groupListRowBinding.getRoot().setTag(R.string.group, group);
         groupViewHolder.groupListRowBinding.txtUserMessage.setTypeface(fontUtils.getTypeFace(FontUtils.robotoRegular));
         groupViewHolder.groupListRowBinding.txtUserName.setTypeface(fontUtils.getTypeFace(FontUtils.robotoMedium));

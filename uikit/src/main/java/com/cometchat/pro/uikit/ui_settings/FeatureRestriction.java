@@ -12,10 +12,6 @@ public class FeatureRestriction {
         return UIKitSettings.isCallNotification();
     }
 
-    public static String getColor() {
-        return UIKitSettings.UIcolor;
-    }
-
     public static void isUserListEnabled(OnSuccessListener onSuccessListener) {
         CometChat.isFeatureEnabled(Feature.chat_users_list_enabled, new CometChat.CallbackListener<Boolean>() {
             @Override
@@ -52,35 +48,35 @@ public class FeatureRestriction {
     public static void isOneOnOneChatEnabled(OnSuccessListener onSuccessListener) {
         CometChat.isFeatureEnabled(Feature.chat_one_on_one_enabled,
                 new CometChat.CallbackListener<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                if (!aBoolean)
-                    UIKitSettings.sendMessageInOneOneOne(false);
-                onSuccessListener.onSuccess(UIKitSettings.isSendMessageInOneOneOne());
-            }
+                    @Override
+                    public void onSuccess(Boolean aBoolean) {
+                        if (!aBoolean)
+                            UIKitSettings.sendMessageInOneOneOne(false);
+                        onSuccessListener.onSuccess(UIKitSettings.isSendMessageInOneOneOne());
+                    }
 
-            @Override
-            public void onError(CometChatException e) {
-                e.printStackTrace();
-            }
-        });
+                    @Override
+                    public void onError(CometChatException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     public static void isGroupChatEnabled(OnSuccessListener onSuccessListener) {
         CometChat.isFeatureEnabled(Feature.chat_groups_enabled,
                 new CometChat.CallbackListener<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                if (!aBoolean)
-                    UIKitSettings.sendMessageInGroup(false);
-                onSuccessListener.onSuccess(UIKitSettings.isSendMessageInGroup());
-            }
+                    @Override
+                    public void onSuccess(Boolean aBoolean) {
+                        if (!aBoolean)
+                            UIKitSettings.sendMessageInGroup(false);
+                        onSuccessListener.onSuccess(UIKitSettings.isSendMessageInGroup());
+                    }
 
-            @Override
-            public void onError(CometChatException e) {
-                e.printStackTrace();
-            }
-        });
+                    @Override
+                    public void onError(CometChatException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     public static void isDeliveryReceiptsEnabled(OnSuccessListener onSuccessListener) {
@@ -161,7 +157,7 @@ public class FeatureRestriction {
                 if (!aBoolean || !CometChat.isExtensionEnabled(Feature.Extension.polls))
                     UIKitSettings.sendPolls(false);
                 else {
-                   UIKitSettings.sendPolls(true);
+                    UIKitSettings.sendPolls(true);
                 }
                 onSuccessListener.onSuccess(UIKitSettings.isSendPolls());
             }
@@ -406,18 +402,18 @@ public class FeatureRestriction {
     public static void isOneOnOneVideoCallEnabled(OnSuccessListener onSuccessListener) {
         CometChat.isFeatureEnabled(Feature.call_one_on_one_video_enabled,
                 new CometChat.CallbackListener<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                if (!aBoolean)
-                    UIKitSettings.userVideoCall(false);
-                onSuccessListener.onSuccess(UIKitSettings.isUserVideoCall());
-            }
+                    @Override
+                    public void onSuccess(Boolean aBoolean) {
+                        if (!aBoolean)
+                            UIKitSettings.userVideoCall(false);
+                        onSuccessListener.onSuccess(UIKitSettings.isUserVideoCall());
+                    }
 
-            @Override
-            public void onError(CometChatException e) {
-                e.printStackTrace();
-            }
-        });
+                    @Override
+                    public void onError(CometChatException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     public static void isOneOnOneAudioCallEnabled(OnSuccessListener onSuccessListener) {
@@ -455,18 +451,18 @@ public class FeatureRestriction {
     public static void isGroupAudioCallEnabled(OnSuccessListener onSuccessListener) {
         CometChat.isFeatureEnabled(Feature.call_groups_audio_enabled,
                 new CometChat.CallbackListener<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                if (!aBoolean)
-                    UIKitSettings.groupAudioCall(false);
-                onSuccessListener.onSuccess(UIKitSettings.isGroupAudioCall());
-            }
+                    @Override
+                    public void onSuccess(Boolean aBoolean) {
+                        if (!aBoolean)
+                            UIKitSettings.groupAudioCall(false);
+                        onSuccessListener.onSuccess(UIKitSettings.isGroupAudioCall());
+                    }
 
-            @Override
-            public void onError(CometChatException e) {
-                e.printStackTrace();
-            }
-        });
+                    @Override
+                    public void onError(CometChatException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     public static void isMessagesSoundEnabled(OnSuccessListener onSuccessListener) {
@@ -492,74 +488,74 @@ public class FeatureRestriction {
     public static void isLiveReactionEnabled(OnSuccessListener onSuccessListener) {
         CometChat.isFeatureEnabled(Feature.live_reactions_enabled,
                 new CometChat.CallbackListener<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                if (!aBoolean)
-                    UIKitSettings.sendLiveReaction(false);
-                onSuccessListener.onSuccess(UIKitSettings.isSendLiveReaction());
-            }
+                    @Override
+                    public void onSuccess(Boolean aBoolean) {
+                        if (!aBoolean)
+                            UIKitSettings.sendLiveReaction(false);
+                        onSuccessListener.onSuccess(UIKitSettings.isSendLiveReaction());
+                    }
 
-            @Override
-            public void onError(CometChatException e) {
-                e.printStackTrace();
-            }
-        });
+                    @Override
+                    public void onError(CometChatException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     public static void isReactionEnabled(OnSuccessListener onSuccessListener) {
         CometChat.isFeatureEnabled(Feature.reactions_enabled,
                 new CometChat.CallbackListener<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                if (!aBoolean || !CometChat.isExtensionEnabled(Feature.Extension.reactions))
-                    UIKitSettings.sendMessageReaction(false);
-                else {
-                    UIKitSettings.sendMessageReaction(true);
-                }
-                onSuccessListener.onSuccess(UIKitSettings.isSendMessageReaction());
-            }
+                    @Override
+                    public void onSuccess(Boolean aBoolean) {
+                        if (!aBoolean || !CometChat.isExtensionEnabled(Feature.Extension.reactions))
+                            UIKitSettings.sendMessageReaction(false);
+                        else {
+                            UIKitSettings.sendMessageReaction(true);
+                        }
+                        onSuccessListener.onSuccess(UIKitSettings.isSendMessageReaction());
+                    }
 
-            @Override
-            public void onError(CometChatException e) {
-                e.printStackTrace();
-            }
-        });
+                    @Override
+                    public void onError(CometChatException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     public static void isCollaborativeWhiteBoardEnabled(OnSuccessListener onSuccessListener) {
         CometChat.isFeatureEnabled(Feature.collaboration_whiteboard_enabled,
                 new CometChat.CallbackListener<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                if (!aBoolean || !CometChat.isExtensionEnabled(Feature.Extension.whiteboard))
-                    UIKitSettings.collaborativeWhiteBoard(false);
-                onSuccessListener.onSuccess(UIKitSettings.isCollaborativeWhiteboard());
-            }
+                    @Override
+                    public void onSuccess(Boolean aBoolean) {
+                        if (!aBoolean || !CometChat.isExtensionEnabled(Feature.Extension.whiteboard))
+                            UIKitSettings.collaborativeWhiteBoard(false);
+                        onSuccessListener.onSuccess(UIKitSettings.isCollaborativeWhiteboard());
+                    }
 
-            @Override
-            public void onError(CometChatException e) {
-                e.printStackTrace();
-            }
-        });
+                    @Override
+                    public void onError(CometChatException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     public static void isCollaborativeDocumentEnabled(OnSuccessListener onSuccessListener) {
         CometChat.isFeatureEnabled(Feature.collaboration_document_enabled,
                 new CometChat.CallbackListener<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                if (!aBoolean || !CometChat.isExtensionEnabled(Feature.Extension.document))
-                    UIKitSettings.collaborativeDocument(false);
-                else
-                    UIKitSettings.collaborativeDocument(true);
-                onSuccessListener.onSuccess(UIKitSettings.isCollaborativeDocument());
-            }
+                    @Override
+                    public void onSuccess(Boolean aBoolean) {
+                        if (!aBoolean || !CometChat.isExtensionEnabled(Feature.Extension.document))
+                            UIKitSettings.collaborativeDocument(false);
+                        else
+                            UIKitSettings.collaborativeDocument(true);
+                        onSuccessListener.onSuccess(UIKitSettings.isCollaborativeDocument());
+                    }
 
-            @Override
-            public void onError(CometChatException e) {
-                e.printStackTrace();
-            }
-        });
+                    @Override
+                    public void onError(CometChatException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     public static void isMessageTranslationEnabled(OnSuccessListener onSuccessListener) {
@@ -665,20 +661,20 @@ public class FeatureRestriction {
     }
 
     public static void isUserSearchEnabled(OnSuccessListener onSuccessListener) {
-       CometChat.isFeatureEnabled(Feature.chat_users_search_enabled, new CometChat.CallbackListener<Boolean>() {
-           @Override
-           public void onSuccess(Boolean aBoolean) {
-               if (!aBoolean)
-                   UIKitSettings.searchUser(false);
-               onSuccessListener.onSuccess(UIKitSettings.isSearchUser());
+        CometChat.isFeatureEnabled(Feature.chat_users_search_enabled, new CometChat.CallbackListener<Boolean>() {
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+                if (!aBoolean)
+                    UIKitSettings.searchUser(false);
+                onSuccessListener.onSuccess(UIKitSettings.isSearchUser());
 
-           }
+            }
 
-           @Override
-           public void onError(CometChatException e) {
-               e.printStackTrace();
-           }
-       });
+            @Override
+            public void onError(CometChatException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public static void isGroupSearchEnabled(OnSuccessListener onSuccessListener) {
@@ -882,7 +878,7 @@ public class FeatureRestriction {
 
             @Override
             public void onError(CometChatException e) {
-            e.printStackTrace();
+                e.printStackTrace();
             }
         });
     }

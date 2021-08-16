@@ -17,6 +17,7 @@ import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
 import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.List;
@@ -51,9 +52,9 @@ public class CometChatMorePrivacyActivity extends AppCompatActivity {
          if (getSupportActionBar()!=null)
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if (FeatureRestriction.getColor()!=null)
+        if (UIKitSettings.getColor()!=null)
             getWindow().setStatusBarColor(
-                    Color.parseColor(FeatureRestriction.getColor()));
+                    Color.parseColor(UIKitSettings.getColor()));
          if (Utils.changeToolbarFont(toolbar)!=null){
              Utils.changeToolbarFont(toolbar).setTypeface(FontUtils.getInstance(this).getTypeFace(FontUtils.robotoMedium));
          }

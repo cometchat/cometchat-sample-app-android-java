@@ -43,6 +43,7 @@ import com.cometchat.pro.uikit.ui_components.shared.cometchatComposeBox.listener
 import com.cometchat.pro.uikit.ui_resources.utils.audio_visualizer.AudioRecordView;
 import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 
 public class CometChatComposeBox extends RelativeLayout implements View.OnClickListener {
 
@@ -258,8 +259,8 @@ public class CometChatComposeBox extends RelativeLayout implements View.OnClickL
             flBox.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.grey)));
             ivArrow.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.grey)));
         }
-        if (FeatureRestriction.getColor()!=null) {
-            int settingsColor = Color.parseColor(FeatureRestriction.getColor());
+        if (UIKitSettings.getColor()!=null) {
+            int settingsColor = Color.parseColor(UIKitSettings.getColor());
             ivSend.setImageTintList(ColorStateList.valueOf(settingsColor));
         }
         fetchSettings();

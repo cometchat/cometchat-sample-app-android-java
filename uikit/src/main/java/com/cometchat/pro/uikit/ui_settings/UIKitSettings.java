@@ -181,6 +181,10 @@ public class UIKitSettings {
         showReplyPrivately = isEnable;
     }
 
+    public static String getColor() {
+        return UIcolor;
+    }
+
     public void addConnectionListener(String TAG) {
         CometChat.addConnectionListener(TAG, new CometChat.ConnectionListener() {
             @Override
@@ -457,7 +461,7 @@ public class UIKitSettings {
 
 
     public static void sendStickers(boolean isEnable) {
-         sendStickers = isEnable;
+        sendStickers = isEnable;
     }
 
     public static void unreadCount(boolean isEnable) { unreadCount = isEnable; }

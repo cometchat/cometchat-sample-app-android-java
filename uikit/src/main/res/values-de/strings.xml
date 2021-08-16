@@ -5,7 +5,7 @@
     <string name="groups">Gruppen</string>
     <string name="more">mehr</string>
     <string name="this_message_deleted">⚠️ Diese Nachricht wurde gelöscht</string>
-    <string name="message_image">📷 Foto</string>
+    <string name="message_image">📷 Bild</string>
     <string name="message_video">📹 Video</string>
     <string name="message_audio">🎵 Audio</string>
     <string name="message_file">📁 Datei</string>
@@ -19,7 +19,7 @@
     <string name="custom_message_document">📃 Dokument</string>
     <string name="online">Online</string>
     <string name="you">Du</string>
-    <string name="admin">Admin</string>
+    <string name="admin">Verwalter</string>
     <string name="moderator">Moderator</string>
     <string name="participant">Teilnehmerin</string>
     <array name="groupType">
@@ -28,16 +28,16 @@
         <item>Passwort-geschützt</item>
     </array>
     <string name="privacy_and_security">Datenschutz und Sicherheit</string>
-    <string name="blocked_users">Gesperrte</string>
+    <string name="blocked_users">Gesperrte Benutzer</string>
     <string name="preferences">Präferenzen</string>
     <string name="you_ve_blocked">Du hast geblockt</string>
     <string name="members">Mitglieder</string>
     <string name="cancel">Abbrechen</string>
     <string name="text_copied">Text in Zwischenablage kopiert</string>
-    <string name="today">heute</string>
+    <string name="today">Heute</string>
     <string name="yesterday">Gestern</string>
-    <string name="is_typing">tippt...</string>
-    <string name="enter_group_name">Bitte geben Sie den Gruppennamen ein</string>
+    <string name="is_typing">schreibt...</string>
+    <string name="enter_group_name">Gruppennamen eingeben</string>
     <string name="unblock">Entsperren</string>
     <string name="make_group_admin">Gruppenadministrator machen</string>
     <string name="make_group_moderator">Machen Sie Gruppenmoderator</string>
@@ -55,7 +55,7 @@
     <string name="add">✅ Addieren</string>
     <string name="ok">OKAY</string>
     <string name="add_members">Mitglieder hinzufügen</string>
-    <string name="actions">AKTIONEN</string>
+    <string name="actions">Aktionen</string>
     <string name="add_in">Fügen Sie hinzu</string>
     <string name="unblock_user">Benutzer entsperren</string>
     <string name="block_user">Benutzer blockieren</string>
@@ -72,9 +72,11 @@
     <string name="audio_call">Audio-Anruf</string>
     <string name="launch">Starten</string>
     <string name="join">Beitreten</string>
-    <string name="has_shared_whiteboard">hat einen kollaborativen Whiteboar geteilt</string>
-    <string name="you_created_whiteboard">Du hast einen neuen kollaborativen Whiteboar erstellt</string>
+    <string name="has_shared_whiteboard">hat ein kollaboratives Whiteboard geteilt</string>
+    <string name="you_created_whiteboard">Du hast ein neues kollaboratives Whiteboard erstellt</string>
     <string name="you_created_document">Du hast ein neues kollaboratives Dokument erstellt</string>
+    <string name="has_shared_document">hat ein gemeinschaftliches Dokument geteilt.</string>
+
     <string name="photo_video_library">Foto- und Videothek</string>
     <string name="take_a_photo">Mach ein Foto</string>
     <string name="share_location">Standort teilen</string>
@@ -82,7 +84,7 @@
     <string name="delete_message">Nachricht löschen</string>
     <string name="reply_message">Antwort-Meldung</string>
     <string name="forward_message">Nachricht weiterleiten</string>
-    <string name="start_thread">Faden starten</string>
+    <string name="start_thread">Antwort im Thread</string>
     <string name="share_message">Nachricht teilen</string>
     <string name="message_information">Informationen zur Meldung</string>
     <string name="copy_message">Mitteilung kopieren</string>
@@ -97,13 +99,13 @@
     <string name="call_ended">Anruf endete</string>
     <string name="calling">Rufen...</string>
     <string name="banned_members">Verbotene Mitglieder</string>
-    <string name="unban">Aufheben</string>
+    <string name="unban">Entsperren</string>
     <string name="create_poll">Umfrage erstellen</string>
     <string name="question">Frage</string>
     <string name="enter_your_question">Gib deine Frage ein</string>
     <string name="enter_your_option">Geben Sie Ihre Option</string>
     <string name="details">Einzelheiten</string>
-    <string name="ban">Ban</string>
+    <string name="ban">Sperren</string>
     <string name="view_on_youtube">Auf Youtube ansehen</string>
     <string name="visit">Besuch</string>
     <string name="message">Schreiben Sie eine Nachricht</string>
@@ -118,9 +120,9 @@
     <string name="add_user_to_group">%1$s zu\“ %2$s\“</string>
     <string name="user_added_to_group">%1$s wurde zu\“ %2$s\“ hinzugefügt</string>
     <string name="user_removed_from_group">%1$s wird von\“ %2$s\“ entfernt</string>
-    <string name="leave_group_message">Möchten Sie von der Gruppe abreisen?</string>
-    <string name="delete_group">Gruppe löschen</string>
-    <string name="delete_group_message">Löschen Sie die Gruppe</string>
+    <string name="leave_group_message">Bist du sicher, dass du die Gruppe verlassen willst?</string>
+    <string name="delete_group">Löschen und beenden</string>
+    <string name="delete_group_message">Bist du sicher, dass du löschen möchtest?</string>
     <string name="cannot_remove_member">%1$s kann nicht entfernt werden</string>
     <string name="load_more">Lade mehr</string>
     <string name="load_more_members">Laden Sie mehr %1$s Mitglieder</string>
@@ -144,7 +146,7 @@
     <string name="enter_old_group_pwd">Geben Sie ein altes Passwort</string>
     <string name="enter_new_password">Geben Sie ein neues Passwort</string>
     <string name="group_alert">Gruppen-Alarm</string>
-    <string name="transfer_ownership_message">Sie sind Gruppeninhaber, übertragen Sie den Gruppeneigentum an jemand anderen, bevor Sie die Gruppe verlassen.</string>
+    <string name="transfer_ownership_message">Du bist der Gruppeninhaber, bitte übertrage die Gruppe an ein Mitglied, bevor Du die Gruppe verlässt.</string>
     <string name="make_owner">Inhaber machen</string>
     <string name="make_owner_question">Möchtest Sie %1$s als Eigentümer machen</string>
     <string name="user_is_owner">%1$s ist jetzt Eigentümer</string>
@@ -176,9 +178,9 @@
     <string name="images">Bilder</string>
     <string name="videos">VIDEOS</string>
     <string name="files">-Dateien</string>
-    <string name="no_conversations">Du hast keine Gespräche.</string>
-    <string name="no_user_available">Keine Benutzer verfügbar</string>
-    <string name="no_group_available">Keine Gruppen verfügbar</string>
+    <string name="no_conversations">Keine Chats gefunden</string>
+    <string name="no_user_available">Keine Benutzer gefunden</string>
+    <string name="no_group_available">Keine Gruppen gefunden</string>
     <string name="no_block_users">Keine Blockbenutzer</string>
     <string name="no_missedcall_message">Sie haben keine verpassten Anrufe</string>
     <string name="yes">ja</string>
@@ -215,7 +217,7 @@
     <string name="gps_enabled">GPS aktiviert</string>
     <string name="gps_disabled">GPS deaktiviert</string>
     <string name="option">Optionen</string>
-    <string name="add_a_new_option">Eine neue Option hinzufügen</string>
+    <string name="add_a_new_option">Neue Option hinzufügen</string>
     <string name="unable_to_get_location">Ihr Standort konnte nicht abgerufen werden</string>
     <string name="ended">Beendet</string>
     <string name="ongoing">Laufende</string>
@@ -227,7 +229,6 @@
     <string name="initiate_a_call">Einen Anruf einleiten</string>
     <string name="tap_to_start_conversation">Tippen Sie hier, um das Gespräch zu starten</string>
     <string name="user_is_blocked">%1$s erfolgreich blockiert</string>
-    <string name="has_shared_document">hat ein kollaboratives Dokument freigegeben.</string>
     <string name="no_thread_message">Keine Thread-Nachrichten</string>
     <string name="added">hinzugefügt</string>
     <string name="initiated">initiiert</string>
@@ -264,7 +265,7 @@
     <string name="err_invalid_uid_message">Bitte geben Sie eine gültige UID an</string>
     <string name="err_blank_uid_message">Die UID darf nicht leer sein. Bitte geben Sie eine gültige UID an</string>
     <string name="err_uid_with_space_message">Die UID darf keine Leerzeichen enthalten. Bitte geben Sie eine gültige UID an</string>
-    <string name="err_default_message">etwas ist schief gelaufen</string>
+    <string name="err_default_message">Etwas ist schief gelaufen, bitte versuche es noch einmal</string>
     <string name="err_internet_unavailable">Keine Internetverbindung. Bitte versuchen Sie es später erneut</string>
     <string name="extension_is_not_enabled">Die Erweiterung ist deaktiviert. Bitte aktivieren Sie die Erweiterung über das CometChat-Dashboard</string>
     <string name="err_empty_group_name_message">Der Gruppenname darf nicht null oder leer sein</string>
@@ -272,21 +273,30 @@
     <string name="left">verließ die</string>
     <string name="downloading">wird heruntergeladen</string>
     <string name="creating_group">Gruppe erstellen</string>
-    <string name="reply_privately">Nachricht privat senden</string>
-    <string name="view_profile">Profil anzeigen</string>
+    <string name="send_message_privately">Nachricht privat senden</string>
+    <string name="view_profile">Profil ansehen</string>
     <string name="delete_conversation_message">Möchten Sie diese Konversation löschen?</string>
     <string name="deleting_conversation">Gespräch löschen</string>
     <string name="offline">offline</string>
     <string name="new_messages">Neue Nachrichten</string>
     <string name="new_message">Neue Nachricht</string>
-    <string name="delivered">Geliefert</string>
-    <string name="read">Lesen</string>
+    <string name="delivered">Ausgeliefert</string>
+    <string name="read">Gesehen</string>
     <string name="vote">Abstimmung</string>
-    <string name="votes">Stimmen</string>
-    <string name="decline">Ablehnen</string>
-    <string name="accept">Antworten</string>
-    <string name="reply">Antworten</string>
+    <string name="votes">Wahlen</string>
+    <string name="decline">Rückgang</string>
+    <string name="accept">Akzeptieren</string>
+    <string name="reply">Antwort</string>
     <string name="replies">Antworten</string>
     <string name="reply_message_privately">Privat antworten</string>
+    <string name="outgoing_voice_call">Ausgehender Audioanruf</string>
+    <string name="outgoing_video_call">Ausgehender Videoanruf</string>
+    <string name="rejected_video_call">Anruf abgelehnt</string>
+    <string name="rejected_voice_call">Anruf abgelehnt</string>
+    <string name="no_banned_members_found">Keine verbotenen Mitglieder gefunden</string>
+    <string name="select_user">Wähle den Benutzer</string>
+    <string name="select_group">Wähle die Gruppe</string>
+    <string name="search_users">Benutzer suchen</string>
+    <string name="search_groups">Gruppen suchen</string>
 
 </resources>

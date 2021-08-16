@@ -280,7 +280,7 @@
     <string name="left">la gauche</string>
     <string name="downloading">Téléchargement</string>
     <string name="creating_group">création d\'un groupe</string>
-    <string name="reply_privately">Envoyer un message en privé</string>
+    <string name="send_message_privately">Envoyer un message en privé</string>
     <string name="view_profile">Voir le profil</string>
     <string name="delete_conversation_message">Souhaitez-vous supprimer cette conversation?</string>
     <string name="deleting_conversation">Suppression de la conversation</string>
@@ -296,6 +296,15 @@
     <string name="reply">Réponse</string>
     <string name="replies">réponses</string>
     <string name="reply_message_privately">Répondre en privé</string>
+    <string name="select_user">Sélectionnez l\'utilisateur</string>
+    <string name="select_group">Sélectionner un groupe</string>
+    <string name="search_users">Rechercher des utilisateurs</string>
+    <string name="search_groups">Groupes de recherche</string>
+    <string name="rejected_voice_call">Appel vocal rejeté</string>
+    <string name="rejected_video_call">Appel vidéo rejeté</string>
+    <string name="outgoing_voice_call">Appel vocal sortant</string>
+    <string name="outgoing_video_call">Appel vidéo sortant</string>
+    <string name="no_banned_members_found">Aucun membre banni trouvé</string>
 
 
 </resources>

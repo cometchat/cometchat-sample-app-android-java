@@ -273,7 +273,7 @@
     <string name="left">meninggalkan kumpulan</string>
     <string name="downloading">memuat turun</string>
     <string name="creating_group">mewujudkan kumpulan</string>
-    <string name="reply_privately">Hantar Mesej secara tertutup</string>
+    <string name="send_message_privately">Hantar Mesej secara tertutup</string>
     <string name="view_profile">Lihat profil</string>
     <string name="delete_conversation_message">Adakah anda mahu memadamkan perbualan ini?</string>
     <string name="deleting_conversation">Memadamkan Perbualan</string>
@@ -289,4 +289,13 @@
     <string name="reply">Balas</string>
     <string name="replies">Balasan</string>
     <string name="reply_message_privately">Balas secara tertutup</string>
+    <string name="select_user">Pilih Pengguna</string>
+    <string name="select_group">Pilih Kumpulan</string>
+    <string name="search_users">Cari Pengguna</string>
+    <string name="search_groups">Cari Kumpulan</string>
+    <string name="rejected_voice_call">Panggilan suara ditolak</string>
+    <string name="rejected_video_call">Panggilan video ditolak</string>
+    <string name="outgoing_voice_call">Panggilan suara keluar</string>
+    <string name="outgoing_video_call">Panggilan video keluar</string>
+    <string name="no_banned_members_found">Tiada Ahli Larangan Ditemui</string>
 </resources>
