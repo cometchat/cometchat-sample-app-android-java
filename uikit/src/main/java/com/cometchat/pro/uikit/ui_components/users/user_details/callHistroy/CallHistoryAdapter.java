@@ -96,21 +96,77 @@ public class CallHistoryAdapter extends RecyclerView.Adapter<CallHistoryAdapter.
         if(call.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_USER)) {
             if (call.getSender().getUid().equals(loggedInUser)) {
                 if(call.getCallStatus().equals(CometChatConstants.CALL_STATUS_UNANSWERED)) {
-                    callMessageText = context.getResources().getString(R.string.missed_call);
+                    if(call.getType().equals(CometChatConstants.CALL_TYPE_VIDEO))
+                    {
+                        callMessageText = context.getResources().getString(R.string.missed_video_call);
+                        isVideo = true;
+                    }
+                    else
+                    {
+                        callMessageText = context.getResources().getString(R.string.missed_voice_call);
+                        isVideo = false;
+                    }
                     isMissed = true;
                 } else if(call.getCallStatus().equals(CometChatConstants.CALL_STATUS_REJECTED)) {
-                    callMessageText = context.getResources().getString(R.string.rejected_call);
-                } else
-                    callMessageText = context.getResources().getString(R.string.outgoing);
+                    if(call.getType().equals(CometChatConstants.CALL_TYPE_VIDEO))
+                    {
+                        callMessageText = context.getResources().getString(R.string.rejected_video_call);
+                        isVideo = true;
+                    }
+                    else
+                    {
+                        callMessageText = context.getResources().getString(R.string.rejected_voice_call);
+                        isVideo = false;
+                    }
+                } else {
+                    if(call.getType().equals(CometChatConstants.CALL_TYPE_VIDEO))
+                    {
+                        callMessageText = context.getResources().getString(R.string.outgoing_video_call);
+                        isVideo = true;
+                    }
+                    else
+                    {
+                        callMessageText = context.getResources().getString(R.string.outgoing_voice_call);
+                        isVideo = false;
+                    }
+                }
                 isIncoming = false;
             } else {
                 if(call.getCallStatus().equals(CometChatConstants.CALL_STATUS_UNANSWERED)) {
-                    callMessageText = context.getResources().getString(R.string.missed_call);
+                    if(call.getType().equals(CometChatConstants.CALL_TYPE_VIDEO))
+                    {
+                        callMessageText = context.getResources().getString(R.string.missed_video_call);
+                        isVideo = true;
+                    }
+                    else
+                    {
+                        callMessageText = context.getResources().getString(R.string.missed_voice_call);
+                        isVideo = false;
+                    }
                     isMissed = true;
                 } else if(call.getCallStatus().equals(CometChatConstants.CALL_STATUS_REJECTED)) {
-                    callMessageText = context.getResources().getString(R.string.rejected_call);
-                } else
-                    callMessageText = context.getResources().getString(R.string.incoming);
+                    if(call.getType().equals(CometChatConstants.CALL_TYPE_VIDEO))
+                    {
+                        callMessageText = context.getResources().getString(R.string.rejected_video_call);
+                        isVideo = true;
+                    }
+                    else
+                    {
+                        callMessageText = context.getResources().getString(R.string.rejected_voice_call);
+                        isVideo = false;
+                    }
+                } else {
+                    if(call.getType().equals(CometChatConstants.CALL_TYPE_VIDEO))
+                    {
+                        callMessageText = context.getResources().getString(R.string.incoming_video_call);
+                        isVideo = true;
+                    }
+                    else
+                    {
+                        callMessageText = context.getResources().getString(R.string.incoming_audio_call);
+                        isVideo = false;
+                    }
+                }
                 isIncoming = true;
             }
         }
@@ -126,16 +182,6 @@ public class CallHistoryAdapter extends RecyclerView.Adapter<CallHistoryAdapter.
 //                isIncoming = true;
 //            }
 //        }
-        if(call.getType().equals(CometChatConstants.CALL_TYPE_VIDEO))
-        {
-            callMessageText = callMessageText+" "+context.getResources().getString(R.string.video_call);
-            isVideo = true;
-        }
-        else
-        {
-            callMessageText = callMessageText+" "+context.getResources().getString(R.string.audio_call);
-            isVideo = false;
-        }
         if (isVideo) {
             if(isIncoming) {
                 callViewHolder.callHistoryRowBinding.callInfoTv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_incoming_video_call,0,0,0);

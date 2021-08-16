@@ -31,8 +31,9 @@
 
                 <com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar
                     android:id="@+id/iv_group"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    app:corner_radius="18dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     tools:src="@tools:sample/avatars" />

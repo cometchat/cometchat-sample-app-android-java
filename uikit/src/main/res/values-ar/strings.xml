@@ -273,7 +273,7 @@
     <string name="left">غادر</string>
     <string name="downloading">جارى التحميل</string>
     <string name="creating_group">إنشاء المجموعة</string>
-    <string name="reply_privately">إرسال الرسالة بشكل خاص</string>
+    <string name="send_message_privately">إرسال الرسالة بشكل خاص</string>
     <string name="view_profile">عرض الصفحة الشخصية</string>
     <string name="delete_conversation_message">هل ترغب في حذف هذه المحادثة؟</string>
     <string name="deleting_conversation">حذف المحادثة</string>
@@ -290,4 +290,13 @@
     <string name="reply">رد</string>
     <string name="replies">الردود</string>
     <string name="reply_message_privately">الرد بشكل خاص</string>
+    <string name="select_user">اختر المستخدم</string>
+    <string name="select_group">اختر مجموعة</string>
+    <string name="search_users">بحث في المستخدمين</string>
+    <string name="search_groups">مجموعات البحث</string>
+    <string name="rejected_voice_call">مكالمة صوتية مرفوضة</string>
+    <string name="rejected_video_call">مكالمة فيديو مرفوضة</string>
+    <string name="outgoing_voice_call">مكالمة صوتية صادرة</string>
+    <string name="outgoing_video_call">مكالمة فيديو صادرة</string>
+    <string name="no_banned_members_found">لم يتم العثور على أعضاء محظورين</string>
 </resources>

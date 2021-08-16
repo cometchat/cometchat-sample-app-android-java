@@ -273,7 +273,7 @@
     <string name="extension_not_found">प्रदान किया गया एक्सटेंशन नहीं मिला।</string>
     <string name="downloading">डाउनलोड</string>
     <string name="creating_group">समूह बनाना</string>
-    <string name="reply_privately">निजी तौर पर संदेश भेजें</string>
+    <string name="send_message_privately">निजी तौर पर संदेश भेजें</string>
     <string name="view_profile">प्रोफ़ाइल देखें</string>
     <string name="delete_conversation_message">क्या आप इस वार्तालाप को हटाना चाहेंगे?</string>
     <string name="deleting_conversation">वार्तालाप हटाना</string>
@@ -289,4 +289,13 @@
     <string name="reply">जवाब</string>
     <string name="replies">जवाब</string>
     <string name="reply_message_privately">निजी तौर पर उत्तर दें</string>
+    <string name="select_user">उपयोगकर्ता का चयन करें</string>
+    <string name="select_group">समूह का चयन करें</string>
+    <string name="search_users">उपयोगकर्ता खोजें</string>
+    <string name="search_groups">समूह खोजें</string>
+    <string name="rejected_voice_call">अस्वीकृत वॉयस कॉल</string>
+    <string name="rejected_video_call">अस्वीकृत वीडियो कॉल</string>
+    <string name="outgoing_voice_call">आउटगोइंग वॉयस कॉल</string>
+    <string name="outgoing_video_call">आउटगोइंग वीडियो कॉल</string>
+    <string name="no_banned_members_found">कोई प्रतिबंधित सदस्य नहीं मिला</string>
 </resources>

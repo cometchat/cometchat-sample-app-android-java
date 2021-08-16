@@ -21,6 +21,7 @@ import com.cometchat.pro.core.MessagesRequest;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatCalls.CometChatCalls;
 import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.tabs.TabLayout;
 
@@ -103,13 +104,13 @@ public class CometChatCallList extends Fragment {
             viewPager.setAdapter(tabAdapter);
         }
         tabLayout.setupWithViewPager(viewPager);
-        if (FeatureRestriction.getColor()!=null) {
-            phoneAddIv.setImageTintList(ColorStateList.valueOf(Color.parseColor(FeatureRestriction.getColor())));
+        if (UIKitSettings.getColor()!=null) {
+            phoneAddIv.setImageTintList(ColorStateList.valueOf(Color.parseColor(UIKitSettings.getColor())));
             Drawable wrappedDrawable = DrawableCompat.wrap(getResources().
                     getDrawable(R.drawable.tab_layout_background_active));
-            DrawableCompat.setTint(wrappedDrawable, Color.parseColor(FeatureRestriction.getColor()));
+            DrawableCompat.setTint(wrappedDrawable, Color.parseColor(UIKitSettings.getColor()));
             tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).view.setBackground(wrappedDrawable);
-            tabLayout.setSelectedTabIndicatorColor(Color.parseColor(FeatureRestriction.getColor()));
+            tabLayout.setSelectedTabIndicatorColor(Color.parseColor(UIKitSettings.getColor()));
         } else {
             tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).
                     view.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -118,10 +119,10 @@ public class CometChatCallList extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (FeatureRestriction.getColor()!=null) {
+                if (UIKitSettings.getColor()!=null) {
                     Drawable wrappedDrawable = DrawableCompat.wrap(getResources().
                             getDrawable(R.drawable.tab_layout_background_active));
-                    DrawableCompat.setTint(wrappedDrawable, Color.parseColor(FeatureRestriction.getColor()));
+                    DrawableCompat.setTint(wrappedDrawable, Color.parseColor(UIKitSettings.getColor()));
                     tab.view.setBackground(wrappedDrawable);
                 }
                 else

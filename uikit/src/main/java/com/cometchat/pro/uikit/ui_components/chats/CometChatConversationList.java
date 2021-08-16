@@ -34,6 +34,7 @@ import com.cometchat.pro.helpers.CometChatHelper;
 import com.cometchat.pro.models.Action;
 import com.cometchat.pro.models.Group;
 import com.cometchat.pro.models.MessageReceipt;
+import com.cometchat.pro.models.TypingIndicator;
 import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatConversations.CometChatConversations;
@@ -450,6 +451,18 @@ public class CometChatConversationList extends Fragment implements TextWatcher, 
             public void onMessageDeleted(BaseMessage message) {
                 if (rvConversationList!=null)
                     rvConversationList.refreshConversation(message);
+            }
+
+            @Override
+            public void onTypingStarted(TypingIndicator typingIndicator) {
+                if (rvConversationList!=null)
+                    rvConversationList.setTypingIndicator(typingIndicator,false);
+            }
+
+            @Override
+            public void onTypingEnded(TypingIndicator typingIndicator) {
+                if (rvConversationList!=null)
+                    rvConversationList.setTypingIndicator(typingIndicator,true);
             }
         });
         CometChat.addGroupListener(TAG, new CometChat.GroupListener() {

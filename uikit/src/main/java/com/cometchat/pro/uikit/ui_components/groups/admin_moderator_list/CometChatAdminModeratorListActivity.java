@@ -13,6 +13,7 @@ import com.cometchat.pro.uikit.R;
 
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
 import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 
 public class CometChatAdminModeratorListActivity extends AppCompatActivity {
 
@@ -29,8 +30,8 @@ public class CometChatAdminModeratorListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen);
         handleIntent();
-        if (FeatureRestriction.getColor()!=null)
-            getWindow().setStatusBarColor(Color.parseColor(FeatureRestriction.getColor()));
+        if (UIKitSettings.getColor()!=null)
+            getWindow().setStatusBarColor(Color.parseColor(UIKitSettings.getColor()));
     }
 
     private void handleIntent() {

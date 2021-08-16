@@ -153,6 +153,7 @@ public class ComponentActivityTest {
     public void K_checkCallList_2Sec() {
         try {
             Espresso.onView(ViewMatchers.withId(R.id.cometchat_callList)).perform(ViewActions.scrollTo());
+            Espresso.onView(ViewMatchers.withId(R.id.cometchat_callList)).check(matches(isDisplayed()));
             Espresso.onView(ViewMatchers.withId(R.id.cometchat_callList)).perform(click());
             Thread.sleep(2000);
             Espresso.onView(ViewMatchers.withId(R.id.callList_rv))
@@ -168,16 +169,22 @@ public class ComponentActivityTest {
         Espresso.onView(ViewMatchers.withId(R.id.cometchat_user_view)).perform(click());
         try {
             Espresso.onView(ViewMatchers.withId(R.id.cometchatUserList))
-                    .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
-        } catch (PerformException e) {
+                    .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()))
+                    .perform(pressBack());
+            mDevice.pressBack();;
+        }
+        catch (NoMatchingViewException e) {
+            Log.e( "D_checkUserList: ","No View found...Trying again with 2 Sec Delay");
+            D_checkUserList_2Sec();
+        }
+        catch (PerformException e) {
             Assert.assertTrue("View not loaded",true);
         } catch (Exception e) {
-            Assert.fail();
+            Assert.fail(e.getMessage());
         }
     }
 
-    @Test
-    public void E_checkUserList_2Sec() {
+    public void D_checkUserList_2Sec() {
         try {
             Espresso.onView(ViewMatchers.withId(R.id.cometchat_user_view)).perform(ViewActions.scrollTo());
             Espresso.onView(ViewMatchers.withId(R.id.cometchat_user_view)).perform(ViewActions.click());
@@ -205,10 +212,44 @@ public class ComponentActivityTest {
             Thread.sleep(2000);
             Espresso.onView(ViewMatchers.withId(R.id.cometchatGroupList))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
-        } catch (InterruptedException e) {
+        } catch (NoMatchingViewException e) {
+            Log.e( "F_checkGroupList_2Sec: ","View Not loaded...Moving to 5 sec" );
+            F_checkGroupList_5Sec();
+        }catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
+
+    public void F_checkGroupList_5Sec() {
+        try {
+            Espresso.onView(ViewMatchers.withId(R.id.cometchat_group_view)).perform(ViewActions.scrollTo());
+            Espresso.onView(ViewMatchers.withId(R.id.cometchat_group_view)).perform(ViewActions.click());
+            Thread.sleep(5000);
+            Espresso.onView(ViewMatchers.withId(R.id.cometchatGroupList))
+                    .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        } catch (NoMatchingViewException e) {
+            Log.e( "F_checkGroupList_2Sec: ","View Not loaded...Moving to 10 sec" );
+            F_checkGroupList_10Sec();
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void F_checkGroupList_10Sec() {
+        try {
+            Espresso.onView(ViewMatchers.withId(R.id.cometchat_group_view)).perform(ViewActions.scrollTo());
+            Espresso.onView(ViewMatchers.withId(R.id.cometchat_group_view)).perform(ViewActions.click());
+            Thread.sleep(10000);
+            Espresso.onView(ViewMatchers.withId(R.id.cometchatGroupList))
+                    .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        } catch (NoMatchingViewException e) {
+            Assert.fail("View Not Loaded"+e.getMessage());
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     @Test
     public void H_checkConversationList() {
@@ -217,26 +258,61 @@ public class ComponentActivityTest {
         try {
             Espresso.onView(ViewMatchers.withId(R.id.cometchatConversationList))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
-        } catch (PerformException e) {
+        }
+        catch (NoMatchingViewException e) {
+            Log.e( "H_checkConversationList: ","No View found...Trying again with 2 Sec Delay");
+            H_checkConversationList_2Sec();
+        }
+        catch (PerformException e) {
             Assert.assertTrue("View not loaded",true);
         } catch (Exception e) {
-            Assert.fail();
+            Assert.fail(e.getMessage());
         }
     }
 
-    @Test
-    public void I_checkConversationList_2Sec() {
+    public void H_checkConversationList_2Sec() {
         try {
             Espresso.onView(ViewMatchers.withId(R.id.cometchat_conversation_view)).perform(ViewActions.scrollTo());
             Espresso.onView(ViewMatchers.withId(R.id.cometchat_conversation_view)).perform(ViewActions.click());
             Thread.sleep(2000);
             Espresso.onView(ViewMatchers.withId(R.id.cometchatConversationList))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
-        } catch (InterruptedException e) {
+        } catch (NoMatchingViewException e) {
+            Log.e("H_checkConversationList_2Sec: ","View Not loaded..Moving to 5 Sec");
+            H_checkConversationList_5Sec();
+        }catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
+    public void H_checkConversationList_5Sec() {
+        try {
+            Espresso.onView(ViewMatchers.withId(R.id.cometchat_conversation_view)).perform(ViewActions.scrollTo());
+            Espresso.onView(ViewMatchers.withId(R.id.cometchat_conversation_view)).perform(ViewActions.click());
+            Thread.sleep(5000);
+            Espresso.onView(ViewMatchers.withId(R.id.cometchatConversationList))
+                    .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        } catch (NoMatchingViewException e) {
+            Log.e("H_checkConversationList_5Sec: ","View Not loaded..Moving to 10 Sec");
+            H_checkConversationList_10Sec();
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void H_checkConversationList_10Sec() {
+        try {
+            Espresso.onView(ViewMatchers.withId(R.id.cometchat_conversation_view)).perform(ViewActions.scrollTo());
+            Espresso.onView(ViewMatchers.withId(R.id.cometchat_conversation_view)).perform(ViewActions.click());
+            Thread.sleep(10000);
+            Espresso.onView(ViewMatchers.withId(R.id.cometchatConversationList))
+                    .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        } catch (NoMatchingViewException e) {
+            Assert.fail("View Not Loaded"+e.getMessage());
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 //        RecyclerView callRv = activityRule.getActivity().findViewById(R.id.cometchat_callList);
 //        int itemCount = callRv.getAdapter().getItemCount();
 //        if (itemCount>0) {

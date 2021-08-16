@@ -1022,7 +1022,7 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
                 if(!s.toString().isEmpty())
                 {
                     avatar.setVisibility(View.VISIBLE);
-                    Glide.with(CometChatGroupDetailActivity.this).load(s.toString()).into(avatar);
+                    avatar.setAvatar(s.toString());
                 } else
                     avatar.setVisibility(View.GONE);
             }

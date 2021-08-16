@@ -48,6 +48,7 @@ import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
 import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.List;
@@ -106,10 +107,10 @@ public class CometChatNewCallList extends AppCompatActivity {
         CometChatError.init(this);
         ImageView imageView = new ImageView(this);
         imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_back_arrow_selected));
-        if (FeatureRestriction.getColor()!=null) {
-            getWindow().setStatusBarColor(Color.parseColor(FeatureRestriction.getColor()));
+        if (UIKitSettings.getColor()!=null) {
+            getWindow().setStatusBarColor(Color.parseColor(UIKitSettings.getColor()));
             imageView.setImageTintList(ColorStateList.valueOf(
-                    Color.parseColor(FeatureRestriction.getColor())));
+                    Color.parseColor(UIKitSettings.getColor())));
         } else
             imageView.setImageTintList(
                     ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));

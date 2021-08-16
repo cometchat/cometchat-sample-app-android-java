@@ -51,6 +51,7 @@ import com.cometchat.pro.uikit.R;
 
 import com.cometchat.pro.uikit.ui_resources.utils.pattern_utils.PatternUtils;
 import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
@@ -991,7 +992,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Chip chip = new Chip(context);
                 chip.setChipStrokeWidth(2f);
                 chip.setChipBackgroundColor(ColorStateList.valueOf(context.getResources().getColor(android.R.color.transparent)));
-                chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(FeatureRestriction.getColor())));
+                chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(UIKitSettings.getColor())));
                 chip.setText(str + " " + reactionOnMessage.get(str));
                 reactionLayout.addView(chip);
                 chip.setOnLongClickListener(new View.OnLongClickListener() {
@@ -1170,7 +1171,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private void setAvatar(CometChatAvatar avatar, String avatarUrl, String name) {
 
         if (avatarUrl != null && !avatarUrl.isEmpty())
-            Glide.with(context).load(avatarUrl).into(avatar);
+            avatar.setAvatar(avatarUrl);
         else
             avatar.setInitials(name);
 

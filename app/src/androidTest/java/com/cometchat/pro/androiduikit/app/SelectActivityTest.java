@@ -18,6 +18,7 @@ import androidx.test.uiautomator.Until;
 
 
 import com.cometchat.pro.androiduikit.R;
+import com.cometchat.pro.core.CometChat;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;

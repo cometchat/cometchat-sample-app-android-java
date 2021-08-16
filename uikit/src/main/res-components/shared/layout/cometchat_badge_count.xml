@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
+    android:id="@+id/count_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
@@ -8,13 +9,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:id="@+id/tvSetCount"
-        tools:text="14"
+        android:text="14"
         android:minWidth="30dp"
         android:padding="4dp"
         android:textSize="12sp"
         android:gravity="center"
-        android:background="@drawable/count_background"
         android:textColor="@color/textColorWhite"
         android:layout_height="wrap_content"/>
 
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

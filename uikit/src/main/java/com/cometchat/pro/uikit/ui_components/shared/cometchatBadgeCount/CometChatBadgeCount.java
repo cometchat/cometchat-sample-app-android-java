@@ -16,6 +16,7 @@ import androidx.databinding.BindingMethods;
 
 import com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar;
 import com.cometchat.pro.uikit.R;
+import com.google.android.material.card.MaterialCardView;
 
 /**
  * Purpose - This class is a subclass of LinearLayout, It is a component which is been used by developer
@@ -27,12 +28,14 @@ import com.cometchat.pro.uikit.R;
  *
  * Modified on  - 16th January 2020
  *
-*/
+ */
 
-@BindingMethods(value = {@BindingMethod(type = CometChatAvatar.class, attribute = "app:count", method = "setCount")})
-public class CometChatBadgeCount extends LinearLayout {
+@BindingMethods(value = {@BindingMethod(type = CometChatBadgeCount.class, attribute = "app:count", method = "setCount")})
+public class CometChatBadgeCount extends MaterialCardView {
 
     private TextView tvCount;   //Used to display count
+
+    private MaterialCardView countView;
 
     private int count;      //Used to store value of count
 
@@ -80,19 +83,18 @@ public class CometChatBadgeCount extends LinearLayout {
 
         addView(view);
 
-          if (count==0){
-              setVisibility(INVISIBLE);
-          }else {
-              setVisibility(VISIBLE);
-          }
+        if (count==0){
+            setVisibility(INVISIBLE);
+        }else {
+            setVisibility(VISIBLE);
+        }
 
+        countView = view.findViewById(R.id.count_parent);
         tvCount = view.findViewById(R.id.tvSetCount);
-        tvCount.setBackground(getResources().getDrawable(R.drawable.count_background));
         tvCount.setTextSize(countSize);
         tvCount.setTextColor(countColor);
         tvCount.setText(String.valueOf(count));
         setCountBackground(countBackgroundColor);
-
     }
 
     /**
@@ -100,11 +102,15 @@ public class CometChatBadgeCount extends LinearLayout {
      * @param color is an object of Color.class . It is used as color for background.
      */
     public void setCountBackground(@ColorInt int color) {
-        Drawable unwrappedDrawable = tvCount.getBackground();
-        Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
-        DrawableCompat.setTint(wrappedDrawable,color);
+        countView.setCardBackgroundColor(color);
+        setCardBackgroundColor(color);
     }
 
+
+    public void setCornerRadius(float radius) {
+        countView.setRadius(radius);
+        setRadius(radius);
+    }
     /**
      * This method is used to set color of count i.e integer.
      * @param color is an object of Color.class. It is used as color of text in tvCount (TextView)

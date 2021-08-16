@@ -113,6 +113,7 @@ import com.cometchat.pro.uikit.ui_resources.utils.keyboard_utils.KeyBoardUtils;
 import com.cometchat.pro.uikit.ui_resources.utils.pattern_utils.PatternUtils;
 import com.cometchat.pro.uikit.ui_resources.utils.sticker_header.StickyHeaderDecoration;
 import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -964,7 +965,7 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
         MaterialCardView addOption = view.findViewById(R.id.add_options);
         LinearLayout optionLayout = view.findViewById(R.id.options_layout);
         MaterialButton addPoll = view.findViewById(R.id.add_poll);
-        addPoll.setBackgroundColor(Color.parseColor(FeatureRestriction.getColor()));
+        addPoll.setBackgroundColor(Color.parseColor(UIKitSettings.getColor()));
         ImageView cancelPoll = view.findViewById(R.id.close_poll);
         addOption.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1798,6 +1799,7 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
                     if (messageAdapter == null) {
                         Log.e(TAG, "onError: MessageAdapter is null");
                     } else {
+                        e.printStackTrace();
                         textMessage.setSentAt(-1);
                         messageAdapter.updateChangedMessage(textMessage);
                     }
@@ -2265,7 +2267,7 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
                             @Override
                             public void onSuccess(Boolean booleanVal) {
                                 if (booleanVal)
-                                    tvStatus.setText(typingIndicator.getSender().getName() + getString(R.string.is_typing));
+                                    tvStatus.setText(typingIndicator.getSender().getName() +" "+getString(R.string.is_typing));
                             }
                         });
                     }
@@ -3474,13 +3476,13 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
             });
         }
 
-        if (FeatureRestriction.getColor()!=null) {
+        if (UIKitSettings.getColor()!=null) {
             audioCallAction.setImageTintList(ColorStateList.valueOf(
-                    Color.parseColor(FeatureRestriction.getColor())));
+                    Color.parseColor(UIKitSettings.getColor())));
             videoCallAction.setImageTintList(ColorStateList.valueOf(
-                    Color.parseColor(FeatureRestriction.getColor())));
+                    Color.parseColor(UIKitSettings.getColor())));
             infoAction.setImageTintList(ColorStateList.valueOf(
-                    Color.parseColor(FeatureRestriction.getColor())));
+                    Color.parseColor(UIKitSettings.getColor())));
         }
 
         FeatureRestriction.isShareCopyForwardMessageEnabled(new FeatureRestriction.OnSuccessListener() {

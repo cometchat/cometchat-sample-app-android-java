@@ -41,6 +41,7 @@ import com.cometchat.pro.uikit.databinding.ActivityCometchatUnifiedBinding;
 import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
 import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.cometchat.pro.uikit.ui_resources.utils.EncryptionUtils;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -198,9 +199,9 @@ public class CometChatUI extends AppCompatActivity implements
 
         activityCometChatUnifiedBinding.bottomNavigation.setOnNavigationItemSelectedListener(this);
 
-        if (FeatureRestriction.getColor()!=null && !FeatureRestriction.getColor().isEmpty()) {
-            getWindow().setStatusBarColor(Color.parseColor(FeatureRestriction.getColor()));
-            int widgetColor = Color.parseColor(FeatureRestriction.getColor());
+        if (UIKitSettings.getColor()!=null && !UIKitSettings.getColor().isEmpty()) {
+            getWindow().setStatusBarColor(Color.parseColor(UIKitSettings.getColor()));
+            int widgetColor = Color.parseColor(UIKitSettings.getColor());
             ColorStateList colorStateList = new ColorStateList(new int[][] {
                     { -android.R.attr.state_selected }, {} }, new int[] { Color.GRAY, widgetColor });
 

@@ -299,7 +299,7 @@
     <string name="group">grupp</string>
     <string name="downloading">laddar ner</string>
     <string name="creating_group">skapa grupp</string>
-    <string name="reply_privately">Skicka meddelande privat</string>
+    <string name="send_message_privately">Skicka meddelande privat</string>
     <string name="view_profile">Visa profil</string>
     <string name="today">i dag</string>
     <string name="delete_conversation_message">Vill du radera den här konversationen?</string>
@@ -317,5 +317,14 @@
     <string name="reply">Svar</string>
     <string name="replies">Svar</string>
     <string name="reply_message_privately">Svara privat</string>
+    <string name="select_user">Välj Användare</string>
+    <string name="select_group">Välj Grupp</string>
+    <string name="search_users">Sök användare</string>
+    <string name="search_groups">Sök grupper</string>
+    <string name="rejected_voice_call">Avvisat röstsamtal</string>
+    <string name="rejected_video_call">Avvisat videosamtal</string>
+    <string name="outgoing_voice_call">Utgående röstsamtal</string>
+    <string name="outgoing_video_call">Utgående videosamtal</string>
+    <string name="no_banned_members_found">Inga förbjudna medlemmar hittades</string>
 
 </resources>

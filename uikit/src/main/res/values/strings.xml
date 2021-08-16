@@ -126,6 +126,12 @@
     <string name="audio_call">Audio Call</string>
     <string name="missed_voice_call">Missed voice call</string>
     <string name="missed_video_call">Missed video call</string>
+    <string name="rejected_voice_call">Rejected voice call</string>
+    <string name="rejected_video_call">Rejected video call</string>
+    <string name="outgoing_voice_call">Outgoing voice call</string>
+    <string name="outgoing_video_call">Outgoing video call</string>
+    <string name="incoming_audio_call">Incoming Audio Call</string>
+    <string name="incoming_video_call">Incoming Video Call</string>
 
     <!--Calls -->
     <string name="no_call_message">You have not made any calls</string>
@@ -137,8 +143,6 @@
     <string name="all">All</string>
     <string name="missed">Missed</string>
     <string name="new_call">New Call</string>
-    <string name="incoming_audio_call">Incoming Audio Call</string>
-    <string name="incoming_video_call">Incoming Video Call</string>
     <string name="missed_call">Missed</string>
     <string name="rejected_call">Rejected</string>
     <string name="ongoing_call">Call is Ongoing</string>
@@ -249,6 +253,7 @@
     <string name="yesterday">Yesterday</string>
     <string name="ban">Ban</string>
     <string name="banned_successfully">Banned Successfully</string>
+    <string name="no_banned_members_found">No Banned Members Found</string>
     <string name="unblocked_successfully">unblocked successfully</string>
     <string name="forward_to_5_at_a_time">You cannot forward message to more than 5 members</string>
     <string name="message_audio">🎵 Audio</string>
@@ -312,7 +317,7 @@
 
     <string name="downloading">Downloading</string>
     <string name="creating_group">Creating Group</string>
-    <string name="reply_privately">Send Message Privately</string>
+    <string name="send_message_privately">Send Message Privately</string>
     <string name="view_profile">View Profile</string>
     <string name="today">Today</string>
     <string name="in_thread">In a thread</string>

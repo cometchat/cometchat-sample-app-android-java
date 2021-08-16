@@ -25,8 +25,8 @@ import com.cometchat.pro.core.CallManager;
 import com.cometchat.pro.core.CallSettings;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
+import com.cometchat.pro.models.AudioMode;
 import com.cometchat.pro.models.User;
-import com.cometchat.pro.rtc.model.AudioMode;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.ui_components.calls.call_manager.ongoing_call.OngoingCallService;
 import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
@@ -98,13 +98,13 @@ public class CometChatStartCallActivity extends AppCompatActivity {
         Log.e( "startCallActivity: ",sessionID+" "+type);
         CometChat.startCall(callSettings, new CometChat.OngoingCallListener() {
             @Override
-            public void onAudioModesUpdated(List<AudioMode> list) {
-                Log.e( "onAudioModesUpdated: ",list.toString() );
+            public void onUserListUpdated(List<User> list) {
+                Log.e( "onUserListUpdated: ",list.toString() );
             }
 
             @Override
-            public void onUserListUpdated(List<User> list) {
-                Log.e( "onUserListUpdated: ",list.toString() );
+            public void onAudioModesUpdated(List<AudioMode> list) {
+                Log.e("onAudioModesUpdated: ",list.toString() );
             }
 
             @Override
@@ -123,7 +123,7 @@ public class CometChatStartCallActivity extends AppCompatActivity {
                             mainView, getString(R.string.user_left)+":"+ user.getName(),
                             CometChatSnackBar.INFO);
                     Log.e("onUserLeft: ", user.getUid());
-                    if (callSettings.isDefaultLayout()) {
+                    if (callSettings.getMode().equals(CallSettings.MODE_SINGLE)) {
                         endCall();
                     }
                 } else {

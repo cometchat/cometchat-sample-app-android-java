@@ -152,7 +152,7 @@ public class CometChatGroupList extends Fragment  {
 
         CometChatError.init(getContext());
         ivCreateGroup = view.findViewById(R.id.create_group);
-        ivCreateGroup.setImageTintList(ColorStateList.valueOf(Color.parseColor(FeatureRestriction.getColor())));
+        ivCreateGroup.setImageTintList(ColorStateList.valueOf(Color.parseColor(UIKitSettings.getColor())));
 
         isTitleVisible();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

@@ -18,6 +18,7 @@
             android:id="@+id/iv_user"
             tools:src="@tools:sample/avatars"
             android:layout_marginBottom="4dp"
+            app:corner_radius="12dp"
             android:layout_marginStart="4dp"
             android:layout_height="24dp"/>
         <TextView

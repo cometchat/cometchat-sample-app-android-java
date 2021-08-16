@@ -273,7 +273,7 @@
     <string name="left">剩下</string>
     <string name="downloading">正在下載</string>
     <string name="creating_group">建立小组</string>
-    <string name="reply_privately">私下发送消息</string>
+    <string name="send_message_privately">私下发送消息</string>
     <string name="view_profile">查看資料</string>
     <string name="delete_conversation_message">您要删除此对话吗？</string>
     <string name="deleting_conversation">删除对话</string>
@@ -289,4 +289,13 @@
     <string name="reply">回复</string>
     <string name="replies">回复</string>
     <string name="reply_message_privately">私下回复</string>
+    <string name="select_user">選擇用戶</string>
+    <string name="select_group">選擇組</string>
+    <string name="search_users">搜索用戶</string>
+    <string name="search_groups">搜索組</string>
+    <string name="rejected_voice_call">被拒絕的語音電話</string>
+    <string name="rejected_video_call">拒絕視頻通話</string>
+    <string name="outgoing_voice_call">撥出語音電話</string>
+    <string name="outgoing_video_call">傳出視頻通話</string>
+    <string name="no_banned_members_found">沒有發現被禁止的成員</string>
 </resources>

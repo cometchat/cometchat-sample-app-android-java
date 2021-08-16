@@ -26,7 +26,7 @@
         android:drawableStart="@drawable/ic_send_message_in_private"
         android:drawablePadding="16dp"
         android:padding="16dp"
-        android:text="@string/reply_privately"
+        android:text="@string/send_message_privately"
         android:textStyle="bold" />
 
     <TextView

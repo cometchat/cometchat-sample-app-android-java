@@ -273,7 +273,7 @@
     <string name="left">deixou o grupo</string>
     <string name="downloading">baixando</string>
     <string name="creating_group">criando grupo</string>
-    <string name="reply_privately">Enviar mensagem em particular</string>
+    <string name="send_message_privately">Enviar mensagem em particular</string>
     <string name="view_profile">Ver perfil</string>
     <string name="delete_conversation_message">Você gostaria de excluir esta conversa?</string>
     <string name="deleting_conversation">Excluindo a conversa</string>
@@ -289,5 +289,14 @@
     <string name="reply">Responder</string>
     <string name="replies">Respostas</string>
     <string name="reply_message_privately">Responder em particular</string>
+    <string name="select_user">Selecione o usuário</string>
+    <string name="select_group">Selecione o Grupo</string>
+    <string name="search_users">Usuários de busca</string>
+    <string name="search_groups">Grupos de Pesquisa</string>
+    <string name="rejected_voice_call">Chamada de voz rejeitada</string>
+    <string name="rejected_video_call">Vídeo chamada rejeitada</string>
+    <string name="outgoing_voice_call">Chamada de voz de saída</string>
+    <string name="outgoing_video_call">Chamada de vídeo realizada</string>
+    <string name="no_banned_members_found">Nenhum membro banido encontrado</string>
 
 </resources>
