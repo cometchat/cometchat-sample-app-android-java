@@ -1119,7 +1119,17 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
                     showPermissionSnackBar(view.findViewById(R.id.message_box), getResources().getString(R.string.grant_storage_permission));
                 break;
             case UIKitConstants.RequestCode.LOCATION:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) { }
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                     initLocation();
+//                    locationManager = (LocationManager) Objects.requireNonNull(getContext()).getSystemService(Context.LOCATION_SERVICE);
+                    boolean provider = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                    if (!provider) {
+                        turnOnLocation();
+                    }
+                    else {
+                        getLocation();
+                    }
+                }
                 else
                     showPermissionSnackBar(view.findViewById(R.id.message_box), getResources().getString(R.string.grant_location_permission));
                 break;
