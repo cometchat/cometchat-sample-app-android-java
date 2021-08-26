@@ -1,6 +1,5 @@
 package com.cometchat.pro.uikit.ui_resources.utils;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -33,7 +32,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
-import androidx.loader.content.CursorLoader;
 
 import com.cometchat.pro.models.BaseMessage;
 import com.cometchat.pro.models.MediaMessage;
@@ -41,7 +39,6 @@ import com.cometchat.pro.uikit.BuildConfig;
 import com.cometchat.pro.uikit.R;
 import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -161,7 +158,7 @@ public class MediaUtils {
             e.printStackTrace();
         }
 
-         outputFileUri = FileProvider.getUriForFile(context, provider + ".provider", file);
+        outputFileUri = FileProvider.getUriForFile(context, provider + ".provider", file);
 
         if (Build.VERSION.SDK_INT >= 29) {
             ContentResolver resolver = context.getContentResolver();
@@ -310,14 +307,21 @@ public class MediaUtils {
         return f;
     }
 
+    public static File makeEmptyFileWithTitle(String title) {
+        String root;
+        if (Build.VERSION.SDK_INT < 29) {
+            root = Environment.getExternalStorageDirectory().getAbsolutePath();
+        } else  {
+            root = Environment.DIRECTORY_DOWNLOADS;
+        }
+        return new File(root, title);
+    }
+
     public static File getRealPath(Context context, Uri fileUri,boolean isThirdParty) {
         Log.d("", "getRealPath: " + fileUri.getPath());
         String realPath;
-        if (isGoogleDrive(fileUri)) {
-            return saveDriveFile(context, fileUri);
-        }
-        else if (isThirdParty) {
-            return downloadImage(context, fileUri);
+        if (isGoogleDrive(fileUri) || isThirdParty) {
+            return downloadFile(context, fileUri);
         }
         // SDK > 19 (Android 4.4) and up
         else if (Build.VERSION.SDK_INT < 28){
@@ -330,12 +334,12 @@ public class MediaUtils {
         return new File(realPath);
     }
 
-    public static File downloadImage(Context context, Uri imageUri) {
+    public static File downloadFile(Context context, Uri imageUri) {
 //        Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
         File file = null;
         try {
             if (imageUri != null) {
-                file = new File(context.getCacheDir(), "image");
+                file = new File(context.getCacheDir(), getFileName(context,imageUri));
                 InputStream inputStream = context.getContentResolver().openInputStream(imageUri);
                 try {
 
@@ -402,43 +406,38 @@ public class MediaUtils {
         return file.getPath();
     }
 
-    public static File saveDriveFile(Context context, Uri uri) {
-
-        try {
-
-            InputStream inputStream = context.getContentResolver().openInputStream(uri);
-            int originalSize = inputStream.available();
-
-            BufferedInputStream bis = null;
-            BufferedOutputStream bos = null;
-            String fileName = getFileName(context, uri);
-            File file = makeEmptyFileWithTitle(fileName);
-            bis = new BufferedInputStream(inputStream);
-            bos = new BufferedOutputStream(new FileOutputStream(
-                    file, false));
-
-            byte[] buf = new byte[originalSize];
-            bis.read(buf);
-            do {
-                bos.write(buf);
-            } while (bis.read(buf) != -1);
-
-            bos.flush();
-            bos.close();
-            bis.close();
-
-            return file;
-
-        } catch (IOException e) {
-            return null;
-        }
-
-    }
-
-    public static File makeEmptyFileWithTitle(String title) {
-        String root = Environment.getExternalStorageDirectory().getAbsolutePath();
-        return new File(root, title);
-    }
+//    public static File saveDriveFile(Context context, Uri uri) {
+//
+//        try {
+//
+//            InputStream inputStream = context.getContentResolver().openInputStream(uri);
+//            int originalSize = inputStream.available();
+//
+//            BufferedInputStream bis = null;
+//            BufferedOutputStream bos = null;
+//            String fileName = getFileName(context, uri);
+//            File file = makeEmptyFileWithTitle(fileName);
+//            bis = new BufferedInputStream(inputStream);
+//            bos = new BufferedOutputStream(new FileOutputStream(
+//                    file, false));
+//
+//            byte[] buf = new byte[originalSize];
+//            bis.read(buf);
+//            do {
+//                bos.write(buf);
+//            } while (bis.read(buf) != -1);
+//
+//            bos.flush();
+//            bos.close();
+//            bis.close();
+//
+//            return file;
+//
+//        } catch (IOException e) {
+//            return null;
+//        }
+//
+//    }
 
 
     /**
@@ -470,15 +469,15 @@ public class MediaUtils {
             // DownloadsProvider
             else if (isDownloadsDocument(uri)) {
 
-                 String id = DocumentsContract.getDocumentId(uri);
+                String id = DocumentsContract.getDocumentId(uri);
 
                 if (id != null){
-                        if(id.startsWith("raw:")) {
-                            return id.substring(4);
-                        }
-                        if (id.startsWith("msf:")){
-                            id=id.substring(4);
-                        }
+                    if(id.startsWith("raw:")) {
+                        return id.substring(4);
+                    }
+                    if (id.startsWith("msf:")){
+                        id=id.substring(4);
+                    }
                 }
 
                 String[] contentUriPrefixesToTry = new String[]{

@@ -342,4 +342,5 @@
     <string name="search_users">Search Users</string>
     <string name="search_groups">Search Groups</string>
     <string name="background_location_permission_title">Allow Background Location Permisssion</string>
+    <string name="forwarded_successful_message">Message Forwarded Successfully</string>
 </resources>
