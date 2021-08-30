@@ -32,6 +32,9 @@ import android.text.Editable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -46,7 +49,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.inputmethod.InputContentInfoCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -124,6 +129,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -1758,6 +1764,7 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
                     if (messageAdapter == null) {
                         Log.e(TAG, "onError: MessageAdapter is null");
                     } else {
+                        e.printStackTrace();
                         textMessage.setSentAt(-1);
                         messageAdapter.updateChangedMessage(textMessage);
                     }
@@ -2225,7 +2232,7 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
                             @Override
                             public void onSuccess(Boolean booleanVal) {
                                 if (booleanVal)
-                                    tvStatus.setText(typingIndicator.getSender().getName() + getString(R.string.is_typing));
+                                    tvStatus.setText(typingIndicator.getSender().getName() +" "+getString(R.string.is_typing));
                             }
                         });
                     }

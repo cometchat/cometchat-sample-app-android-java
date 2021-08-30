@@ -39,8 +39,8 @@
             <com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar
                 android:layout_width="48dp"
                 android:id="@+id/caller_av"
-                app:corner_radius="24dp"
                 android:layout_margin="16dp"
+                app:corner_radius="24dp"
                 android:layout_alignParentEnd="true"
                 tools:src="@tools:sample/avatars"
                 android:layout_height="48dp"/>
@@ -108,11 +108,12 @@
         <com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAvatar
             app:border_color="@color/textColorWhite"
             app:border_width="16dp"
+            app:corner_radius="100dp"
             android:layout_below="@+id/calling_tv"
             tools:src="@tools:sample/avatars"
             android:layout_width="200dp"
-            app:corner_radius="100dp"
             android:id="@+id/user_av"
+            app:avatar_shape="circle"
             android:layout_centerHorizontal="true"
             android:layout_height="200dp"/>
         <TextView

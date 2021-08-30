@@ -28,17 +28,6 @@
             app:corner_radius="18dp"
             android:layout_height="36dp"/>
 
-        <com.cometchat.pro.uikit.ui_components.shared.cometchatUserPresence.CometChatUserPresence
-            android:id="@+id/statusIndicator"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:visibility="gone"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="-32dp"
-            android:layout_toEndOf="@id/av_group"
-            android:layout_alignBottom="@id/av_group" />
-
-
             <TextView
                 android:drawablePadding="8dp"
                 android:drawableTint="@color/grey"

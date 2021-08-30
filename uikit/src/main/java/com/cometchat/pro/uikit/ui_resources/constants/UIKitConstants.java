@@ -131,9 +131,14 @@ public class UIKitConstants {
 
         public static final String INTENT_MEDIA_VIDEO_MESSAGE = "intent_media_video_message";
 
+        public static final String INTENT_MEDIA_AUDIO_MESSAGE = "intent_media_audio_message";
+
+        public static final String INTENT_MEDIA_FILE_MESSAGE = "intent_media_file_message";
+
         public static final String LINK = "link";
 
         public static final String IS_TITLE_VISIBLE = "IS_TITLE_VISIBLE";
+
         public static final String CREATE_GROUP_VISIBLE = "IS_CREATE_GROUP_VISIBLE";
 
         public static String POLL_QUESTION = "poll_question";

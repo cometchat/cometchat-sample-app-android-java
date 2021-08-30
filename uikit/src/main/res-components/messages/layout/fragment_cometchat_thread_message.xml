@@ -161,9 +161,7 @@
                 <LinearLayout
                     android:visibility="gone"
                     android:layout_marginStart="10dp"
-                    android:layout_toEndOf="@+id/iv_user"
-                    android:layout_below="@+id/iv_user"
-                    android:background="@drawable/cc_message_bubble_left"
+                    android:background="@drawable/cc_message_bubble_right"
                     android:orientation="vertical"
                     android:id="@+id/poll_message"
                     android:layout_width="250dp"
@@ -213,17 +211,14 @@
                     android:id="@+id/whiteboard_vw"
                     android:visibility="gone"
                     android:layout_marginStart="10dp"
-                    android:layout_toEndOf="@+id/iv_user"
-                    android:layout_below="@+id/iv_user"
-                    android:background="@drawable/cc_message_bubble_left"
+                    android:background="@drawable/cc_message_bubble_right"
                     android:orientation="vertical"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content">
                     <ImageView
                         android:padding="8dp"
                         android:id="@+id/whiteboard_icon"
-                        android:background="@drawable/cc_message_bubble_right"
-                        android:backgroundTint="@color/grey_200"
+                        android:tint="@color/textColorWhite"
                         android:src="@drawable/ic_collaborative_whiteboard"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
@@ -253,18 +248,15 @@
                     android:id="@+id/writeboard_vw"
                     android:visibility="gone"
                     android:layout_marginStart="10dp"
-                    android:layout_toEndOf="@+id/iv_user"
-                    android:layout_below="@+id/iv_user"
-                    android:background="@drawable/cc_message_bubble_left"
+                    android:background="@drawable/cc_message_bubble_right"
                     android:orientation="vertical"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content">
                     <ImageView
                         android:padding="8dp"
                         android:id="@+id/writeboard_icon"
-                        android:background="@drawable/cc_message_bubble_right"
-                        android:backgroundTint="@color/grey_200"
                         android:src="@drawable/ic_collaborative_whiteboard"
+                        android:tint="@color/textColorWhite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <TextView

@@ -41,8 +41,8 @@
                     tools:src="@tools:sample/avatars"/>
                 <com.cometchat.pro.uikit.ui_components.shared.cometchatUserPresence.CometChatUserPresence
                     android:layout_width="16dp"
-                    android:visibility="gone"
                     app:cardCornerRadius="8dp"
+                    android:visibility="gone"
                     android:layout_alignEnd="@+id/av_user"
                     android:layout_alignBottom="@+id/av_user"
                     android:id="@+id/user_status"

@@ -183,7 +183,6 @@ public class CometChatConversationsAdapter extends RecyclerView.Adapter<CometCha
             name = conversationUser.getName();
             avatar = conversationUser.getAvatar();
             status = conversationUser.getStatus();
-            Log.e("Conversation:",conversation.getConversationWith().toString());
             if (status.equals(CometChatConstants.USER_STATUS_ONLINE)) {
                 conversationViewHolder.conversationListRowBinding.userStatus.setVisibility(View.VISIBLE);
                 conversationViewHolder.conversationListRowBinding.userStatus.setUserStatus(status);
