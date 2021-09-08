@@ -13,7 +13,7 @@
 <img src="https://img.shields.io/badge/Repo%20Size-18.6%20MB-blue" />
 ![GitHub contributors](https://img.shields.io/github/contributors/cometchat-pro/android-java-chat-app)
 ![GitHub stars](https://img.shields.io/github/stars/cometchat-pro/android-java-chat-app?style=social)
-![Version](https://shields.io/badge/version-v3.0.0--2-orange)
+![Version](https://shields.io/badge/version-v3.0.1--1-orange)
 ![Twitter Follow](https://img.shields.io/twitter/follow/cometchat?style=social)
 
 <img src="https://files.readme.io/952af91-UI_Kit__1.png"/>
@@ -27,7 +27,7 @@ CometChat Kitchen Sink Sample App (built using CometChat UIKit) is a fully funct
 Before you begin, ensure you have met the following requirements:<br/>
  ✅ &nbsp; You have `Android Studio` installed in your machine.<br/>
  ✅ &nbsp; You have a `Android Device or Emulator` with Android Version 6.0 or above.<br/>
- ✅ &nbsp; You have read [CometChat Key Concepts](https://prodocs.cometchat.com/v3.0-beta/docs/concepts).<br/>
+ ✅ &nbsp; You have read [CometChat Key Concepts](https://prodocs.cometchat.com/docs/concepts).<br/>
 
 <hr/>
 
@@ -62,7 +62,7 @@ Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/andr
 
 ## Troubleshooting
 
-- To read the full documentation on UI Kit integration visit our [Documentation](https://prodocs.cometchat.com/v3.0-beta/docs/android-ui-kit)  .
+- To read the full documentation on UI Kit integration visit our [Documentation](https://prodocs.cometchat.com/docs/android-ui-kit)  .
 
 - Facing any issues while integrating or installing the UI Kit please <a href="https://app.cometchat.io/"> connect with us via real time support present in CometChat Dashboard.</a>.
 

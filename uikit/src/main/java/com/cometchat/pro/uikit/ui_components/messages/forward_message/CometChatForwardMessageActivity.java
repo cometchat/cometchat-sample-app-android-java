@@ -1,5 +1,6 @@
 package com.cometchat.pro.uikit.ui_components.messages.forward_message;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -103,6 +105,8 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
     private String messageCategory = CometChatConstants.CATEGORY_MESSAGE;
 
     private int mediaMessageSize;
+
+    private ProgressDialog progressDialog;
 
     private int id;
     @Override
@@ -327,6 +331,8 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
         forwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog = ProgressDialog
+                        .show(CometChatForwardMessageActivity.this,"",getString(R.string.updating));
                 if (messageCategory.equals(CometChatConstants.CATEGORY_MESSAGE)) {
                     if (messageType != null && messageType.equals(CometChatConstants.MESSAGE_TYPE_TEXT)) {
                         new Thread(() -> {
@@ -382,7 +388,7 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
                                 attachment.setFileName(mediaMessageName);
                                 message.setAttachment(attachment);
                                 Log.e(TAG, "onClick: " + attachment.toString());
-                                sendMediaMessage(message,i);
+                                sendMediaMessage(message,i,progressDialog);
 //                                if (i == userList.size() - 1) {
 //                                    Intent intent = new Intent(CometChatForwardMessageActivity.this, CometChatUI.class);
 //                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -433,7 +439,7 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
                                 } catch (Exception e) {
                                     Log.e(TAG, "onError: " + e.getMessage());
                                 }
-                                sendMediaMessage(message,i);
+                                sendMediaMessage(message,i,progressDialog);
                             }
                         }).start();
                     } else {
@@ -520,16 +526,18 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
         });
     }
 
-    public void sendMediaMessage(MediaMessage mediaMessage,int i)
+    public void sendMediaMessage(MediaMessage mediaMessage,int i,ProgressDialog progressDialog)
     {
         CometChat.sendMediaMessage(mediaMessage, new CometChat.CallbackListener<MediaMessage>() {
             @Override
             public void onSuccess(MediaMessage mediaMessage) {
+                Log.e(TAG, "onSuccess: "+mediaMessage.getReceiverUid());
                 if (i == userList.size() - 1) {
-                    Intent intent = new Intent(CometChatForwardMessageActivity.this, CometChatUI.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    if (progressDialog!=null)
+                        progressDialog.dismiss();
+                    Intent intent = new Intent(CometChatForwardMessageActivity.this,CometChatUI.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
-                    finish();
                 }
             }
 
