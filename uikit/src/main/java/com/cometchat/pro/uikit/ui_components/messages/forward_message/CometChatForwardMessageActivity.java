@@ -537,7 +537,6 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                     Intent intent = new Intent(CometChatForwardMessageActivity.this,CometChatUI.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    finish();
                     startActivity(intent);
                 }
             }
