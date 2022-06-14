@@ -8,11 +8,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
+import com.cometchat.pro.core.AppSettings;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
 import com.cometchat.pro.androiduikit.constants.AppConfig;
+import com.cometchat.pro.uikit.ui_components.calls.call_manager.listener.CometChatCallListener;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
@@ -36,10 +39,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (CometChat.getLoggedInUser()!=null)
-        {
-            startActivity(new Intent(MainActivity.this,SelectActivity.class));
-        }
+
         loginBtn = findViewById(R.id.login);
         superhero1 = findViewById(R.id.superhero1);
         superhero2 = findViewById(R.id.superhero2);

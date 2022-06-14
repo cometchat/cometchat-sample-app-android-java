@@ -222,11 +222,12 @@ public class CometChatAvatar extends MaterialCardView {
      * @param name is a object of String.class. Its first 2 character are used in image with no avatar or icon.
      */
     public void setInitials(@NonNull String name) {
-
-        if (name.length() >= 2) {
-            text = name.substring(0, 2);
-        }else {
-            text=name;
+        if (name!=null) {
+            if (name.length() >= 2) {
+                text = name.substring(0, 2);
+            } else {
+                text = name;
+            }
         }
         imageView.setVisibility(View.GONE);
         textView.setText(text);

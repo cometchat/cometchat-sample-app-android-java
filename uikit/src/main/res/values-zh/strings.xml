@@ -297,4 +297,8 @@
     <string name="outgoing_voice_call">拨出语音电话</string>
     <string name="outgoing_video_call">传出视频通话</string>
     <string name="no_banned_members_found">没有发现被禁止的成员</string>
+    <string name="name_length_error">超过 100 个字符</string>
+    <string name="media_in_progress">正在上传媒体</string>
+    <string name="no_messages_found">未找到消息</string>
+    <string name="forwarded_successful_message">消息转发成功</string>
 </resources>

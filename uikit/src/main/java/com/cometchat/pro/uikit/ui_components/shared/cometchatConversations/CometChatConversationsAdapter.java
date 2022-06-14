@@ -319,21 +319,24 @@ public class CometChatConversationsAdapter extends RecyclerView.Adapter<CometCha
 
     public void setTypingIndicator(TypingIndicator typingIndicator, boolean b) {
         for(Conversation conversation : filterConversationList) {
+
             if (typingIndicator.getReceiverType().equalsIgnoreCase(CometChatConstants.RECEIVER_TYPE_USER)) {
                 if (conversation.getConversationId()
                         .contains(typingIndicator.getSender().getUid())) {
+                    int index = filterConversationList.indexOf(conversation);
                     this.typingIndicator = typingIndicator;
                     isTypingVisible = b;
-                    int index = filterConversationList.indexOf(conversation);
                     notifyItemChanged(index);
+                    break;
                 }
             } else {
                 if (conversation.getConversationId()
                         .contains(typingIndicator.getReceiverId())) {
+                    int index = filterConversationList.indexOf(conversation);
                     this.typingIndicator = typingIndicator;
                     isTypingVisible = b;
-                    int index = filterConversationList.indexOf(conversation);
                     notifyItemChanged(index);
+                    break;
                 }
             }
         }

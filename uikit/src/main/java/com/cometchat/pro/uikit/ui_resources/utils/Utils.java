@@ -658,23 +658,24 @@ public class Utils {
     }
 
     public static String getOutputMediaFile(Context context) {
-        File var0 = new File(Environment.getExternalStorageDirectory(), context.getResources().getString(R.string.app_name));
-        if (!var0.exists() && !var0.mkdirs()) {
-            return null;
+        String dir;
+        if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
+            dir = Environment.getExternalStorageDirectory()+"/"+context.getResources().getString(R.string.app_name) + "/"
+                    + "audio/";
         } else {
-            String dir;
-            if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
-                dir = Environment.getExternalStorageDirectory()+"/"+context.getResources().getString(R.string.app_name) + "/"
+            if (Environment.isExternalStorageManager()) {
+                dir = Environment.getExternalStorageState() + "/" + context.getResources().getString(R.string.app_name) + "/"
                         + "audio/";
             } else {
-                dir = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOCUMENTS).getPath()+"/"+context.getResources().getString(R.string.app_name) + "/"
+                dir = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOCUMENTS).getPath() + "/" + context.getResources().getString(R.string.app_name) + "/"
                         + "audio/";
             }
+        }
 //            String var1 = Environment.getExternalStorageDirectory() + "/" + context.getResources().getString(R.string.app_name) + "/"
 //                    + "audio/";
-            createDirectory(dir);
-            return dir + (new SimpleDateFormat("yyyyMMddHHmmss")).format(new Date()) + ".mp3";
-        }
+        createDirectory(dir);
+        return dir + (new SimpleDateFormat("yyyyMMddHHmmss")).format(new Date()) + ".mp3";
+
     }
 
     public static void createDirectory(String var0) {

@@ -1,5 +1,6 @@
 package com.cometchat.pro.uikit.ui_components.messages.message_list;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -467,7 +468,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         isPreviousMessage = (prevMessage!=null && baseMessage.getSender().getUid().equals(prevMessage.getSender().getUid()));
 
         if (!isPreviousMessage && isNextMessage) {
-           isUserDetailVisible = true;
+            isUserDetailVisible = true;
         }
 
         if (isPreviousMessage && isNextMessage) {
@@ -634,91 +635,91 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             JSONObject options = jsonObject.getJSONObject("options");
             ArrayList<String> voterInfo = Extensions.getVoterInfo(baseMessage,options.length());
             viewHolder.tvQuestion.setText(jsonObject.getString("question"));
-                for (int k = 0; k < options.length(); k++) {
-                    int voteCount = Extensions.getVoteCount(baseMessage);
-                    if (voteCount==1) {
-                        viewHolder.totalCount.setText(voteCount +
-                                context.getString(R.string.vote));
-                    } else {
-                        viewHolder.totalCount.setText(voteCount +
-                                context.getString(R.string.votes));
-                    }
-                    LinearLayout linearLayout = new LinearLayout(context);
-                        LinearLayout.LayoutParams layoutParams = new LinearLayout
-                                .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT);
-                        linearLayout.setPadding(8,8,8,8);
-                        linearLayout.setBackgroundColor(Color.parseColor(UIKitSettings.getColor()));
-                        linearLayout.setBackgroundTintList(ColorStateList.valueOf(context.getResources()
-                                .getColor(R.color.textColorWhite)));
-                        layoutParams.bottomMargin = (int) Utils.dpToPx(context, 8);
-                        linearLayout.setLayoutParams(layoutParams);
-
-                        TextView textViewPercentage = new TextView(context);
-                        TextView textViewOption = new TextView(context);
-                        textViewPercentage.setPadding(16, 4, 0, 4);
-                        textViewOption.setPadding(16, 4, 0, 4);
-                        textViewOption.setTextAppearance(context, R.style.TextAppearance_AppCompat_Medium);
-                        textViewPercentage.setTextAppearance(context, R.style.TextAppearance_AppCompat_Medium);
-
-                            textViewPercentage.setTextColor(context.getResources().getColor(R.color.primaryTextColor));
-                            textViewOption.setTextColor(context.getResources().getColor(R.color.primaryTextColor));
-                        String optionStr = options.getString(String.valueOf(k + 1));
-                        textViewOption.setText(optionStr);
-                        if (voteCount>0) {
-                            int percentage = Math.round((Integer.parseInt(voterInfo.get(k)) * 100) /
-                                    voteCount);
-                            if (percentage > 0)
-                                textViewPercentage.setText(percentage + "% ");
-                        }
-                        if (k+1==Extensions.userVotedOn(baseMessage,optionList.size()+1,loggedInUser.getUid())) {
-                            textViewPercentage.setCompoundDrawablePadding(8);
-                            textViewPercentage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_check_circle_24,0,0,0);
-                        }
-                        int finalK = k;
-                        if (viewHolder.optionGroup.getChildCount()!=options.length()) {
-                            viewHolder.loadingProgress.setVisibility(View.GONE);
-                            linearLayout.addView(textViewPercentage);
-                            linearLayout.addView(textViewOption);
-                            viewHolder.optionGroup.addView(linearLayout);
-                        }
-                        linearLayout.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                try {
-                                    String pollsId=null;
-                                    if (jsonObject.has("id"))
-                                        pollsId = jsonObject.getString("id");
-                                    else
-                                        pollsId = baseMessage.getId()+"";
-                                    JSONObject pollsJsonObject = new JSONObject();
-                                    pollsJsonObject.put("vote",finalK+1);
-                                    pollsJsonObject.put("id", pollsId);
-                                    CometChat.callExtension("polls", "POST", "/v2/vote",
-                                            pollsJsonObject, new CometChat.CallbackListener<JSONObject>() {
-                                                    @Override
-                                                    public void onSuccess(JSONObject jsonObject) {
-                                                        // Voted successfully
-                                                        viewHolder.loadingProgress.setVisibility(View.VISIBLE);
-                                                        viewHolder.totalCount.setText("0"+context.getString(R.string.votes));
-                                                        Log.e(TAG, "onSuccess: " + jsonObject.toString());
-                                                        Toast.makeText(context, context.getString(R.string.voted_success), Toast.LENGTH_LONG).show();
-                                                    }
-
-                                                    @Override
-                                                    public void onError(CometChatException e) {
-                                                        // Some error occured
-                                                        Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
-                                                        Log.e(TAG, "onErrorExtension: " + e.getMessage() + "\n" + e.getCode());
-                                                    }
-                                                });
-                                } catch (Exception e) {
-                                    Log.e(TAG, "onError: "+e.getMessage());
-                                }
-                            }
-                        });
-                    optionList.add(options.getString(String.valueOf(k + 1)));
+            for (int k = 0; k < options.length(); k++) {
+                int voteCount = Extensions.getVoteCount(baseMessage);
+                if (voteCount==1) {
+                    viewHolder.totalCount.setText(voteCount +
+                            context.getString(R.string.vote));
+                } else {
+                    viewHolder.totalCount.setText(voteCount +
+                            context.getString(R.string.votes));
                 }
+                LinearLayout linearLayout = new LinearLayout(context);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout
+                        .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+                linearLayout.setPadding(8,8,8,8);
+                linearLayout.setBackgroundColor(Color.parseColor(UIKitSettings.getColor()));
+                linearLayout.setBackgroundTintList(ColorStateList.valueOf(context.getResources()
+                        .getColor(R.color.textColorWhite)));
+                layoutParams.bottomMargin = (int) Utils.dpToPx(context, 8);
+                linearLayout.setLayoutParams(layoutParams);
+
+                TextView textViewPercentage = new TextView(context);
+                TextView textViewOption = new TextView(context);
+                textViewPercentage.setPadding(16, 4, 0, 4);
+                textViewOption.setPadding(16, 4, 0, 4);
+                textViewOption.setTextAppearance(context, R.style.TextAppearance_AppCompat_Medium);
+                textViewPercentage.setTextAppearance(context, R.style.TextAppearance_AppCompat_Medium);
+
+                textViewPercentage.setTextColor(context.getResources().getColor(R.color.primaryTextColor));
+                textViewOption.setTextColor(context.getResources().getColor(R.color.primaryTextColor));
+                String optionStr = options.getString(String.valueOf(k + 1));
+                textViewOption.setText(optionStr);
+                if (voteCount>0) {
+                    int percentage = Math.round((Integer.parseInt(voterInfo.get(k)) * 100) /
+                            voteCount);
+                    if (percentage > 0)
+                        textViewPercentage.setText(percentage + "% ");
+                }
+                if (k+1==Extensions.userVotedOn(baseMessage,optionList.size()+1,loggedInUser.getUid())) {
+                    textViewPercentage.setCompoundDrawablePadding(8);
+                    textViewPercentage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_check_circle_24,0,0,0);
+                }
+                int finalK = k;
+                if (viewHolder.optionGroup.getChildCount()!=options.length()) {
+                    viewHolder.loadingProgress.setVisibility(View.GONE);
+                    linearLayout.addView(textViewPercentage);
+                    linearLayout.addView(textViewOption);
+                    viewHolder.optionGroup.addView(linearLayout);
+                }
+                linearLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            String pollsId=null;
+                            if (jsonObject.has("id"))
+                                pollsId = jsonObject.getString("id");
+                            else
+                                pollsId = baseMessage.getId()+"";
+                            JSONObject pollsJsonObject = new JSONObject();
+                            pollsJsonObject.put("vote",finalK+1);
+                            pollsJsonObject.put("id", pollsId);
+                            CometChat.callExtension("polls", "POST", "/v2/vote",
+                                    pollsJsonObject, new CometChat.CallbackListener<JSONObject>() {
+                                        @Override
+                                        public void onSuccess(JSONObject jsonObject) {
+                                            // Voted successfully
+                                            viewHolder.loadingProgress.setVisibility(View.VISIBLE);
+                                            viewHolder.totalCount.setText("0"+context.getString(R.string.votes));
+                                            Log.e(TAG, "onSuccess: " + jsonObject.toString());
+                                            Toast.makeText(context, context.getString(R.string.voted_success), Toast.LENGTH_LONG).show();
+                                        }
+
+                                        @Override
+                                        public void onError(CometChatException e) {
+                                            // Some error occured
+                                            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+                                            Log.e(TAG, "onErrorExtension: " + e.getMessage() + "\n" + e.getCode());
+                                        }
+                                    });
+                        } catch (Exception e) {
+                            Log.e(TAG, "onError: "+e.getMessage());
+                        }
+                    }
+                });
+                optionList.add(options.getString(String.valueOf(k + 1)));
+            }
         } catch (Exception e) {
             Log.e(TAG, "setPollsData: "+e.getMessage()+"\n"+viewHolder.totalCount.getText());
         }
@@ -1193,7 +1194,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 //            selectedItemList.add(baseMessage.getId());
 //        }
 //        if (selectedItemList.contains(baseMessage.getId()))
-            viewHolder.txtTime.setVisibility(View.VISIBLE);
+        viewHolder.txtTime.setVisibility(View.VISIBLE);
 //        else
 //            viewHolder.txtTime.setVisibility(View.GONE);
 
@@ -1301,7 +1302,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             showMessageTime(viewHolder,baseMessage);
             setColorFilter(baseMessage,viewHolder.rlMessageBubble);
 //            if (selectedItemList.contains(baseMessage.getId()))
-                viewHolder.txtTime.setVisibility(View.VISIBLE);
+            viewHolder.txtTime.setVisibility(View.VISIBLE);
 //            else
 //                viewHolder.txtTime.setVisibility(View.GONE);
             if (((MediaMessage)baseMessage).getAttachment()!=null) {
@@ -1315,15 +1316,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             viewHolder.playBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context,CometChatMediaViewActivity.class);
-                    intent.putExtra(UIKitConstants.IntentStrings.MEDIA_SIZE,
-                            ((MediaMessage)baseMessage).getAttachment().getFileSize());
-                    intent.putExtra(UIKitConstants.IntentStrings.MESSAGE_TYPE, CometChatConstants.MESSAGE_TYPE_AUDIO);
-                    intent.putExtra(UIKitConstants.IntentStrings.INTENT_MEDIA_MESSAGE,
-                            ((MediaMessage)baseMessage).getAttachment().getFileUrl());
-                    intent.putExtra(UIKitConstants.IntentStrings.NAME,baseMessage.getSender().getName());
-                    intent.putExtra(UIKitConstants.IntentStrings.SENTAT,baseMessage.getSentAt());
-                    context.startActivity(intent);
+                    openMediaViewActivity(baseMessage);
                 }
             });
             viewHolder.rlMessageBubble.setOnLongClickListener(new View.OnLongClickListener() {
@@ -1360,108 +1353,108 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private void setFileData(FileMessageViewHolder viewHolder, int i) {
         BaseMessage baseMessage = messageList.get(i);
 
-          if (baseMessage!=null&&baseMessage.getDeletedAt()==0) {
-              if (!baseMessage.getSender().getUid().equals(loggedInUser.getUid())) {
-                  if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_USER)) {
-                      viewHolder.tvUser.setVisibility(View.GONE);
-                      viewHolder.ivUser.setVisibility(View.GONE);
-                  } else if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP)) {
-                      if (isUserDetailVisible) {
-                          viewHolder.tvUser.setVisibility(View.VISIBLE);
-                          viewHolder.ivUser.setVisibility(View.VISIBLE);
-                      }
-                      else {
-                          viewHolder.tvUser.setVisibility(View.GONE);
-                          viewHolder.ivUser.setVisibility(View.INVISIBLE);
-                      }
-                      setAvatar(viewHolder.ivUser, baseMessage.getSender().getAvatar(), baseMessage.getSender().getName());
-                      viewHolder.tvUser.setText(baseMessage.getSender().getName());
-                  }
-              }
-              if (((MediaMessage)baseMessage).getAttachment()!=null) {
-                  viewHolder.fileName.setText(((MediaMessage) baseMessage).getAttachment().getFileName());
-                  viewHolder.fileExt.setText(((MediaMessage) baseMessage).getAttachment().getFileExtension());
-                  int fileSize = ((MediaMessage) baseMessage).getAttachment().getFileSize();
+        if (baseMessage!=null&&baseMessage.getDeletedAt()==0) {
+            if (!baseMessage.getSender().getUid().equals(loggedInUser.getUid())) {
+                if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_USER)) {
+                    viewHolder.tvUser.setVisibility(View.GONE);
+                    viewHolder.ivUser.setVisibility(View.GONE);
+                } else if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP)) {
+                    if (isUserDetailVisible) {
+                        viewHolder.tvUser.setVisibility(View.VISIBLE);
+                        viewHolder.ivUser.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        viewHolder.tvUser.setVisibility(View.GONE);
+                        viewHolder.ivUser.setVisibility(View.INVISIBLE);
+                    }
+                    setAvatar(viewHolder.ivUser, baseMessage.getSender().getAvatar(), baseMessage.getSender().getName());
+                    viewHolder.tvUser.setText(baseMessage.getSender().getName());
+                }
+            }
+            if (((MediaMessage)baseMessage).getAttachment()!=null) {
+                viewHolder.fileName.setText(((MediaMessage) baseMessage).getAttachment().getFileName());
+                viewHolder.fileExt.setText(((MediaMessage) baseMessage).getAttachment().getFileExtension());
+                int fileSize = ((MediaMessage) baseMessage).getAttachment().getFileSize();
 
-                  viewHolder.fileSize.setText(Utils.getFileSize(fileSize));
-              } else {
-                  viewHolder.fileName.setText(context.getString(R.string.uploading));
-                  viewHolder.fileExt.setText("-");
-                  viewHolder.fileSize.setText("-");
-              }
-              
-              FeatureRestriction.isThreadedMessagesEnabled(new FeatureRestriction.OnSuccessListener() {
-                  @Override
-                  public void onSuccess(Boolean booleanVal) {
-                      if (baseMessage.getReplyCount()!=0 && booleanVal) {
-                          viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
-                          viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" "+context.getResources().getString(R.string.replies));
-                      } else {
-                          viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
-                      }
-                  }
-              });
-              viewHolder.tvThreadReplyCount.setOnClickListener(view -> {
-                  Intent intent = new Intent(context, CometChatThreadMessageListActivity.class);
+                viewHolder.fileSize.setText(Utils.getFileSize(fileSize));
+            } else {
+                viewHolder.fileName.setText(context.getString(R.string.uploading));
+                viewHolder.fileExt.setText("-");
+                viewHolder.fileSize.setText("-");
+            }
+
+            FeatureRestriction.isThreadedMessagesEnabled(new FeatureRestriction.OnSuccessListener() {
+                @Override
+                public void onSuccess(Boolean booleanVal) {
+                    if (baseMessage.getReplyCount()!=0 && booleanVal) {
+                        viewHolder.tvThreadReplyCount.setVisibility(View.VISIBLE);
+                        viewHolder.tvThreadReplyCount.setText(baseMessage.getReplyCount()+" "+context.getResources().getString(R.string.replies));
+                    } else {
+                        viewHolder.tvThreadReplyCount.setVisibility(View.GONE);
+                    }
+                }
+            });
+            viewHolder.tvThreadReplyCount.setOnClickListener(view -> {
+                Intent intent = new Intent(context, CometChatThreadMessageListActivity.class);
 //                  intent.putExtra(StringContract.IntentStrings.PARENT_BASEMESSAGE,baseMessage.toString());
-                  intent.putExtra(UIKitConstants.IntentStrings.NAME,baseMessage.getSender().getName());
-                  intent.putExtra(UIKitConstants.IntentStrings.AVATAR,baseMessage.getSender().getAvatar());
-                  intent.putExtra(UIKitConstants.IntentStrings.REPLY_COUNT,baseMessage.getReplyCount());
-                  intent.putExtra(UIKitConstants.IntentStrings.UID,baseMessage.getSender().getName());
-                  intent.putExtra(UIKitConstants.IntentStrings.PARENT_ID,baseMessage.getId());
-                  intent.putExtra(UIKitConstants.IntentStrings.MESSAGE_TYPE,baseMessage.getType());
-                  intent.putExtra(UIKitConstants.IntentStrings.REACTION_INFO,Extensions.getReactionsOnMessage(baseMessage));
-                  intent.putExtra(UIKitConstants.IntentStrings.SENTAT,baseMessage.getSentAt());
-                  intent.putExtra(UIKitConstants.IntentStrings.MESSAGE_TYPE_IMAGE_NAME,((MediaMessage)baseMessage).getAttachment().getFileName());
-                  intent.putExtra(UIKitConstants.IntentStrings.MESSAGE_TYPE_IMAGE_EXTENSION,((MediaMessage)baseMessage).getAttachment().getFileExtension());
-                  intent.putExtra(UIKitConstants.IntentStrings.MESSAGE_TYPE_IMAGE_URL,((MediaMessage)baseMessage).getAttachment().getFileUrl());
-                  intent.putExtra(UIKitConstants.IntentStrings.MESSAGE_TYPE_IMAGE_SIZE,((MediaMessage)baseMessage).getAttachment().getFileSize());
-                  intent.putExtra(UIKitConstants.IntentStrings.TYPE,baseMessage.getReceiverType());
-                  intent.putExtra(UIKitConstants.IntentStrings.MESSAGE_CATEGORY,baseMessage.getCategory());
-                  if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP)) {
-                      intent.putExtra(UIKitConstants.IntentStrings.GUID,baseMessage.getReceiverUid());
-                  }
-                  else {
-                      if (baseMessage.getReceiverUid().equals(loggedInUser.getUid()))
-                          intent.putExtra(UIKitConstants.IntentStrings.UID,baseMessage.getSender().getUid());
-                      else
-                          intent.putExtra(UIKitConstants.IntentStrings.UID,baseMessage.getReceiverUid());
-                  }
-                  context.startActivity(intent);
-              });
+                intent.putExtra(UIKitConstants.IntentStrings.NAME,baseMessage.getSender().getName());
+                intent.putExtra(UIKitConstants.IntentStrings.AVATAR,baseMessage.getSender().getAvatar());
+                intent.putExtra(UIKitConstants.IntentStrings.REPLY_COUNT,baseMessage.getReplyCount());
+                intent.putExtra(UIKitConstants.IntentStrings.UID,baseMessage.getSender().getName());
+                intent.putExtra(UIKitConstants.IntentStrings.PARENT_ID,baseMessage.getId());
+                intent.putExtra(UIKitConstants.IntentStrings.MESSAGE_TYPE,baseMessage.getType());
+                intent.putExtra(UIKitConstants.IntentStrings.REACTION_INFO,Extensions.getReactionsOnMessage(baseMessage));
+                intent.putExtra(UIKitConstants.IntentStrings.SENTAT,baseMessage.getSentAt());
+                intent.putExtra(UIKitConstants.IntentStrings.MESSAGE_TYPE_IMAGE_NAME,((MediaMessage)baseMessage).getAttachment().getFileName());
+                intent.putExtra(UIKitConstants.IntentStrings.MESSAGE_TYPE_IMAGE_EXTENSION,((MediaMessage)baseMessage).getAttachment().getFileExtension());
+                intent.putExtra(UIKitConstants.IntentStrings.MESSAGE_TYPE_IMAGE_URL,((MediaMessage)baseMessage).getAttachment().getFileUrl());
+                intent.putExtra(UIKitConstants.IntentStrings.MESSAGE_TYPE_IMAGE_SIZE,((MediaMessage)baseMessage).getAttachment().getFileSize());
+                intent.putExtra(UIKitConstants.IntentStrings.TYPE,baseMessage.getReceiverType());
+                intent.putExtra(UIKitConstants.IntentStrings.MESSAGE_CATEGORY,baseMessage.getCategory());
+                if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP)) {
+                    intent.putExtra(UIKitConstants.IntentStrings.GUID,baseMessage.getReceiverUid());
+                }
+                else {
+                    if (baseMessage.getReceiverUid().equals(loggedInUser.getUid()))
+                        intent.putExtra(UIKitConstants.IntentStrings.UID,baseMessage.getSender().getUid());
+                    else
+                        intent.putExtra(UIKitConstants.IntentStrings.UID,baseMessage.getReceiverUid());
+                }
+                context.startActivity(intent);
+            });
 
 
-              showMessageTime(viewHolder, baseMessage);
-              setColorFilter(baseMessage,viewHolder.cvMessageView);
+            showMessageTime(viewHolder, baseMessage);
+            setColorFilter(baseMessage,viewHolder.cvMessageView);
 //              if (selectedItemList.contains(baseMessage.getId()))
-                  viewHolder.txtTime.setVisibility(View.VISIBLE);
+            viewHolder.txtTime.setVisibility(View.VISIBLE);
 //              else
 //                  viewHolder.txtTime.setVisibility(View.GONE);
 
 
-              viewHolder.rlMessageBubble.setOnClickListener(view -> {
+            viewHolder.rlMessageBubble.setOnClickListener(view -> {
 //                  if (isLongClickEnabled && !isTextMessageClick) {
 //                          setLongClickSelectedItem(baseMessage);
 //                  }
 //                  else {
-                  MediaUtils.openFile(((MediaMessage) baseMessage).getAttachment().getFileUrl(),context);
-                  setSelectedMessage(baseMessage.getId());
+                MediaUtils.openFile(((MediaMessage) baseMessage).getAttachment().getFileUrl(),context);
+                setSelectedMessage(baseMessage.getId());
 //                  }
-                  notifyItemChanged(i);
-              });
-              viewHolder.rlMessageBubble.setOnLongClickListener(new View.OnLongClickListener() {
-                  @Override
-                  public boolean onLongClick(View v) {
-                      if (!isLongClickEnabled && !isTextMessageClick) {
-                          isImageMessageClick = true;
-                          setLongClickSelectedItem(baseMessage);
-                          messageLongClick.setLongMessageClick(longselectedItemList);
-                          notifyItemChanged(i);
-                      }
-                      return true;
-                  }
-              });
-          }
+                notifyItemChanged(i);
+            });
+            viewHolder.rlMessageBubble.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (!isLongClickEnabled && !isTextMessageClick) {
+                        isImageMessageClick = true;
+                        setLongClickSelectedItem(baseMessage);
+                        messageLongClick.setLongMessageClick(longselectedItemList);
+                        notifyItemChanged(i);
+                    }
+                    return true;
+                }
+            });
+        }
 
         viewHolder.reactionLayout.setVisibility(View.GONE);
         setReactionSupport(baseMessage,viewHolder.reactionLayout);
@@ -1525,6 +1518,14 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             viewHolder.sensitiveLayout.setVisibility(View.GONE);
         }
 
+        String caption = ((MediaMessage) baseMessage).getCaption();
+        if (caption!=null && !caption.isEmpty()) {
+            viewHolder.caption.setVisibility(View.VISIBLE);
+            viewHolder.caption.setText(caption);
+        } else {
+            viewHolder.caption.setVisibility(View.GONE);
+        }
+
         FeatureRestriction.isThreadedMessagesEnabled(new FeatureRestriction.OnSuccessListener() {
             @Override
             public void onSuccess(Boolean booleanVal) {
@@ -1536,14 +1537,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
         });
-        if (baseMessage.getMetadata()!=null) {
-            try {
-                String filePath = baseMessage.getMetadata().getString("path");
-                Glide.with(context).load(filePath).diskCacheStrategy(DiskCacheStrategy.NONE).into(viewHolder.imageView);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+
         viewHolder.tvThreadReplyCount.setOnClickListener(view -> {
             Intent intent = new Intent(context, CometChatThreadMessageListActivity.class);
 //            intent.putExtra(StringContract.IntentStrings.PARENT_BASEMESSAGE,baseMessage.toString());
@@ -1577,7 +1571,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         showMessageTime(viewHolder, baseMessage);
 //        if (selectedItemList.contains(baseMessage.getId()))
-            viewHolder.txtTime.setVisibility(View.VISIBLE);
+        viewHolder.txtTime.setVisibility(View.VISIBLE);
 //        else
 //            viewHolder.txtTime.setVisibility(View.GONE);
 
@@ -1626,19 +1620,29 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
 
-    private void setImageDrawable(ImageMessageViewHolder viewHolder, String url, boolean gif,boolean isImageNotSafe) {
+    private void setImageDrawable(RecyclerView.ViewHolder viewHolder, String url, boolean gif,boolean isImageNotSafe) {
+        ImageView imageView = null;
+        boolean notVideo = true;
+        if(viewHolder instanceof ImageMessageViewHolder) {
+            imageView = ((ImageMessageViewHolder) viewHolder).imageView;
+        }
+        else if (viewHolder instanceof VideoMessageViewHolder) {
+            imageView = ((VideoMessageViewHolder) viewHolder).imageView;
+            notVideo = false;
+        }
         if (gif) {
             Glide.with(context).asGif().diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true).load(url).into(viewHolder.imageView);
-        } else {
+                    .skipMemoryCache(true).load(url).into(imageView);
+        } else if(notVideo) {
+            ImageView finalImageView = imageView;
             Glide.with(context).asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true).load(url).into(new CustomTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                     if (isImageNotSafe)
-                        viewHolder.imageView.setImageBitmap(Utils.blur(context, resource));
+                        finalImageView.setImageBitmap(Utils.blur(context, resource));
                     else
-                        viewHolder.imageView.setImageBitmap(resource);
+                        finalImageView.setImageBitmap(resource);
                 }
 
                 @Override
@@ -1646,18 +1650,25 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 }
             });
+        } else {
+            Glide.with(context).load(url).into(imageView);
         }
-
     }
 
     private void openMediaViewActivity(BaseMessage baseMessage) {
         if (((MediaMessage)baseMessage).getAttachment()!=null) {
             Intent intent = new Intent(context, CometChatMediaViewActivity.class);
             intent.putExtra(UIKitConstants.IntentStrings.NAME, baseMessage.getSender().getName());
-            intent.putExtra(UIKitConstants.IntentStrings.UID, baseMessage.getSender().getUid());
+            if (baseMessage.getReceiverUid().equals(loggedInUser.getUid()))
+                intent.putExtra(UIKitConstants.IntentStrings.ID,baseMessage.getSender().getUid());
+            else
+                intent.putExtra(UIKitConstants.IntentStrings.ID,baseMessage.getReceiverUid());
+            intent.putExtra(UIKitConstants.IntentStrings.TYPE,baseMessage.getReceiverType());
             intent.putExtra(UIKitConstants.IntentStrings.SENTAT, baseMessage.getSentAt());
             intent.putExtra(UIKitConstants.IntentStrings.INTENT_MEDIA_MESSAGE,
                     ((MediaMessage) baseMessage).getAttachment().getFileUrl());
+            intent.putExtra(UIKitConstants.IntentStrings.MEDIA_SIZE,
+                    ((MediaMessage) baseMessage).getAttachment().getFileSize());
             intent.putExtra(UIKitConstants.IntentStrings.MESSAGE_TYPE, baseMessage.getType());
             context.startActivity(intent);
         }
@@ -1795,9 +1806,25 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 viewHolder.tvUser.setText(baseMessage.getSender().getName());
             }
         }
-        if (((MediaMessage)baseMessage).getAttachment()!=null)
-            Glide.with(context).load(((MediaMessage) baseMessage).getAttachment().getFileUrl()).into(viewHolder.imageView);
 
+        String smallUrl = Extensions.getThumbnailGeneration(context,baseMessage);
+
+        Attachment attachment = ((MediaMessage)baseMessage).getAttachment();
+        if (attachment!=null) {
+            if (smallUrl!=null) {
+                setImageDrawable(viewHolder,smallUrl,false,false);
+            } else {
+                setImageDrawable(viewHolder,((MediaMessage)baseMessage).getAttachment().getFileUrl(),false,false);
+            }
+        }
+
+        String caption = ((MediaMessage) baseMessage).getCaption();
+        if (caption!=null && !caption.isEmpty()) {
+            viewHolder.caption.setVisibility(View.VISIBLE);
+            viewHolder.caption.setText(caption);
+        } else {
+            viewHolder.caption.setVisibility(View.GONE);
+        }
 
         FeatureRestriction.isThreadedMessagesEnabled(new FeatureRestriction.OnSuccessListener() {
             @Override
@@ -1843,7 +1870,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         showMessageTime(viewHolder, baseMessage);
 //        if (selectedItemList.contains(baseMessage.getId()))
-            viewHolder.txtTime.setVisibility(View.VISIBLE);
+        viewHolder.txtTime.setVisibility(View.VISIBLE);
 //        else
 //            viewHolder.txtTime.setVisibility(View.GONE);
 //
@@ -1914,7 +1941,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         showMessageTime(viewHolder, baseMessage);
         setColorFilter(baseMessage,viewHolder.cardView);
 //        if (selectedItemList.contains(baseMessage.getId()))
-            viewHolder.txtTime.setVisibility(View.VISIBLE);
+        viewHolder.txtTime.setVisibility(View.VISIBLE);
 //        else
 //            viewHolder.txtTime.setVisibility(View.GONE);
 //
@@ -1951,8 +1978,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 actionMessage = ((User)((Action) baseMessage).getActioBy()).getName()+" "
                         +context.getString(R.string.added)+" "+((User)((Action) baseMessage).getActionOn()).getName();
             else if (((Action) baseMessage).getAction().equals(CometChatConstants.ActionKeys.ACTION_KICKED))
-            actionMessage = ((User)((Action) baseMessage).getActioBy()).getName()+" "
-                    +context.getString(R.string.kicked_by)+" "+((User)((Action) baseMessage).getActionOn()).getName();
+                actionMessage = ((User)((Action) baseMessage).getActioBy()).getName()+" "
+                        +context.getString(R.string.kicked_by)+" "+((User)((Action) baseMessage).getActionOn()).getName();
             else if (((Action) baseMessage).getAction().equals(CometChatConstants.ActionKeys.ACTION_BANNED))
                 actionMessage = ((User)((Action) baseMessage).getActioBy()).getName()+" "
                         +context.getString(R.string.ban)+" "+((User)((Action) baseMessage).getActionOn()).getName();
@@ -1972,8 +1999,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     actionMessage = ((User) ((Action) baseMessage).getActioBy()).getName() + " " + context.getString(R.string.made) + " "
                             + ((User) ((Action) baseMessage).getActionOn()).getName() + " " + context.getString(R.string.participant);
                 }
-            else
-                actionMessage = ((Action) baseMessage).getMessage();
+                else
+                    actionMessage = ((Action) baseMessage).getMessage();
             viewHolder.textView.setText(actionMessage);
 
         }
@@ -2124,71 +2151,71 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         BaseMessage baseMessage = messageList.get(i);
         if (baseMessage!=null) {
-             if (!baseMessage.getSender().getUid().equals(loggedInUser.getUid())) {
-                 if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_USER)) {
-                     viewHolder.tvUser.setVisibility(View.GONE);
-                     viewHolder.ivUser.setVisibility(View.GONE);
-                 } else if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP)) {
-                     if (isUserDetailVisible)
-                     {
-                         viewHolder.tvUser.setVisibility(View.VISIBLE);
-                         viewHolder.ivUser.setVisibility(View.VISIBLE);
-                     }
-                     else
-                     {
-                         viewHolder.tvUser.setVisibility(View.GONE);
-                         viewHolder.ivUser.setVisibility(View.INVISIBLE);
-                     }
-                     setAvatar(viewHolder.ivUser, baseMessage.getSender().getAvatar(), baseMessage.getSender().getName());
-                     viewHolder.tvUser.setText(baseMessage.getSender().getName());
-                 }
-                 boolean isSentimentNegative = Extensions.checkSentiment(baseMessage);
-                 if (isSentimentNegative) {
-                     viewHolder.txtMessage.setVisibility(View.GONE);
-                     viewHolder.sentimentVw.setVisibility(View.VISIBLE);
-                 }
-                 else {
-                     viewHolder.txtMessage.setVisibility(View.VISIBLE);
-                     viewHolder.sentimentVw.setVisibility(View.GONE);
-                 }
-                 viewHolder.viewSentimentMessage.setOnClickListener(new View.OnClickListener() {
-                     @Override
-                     public void onClick(View v) {
-                         AlertDialog.Builder sentimentAlert = new AlertDialog.Builder(context)
-                                 .setTitle(context.getResources().getString(R.string.sentiment_alert))
-                                 .setMessage(context.getResources().getString(R.string.sentiment_alert_message))
-                                 .setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                                     @Override
-                                     public void onClick(DialogInterface dialog, int which) {
-                                         viewHolder.txtMessage.setVisibility(View.VISIBLE);
-                                         viewHolder.sentimentVw.setVisibility(View.GONE);
-                                     }
-                                 })
-                                 .setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                                     @Override
-                                     public void onClick(DialogInterface dialog, int which) {
-                                         dialog.dismiss();
-                                     }
-                                 });
-                         sentimentAlert.create().show();
-                     }
-                 });
-             }
-             if (baseMessage.getMetadata()!=null) {
-                 try {
-                     JSONObject metaData = baseMessage.getMetadata();
-                     if (metaData.has("reply-message")) {
-                         JSONObject replyMessageJSON = metaData.getJSONObject("reply-message");
-                         BaseMessage replyMessage = CometChatHelper.processMessage(replyMessageJSON);
-                         String messageType = replyMessage.getType();
-                         viewHolder.replyLayout.setVisibility(View.VISIBLE);
-                         viewHolder.replyUser.setVisibility(View.VISIBLE);
-                         if (replyMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_USER))
-                             viewHolder.replyUser.setText(replyMessage.getSender().getName());
-                         else
-                             viewHolder.replyUser.setText(replyMessage.getSender().getName()+
-                                     " ~ "+((Group)replyMessage.getReceiver()).getName());
-                         if (messageType.equals(CometChatConstants.MESSAGE_TYPE_TEXT)) {
+            if (!baseMessage.getSender().getUid().equals(loggedInUser.getUid())) {
+                if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_USER)) {
+                    viewHolder.tvUser.setVisibility(View.GONE);
+                    viewHolder.ivUser.setVisibility(View.GONE);
+                } else if (baseMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP)) {
+                    if (isUserDetailVisible)
+                    {
+                        viewHolder.tvUser.setVisibility(View.VISIBLE);
+                        viewHolder.ivUser.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        viewHolder.tvUser.setVisibility(View.GONE);
+                        viewHolder.ivUser.setVisibility(View.INVISIBLE);
+                    }
+                    setAvatar(viewHolder.ivUser, baseMessage.getSender().getAvatar(), baseMessage.getSender().getName());
+                    viewHolder.tvUser.setText(baseMessage.getSender().getName());
+                }
+                boolean isSentimentNegative = Extensions.checkSentiment(baseMessage);
+                if (isSentimentNegative) {
+                    viewHolder.txtMessage.setVisibility(View.GONE);
+                    viewHolder.sentimentVw.setVisibility(View.VISIBLE);
+                }
+                else {
+                    viewHolder.txtMessage.setVisibility(View.VISIBLE);
+                    viewHolder.sentimentVw.setVisibility(View.GONE);
+                }
+                viewHolder.viewSentimentMessage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder sentimentAlert = new AlertDialog.Builder(context)
+                                .setTitle(context.getResources().getString(R.string.sentiment_alert))
+                                .setMessage(context.getResources().getString(R.string.sentiment_alert_message))
+                                .setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        viewHolder.txtMessage.setVisibility(View.VISIBLE);
+                                        viewHolder.sentimentVw.setVisibility(View.GONE);
+                                    }
+                                })
+                                .setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        sentimentAlert.create().show();
+                    }
+                });
+            }
+            if (baseMessage.getMetadata()!=null) {
+                try {
+                    JSONObject metaData = baseMessage.getMetadata();
+                    if (metaData.has("reply-message")) {
+                        JSONObject replyMessageJSON = metaData.getJSONObject("reply-message");
+                        BaseMessage replyMessage = CometChatHelper.processMessage(replyMessageJSON);
+                        String messageType = replyMessage.getType();
+                        viewHolder.replyLayout.setVisibility(View.VISIBLE);
+                        viewHolder.replyUser.setVisibility(View.VISIBLE);
+                        if (replyMessage.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_USER))
+                            viewHolder.replyUser.setText(replyMessage.getSender().getName());
+                        else
+                            viewHolder.replyUser.setText(replyMessage.getSender().getName()+
+                                    " ~ "+((Group)replyMessage.getReceiver()).getName());
+                        if (messageType.equals(CometChatConstants.MESSAGE_TYPE_TEXT)) {
                             String message = ((TextMessage)replyMessage).getText();
                             if(CometChat.isExtensionEnabled("profanity-filter")) {
                                 message = Extensions.checkProfanityMessage(context,replyMessage);
@@ -2198,58 +2225,60 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             }
                             viewHolder.replyMessageImage.setVisibility(View.GONE);
                             viewHolder.replyMessage.setText(message);
-                         } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_IMAGE)) {
-                             viewHolder.replyMessage.setText(context.getResources().getString(R.string.message_image));
-                             viewHolder.replyMessageImage.setVisibility(View.GONE);
-                         } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_AUDIO)) {
-                             viewHolder.replyMessageImage.setVisibility(View.GONE);
-                                 viewHolder.replyMessage.setText(context.getResources()
-                                         .getString(R.string.message_audio));
-                         } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_VIDEO)) {
-                             viewHolder.replyMessageImage.setVisibility(View.GONE);
-                             viewHolder.replyMessage.setText(context.getResources().getString(R.string.message_video));
-                         } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_FILE)) {
-                                 viewHolder.replyMessage.setText(context.getResources().getString(R.string.message_file));
-                             viewHolder.replyMessageImage.setVisibility(View.GONE);
-                         } else if (messageType.equals(UIKitConstants.IntentStrings.LOCATION)) {
-                             viewHolder.replyMessage.setText(R.string.custom_message_location);
-                             viewHolder.replyMessageImage.setImageResource(R.drawable.default_map);
-                         } else if (messageType.equals(UIKitConstants.IntentStrings.POLLS)) {
-                             viewHolder.replyMessageImage.setVisibility(View.GONE);
-                             viewHolder.replyMessage.setText(context.getString(R.string.custom_message_poll));
-                         } else if (messageType.equals(UIKitConstants.IntentStrings.STICKERS)) {
-                             viewHolder.replyMessageImage.setVisibility(View.GONE);
-                             viewHolder.replyMessage.setText(String.format(context.getString(R.string.custom_message_sticker)));
-                         } else if (messageType.equals(UIKitConstants.IntentStrings.WHITEBOARD)) {
-                             viewHolder.replyMessageImage.setVisibility(View.GONE);
-                             viewHolder.replyMessage.setText(context.getString(R.string.custom_message_whiteboard));
-                         } else if (messageType.equals(UIKitConstants.IntentStrings.WRITEBOARD)) {
-                             viewHolder.replyMessageImage.setVisibility(View.GONE);
-                             viewHolder.replyMessage.setText(context.getString(R.string.custom_message_document));
-                         } else if (messageType.equals(UIKitConstants.IntentStrings.GROUP_CALL)) {
-                             viewHolder.replyMessageImage.setVisibility(View.GONE);
-                             viewHolder.replyMessage.setText(context.getString(R.string.custom_message_meeting));
-                         }
-                         viewHolder.rlMessageBubble.setOnLongClickListener(new View.OnLongClickListener() {
-                             @Override
-                             public boolean onLongClick(View view) {
-                                 if (!isImageMessageClick) {
-                                     isLongClickEnabled = true;
-                                     isTextMessageClick = true;
-                                     setLongClickSelectedItem(baseMessage);
-                                     messageLongClick.setLongMessageClick(longselectedItemList);
-                                     notifyItemChanged(i);
-                                 }
-                                 return true;
-                             }
-                         });
-                     } else {
-                         viewHolder.replyLayout.setVisibility(View.GONE);
-                     }
-                 } catch(Exception e){
-                     Log.e(TAG, "setTextData: " + e.getMessage());
-                 }
-             }
+                        } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_IMAGE)) {
+                            viewHolder.replyMessage.setText(context.getResources().getString(R.string.message_image));
+                            viewHolder.replyMessageImage.setVisibility(View.GONE);
+                        } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_AUDIO)) {
+                            viewHolder.replyMessageImage.setVisibility(View.GONE);
+                            viewHolder.replyMessage.setText(context.getResources()
+                                    .getString(R.string.message_audio));
+                        } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_VIDEO)) {
+                            viewHolder.replyMessageImage.setVisibility(View.GONE);
+                            viewHolder.replyMessage.setText(context.getResources().getString(R.string.message_video));
+                        } else if (messageType.equals(CometChatConstants.MESSAGE_TYPE_FILE)) {
+                            viewHolder.replyMessage.setText(context.getResources().getString(R.string.message_file));
+                            viewHolder.replyMessageImage.setVisibility(View.GONE);
+                        } else if (messageType.equals(UIKitConstants.IntentStrings.LOCATION)) {
+                            viewHolder.replyMessage.setText(R.string.custom_message_location);
+                            viewHolder.replyMessageImage.setImageResource(R.drawable.default_map);
+                        } else if (messageType.equals(UIKitConstants.IntentStrings.POLLS)) {
+                            viewHolder.replyMessageImage.setVisibility(View.GONE);
+                            viewHolder.replyMessage.setText(context.getString(R.string.custom_message_poll));
+                        } else if (messageType.equals(UIKitConstants.IntentStrings.STICKERS)) {
+                            viewHolder.replyMessageImage.setVisibility(View.GONE);
+                            viewHolder.replyMessage.setText(String.format(context.getString(R.string.custom_message_sticker)));
+                        } else if (messageType.equals(UIKitConstants.IntentStrings.WHITEBOARD)) {
+                            viewHolder.replyMessageImage.setVisibility(View.GONE);
+                            viewHolder.replyMessage.setText(context.getString(R.string.custom_message_whiteboard));
+                        } else if (messageType.equals(UIKitConstants.IntentStrings.WRITEBOARD)) {
+                            viewHolder.replyMessageImage.setVisibility(View.GONE);
+                            viewHolder.replyMessage.setText(context.getString(R.string.custom_message_document));
+                        } else if (messageType.equals(UIKitConstants.IntentStrings.GROUP_CALL)) {
+                            viewHolder.replyMessageImage.setVisibility(View.GONE);
+                            viewHolder.replyMessage.setText(context.getString(R.string.custom_message_meeting));
+                        }
+                        viewHolder.rlMessageBubble.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View view) {
+                                if (!isImageMessageClick) {
+                                    isLongClickEnabled = true;
+                                    isTextMessageClick = true;
+                                    setLongClickSelectedItem(baseMessage);
+                                    messageLongClick.setLongMessageClick(longselectedItemList);
+                                    notifyItemChanged(i);
+                                }
+                                return true;
+                            }
+                        });
+                    } else {
+                        viewHolder.replyLayout.setVisibility(View.GONE);
+                    }
+                } catch(Exception e){
+                    Log.e(TAG, "setTextData: " + e.getMessage());
+                }
+            } else {
+                viewHolder.replyLayout.setVisibility(View.GONE);
+            }
 
             FeatureRestriction.isThreadedMessagesEnabled(new FeatureRestriction.OnSuccessListener() {
                 @Override
@@ -2262,7 +2291,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
             });
-             viewHolder.tvThreadReplyCount.setOnClickListener(view -> {
+            viewHolder.tvThreadReplyCount.setOnClickListener(view -> {
                 Intent intent = new Intent(context, CometChatThreadMessageListActivity.class);
 //                intent.putExtra(StringContract.IntentStrings.PARENT_BASEMESSAGE,baseMessage.toString());
                 intent.putExtra(UIKitConstants.IntentStrings.NAME,baseMessage.getSender().getName());
@@ -2289,28 +2318,30 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 context.startActivity(intent);
             });
 
-            String txtMessage = ((TextMessage) baseMessage).getText().trim();
-            viewHolder.txtMessage.setTextSize(16f);
-            int count = 0;
-            CharSequence processed = EmojiCompat.get().process(txtMessage, 0,
-                        txtMessage.length() -1, Integer.MAX_VALUE, EmojiCompat.REPLACE_STRATEGY_ALL);
-            if (processed instanceof Spannable) {
-                Spannable spannable = (Spannable) processed;
-                count = spannable.getSpans(0, spannable.length() - 1, EmojiSpan.class).length;
-                if (PatternUtils.removeEmojiAndSymbol(txtMessage).trim().length() == 0) {
-                    int tempcount = count;
-                    FeatureRestriction.isLargeSizeEmojisEnabled(new FeatureRestriction.OnSuccessListener() {
-                        @Override
-                        public void onSuccess(Boolean booleanVal) {
-                            if (booleanVal) {
-                                if (tempcount == 1) {
-                                    viewHolder.txtMessage.setTextSize((int) Utils.dpToPx(context, 32));
-                                } else if (tempcount == 2) {
-                                    viewHolder.txtMessage.setTextSize((int) Utils.dpToPx(context, 24));
+            String txtMessage = ((TextMessage) baseMessage).getText();
+            if (txtMessage!=null && !txtMessage.isEmpty()) {
+                viewHolder.txtMessage.setTextSize(16f);
+                int count = 0;
+                CharSequence processed = EmojiCompat.get().process(txtMessage, 0,
+                        txtMessage.length() - 1, Integer.MAX_VALUE, EmojiCompat.REPLACE_STRATEGY_ALL);
+                if (processed instanceof Spannable) {
+                    Spannable spannable = (Spannable) processed;
+                    count = spannable.getSpans(0, spannable.length() - 1, EmojiSpan.class).length;
+                    if (PatternUtils.removeEmojiAndSymbol(txtMessage).trim().length() == 0) {
+                        int tempcount = count;
+                        FeatureRestriction.isLargeSizeEmojisEnabled(new FeatureRestriction.OnSuccessListener() {
+                            @Override
+                            public void onSuccess(Boolean booleanVal) {
+                                if (booleanVal) {
+                                    if (tempcount == 1) {
+                                        viewHolder.txtMessage.setTextSize((int) Utils.dpToPx(context, 32));
+                                    } else if (tempcount == 2) {
+                                        viewHolder.txtMessage.setTextSize((int) Utils.dpToPx(context, 24));
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             }
 
@@ -2355,21 +2386,21 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
             if (baseMessage.getSender().getUid().equals(loggedInUser.getUid()))
-                 viewHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.textColorWhite));
+                viewHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.textColorWhite));
             else
-                 viewHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.primaryTextColor));
+                viewHolder.txtMessage.setTextColor(context.getResources().getColor(R.color.primaryTextColor));
 
-             showMessageTime(viewHolder, baseMessage);
+            showMessageTime(viewHolder, baseMessage);
 //             if (messageList.get(messageList.size()-1).equals(baseMessage))
 //             {
 //                 selectedItemList.add(baseMessage.getId());
 //             }
 //             if (selectedItemList.contains(baseMessage.getId()))
-                 viewHolder.txtTime.setVisibility(View.VISIBLE);
+            viewHolder.txtTime.setVisibility(View.VISIBLE);
 //             else
 //                 viewHolder.txtTime.setVisibility(View.GONE);
 
-              setColorFilter(baseMessage,viewHolder.cvMessageView);
+            setColorFilter(baseMessage,viewHolder.cvMessageView);
 
 //             viewHolder.rlMessageBubble.setOnClickListener(view -> {
 //                 if (isLongClickEnabled && !isImageMessageClick) {
@@ -2399,8 +2430,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             viewHolder.reactionLayout.setVisibility(View.GONE);
             setReactionSupport(baseMessage,viewHolder.reactionLayout);
-             viewHolder.itemView.setTag(R.string.message, baseMessage);
-         }
+            viewHolder.itemView.setTag(R.string.message, baseMessage);
+        }
     }
 
     private void setReactionSupport(BaseMessage baseMessage, ChipGroup reactionLayout) {
@@ -2410,45 +2441,45 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             reactionLayout.removeAllViews();
             for (String str : reactionOnMessage.keySet()) {
 //                if (reactionLayout.getChildCount()<reactionOnMessage.size()) {
-                    Chip chip = new Chip(context);
-                    chip.setChipStrokeWidth(2f);
-                    chip.setChipBackgroundColor(ColorStateList.valueOf(context.getResources().getColor(android.R.color.transparent)));
-                    chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(UIKitSettings.getColor())));
-                    chip.setText(str + " " + reactionOnMessage.get(str));
-                    reactionLayout.addView(chip);
-                    chip.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View view) {
-                            Intent intent = new Intent(context, CometChatReactionInfoActivity.class);
-                            intent.putExtra(UIKitConstants.IntentStrings.REACTION_INFO,baseMessage.getMetadata().toString());
-                            context.startActivity(intent);
-                            return true;
+                Chip chip = new Chip(context);
+                chip.setChipStrokeWidth(2f);
+                chip.setChipBackgroundColor(ColorStateList.valueOf(context.getResources().getColor(android.R.color.transparent)));
+                chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor(UIKitSettings.getColor())));
+                chip.setText(str + " " + reactionOnMessage.get(str));
+                reactionLayout.addView(chip);
+                chip.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        Intent intent = new Intent(context, CometChatReactionInfoActivity.class);
+                        intent.putExtra(UIKitConstants.IntentStrings.REACTION_INFO,baseMessage.getMetadata().toString());
+                        context.startActivity(intent);
+                        return true;
+                    }
+                });
+                chip.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        JSONObject body=new JSONObject();
+                        try {
+                            body.put("msgId", baseMessage.getId());
+                            body.put("emoji", str);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    });
-                    chip.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            JSONObject body=new JSONObject();
-                            try {
-                                body.put("msgId", baseMessage.getId());
-                                body.put("emoji", str);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            CometChat.callExtension("reactions", "POST", "/v1/react", body,
-                                    new CometChat.CallbackListener<JSONObject>() {
-                                        @Override
-                                        public void onSuccess(JSONObject responseObject) {
-                                            // ReactionModel added successfully.
-                                        }
+                        CometChat.callExtension("reactions", "POST", "/v1/react", body,
+                                new CometChat.CallbackListener<JSONObject>() {
+                                    @Override
+                                    public void onSuccess(JSONObject responseObject) {
+                                        // ReactionModel added successfully.
+                                    }
 
-                                        @Override
-                                        public void onError(CometChatException e) {
-                                            // Some error occured.
-                                        }
-                                    });
-                        }
-                    });
+                                    @Override
+                                    public void onError(CometChatException e) {
+                                        // Some error occured.
+                                    }
+                                });
+                    }
+                });
 //                }
             }
         }
@@ -2492,7 +2523,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 selectedItemList.add(baseMessage.getId());
             }
 //            if (selectedItemList.contains(baseMessage.getId()))
-                viewHolder.txtTime.setVisibility(View.VISIBLE);
+            viewHolder.txtTime.setVisibility(View.VISIBLE);
 //            else
 //                viewHolder.txtTime.setVisibility(View.GONE);
             setColorFilter(baseMessage,viewHolder.cardView);
@@ -2663,7 +2694,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
 //            if (selectedItemList.contains(baseMessage.getId()))
-                viewHolder.txtTime.setVisibility(View.VISIBLE);
+            viewHolder.txtTime.setVisibility(View.VISIBLE);
 //            else
 //                viewHolder.txtTime.setVisibility(View.GONE);
 //            if (i < selectedItems.length && selectedItems[i] == 0) {
@@ -2861,20 +2892,20 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             return RIGHT_CUSTOM_MESSAGE;
                     }
                     else
-                        if (baseMessage.getType().equalsIgnoreCase(UIKitConstants.IntentStrings.LOCATION))
-                            return LEFT_LOCATION_CUSTOM_MESSAGE;
-                        else if (baseMessage.getType().equalsIgnoreCase(UIKitConstants.IntentStrings.POLLS))
-                            return LEFT_POLLS_CUSTOM_MESSAGE;
-                        else if (baseMessage.getType().equalsIgnoreCase(UIKitConstants.IntentStrings.STICKERS))
-                            return LEFT_STICKER_MESSAGE;
-                        else if (baseMessage.getType().equalsIgnoreCase(UIKitConstants.IntentStrings.WHITEBOARD))
-                            return LEFT_WHITEBOARD_MESSAGE;
-                        else if (baseMessage.getType().equalsIgnoreCase(UIKitConstants.IntentStrings.WRITEBOARD))
-                            return LEFT_WRITEBOARD_MESSAGE;
-                        else if (baseMessage.getType().equalsIgnoreCase(UIKitConstants.IntentStrings.GROUP_CALL))
-                            return LEFT_GROUP_CALL_MESSAGE;
-                        else
-                            return LEFT_CUSTOM_MESSAGE;
+                    if (baseMessage.getType().equalsIgnoreCase(UIKitConstants.IntentStrings.LOCATION))
+                        return LEFT_LOCATION_CUSTOM_MESSAGE;
+                    else if (baseMessage.getType().equalsIgnoreCase(UIKitConstants.IntentStrings.POLLS))
+                        return LEFT_POLLS_CUSTOM_MESSAGE;
+                    else if (baseMessage.getType().equalsIgnoreCase(UIKitConstants.IntentStrings.STICKERS))
+                        return LEFT_STICKER_MESSAGE;
+                    else if (baseMessage.getType().equalsIgnoreCase(UIKitConstants.IntentStrings.WHITEBOARD))
+                        return LEFT_WHITEBOARD_MESSAGE;
+                    else if (baseMessage.getType().equalsIgnoreCase(UIKitConstants.IntentStrings.WRITEBOARD))
+                        return LEFT_WRITEBOARD_MESSAGE;
+                    else if (baseMessage.getType().equalsIgnoreCase(UIKitConstants.IntentStrings.GROUP_CALL))
+                        return LEFT_GROUP_CALL_MESSAGE;
+                    else
+                        return LEFT_CUSTOM_MESSAGE;
                 }
             }
         }
@@ -2948,8 +2979,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      */
     public void addMessage(BaseMessage baseMessage) {
 //        if (!messageList.contains(baseMessage)) {
-            messageList.add(baseMessage);
-            selectedItemList.clear();
+        messageList.add(baseMessage);
+        selectedItemList.clear();
 //        }
         notifyItemInserted(messageList.size()-1);
     }
@@ -3039,10 +3070,13 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private RelativeLayout sensitiveLayout;
         private ChipGroup reactionLayout;
 
+        private TextView caption;
+
         public ImageMessageViewHolder(@NonNull View view) {
             super(view);
             int type = (int) view.getTag();
             imageView = view.findViewById(R.id.go_img_message);
+            caption = view.findViewById(R.id.caption);
             tvUser= view.findViewById(R.id.tv_user);
             cardView = view.findViewById(R.id.cv_image_message_container);
             progressBar = view.findViewById(R.id.progress_bar);
@@ -3070,6 +3104,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     class VideoMessageViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imageView;
+        private TextView caption;
         private ImageView playBtn;
         private CardView cardView;
         private ProgressBar progressBar;
@@ -3083,6 +3118,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             super(view);
             int type = (int) view.getTag();
             imageView = view.findViewById(R.id.go_video_message);
+            caption  = view.findViewById(R.id.caption);
             playBtn = view.findViewById(R.id.playBtn);
             tvUser= view.findViewById(R.id.tv_user);
             cardView = view.findViewById(R.id.cv_image_message_container);

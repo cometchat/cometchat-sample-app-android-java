@@ -134,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:maxLines="1"
-                    android:inputType="text"
+                    android:inputType="textPassword"
                     android:imeOptions="actionDone"
                     android:textColor="@color/primaryTextColor" />
             </com.google.android.material.textfield.TextInputLayout>

@@ -185,7 +185,7 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
         tvBanMemberCount = findViewById(R.id.tv_ban_count);
         rvMemberList = findViewById(R.id.member_list);
         tvLoadMore = findViewById(R.id.tv_load_more);
-        tvLoadMore.setText(String.format(getResources().getString(R.string.load_more_members),LIMIT));
+        tvLoadMore.setText(String.format(getResources().getString(R.string.load_more_members),LIMIT+""));
         TextView tvAddMember = findViewById(R.id.tv_add_member);
         rlBanMembers = findViewById(R.id.rlBanView);
         rlBanMembers.setOnClickListener(new View.OnClickListener() {
@@ -614,7 +614,7 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
         FeatureRestriction.isGroupDeletionEnabled(new FeatureRestriction.OnSuccessListener() {
             @Override
             public void onSuccess(Boolean booleanVal) {
-             if (booleanVal) {
+                if (booleanVal) {
                     CometChat.deleteGroup(guid, new CometChat.CallbackListener<String>() {
                         @Override
                         public void onSuccess(String s) {
@@ -634,9 +634,8 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
     }
 
     private void launchUnified() {
-        Intent intent = new Intent(CometChatGroupDetailActivity.this, CometChatUI.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
         finish();
     }
 

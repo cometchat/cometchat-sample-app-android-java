@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/darkModeBackground"
     android:layout_height="match_parent"
     tools:context="com.cometchat.pro.uikit.ui_components.messages.media_view.CometChatMediaViewActivity">
     <com.google.android.material.appbar.MaterialToolbar
@@ -21,46 +20,62 @@
         android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-    <VideoView
-        android:visibility="gone"
-        android:layout_below="@+id/toolbar"
-        android:id="@+id/video_message"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <RelativeLayout
-        android:visibility="gone"
-        tools:visibility="visible"
-        android:id="@+id/audio_message"
         android:layout_centerInParent="true"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/cc_message_bubble_left"
-        android:padding="8dp">
-        <TextView
-            android:id="@+id/title"
-            android:layout_margin="8dp"
-            android:textColor="@color/primaryTextColor"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:text="Audio File"
+        android:layout_below="@+id/toolbar"
+        android:layout_above="@+id/compose_box"
+        android:layout_height="wrap_content">
+        <VideoView
+            android:visibility="gone"
+            android:id="@+id/video_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+    </FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/audio_message"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/cc_message_bubble_left"
+        android:padding="8dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Audio File"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/primaryTextColor" />
+
         <ImageView
             android:id="@+id/playBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:padding="8dp"
             android:background="@drawable/ic_circle_grey_32dp"
-            android:tint="@color/textColorWhite"
+            android:padding="8dp"
             android:src="@drawable/ic_play_arrow_black_24dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:tint="@color/textColorWhite" />
+
         <TextView
-            android:layout_marginLeft="8dp"
-            android:layout_below="@+id/title"
-            android:textColor="@color/primaryTextColor"
             android:id="@+id/media_size_tv"
-            tools:text="125 KB"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/primaryTextColor"
+            tools:text="125 KB" />
     </RelativeLayout>
+    <com.cometchat.pro.uikit.ui_components.shared.cometchatComposeBox.CometChatComposeBox
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/compose_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

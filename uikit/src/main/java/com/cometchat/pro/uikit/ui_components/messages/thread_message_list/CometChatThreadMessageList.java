@@ -463,6 +463,8 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
             Glide.with(context)
                     .load(mapUrl)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.default_map)
+                    .fitCenter()
                     .into(mapView);
         } else if (messageType.equals(UIKitConstants.IntentStrings.POLLS)) {
             ivForwardMessage.setVisibility(GONE);
@@ -1471,7 +1473,13 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
                         isBlockedByMe = true;
                         rvSmartReply.setVisibility(GONE);
                         toolbar.setSelected(false);
-                        blockedUserName.setText("You've blocked " + user.getName());
+                        blockedUserName.setText(getString(R.string.you_ve_blocked) + user.getName());
+                        blockUserLayout.setVisibility(View.VISIBLE);
+                    } else if( user.isHasBlockedMe()) {
+                        isBlockedByMe = true;
+                        rvSmartReply.setVisibility(GONE);
+                        toolbar.setSelected(false);
+                        blockedUserName.setText(getString(R.string.you_have_blocked_by) + user.getName());
                         blockUserLayout.setVisibility(View.VISIBLE);
                     } else {
                         isBlockedByMe = false;
@@ -1725,11 +1733,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
      * @param baseMessage is object of BaseMessage.class. It is message which is been marked as read.
      */
     private void markMessageAsRead(BaseMessage baseMessage) {
-//        CometChat.markAsRead(baseMessage);
-        if (type.equals(CometChatConstants.RECEIVER_TYPE_USER))
-            CometChat.markAsRead(baseMessage.getId(), baseMessage.getSender().getUid(), baseMessage.getReceiverType());
-        else
-            CometChat.markAsRead(baseMessage.getId(), baseMessage.getReceiverUid(), baseMessage.getReceiverType());
+        CometChat.markAsRead(baseMessage);
     }
 
 

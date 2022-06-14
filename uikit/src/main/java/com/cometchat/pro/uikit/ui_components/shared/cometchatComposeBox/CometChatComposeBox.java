@@ -55,6 +55,8 @@ public class CometChatComposeBox extends RelativeLayout implements View.OnClickL
 
     private MediaPlayer mediaPlayer;
 
+    private int currentLength;
+
     private Runnable timerRunnable;
 
     private Handler seekHandler = new Handler(Looper.getMainLooper());
@@ -425,7 +427,7 @@ public class CometChatComposeBox extends RelativeLayout implements View.OnClickL
                 }
                 if (!isRecording) {
                     startRecord();
-                    ivMic.setImageDrawable(getResources().getDrawable(R.drawable.ic_stop_24dp));
+                    ivMic.setImageResource(R.drawable.ic_stop_24dp);
                     isRecording = true;
                     isPlaying = false;
                 } else {
@@ -433,17 +435,23 @@ public class CometChatComposeBox extends RelativeLayout implements View.OnClickL
                         isPlaying = true;
                         stopRecording(false);
                         recordTime.stop();
+                        ivMic.setImageResource(R.drawable.ic_pause_24dp);
+                        audioRecordView.setVisibility(GONE);
+                        ivSend.setVisibility(View.VISIBLE);
+                        ivDelete.setVisibility(View.VISIBLE);
+                        voiceSeekbar.setVisibility(View.VISIBLE);
+                        voiceMessage = true;
+                        if (audioFileNameWithPath != null)
+                            startPlayingAudio(audioFileNameWithPath);
+                        else
+                            Toast.makeText(getContext(), "No File Found. Please", Toast.LENGTH_LONG).show();
+
+                    } else {
+                        isPlaying = false;
+                        recordTime.stop();
+                        ivMic.setImageResource(R.drawable.ic_play_arrow_24);
+                        stopPlayingAudio();
                     }
-                    ivMic.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause_24dp));
-                    audioRecordView.setVisibility(GONE);
-                    ivSend.setVisibility(View.VISIBLE);
-                    ivDelete.setVisibility(View.VISIBLE);
-                    voiceSeekbar.setVisibility(View.VISIBLE);
-                    voiceMessage = true;
-                    if (audioFileNameWithPath != null)
-                        startPlayingAudio(audioFileNameWithPath);
-                    else
-                        Toast.makeText(getContext(), "No File Found. Please", Toast.LENGTH_LONG).show();
                 }
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -538,11 +546,10 @@ public class CometChatComposeBox extends RelativeLayout implements View.OnClickL
             });
 
         } catch (Exception e) {
-            Log.e( "playAudioError: ",e.getMessage());
+            Log.e( "playAudioError: ","Error:"+e.getMessage());
             stopPlayingAudio();;
         }
     }
-
 
     private void stopPlayingAudio() {
         if (mediaPlayer != null)

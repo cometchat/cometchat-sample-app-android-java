@@ -169,18 +169,6 @@ public class CometChatConversationList extends Fragment implements TextWatcher, 
             }
             return false;
         });
-//        clearSearch.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                searchEdit.setText("");
-//                clearSearch.setVisibility(View.GONE);
-//                refreshConversation();
-//                InputMethodManager inputMethodManager = (InputMethodManager)
-//                        getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-//                // Hide the soft keyboard
-//                inputMethodManager.hideSoftInputFromWindow(searchEdit.getWindowToken(),0);
-//            }
-//        });
 
         // Uses to fetch next list of conversations if rvConversationList (RecyclerView) is scrolled in upward direction.
         rvConversationList.addOnScrollListener(new RecyclerView.OnScrollListener() {

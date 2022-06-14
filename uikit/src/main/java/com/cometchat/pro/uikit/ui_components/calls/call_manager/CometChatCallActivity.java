@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -188,6 +189,19 @@ public class CometChatCallActivity extends AppCompatActivity implements View.OnC
         setCallType(isVideo, isIncoming);
         if (!Utils.hasPermissions(this, Manifest.permission.RECORD_AUDIO) && !Utils.hasPermissions(this,Manifest.permission.CAMERA)) {
             requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.CAMERA},REQUEST_PERMISSION);
+        }
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        /** Converting Screen resolution in pixels into dp */
+        float dp_w = ( metrics.widthPixels * 160 ) / metrics.xdpi;
+        /** Converting Screen resolution in pixels into dp */
+        float dp_h = ( metrics.heightPixels * 160 ) / metrics.ydpi;
+        if (dp_w<390) {
+            acceptCall.setText("");
+            acceptCall.setIconResource(R.drawable.ic_calls_selected);
+            declineCall.setText("");
+            declineCall.setIconResource(R.drawable.ic_call_end_white_24dp);
         }
     }
 

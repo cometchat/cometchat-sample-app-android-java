@@ -261,11 +261,12 @@ public class AudioRecordView extends View {
 
         for(int var4 = this.chunkHeights.size() - 1; i < var4; ++i) {
             Object var10000 = this.chunkWidths.get(i);
-            Intrinsics.checkExpressionValueIsNotNull(var10000, "chunkWidths[i]");
-            float chunkX = ((Number)var10000).floatValue();
-            float startY = (float)verticalCenter - ((Number)this.chunkHeights.get(i)).floatValue() / (float)2;
-            float stopY = (float)verticalCenter + ((Number)this.chunkHeights.get(i)).floatValue() / (float)2;
-            canvas.drawLine(chunkX, startY, chunkX, stopY, this.chunkPaint);
+            if (var10000!=null) {
+                float chunkX = ((Number) var10000).floatValue();
+                float startY = (float) verticalCenter - ((Number) this.chunkHeights.get(i)).floatValue() / (float) 2;
+                float stopY = (float) verticalCenter + ((Number) this.chunkHeights.get(i)).floatValue() / (float) 2;
+                canvas.drawLine(chunkX, startY, chunkX, stopY, this.chunkPaint);
+            }
         }
 
     }

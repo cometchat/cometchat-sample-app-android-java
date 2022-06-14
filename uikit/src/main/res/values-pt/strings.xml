@@ -298,5 +298,9 @@
     <string name="outgoing_voice_call">Chamada de voz de saída</string>
     <string name="outgoing_video_call">Chamada de vídeo realizada</string>
     <string name="no_banned_members_found">Nenhum membro banido encontrado</string>
+    <string name="name_length_error">Lebih daripada 100 aksara</string>
+    <string name="media_in_progress">Upload de mídia em andamento</string>
+    <string name="no_messages_found">Nenhuma mensagem encontrada</string>
+    <string name="forwarded_successful_message">Mensagem encaminhada com sucesso</string>
 
 </resources>

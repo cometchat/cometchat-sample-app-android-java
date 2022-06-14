@@ -110,6 +110,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui_components.messages.message_list.CometChatMessageListActivity"
+            android:configChanges="smallestScreenSize"
             android:parentActivityName=".ui_components.cometchat_ui.CometChatUI"
             android:screenOrientation="portrait" />
 
