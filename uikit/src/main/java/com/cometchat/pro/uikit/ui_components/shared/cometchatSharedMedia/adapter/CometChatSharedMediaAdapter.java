@@ -141,27 +141,34 @@ public class CometChatSharedMediaAdapter extends RecyclerView.Adapter<RecyclerVi
 
     private void setVideoData(VideoViewHolder viewHolder, int i) {
         BaseMessage message = messageArrayList.get(i);
-        Glide.with(context).load(((MediaMessage) message).getAttachment().getFileUrl()).into(viewHolder.imageView);
+        String thumbnail = Extensions.getThumbnailGeneration(context,message);
+        if (thumbnail!=null)
+            Glide.with(context).load(thumbnail).into(viewHolder.imageView);
+        else
+            Glide.with(context).load(((MediaMessage) message).getAttachment().getFileUrl()).into(viewHolder.imageView);
         viewHolder.imageView.setOnClickListener(view ->{
-            Intent intent = new Intent(context, CometChatMediaViewActivity.class);
-            intent.putExtra(UIKitConstants.IntentStrings.NAME,message.getSender().getName());
-            intent.putExtra(UIKitConstants.IntentStrings.UID,message.getSender().getUid());
-            intent.putExtra(UIKitConstants.IntentStrings.SENTAT,message.getSentAt());
-            intent.putExtra(UIKitConstants.IntentStrings.INTENT_MEDIA_MESSAGE,
-                    ((MediaMessage)message).getAttachment().getFileUrl());
-            intent.putExtra(UIKitConstants.IntentStrings.MESSAGE_TYPE,message.getType());
-            context.startActivity(intent);
+            openMediaMessage(message);
         });
         viewHolder.itemView.setTag(R.string.baseMessage, message);
     }
 
+    public void openMediaMessage(BaseMessage message) {
+        Intent intent = new Intent(context, CometChatMediaViewActivity.class);
+        intent.putExtra(UIKitConstants.IntentStrings.NAME, message.getSender().getName());
+        intent.putExtra(UIKitConstants.IntentStrings.UID, message.getSender().getUid());
+        intent.putExtra(UIKitConstants.IntentStrings.SENTAT, message.getSentAt());
+        intent.putExtra(UIKitConstants.IntentStrings.INTENT_MEDIA_MESSAGE,
+                ((MediaMessage) message).getAttachment().getFileUrl());
+        intent.putExtra(UIKitConstants.IntentStrings.MESSAGE_TYPE, message.getType());
+        context.startActivity(intent);
+    }
 
     private void setFileData(FileViewHolder viewHolder, int i) {
         BaseMessage message = messageArrayList.get(i);
         viewHolder.fileName.setText(((MediaMessage) message).getAttachment().getFileName());
         viewHolder.fileExtension.setText(((MediaMessage) message).getAttachment().getFileExtension());
         viewHolder.itemView.setOnClickListener(view -> {
-                MediaUtils.openFile(((MediaMessage) message).getAttachment().getFileUrl(), context);
+            MediaUtils.openFile(((MediaMessage) message).getAttachment().getFileUrl(), context);
         });
         viewHolder.itemView.setTag(R.string.baseMessage, message);
     }
@@ -193,7 +200,7 @@ public class CometChatSharedMediaAdapter extends RecyclerView.Adapter<RecyclerVi
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        MediaUtils.openFile(((MediaMessage) message).getAttachment().getFileUrl(), context);
+                        openMediaMessage(message);
                     }
                 });
                 alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -204,14 +211,7 @@ public class CometChatSharedMediaAdapter extends RecyclerView.Adapter<RecyclerVi
                 });
                 alert.create().show();
             } else {
-                Intent intent = new Intent(context, CometChatMediaViewActivity.class);
-                intent.putExtra(UIKitConstants.IntentStrings.NAME,message.getSender().getName());
-                intent.putExtra(UIKitConstants.IntentStrings.UID,message.getSender().getUid());
-                intent.putExtra(UIKitConstants.IntentStrings.SENTAT,message.getSentAt());
-                intent.putExtra(UIKitConstants.IntentStrings.INTENT_MEDIA_MESSAGE,
-                        ((MediaMessage)message).getAttachment().getFileUrl());
-                intent.putExtra(UIKitConstants.IntentStrings.MESSAGE_TYPE,message.getType());
-                context.startActivity(intent);
+               openMediaMessage(message);
             }
         });
         viewHolder.itemView.setTag(R.string.baseMessage, message);

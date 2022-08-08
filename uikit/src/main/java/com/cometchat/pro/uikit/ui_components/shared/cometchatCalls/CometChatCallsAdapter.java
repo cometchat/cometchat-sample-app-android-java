@@ -198,7 +198,7 @@ public class CometChatCallsAdapter extends RecyclerView.Adapter<CometChatCallsAd
         if (call.getReceiverType().equalsIgnoreCase(CometChatConstants.RECEIVER_TYPE_USER)) {
 //            if(FeatureRestriction.isOneOnOneAudioCallEnabled() ||
 //                    FeatureRestriction.isOneOnOneVideoCallEnabled())
-                callViewHolder.callListRowBinding.callIv.setVisibility(View.VISIBLE);
+            callViewHolder.callListRowBinding.callIv.setVisibility(View.VISIBLE);
 //            else
 //                callViewHolder.callListRowBinding.callIv.setVisibility(View.GONE);
         }

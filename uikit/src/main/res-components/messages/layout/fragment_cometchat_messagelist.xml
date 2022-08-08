@@ -15,7 +15,14 @@
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_above="@+id/bottom_layout"/>
-
+    <TextView
+        android:visibility="gone"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:text="@string/no_messages_found"
+        android:id="@+id/no_message_text"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <include layout="@layout/new_message_layout"
         android:layout_width="wrap_content"
         android:visibility="gone"

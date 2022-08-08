@@ -13,7 +13,7 @@
 <img src="https://img.shields.io/badge/Repo%20Size-18.6%20MB-blue" />
 ![GitHub contributors](https://img.shields.io/github/contributors/cometchat-pro/android-java-chat-app)
 ![GitHub stars](https://img.shields.io/github/stars/cometchat-pro/android-java-chat-app?style=social)
-![Version](https://shields.io/badge/version-v3.0.1--1-orange)
+![Version](https://shields.io/badge/version-v3.0.9--1-orange)
 ![Twitter Follow](https://img.shields.io/twitter/follow/cometchat?style=social)
 
 <img src="https://files.readme.io/952af91-UI_Kit__1.png"/>
@@ -27,7 +27,7 @@ CometChat Kitchen Sink Sample App (built using CometChat UIKit) is a fully funct
 Before you begin, ensure you have met the following requirements:<br/>
  ✅ &nbsp; You have `Android Studio` installed in your machine.<br/>
  ✅ &nbsp; You have a `Android Device or Emulator` with Android Version 6.0 or above.<br/>
- ✅ &nbsp; You have read [CometChat Key Concepts](https://prodocs.cometchat.com/docs/concepts).<br/>
+ ✅ &nbsp; You have read [CometChat Key Concepts](https://prodocs.cometchat.com/v2.1/docs/concepts).<br/>
 
 <hr/>
 
@@ -40,7 +40,7 @@ Simply clone the project from [android-java-chat-app](https://github.com/cometch
 
 To Run to sample app you have to do the following changes by Adding **APP_ID**, **AUTH_KEY** and  **REGION_CODE**
 
-   You can obtain your  *APP_ID*, *AUTH_KEY* and *REGION_CODE* from [CometChat-Pro Dashboard](https://app.cometchat.com/)
+   You can obtain your  *APP_ID*, *AUTH_KEY* and *REGION_CODE* from [CometChat-Pro Dashboard](https://app.cometchat.io/)
 
    - Open the project in Android Studio.
 
@@ -56,13 +56,13 @@ Build and run the Sample App.
 
 # Learn more about UI-Kit
 
-Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/android-java-chat-ui-kit/blob/v3/README.md) inside your app.
+Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/android-java-chat-ui-kit/blob/master/README.md) inside your app.
 <br/>
 <hr/>
 
 ## Troubleshooting
 
-- To read the full documentation on UI Kit integration visit our [Documentation](https://prodocs.cometchat.com/docs/android-ui-kit)  .
+- To read the full documentation on UI Kit integration visit our [Documentation](https://prodocs.cometchat.com/v2.1/docs/android-ui-kit)  .
 
 - Facing any issues while integrating or installing the UI Kit please <a href="https://app.cometchat.io/"> connect with us via real time support present in CometChat Dashboard.</a>.
 
@@ -73,8 +73,9 @@ Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/andr
 
 Thanks to the following people who have contributed to this project:
 
+[👨‍💻 @vivekprajapati 💻](https://github.com/vivekCometChat) <br>
 [👨‍💻 @darshanbhanushali 💻](https://github.com/darshanbhanushali) <br>
-[👨‍💻 @yadavmangesh 💻](https://github.com/yadavmangesh)
+[👨‍💻 @yadavmangesh 💻](https://github.com/yadavmangesh) 
 
 [Contribution guidelines for this project]()
 
@@ -82,7 +83,7 @@ Thanks to the following people who have contributed to this project:
 
 ## :mailbox: Contact
 
-Contact us via real time support present in [CometChat Dashboard.](https://app.cometchat.com/)
+Contact us via real time support present in [CometChat Dashboard.](https://app.cometchat.io/)
 
 ---
 

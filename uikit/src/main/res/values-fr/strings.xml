@@ -305,6 +305,10 @@
     <string name="outgoing_voice_call">Appel vocal sortant</string>
     <string name="outgoing_video_call">Appel vidéo sortant</string>
     <string name="no_banned_members_found">Aucun membre banni trouvé</string>
+    <string name="name_length_error">Plus de 100 caractères</string>
+    <string name="media_in_progress">Téléchargement de médias en cours</string>
+    <string name="no_messages_found">Aucun message trouvé</string>
+    <string name="forwarded_successful_message">Message transféré avec succès</string>
 
 
 </resources>

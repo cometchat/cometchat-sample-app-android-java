@@ -120,7 +120,7 @@ public class CometChatGroupsAdapter extends RecyclerView.Adapter<CometChatGroups
     public void updateGroupList(List<Group> groupList) {
 
         for (int i = 0; i <groupList.size() ; i++) {
-                updateGroup(groupList.get(i));
+            updateGroup(groupList.get(i));
         }
     }
 

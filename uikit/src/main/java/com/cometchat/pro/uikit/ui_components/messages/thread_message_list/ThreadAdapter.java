@@ -484,20 +484,20 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private void setFileData(FileMessageViewHolder viewHolder, int i) {
         BaseMessage baseMessage = messageList.get(i);
 
-          if (baseMessage!=null&&baseMessage.getDeletedAt()==0) {
-              setAvatar(viewHolder.ivUser, baseMessage.getSender().getAvatar(), baseMessage.getSender().getName());
-              viewHolder.tvUser.setText(baseMessage.getSender().getName());
+        if (baseMessage!=null&&baseMessage.getDeletedAt()==0) {
+            setAvatar(viewHolder.ivUser, baseMessage.getSender().getAvatar(), baseMessage.getSender().getName());
+            viewHolder.tvUser.setText(baseMessage.getSender().getName());
 
-              Attachment attachement = ((MediaMessage)baseMessage).getAttachment();
-              if (attachement!=null) {
-                  viewHolder.fileName.setText(attachement.getFileName());
-                  viewHolder.fileExt.setText(attachement.getFileExtension());
-                  int fileSize = attachement.getFileSize();
+            Attachment attachement = ((MediaMessage)baseMessage).getAttachment();
+            if (attachement!=null) {
+                viewHolder.fileName.setText(attachement.getFileName());
+                viewHolder.fileExt.setText(attachement.getFileExtension());
+                int fileSize = attachement.getFileSize();
 
-                  viewHolder.fileSize.setText(Utils.getFileSize(fileSize));
-              }
+                viewHolder.fileSize.setText(Utils.getFileSize(fileSize));
+            }
 
-              showMessageTime(viewHolder, baseMessage);
+            showMessageTime(viewHolder, baseMessage);
 
 //              if (selectedItemList.contains(baseMessage.getId()))
 //                  viewHolder.txtTime.setVisibility(View.VISIBLE);
@@ -505,32 +505,32 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 //                  viewHolder.txtTime.setVisibility(View.GONE);
 
 
-              viewHolder.rlMessageBubble.setOnClickListener(view -> {
+            viewHolder.rlMessageBubble.setOnClickListener(view -> {
 //                  if (isLongClickEnabled && !isTextMessageClick) {
 //                          setLongClickSelectedItem(baseMessage);
 //                  }
 //                  else {
-                      setSelectedMessage(baseMessage.getId());
+                setSelectedMessage(baseMessage.getId());
 //                  }
-                  notifyDataSetChanged();
-              });
-              viewHolder.fileName.setOnClickListener(view -> MediaUtils.openFile(((MediaMessage) baseMessage).getAttachment().getFileUrl(),context));
-              viewHolder.rlMessageBubble.setOnLongClickListener(new View.OnLongClickListener() {
-                  @Override
-                  public boolean onLongClick(View v) {
-                      if (!isLongClickEnabled && !isTextMessageClick) {
-                          isImageMessageClick = true;
-                          setLongClickSelectedItem(baseMessage);
-                          messageLongClick.setLongMessageClick(longselectedItemList);
-                          notifyDataSetChanged();
-                      }
-                      return true;
-                  }
-              });
+                notifyDataSetChanged();
+            });
+            viewHolder.fileName.setOnClickListener(view -> MediaUtils.openFile(((MediaMessage) baseMessage).getAttachment().getFileUrl(),context));
+            viewHolder.rlMessageBubble.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (!isLongClickEnabled && !isTextMessageClick) {
+                        isImageMessageClick = true;
+                        setLongClickSelectedItem(baseMessage);
+                        messageLongClick.setLongMessageClick(longselectedItemList);
+                        notifyDataSetChanged();
+                    }
+                    return true;
+                }
+            });
 
-              viewHolder.reactionLayout.setVisibility(View.GONE);
-              setReactionSupport(baseMessage,viewHolder.reactionLayout);
-          }
+            viewHolder.reactionLayout.setVisibility(View.GONE);
+            setReactionSupport(baseMessage,viewHolder.reactionLayout);
+        }
     }
 
 
@@ -1305,8 +1305,8 @@ public class ThreadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      */
     public void addMessage(BaseMessage baseMessage) {
 //        if (!messageList.contains(baseMessage)) {
-            messageList.add(baseMessage);
-            selectedItemList.clear();
+        messageList.add(baseMessage);
+        selectedItemList.clear();
 //        }
         notifyItemInserted(messageList.size()-1);
     }

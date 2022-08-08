@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardCornerRadius="10dp"
-            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardBackgroundColor="@color/message_bubble_grey"
             android:layout_margin="8dp">
 
 
@@ -58,6 +58,14 @@
                     android:layout_centerInParent="true"
                     android:src="@drawable/ic_play_button"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textColor="@color/primaryTextColor"
+                    android:padding="8dp"
+                    android:visibility="gone"
+                    android:id="@+id/caption"
+                    android:layout_below="@+id/go_video_message"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"/>
             </RelativeLayout>
 

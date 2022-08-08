@@ -158,19 +158,19 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
 
     private void fetchReceipts() {
         CometChat.getMessageReceipts(id, new CometChat.CallbackListener<List<MessageReceipt>>() {
-                @Override
-                public void onSuccess(List<MessageReceipt> messageReceipts) {
-                    cometChatReceiptsList.clear();
-                    cometChatReceiptsList.setMessageReceiptList(messageReceipts);
-                    if (swipeRefreshLayout.isRefreshing())
-                        swipeRefreshLayout.setRefreshing(false);
-                }
+            @Override
+            public void onSuccess(List<MessageReceipt> messageReceipts) {
+                cometChatReceiptsList.clear();
+                cometChatReceiptsList.setMessageReceiptList(messageReceipts);
+                if (swipeRefreshLayout.isRefreshing())
+                    swipeRefreshLayout.setRefreshing(false);
+            }
 
-                @Override
-                public void onError(CometChatException e) {
-                   CometChatSnackBar.show(CometChatMessageInfoScreenActivity.this,
-                            cometChatReceiptsList, CometChatError.localized(e), CometChatSnackBar.ERROR);
-                }
+            @Override
+            public void onError(CometChatException e) {
+                CometChatSnackBar.show(CometChatMessageInfoScreenActivity.this,
+                        cometChatReceiptsList, CometChatError.localized(e), CometChatSnackBar.ERROR);
+            }
         });
     }
 
@@ -249,8 +249,8 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
                         Intent intent = new Intent(CometChatMessageInfoScreenActivity.this, CometChatWebViewActivity.class);
                         intent.putExtra(UIKitConstants.IntentStrings.URL, boardUrl);
                         startActivity(intent);
-                  }
-              });
+                    }
+                });
             } else if (messageType.equals(UIKitConstants.IntentStrings.WRITEBOARD)) {
                 writeBoardMessage.setVisibility(View.VISIBLE);
                 writeBoardText.setText(getString(R.string.you_created_document));
@@ -304,8 +304,8 @@ public class CometChatMessageInfoScreenActivity extends AppCompatActivity {
                         TextView textViewOption = new TextView(this);
                         textViewPercentage.setPadding(16, 4, 0, 4);
                         textViewOption.setPadding(16, 4, 0, 4);
-                        textViewOption.setTextAppearance(this, R.style.TextAppearance_AppCompat_Medium);
-                        textViewPercentage.setTextAppearance(this, R.style.TextAppearance_AppCompat_Medium);
+                        textViewOption.setTextAppearance(this, androidx.appcompat.R.style.TextAppearance_AppCompat_Medium);
+                        textViewPercentage.setTextAppearance(this, androidx.appcompat.R.style.TextAppearance_AppCompat_Medium);
                         textViewPercentage.setTextColor(getResources().getColor(R.color.primaryTextColor));
                         textViewOption.setTextColor(getResources().getColor(R.color.primaryTextColor));
                         String optionStr = options.getString(String.valueOf(i + 1));

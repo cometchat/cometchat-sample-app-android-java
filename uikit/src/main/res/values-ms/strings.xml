@@ -298,4 +298,8 @@
     <string name="outgoing_voice_call">Panggilan suara keluar</string>
     <string name="outgoing_video_call">Panggilan video keluar</string>
     <string name="no_banned_members_found">Tiada Ahli Larangan Ditemui</string>
+    <string name="name_length_error">Lebih daripada 100 aksara</string>
+    <string name="media_in_progress">Muat naik media sedang dijalankan</string>
+    <string name="no_messages_found">Tiada Mesej Ditemui</string>
+    <string name="forwarded_successful_message">Mesej Dimajukan Berjaya</string>
 </resources>

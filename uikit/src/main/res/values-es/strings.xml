@@ -305,5 +305,9 @@
     <string name="search_groups">Grupos de búsqueda</string>
     <string name="rejected_voice_call">Llamada de voz rechazada</string>
     <string name="rejected_video_call">Videollamada rechazada</string>
+    <string name="name_length_error">Más de 100 caracteres</string>
+    <string name="media_in_progress">Subida de medios en curso</string>
+    <string name="no_messages_found">No se han encontrado mensajes</string>
+    <string name="forwarded_successful_message">Mensaje reenviado con éxito</string>
 
 </resources>

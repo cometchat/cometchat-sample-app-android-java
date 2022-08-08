@@ -267,13 +267,13 @@ public class CometChatConversationsAdapter extends RecyclerView.Adapter<CometCha
     public void updateList(List<Conversation> conversations) {
 
         for (int i = 0; i <conversations.size() ; i++) {
-           if (filterConversationList.contains(conversations.get(i))){
-               int index=filterConversationList.indexOf(conversations.get(i));
-               filterConversationList.remove(conversations.get(i));
-               filterConversationList.add(index,conversations.get(i));
+            if (filterConversationList.contains(conversations.get(i))){
+                int index=filterConversationList.indexOf(conversations.get(i));
+                filterConversationList.remove(conversations.get(i));
+                filterConversationList.add(index,conversations.get(i));
             }else {
-               filterConversationList.add(conversations.get(i));
-           }
+                filterConversationList.add(conversations.get(i));
+            }
         }
         notifyDataSetChanged();
     }
@@ -319,21 +319,24 @@ public class CometChatConversationsAdapter extends RecyclerView.Adapter<CometCha
 
     public void setTypingIndicator(TypingIndicator typingIndicator, boolean b) {
         for(Conversation conversation : filterConversationList) {
+
             if (typingIndicator.getReceiverType().equalsIgnoreCase(CometChatConstants.RECEIVER_TYPE_USER)) {
                 if (conversation.getConversationId()
                         .contains(typingIndicator.getSender().getUid())) {
+                    int index = filterConversationList.indexOf(conversation);
                     this.typingIndicator = typingIndicator;
                     isTypingVisible = b;
-                    int index = filterConversationList.indexOf(conversation);
                     notifyItemChanged(index);
+                    break;
                 }
             } else {
                 if (conversation.getConversationId()
                         .contains(typingIndicator.getReceiverId())) {
+                    int index = filterConversationList.indexOf(conversation);
                     this.typingIndicator = typingIndicator;
                     isTypingVisible = b;
-                    int index = filterConversationList.indexOf(conversation);
                     notifyItemChanged(index);
+                    break;
                 }
             }
         }
@@ -451,8 +454,8 @@ public class CometChatConversationsAdapter extends RecyclerView.Adapter<CometCha
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-             filterConversationList= (List<Conversation>) filterResults.values;
-              notifyDataSetChanged();
+                filterConversationList= (List<Conversation>) filterResults.values;
+                notifyDataSetChanged();
             }
         };
     }

@@ -21,10 +21,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
@@ -107,7 +109,7 @@ public class CometChatConversationList extends Fragment implements TextWatcher, 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         view = inflater.inflate(R.layout.fragment_cometchat_conversationlist, container, false);
+        view = inflater.inflate(R.layout.fragment_cometchat_conversationlist, container, false);
 
         rvConversationList = view.findViewById(R.id.rv_conversation_list);
 
@@ -151,9 +153,14 @@ public class CometChatConversationList extends Fragment implements TextWatcher, 
                     refreshConversation(new CometChat.CallbackListener<List<Conversation>>() {
                         @Override
                         public void onSuccess(List<Conversation> conversationList) {
-                            if (progressDialog!=null)
-                                progressDialog.dismiss();
-                            rvConversationList.searchConversation(textView.getText().toString());
+                            rvConversationList.searchConversation(textView.getText().toString(), new Filter.FilterListener() {
+                                @Override
+                                public void onFilterComplete(int i) {
+                                    if (i==0) {
+                                        searchConversation(textView.getText().toString());
+                                    }
+                                }
+                            });
                         }
 
                         @Override
@@ -169,18 +176,6 @@ public class CometChatConversationList extends Fragment implements TextWatcher, 
             }
             return false;
         });
-//        clearSearch.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                searchEdit.setText("");
-//                clearSearch.setVisibility(View.GONE);
-//                refreshConversation();
-//                InputMethodManager inputMethodManager = (InputMethodManager)
-//                        getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-//                // Hide the soft keyboard
-//                inputMethodManager.hideSoftInputFromWindow(searchEdit.getWindowToken(),0);
-//            }
-//        });
 
         // Uses to fetch next list of conversations if rvConversationList (RecyclerView) is scrolled in upward direction.
         rvConversationList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -280,6 +275,32 @@ public class CometChatConversationList extends Fragment implements TextWatcher, 
         };
         swipeHelper.attachToRecyclerView(rvConversationList);
         return view;
+    }
+
+    private void searchConversation(String str) {
+        conversationsRequest.fetchNext(new CometChat.CallbackListener<List<Conversation>>() {
+            @Override
+            public void onSuccess(List<Conversation> conversations) {
+                conversationList.addAll(conversations);
+                if (conversations.size() != 0) {
+                    rvConversationList.setConversationList(conversations);
+                    searchConversation(str);
+                } else {
+                    rvConversationList.searchConversation(str, new Filter.FilterListener() {
+                        @Override
+                        public void onFilterComplete(int i) {
+                            if (progressDialog!=null)
+                                progressDialog.dismiss();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onError(CometChatException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void refreshConversation(CometChat.CallbackListener callbackListener) {
@@ -407,8 +428,6 @@ public class CometChatConversationList extends Fragment implements TextWatcher, 
         CometChat.addMessageListener(TAG, new CometChat.MessageListener() {
             @Override
             public void onTextMessageReceived(TextMessage message) {
-                if (!message.getSender().getUid().equalsIgnoreCase(CometChat.getLoggedInUser().getUid()))
-                    CometChat.markAsDelivered(message);
                 if (rvConversationList!=null) {
                     rvConversationList.refreshConversation(message);
                     checkNoConverstaion();
@@ -417,8 +436,6 @@ public class CometChatConversationList extends Fragment implements TextWatcher, 
 
             @Override
             public void onMediaMessageReceived(MediaMessage message) {
-                if (!message.getSender().getUid().equalsIgnoreCase(CometChat.getLoggedInUser().getUid()))
-                    CometChat.markAsDelivered(message);
                 if (rvConversationList != null) {
                     rvConversationList.refreshConversation(message);
                     checkNoConverstaion();
@@ -427,8 +444,6 @@ public class CometChatConversationList extends Fragment implements TextWatcher, 
 
             @Override
             public void onCustomMessageReceived(CustomMessage message) {
-                if (!message.getSender().getUid().equalsIgnoreCase(CometChat.getLoggedInUser().getUid()))
-                    CometChat.markAsDelivered(message);
                 if (rvConversationList != null) {
                     rvConversationList.refreshConversation(message);
                     checkNoConverstaion();
@@ -438,7 +453,7 @@ public class CometChatConversationList extends Fragment implements TextWatcher, 
             @Override
             public void onMessagesDelivered(MessageReceipt messageReceipt) {
                 if (rvConversationList!=null)
-                   rvConversationList.setReciept(messageReceipt);
+                    rvConversationList.setReciept(messageReceipt);
             }
 
             @Override
@@ -503,7 +518,7 @@ public class CometChatConversationList extends Fragment implements TextWatcher, 
                     updateConversation(action,true);
                 }
                 else {
-                   updateConversation(action,false);
+                    updateConversation(action,false);
                 }
             }
 
@@ -592,9 +607,6 @@ public class CometChatConversationList extends Fragment implements TextWatcher, 
             conversationsRequest = null;
             rvConversationList.clearList();
             makeConversationList();
-        } else {
-//                    // Search conversation based on text in searchEdit field.
-            rvConversationList.searchConversation(s.toString());
         }
     }
 

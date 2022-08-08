@@ -46,7 +46,7 @@ public class CometChatCallListener {
                     CometChat.rejectCall(call.getSessionId(), CometChatConstants.CALL_STATUS_BUSY, new CometChat.CallbackListener<Call>() {
                         @Override
                         public void onSuccess(Call call) {
-                            Toast.makeText(context,call.getSender().getName()+" tried to call you",Toast.LENGTH_LONG).show();
+                            Toast.makeText(context,((User)call.getCallInitiator()).getName()+" tried to call you",Toast.LENGTH_LONG).show();
                         }
 
                         @Override

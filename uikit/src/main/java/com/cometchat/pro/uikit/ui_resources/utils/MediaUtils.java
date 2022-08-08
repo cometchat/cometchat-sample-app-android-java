@@ -1,5 +1,7 @@
 package com.cometchat.pro.uikit.ui_resources.utils;
 
+import static android.os.Environment.DIRECTORY_DOCUMENTS;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -307,14 +309,22 @@ public class MediaUtils {
         return f;
     }
 
-    public static File makeEmptyFileWithTitle(String title) {
-        String root;
-        if (Build.VERSION.SDK_INT < 29) {
-            root = Environment.getExternalStorageDirectory().getAbsolutePath();
-        } else  {
-            root = Environment.DIRECTORY_DOWNLOADS;
+    public static File makeEmptyFileWithTitle(Context context,String title) {
+        String dir;
+        if (Build.VERSION_CODES.R > Build.VERSION.SDK_INT) {
+            dir = Environment.getExternalStorageDirectory()+"/"+context.getResources().getString(R.string.app_name) + "/"
+                    + "shared/";
+        } else {
+            if (Environment.isExternalStorageManager()) {
+                dir = Environment.getExternalStorageState() + "/" + context.getResources().getString(R.string.app_name) + "/"
+                        + "shared/";
+            } else {
+                dir = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOCUMENTS).getPath() + "/" + context.getResources().getString(R.string.app_name) + "/"
+                        + "shared/";
+            }
         }
-        return new File(root, title);
+        Utils.createDirectory(dir);
+        return new File(dir, title);
     }
 
     public static File getRealPath(Context context, Uri fileUri,boolean isThirdParty) {
@@ -760,7 +770,7 @@ public class MediaUtils {
 
                 // download the file
                 input = connection.getInputStream();
-                File file = MediaUtils.makeEmptyFileWithTitle(fileName);
+                File file = MediaUtils.makeEmptyFileWithTitle(context,fileName);
                 output = new FileOutputStream(file);
                 byte data[] = new byte[4096];
                 long total = 0;

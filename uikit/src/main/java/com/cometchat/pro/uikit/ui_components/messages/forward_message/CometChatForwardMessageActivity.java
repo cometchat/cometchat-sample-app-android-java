@@ -59,6 +59,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -379,7 +380,7 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
                                     uid = ((Group) conversation.getConversationWith()).getGuid();
                                     type = CometChatConstants.RECEIVER_TYPE_GROUP;
                                 }
-                                message = new MediaMessage(uid, null, messageType, type);
+                                message = new MediaMessage(uid, Arrays.asList(), messageType, type);
                                 Attachment attachment = new Attachment();
                                 attachment.setFileUrl(mediaMessageUrl);
                                 attachment.setFileMimeType(mediaMessageMime);
@@ -388,7 +389,7 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
                                 attachment.setFileName(mediaMessageName);
                                 message.setAttachment(attachment);
                                 Log.e(TAG, "onClick: " + attachment.toString());
-                                sendMediaMessage(message,i,progressDialog);
+                                sendMediaMessage(message, i, progressDialog);
 //                                if (i == userList.size() - 1) {
 //                                    Intent intent = new Intent(CometChatForwardMessageActivity.this, CometChatUI.class);
 //                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -439,47 +440,47 @@ public class CometChatForwardMessageActivity extends AppCompatActivity {
                                 } catch (Exception e) {
                                     Log.e(TAG, "onError: " + e.getMessage());
                                 }
-                                sendMediaMessage(message,i,progressDialog);
+                                sendMediaMessage(message, i, progressDialog);
                             }
                         }).start();
-                    } else {
-                        if (messageType != null && messageType.equalsIgnoreCase(UIKitConstants.IntentStrings.LOCATION)) {
-                            new Thread(() -> {
-                                for (int i = 0; i <= userList.size() - 1; i++) {
-                                    Conversation conversation = new ArrayList<>(userList.values()).get(i);
-                                    CustomMessage message;
-                                    String uid;
-                                    JSONObject customData = new JSONObject();
-                                    String type;
-                                    Log.e(TAG, "run: " + conversation.getConversationId());
-                                    if (conversation.getConversationType().equals(CometChatConstants.CONVERSATION_TYPE_USER)) {
-                                        uid = ((User) conversation.getConversationWith()).getUid();
-                                        type = CometChatConstants.RECEIVER_TYPE_USER;
-                                    } else {
-                                        uid = ((Group) conversation.getConversationWith()).getGuid();
-                                        type = CometChatConstants.RECEIVER_TYPE_GROUP;
-                                    }
-
-                                    try {
-                                        customData = new JSONObject();
-                                        customData.put("latitude", lat);
-                                        customData.put("longitude", lon);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                    message = new CustomMessage(uid, type, UIKitConstants.IntentStrings.LOCATION, customData);
-
-                                    sendLocationMessage(message);
-                                    if (i == userList.size() - 1) {
-                                        Intent intent = new Intent(CometChatForwardMessageActivity.this, CometChatUI.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
-                                        finish();
-                                    }
+                    }
+                } else {
+                    if (messageType != null && messageType.equalsIgnoreCase(UIKitConstants.IntentStrings.LOCATION)) {
+                        new Thread(() -> {
+                            for (int i = 0; i <= userList.size() - 1; i++) {
+                                Conversation conversation = new ArrayList<>(userList.values()).get(i);
+                                CustomMessage message;
+                                String uid;
+                                JSONObject customData = new JSONObject();
+                                String type;
+                                Log.e(TAG, "run: " + conversation.getConversationId());
+                                if (conversation.getConversationType().equals(CometChatConstants.CONVERSATION_TYPE_USER)) {
+                                    uid = ((User) conversation.getConversationWith()).getUid();
+                                    type = CometChatConstants.RECEIVER_TYPE_USER;
+                                } else {
+                                    uid = ((Group) conversation.getConversationWith()).getGuid();
+                                    type = CometChatConstants.RECEIVER_TYPE_GROUP;
                                 }
 
-                            }).start();
-                        }
+                                try {
+                                    customData = new JSONObject();
+                                    customData.put("latitude", lat);
+                                    customData.put("longitude", lon);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                message = new CustomMessage(uid, type, UIKitConstants.IntentStrings.LOCATION, customData);
+
+                                sendLocationMessage(message);
+                                if (i == userList.size() - 1) {
+                                    Intent intent = new Intent(CometChatForwardMessageActivity.this, CometChatUI.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }
+
+                        }).start();
                     }
                 }
             }

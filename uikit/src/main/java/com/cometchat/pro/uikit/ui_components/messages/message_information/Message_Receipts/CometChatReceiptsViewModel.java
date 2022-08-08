@@ -67,7 +67,7 @@ public class CometChatReceiptsViewModel {
     }
 
     public void setReceiptList(List<MessageReceipt> messageReceiptsList){
-          getAdapter().updateList(messageReceiptsList);
+        getAdapter().updateList(messageReceiptsList);
     }
 
     public void update(int index, MessageReceipt messageReceipt) {

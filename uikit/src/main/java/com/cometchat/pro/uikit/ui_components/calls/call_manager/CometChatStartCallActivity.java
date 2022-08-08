@@ -98,6 +98,26 @@ public class CometChatStartCallActivity extends AppCompatActivity {
         Log.e( "startCallActivity: ",sessionID+" "+type);
         CometChat.startCall(callSettings, new CometChat.OngoingCallListener() {
             @Override
+            public void onRecordingStarted(User user) {
+
+            }
+
+            @Override
+            public void onRecordingStopped(User user) {
+
+            }
+
+            @Override
+            public void onUserMuted(User user, User user1) {
+
+            }
+
+            @Override
+            public void onCallSwitchedToVideo(String s, User user, User user1) {
+
+            }
+
+            @Override
             public void onUserListUpdated(List<User> list) {
                 Log.e( "onUserListUpdated: ",list.toString() );
             }

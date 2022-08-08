@@ -98,7 +98,7 @@ public class CometChatSharedFiles extends Fragment {
             @Override
             public void onError(CometChatException e) {
                 if (rvFiles!=null)
-                   CometChatSnackBar.show(getContext(),rvFiles, CometChatError.localized(e), CometChatSnackBar.ERROR);
+                    CometChatSnackBar.show(getContext(),rvFiles, CometChatError.localized(e), CometChatSnackBar.ERROR);
             }
         });
     }

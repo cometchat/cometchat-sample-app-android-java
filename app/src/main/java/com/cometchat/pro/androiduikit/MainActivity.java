@@ -8,11 +8,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
+import com.cometchat.pro.core.AppSettings;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
 import com.cometchat.pro.androiduikit.constants.AppConfig;
+import com.cometchat.pro.uikit.ui_components.calls.call_manager.listener.CometChatCallListener;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
@@ -36,10 +39,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (CometChat.getLoggedInUser()!=null)
-        {
-            startActivity(new Intent(MainActivity.this,SelectActivity.class));
-        }
+
         loginBtn = findViewById(R.id.login);
         superhero1 = findViewById(R.id.superhero1);
         superhero2 = findViewById(R.id.superhero2);
@@ -48,26 +48,26 @@ public class MainActivity extends AppCompatActivity {
         ivLogo = findViewById(R.id.ivLogo);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(MainActivity.this,LoginActivity.class));
-                }
-            });
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            }
+        });
 
         superhero1.setOnClickListener(view -> {
-                findViewById(R.id.superhero1_progressbar).setVisibility(View.VISIBLE);
-                login("superhero1");
+            findViewById(R.id.superhero1_progressbar).setVisibility(View.VISIBLE);
+            login("superhero1");
         });
         superhero2.setOnClickListener(view -> {
-                findViewById(R.id.superhero2_progressbar).setVisibility(View.VISIBLE);
-                login("superhero2");
+            findViewById(R.id.superhero2_progressbar).setVisibility(View.VISIBLE);
+            login("superhero2");
         });
         superhero3.setOnClickListener(view -> {
-                findViewById(R.id.superhero3_progressbar).setVisibility(View.VISIBLE);
-                login("superhero3");
+            findViewById(R.id.superhero3_progressbar).setVisibility(View.VISIBLE);
+            login("superhero3");
         });
         superhero4.setOnClickListener(view -> {
-                findViewById(R.id.superhero4_progressbar).setVisibility(View.VISIBLE);
-                login("superhero4");
+            findViewById(R.id.superhero4_progressbar).setVisibility(View.VISIBLE);
+            login("superhero4");
         });
 
         if(Utils.isDarkMode(this)) {

@@ -328,5 +328,9 @@
     <string name="outgoing_voice_call">Išeinantis balso skambutis</string>
     <string name="outgoing_video_call">Išeinantis vaizdo skambutis</string>
     <string name="no_banned_members_found">Nerasta uždraustų narių</string>
+    <string name="name_length_error">Daugiau nei 100 simbolių</string>
+    <string name="media_in_progress">Vykdomas medijos įkėlimas</string>
+    <string name="no_messages_found">Nerasta jokių pranešimų</string>
+    <string name="forwarded_successful_message">Pranešimas sėkmingai persiųstas</string>
 
 </resources>

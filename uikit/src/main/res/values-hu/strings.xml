@@ -343,4 +343,7 @@
     <string name="search_groups">Search Groups</string>
     <string name="background_location_permission_title">Allow Background Location Permisssion</string>
     <string name="forwarded_successful_message">Üzenet sikeresen továbbítva</string>
+    <string name="name_length_error">Több mint 100 karakter</string>
+    <string name="media_in_progress">Médiafeltöltés folyamatban</string>
+    <string name="no_messages_found">Nem található üzenet</string>
 </resources>

@@ -40,7 +40,6 @@
                 android:padding="8dp"
                 android:layout_height="match_parent"/>
         </com.google.android.material.textfield.TextInputLayout>
-
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             app:boxStrokeColor="@color/colorPrimary"
