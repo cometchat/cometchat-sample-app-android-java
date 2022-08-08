@@ -9,7 +9,7 @@ android {
         versionCode 1
         renderscriptSupportModeEnabled true
         multiDexEnabled true
-        versionName "1.0"
+        versionName "3.0.9-1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders = [file_provider: "com.cometchat.pro.androiduikit"]
