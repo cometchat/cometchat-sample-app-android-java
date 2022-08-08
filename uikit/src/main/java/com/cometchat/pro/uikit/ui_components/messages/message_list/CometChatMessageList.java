@@ -14,6 +14,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -184,6 +185,9 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
 
     private ShimmerFrameLayout messageShimmer;
 
+    private SharedPreferences sharedPreferences;
+
+    private SharedPreferences.Editor editor;
     /**
      * <b>Avatar</b> is a UI Kit Component which is used to display user and group avatars.
      */
@@ -407,6 +411,11 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
         bottomLayout = view.findViewById(R.id.bottom_layout);
         messageShimmer = view.findViewById(R.id.shimmer_layout);
         composeBox = view.findViewById(R.id.message_box);
+        sharedPreferences = getContext().getSharedPreferences("message",Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        String draft = sharedPreferences.getString(Id,"");
+        if (!draft.isEmpty())
+            composeBox.setText(draft);
         composeBox.usedIn(CometChatMessageListActivity.class.getName());
         if (type.equalsIgnoreCase(CometChatConstants.RECEIVER_TYPE_USER))
             composeBox.hideGroupCallOption(true);
@@ -702,7 +711,7 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
                 Log.e(TAG, "onEditTextMediaSelected: Path=" + inputContentInfo.getLinkUri().getPath()
                         + "\nHost=" + inputContentInfo.getLinkUri().getFragment());
                 String messageType = inputContentInfo.getLinkUri().toString().substring(inputContentInfo.getLinkUri().toString().lastIndexOf('.'));
-                MediaMessage mediaMessage = new MediaMessage(Id, null, CometChatConstants.MESSAGE_TYPE_IMAGE, type);
+                MediaMessage mediaMessage = new MediaMessage(Id, Arrays.asList(), CometChatConstants.MESSAGE_TYPE_IMAGE, type);
                 Attachment attachment = new Attachment();
                 attachment.setFileUrl(inputContentInfo.getLinkUri().toString());
                 attachment.setFileMimeType(inputContentInfo.getDescription().getMimeType(0));
@@ -728,9 +737,14 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
                 if (!editable.toString().isEmpty()) {
                     composeBox.hideSendButton(false);
                     composeBox.hideRecordOption(true);
+
                     if (editable.length() > 0) {
                         sendTypingIndicator(false);
                     }
+
+                    editor.putString(Id,editable.toString());
+                    editor.apply();
+                    editor.commit();
                 }
                 if (typingTimer == null) {
                     typingTimer = new Timer();
@@ -1795,6 +1809,9 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
         CometChat.sendMessage(textMessage, new CometChat.CallbackListener<TextMessage>() {
             @Override
             public void onSuccess(TextMessage textMessage) {
+                editor.remove(Id);
+                editor.apply();
+                editor.commit();
                 noMessageText.setVisibility(GONE);
                 if (messageAdapter!=null)
                     messageAdapter.updateChangedMessage(textMessage);

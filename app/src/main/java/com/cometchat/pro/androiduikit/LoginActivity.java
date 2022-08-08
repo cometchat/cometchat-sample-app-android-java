@@ -38,16 +38,16 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.loginProgress);
         inputLayout = findViewById(R.id.inputUID);
         uid.setOnEditorActionListener((textView, i, keyEvent) -> {
-             if (i== EditorInfo.IME_ACTION_DONE){
-                 if (uid.getText().toString().isEmpty()) {
-                     Toast.makeText(LoginActivity.this, "Fill Username field", Toast.LENGTH_LONG).show();
-                 }
-                 else {
-                     progressBar.setVisibility(View.VISIBLE);
-                     inputLayout.setEndIconVisible(false);
-                     login(uid.getText().toString());
-                 }
-             }
+            if (i== EditorInfo.IME_ACTION_DONE){
+                if (uid.getText().toString().isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Fill Username field", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    progressBar.setVisibility(View.VISIBLE);
+                    inputLayout.setEndIconVisible(false);
+                    login(uid.getText().toString());
+                }
+            }
             return true;
         });
 
@@ -88,7 +88,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
     private void login(String uid) {
-
 
         CometChat.login(uid, AppConfig.AppDetails.AUTH_KEY, new CometChat.CallbackListener<User>() {
             @Override

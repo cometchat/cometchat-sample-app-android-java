@@ -61,7 +61,7 @@ import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 
 /**
 
-* Purpose - CometChatUserCallListScreenActivity class is a activity used to display list of users
+ * Purpose - CometChatUserCallListScreenActivity class is a activity used to display list of users
  *          and perform call operation on click of item.It also provide search bar to search user
  *          from the list.
  *
@@ -69,7 +69,7 @@ import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
  *
  * Modified on  - 16th January 2020
  *
-*/
+ */
 
 public class CometChatNewCallList extends AppCompatActivity {
 
@@ -133,7 +133,7 @@ public class CometChatNewCallList extends AppCompatActivity {
         titleLayoutParams.setMargins(16,32,16,48);
         titleLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         title.setLayoutParams(titleLayoutParams);
-        title.setTextAppearance(R.style.TextAppearance_AppCompat_Large);
+        title.setTextAppearance(androidx.appcompat.R.style.TextAppearance_AppCompat_Large);
         title.setText(getResources().getString(R.string.new_call));
         rvUserList = findViewById(R.id.rv_user_list);
         etSearch = findViewById(R.id.search_bar);
@@ -203,31 +203,31 @@ public class CometChatNewCallList extends AppCompatActivity {
         });
 
         rvUserList.setItemClickListener(new OnItemClickListener<User>() {
-                @Override
-                public void OnItemClick(User var, int position) {
-                    User user = var;
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(CometChatNewCallList.this);
-                    alertDialog.setMessage(getString(R.string.initiate_a_call));
-                    if (audioCallEnabled) {
-                        alertDialog.setPositiveButton(getString(R.string.audio_call), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                initiateCall(user.getUid(), CometChatConstants.RECEIVER_TYPE_USER, CometChatConstants.CALL_TYPE_AUDIO);
-                            }
-                        });
-                    }
-                    if (videoCallEnabled) {
-                        alertDialog.setNegativeButton(getString(R.string.video_call), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                initiateCall(user.getUid(), CometChatConstants.RECEIVER_TYPE_USER, CometChatConstants.CALL_TYPE_VIDEO);
-                            }
-                        });
-                    }
-                    alertDialog.create();
-                    alertDialog.show();
+            @Override
+            public void OnItemClick(User var, int position) {
+                User user = var;
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(CometChatNewCallList.this);
+                alertDialog.setMessage(getString(R.string.initiate_a_call));
+                if (audioCallEnabled) {
+                    alertDialog.setPositiveButton(getString(R.string.audio_call), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            initiateCall(user.getUid(), CometChatConstants.RECEIVER_TYPE_USER, CometChatConstants.CALL_TYPE_AUDIO);
+                        }
+                    });
                 }
-            });
+                if (videoCallEnabled) {
+                    alertDialog.setNegativeButton(getString(R.string.video_call), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            initiateCall(user.getUid(), CometChatConstants.RECEIVER_TYPE_USER, CometChatConstants.CALL_TYPE_VIDEO);
+                        }
+                    });
+                }
+                alertDialog.create();
+                alertDialog.show();
+            }
+        });
 
         fetchUsers();
     }

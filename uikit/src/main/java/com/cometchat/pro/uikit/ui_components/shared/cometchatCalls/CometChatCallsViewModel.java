@@ -25,10 +25,10 @@ public class CometChatCallsViewModel {
     }
 
     private CometChatCallsAdapter getAdapter(){
-       if (callListAdapter==null){
-           callListAdapter=new CometChatCallsAdapter(context);
-       }
-       return callListAdapter;
+        if (callListAdapter==null){
+            callListAdapter=new CometChatCallsAdapter(context);
+        }
+        return callListAdapter;
     }
 
     public void add(Call call){

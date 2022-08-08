@@ -22,6 +22,7 @@ import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.uikit.ui_components.calls.call_manager.listener.CometChatCallListener;
 import com.cometchat.pro.uikit.ui_components.cometchat_ui.CometChatUI;
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
+import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -58,11 +59,13 @@ public class SelectActivity extends AppCompatActivity {
                 logoutUser(v);
             }
         });
+
         if (Utils.isDarkMode(this)) {
             logout.setBackgroundColor(getResources().getColor(R.color.darkModeBackground));
         } else {
             logout.setBackgroundColor(getResources().getColor(R.color.textColorWhite));
         }
+
         unifiedLaunch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

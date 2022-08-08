@@ -261,7 +261,7 @@ public class Extensions {
                     if (option.has("voters") && option.get("voters") instanceof JSONObject) {
                         JSONObject voterList = option.getJSONObject("voters");
                         if (voterList.has(loggedInUserId)) {
-                                result = k+1;
+                            result = k+1;
                         }
                     }
                 }
@@ -313,7 +313,7 @@ public class Extensions {
                 }
             }
         } catch (Exception e) {
-                Log.e(TAG, "checkProfanityMessage:Error: "+e.getMessage() );
+            Log.e(TAG, "checkProfanityMessage:Error: "+e.getMessage() );
         }
         return votes;
     }
@@ -645,7 +645,7 @@ public class Extensions {
     }
 
     public static List<String> translateSmartReplyMessage(BaseMessage baseMessage,JSONObject replyObject,
-                                                    ExtensionResponseListener extensionResponseListener) {
+                                                          ExtensionResponseListener extensionResponseListener) {
         List<String> resultList = new ArrayList<>();
         try {
             for (int i = 0;i<replyObject.length();i++) {

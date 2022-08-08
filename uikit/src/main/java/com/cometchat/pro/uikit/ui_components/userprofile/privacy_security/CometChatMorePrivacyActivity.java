@@ -49,23 +49,23 @@ public class CometChatMorePrivacyActivity extends AppCompatActivity {
         divider = findViewById(R.id.divider);
         setSupportActionBar(toolbar);
 
-         if (getSupportActionBar()!=null)
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar()!=null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (UIKitSettings.getColor()!=null)
             getWindow().setStatusBarColor(
                     Color.parseColor(UIKitSettings.getColor()));
-         if (Utils.changeToolbarFont(toolbar)!=null){
-             Utils.changeToolbarFont(toolbar).setTypeface(FontUtils.getInstance(this).getTypeFace(FontUtils.robotoMedium));
-         }
-         if(Utils.isDarkMode(this)) {
-             divider.setBackgroundColor(getResources().getColor(R.color.grey));
-             blockUserTv.setTextColor(getResources().getColor(R.color.textColorWhite));
-         } else {
-             divider.setBackgroundColor(getResources().getColor(R.color.light_grey));
-             blockUserTv.setTextColor(getResources().getColor(R.color.primaryTextColor));
-         }
-         getBlockCount();
+        if (Utils.changeToolbarFont(toolbar)!=null){
+            Utils.changeToolbarFont(toolbar).setTypeface(FontUtils.getInstance(this).getTypeFace(FontUtils.robotoMedium));
+        }
+        if(Utils.isDarkMode(this)) {
+            divider.setBackgroundColor(getResources().getColor(R.color.grey));
+            blockUserTv.setTextColor(getResources().getColor(R.color.textColorWhite));
+        } else {
+            divider.setBackgroundColor(getResources().getColor(R.color.light_grey));
+            blockUserTv.setTextColor(getResources().getColor(R.color.primaryTextColor));
+        }
+        getBlockCount();
     }
 
     public void blockUserList(View view) {
@@ -74,8 +74,8 @@ public class CometChatMorePrivacyActivity extends AppCompatActivity {
 
     public void getBlockCount() {
 
-         blockedUsersRequest = new BlockedUsersRequest.BlockedUsersRequestBuilder().setDirection(BlockedUsersRequest.DIRECTION_BLOCKED_BY_ME).setLimit(100).build();
-         blockedUsersRequest.fetchNext(new CometChat.CallbackListener<List<User>>() {
+        blockedUsersRequest = new BlockedUsersRequest.BlockedUsersRequestBuilder().setDirection(BlockedUsersRequest.DIRECTION_BLOCKED_BY_ME).setLimit(100).build();
+        blockedUsersRequest.fetchNext(new CometChat.CallbackListener<List<User>>() {
             @Override
             public void onSuccess(List<User> users) {
 
@@ -91,9 +91,9 @@ public class CometChatMorePrivacyActivity extends AppCompatActivity {
 
             @Override
             public void onError(CometChatException e) {
-               CometChatSnackBar.show(CometChatMorePrivacyActivity.this,
+                CometChatSnackBar.show(CometChatMorePrivacyActivity.this,
                         tvBlockUserCount,getResources().getString(R.string.block_user_list_error)+", "
-                               + CometChatError.localized(e), CometChatSnackBar.ERROR);
+                                + CometChatError.localized(e), CometChatSnackBar.ERROR);
             }
         });
     }
@@ -109,8 +109,8 @@ public class CometChatMorePrivacyActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-         if (item.getItemId()==android.R.id.home)
-             onBackPressed();
+        if (item.getItemId()==android.R.id.home)
+            onBackPressed();
 
         return super.onOptionsItemSelected(item);
     }

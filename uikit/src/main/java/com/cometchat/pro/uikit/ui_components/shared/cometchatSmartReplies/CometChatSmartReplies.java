@@ -100,9 +100,9 @@ public class CometChatSmartReplies extends RecyclerView {
             @Override
             public void onLongClick(View var1, int var2) {
                 String reply=(String) var1.getTag(R.string.replyTxt);
-                 if (itemClickListener!=null)
+                if (itemClickListener!=null)
                     itemClickListener.OnItemLongClick(reply,var2);
-                 else
+                else
                     throw new NullPointerException("Smart Reply : OnItemClickListener<String> is null");
             }
         }));

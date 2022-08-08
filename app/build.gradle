@@ -9,7 +9,7 @@ android {
         versionCode 1
         renderscriptSupportModeEnabled true
         multiDexEnabled true
-        versionName "3.0.7-1"
+        versionName "3.0.9-1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders = [file_provider: "com.cometchat.pro.androiduikit"]
@@ -34,19 +34,6 @@ android {
         }
 
     }
-
-    android.applicationVariants.all { variant ->
-        variant.outputs.all {
-            outputFileName = "Android-Java-Sample-App"
-            outputFileName += "-v" + android.defaultConfig.versionName
-            if (variant.buildType.name == "release") {
-                outputFileName += ".apk"
-            } else {
-                outputFileName += "-debug.apk"
-            }
-        }
-    }
-
     lintOptions {
         checkReleaseBuilds false
         // Or, if you prefer, you can continue to check for errors in release builds,
@@ -89,7 +76,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.0-alpha05'
     implementation 'com.facebook.shimmer:shimmer:0.4.0'
 
-    implementation 'com.cometchat:pro-android-chat-sdk:3.0.7'
-    implementation 'com.cometchat:pro-android-calls-sdk:2.1.2-beta8'
+    implementation 'com.cometchat:pro-android-chat-sdk:3.0.9'
+    implementation 'com.cometchat:pro-android-calls-sdk:2.2.0'
 
 }

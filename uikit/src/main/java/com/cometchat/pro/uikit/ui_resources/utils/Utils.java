@@ -228,7 +228,7 @@ public class Utils {
 //                        message = String.format(context.getString(R.string.you_received), lastMessage.getType());
 //                    }
                 }
-            break;
+                break;
             case CometChatConstants.CATEGORY_CUSTOM:
                 if (lastMessage.getDeletedAt()==0) {
                     if (lastMessage.getType().equals(UIKitConstants.IntentStrings.LOCATION))

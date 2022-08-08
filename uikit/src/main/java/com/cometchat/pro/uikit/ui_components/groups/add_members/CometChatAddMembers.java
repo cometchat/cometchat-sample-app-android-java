@@ -85,7 +85,7 @@ public class CometChatAddMembers extends Fragment {
         init(view);
         return view;
     }
-     
+
     public void init(View view)
     {
         // Inflate the layout
@@ -219,10 +219,10 @@ public class CometChatAddMembers extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-           if(item.getItemId()==android.R.id.home){
-               if (getActivity()!=null)
-              getActivity().onBackPressed();
-           }
+        if(item.getItemId()==android.R.id.home){
+            if (getActivity()!=null)
+                getActivity().onBackPressed();
+        }
 
         return super.onOptionsItemSelected(item);
     }

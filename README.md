@@ -13,7 +13,7 @@
 <img src="https://img.shields.io/badge/Repo%20Size-18.6%20MB-blue" />
 ![GitHub contributors](https://img.shields.io/github/contributors/cometchat-pro/android-java-chat-app)
 ![GitHub stars](https://img.shields.io/github/stars/cometchat-pro/android-java-chat-app?style=social)
-![Version](https://shields.io/badge/version-v3.0.7--1-orange)
+![Version](https://shields.io/badge/version-v3.0.9--1-orange)
 ![Twitter Follow](https://img.shields.io/twitter/follow/cometchat?style=social)
 
 <img src="https://files.readme.io/952af91-UI_Kit__1.png"/>
@@ -73,8 +73,9 @@ Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/andr
 
 Thanks to the following people who have contributed to this project:
 
+[👨‍💻 @vivekprajapati 💻](https://github.com/vivekCometChat) <br>
 [👨‍💻 @darshanbhanushali 💻](https://github.com/darshanbhanushali) <br>
-[👨‍💻 @yadavmangesh 💻](https://github.com/yadavmangesh)
+[👨‍💻 @yadavmangesh 💻](https://github.com/yadavmangesh) 
 
 [Contribution guidelines for this project]()
 

@@ -60,6 +60,7 @@
             android:name=".ui_components.calls.call_list.CometChatNewCallList"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".ui_components.messages.forward_message.CometChatForwardMessageActivity"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -110,7 +111,6 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui_components.messages.message_list.CometChatMessageListActivity"
-            android:configChanges="smallestScreenSize"
             android:parentActivityName=".ui_components.cometchat_ui.CometChatUI"
             android:screenOrientation="portrait" />
 

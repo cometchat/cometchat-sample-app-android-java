@@ -48,26 +48,26 @@ public class MainActivity extends AppCompatActivity {
         ivLogo = findViewById(R.id.ivLogo);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(MainActivity.this,LoginActivity.class));
-                }
-            });
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            }
+        });
 
         superhero1.setOnClickListener(view -> {
-                findViewById(R.id.superhero1_progressbar).setVisibility(View.VISIBLE);
-                login("superhero1");
+            findViewById(R.id.superhero1_progressbar).setVisibility(View.VISIBLE);
+            login("superhero1");
         });
         superhero2.setOnClickListener(view -> {
-                findViewById(R.id.superhero2_progressbar).setVisibility(View.VISIBLE);
-                login("superhero2");
+            findViewById(R.id.superhero2_progressbar).setVisibility(View.VISIBLE);
+            login("superhero2");
         });
         superhero3.setOnClickListener(view -> {
-                findViewById(R.id.superhero3_progressbar).setVisibility(View.VISIBLE);
-                login("superhero3");
+            findViewById(R.id.superhero3_progressbar).setVisibility(View.VISIBLE);
+            login("superhero3");
         });
         superhero4.setOnClickListener(view -> {
-                findViewById(R.id.superhero4_progressbar).setVisibility(View.VISIBLE);
-                login("superhero4");
+            findViewById(R.id.superhero4_progressbar).setVisibility(View.VISIBLE);
+            login("superhero4");
         });
 
         if(Utils.isDarkMode(this)) {

@@ -52,6 +52,7 @@ import com.cometchat.pro.uikit.ui_settings.enums.UserMode;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.cometchat.pro.uikit.ui_components.shared.cometchatUsers.CometChatUsers;

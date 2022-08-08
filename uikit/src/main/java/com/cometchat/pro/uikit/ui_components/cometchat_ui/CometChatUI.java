@@ -117,6 +117,7 @@ public class CometChatUI extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
 
         activity = this;
+        CometChat.connect();
         CometChatError.init(this);
         if (!CometChatCallListener.isInitialized)
             CometChatCallListener.addCallListener(TAG,this);

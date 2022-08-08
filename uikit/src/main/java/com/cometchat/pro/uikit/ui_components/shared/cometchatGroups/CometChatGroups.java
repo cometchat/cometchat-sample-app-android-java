@@ -113,8 +113,8 @@ public class CometChatGroups extends RecyclerView {
      *
      */
     public void setGroupList(List<Group> groupList){
-          if (groupListViewModel!=null)
-          groupListViewModel.setGroupList(groupList);
+        if (groupListViewModel!=null)
+            groupListViewModel.setGroupList(groupList);
 
     }
 
@@ -140,7 +140,7 @@ public class CometChatGroups extends RecyclerView {
             public void onLongClick(View var1, int var2) {
                 Group group=(Group)var1.getTag(R.string.group);
                 if (onItemClickListener!=null)
-                onItemClickListener.OnItemLongClick(group,var2);
+                    onItemClickListener.OnItemLongClick(group,var2);
                 else
                     throw new NullPointerException("OnItemClickListener<Group> is null");
             }

@@ -434,7 +434,7 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
     private void createDialog(String title, String message, String positiveText, String negativeText, int drawableRes) {
 
         MaterialAlertDialogBuilder alert_dialog = new MaterialAlertDialogBuilder(CometChatGroupDetailActivity.this,
-                R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Centered);
+                com.google.android.material.R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Centered);
         alert_dialog.setTitle(title);
         alert_dialog.setMessage(message);
         alert_dialog.setPositiveButton(positiveText, (dialogInterface, i) -> {

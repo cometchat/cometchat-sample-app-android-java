@@ -3,6 +3,7 @@ package com.cometchat.pro.uikit.ui_components.shared.cometchatConversations;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Filter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,7 +37,7 @@ import com.cometchat.pro.uikit.ui_resources.utils.recycler_touch.RecyclerTouchLi
  *
  * Modified on  - 23rd March 2020
  *
-*/
+ */
 
 @BindingMethods( value ={@BindingMethod(type = CometChatConversations.class, attribute = "app:conversationlist", method = "setConversationList")})
 public class CometChatConversations extends RecyclerView {
@@ -122,10 +123,10 @@ public class CometChatConversations extends RecyclerView {
             @Override
             public void onLongClick(View var1, int var2) {
                 Conversation conversation=(Conversation)var1.getTag(R.string.conversation);
-                 if (onItemClickListener!=null)
-                     onItemClickListener.OnItemLongClick(conversation,var2);
-                 else
-                     throw new NullPointerException("OnItemClickListener<Conversation> is null");
+                if (onItemClickListener!=null)
+                    onItemClickListener.OnItemLongClick(conversation,var2);
+                else
+                    throw new NullPointerException("OnItemClickListener<Conversation> is null");
 
             }
         }));
@@ -138,8 +139,8 @@ public class CometChatConversations extends RecyclerView {
      *
      * @see CometChatConversationsViewModel#searchConversation(String)
      */
-    public void searchConversation(String searchString) {
-        conversationViewModel.searchConversation(searchString);
+    public void searchConversation(String searchString, Filter.FilterListener filterListener) {
+        conversationViewModel.searchConversation(searchString,filterListener);
     }
 
     /**

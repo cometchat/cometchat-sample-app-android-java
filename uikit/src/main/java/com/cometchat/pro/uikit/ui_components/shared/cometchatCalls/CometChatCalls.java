@@ -37,9 +37,9 @@ import com.cometchat.pro.uikit.ui_resources.utils.recycler_touch.RecyclerTouchLi
  *
  * Modified on  - 02nd April 2020
  *
-*/
+ */
 
-@BindingMethods( value ={@BindingMethod(type = CometChatCalls.class, attribute = "app:calllist", method = "setCallList")})
+@BindingMethods( value ={@BindingMethod(type = CometChatCalls.class, attribute = "app:callList", method = "setCallList")})
 public class CometChatCalls extends RecyclerView {
 
     private  Context context;
@@ -129,10 +129,10 @@ public class CometChatCalls extends RecyclerView {
             @Override
             public void onLongClick(View var1, int var2) {
                 Call call =(Call)var1.getTag(R.string.call);
-                 if (onItemClickListener!=null)
-                     onItemClickListener.OnItemLongClick(call,var2);
-                 else
-                     throw new NullPointerException("OnItemClickListener<Call> is null" );
+                if (onItemClickListener!=null)
+                    onItemClickListener.OnItemLongClick(call,var2);
+                else
+                    throw new NullPointerException("OnItemClickListener<Call> is null" );
 
             }
         }));

@@ -146,7 +146,7 @@ public class CometChatUsers extends RecyclerView {
             public void onClick(View var1, int var2) {
                 User user=(User)var1.getTag(R.string.user);
                 if (onItemClickListener!=null)
-                      onItemClickListener.OnItemClick(user,var2);
+                    onItemClickListener.OnItemClick(user,var2);
                 else
                     throw new NullPointerException("OnItemClickListener<User> is null");
             }
@@ -155,9 +155,9 @@ public class CometChatUsers extends RecyclerView {
             public void onLongClick(View var1, int var2) {
                 User user=(User)var1.getTag(R.string.user);
                 if (onItemClickListener!=null)
-                     onItemClickListener.OnItemLongClick(user,var2);
+                    onItemClickListener.OnItemLongClick(user,var2);
                 else
-                  throw new NullPointerException("OnItemClickListener<User> is null");
+                    throw new NullPointerException("OnItemClickListener<User> is null");
             }
         }));
     }

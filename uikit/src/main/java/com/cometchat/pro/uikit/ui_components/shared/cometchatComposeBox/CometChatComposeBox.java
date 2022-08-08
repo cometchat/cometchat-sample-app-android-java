@@ -55,8 +55,6 @@ public class CometChatComposeBox extends RelativeLayout implements View.OnClickL
 
     private MediaPlayer mediaPlayer;
 
-    private int currentLength;
-
     private Runnable timerRunnable;
 
     private Handler seekHandler = new Handler(Looper.getMainLooper());
@@ -483,15 +481,15 @@ public class CometChatComposeBox extends RelativeLayout implements View.OnClickL
 //    }
 
     public void startRecord() {
-            etComposeBox.setVisibility(GONE);
-            recordTime.setBase(SystemClock.elapsedRealtime());
-            recordTime.start();
-            ivArrow.setVisibility(GONE);
-            voiceSeekbar.setVisibility(GONE);
-            voiceMessageLayout.setVisibility(View.VISIBLE);
-            audioRecordView.recreate();
-            audioRecordView.setVisibility(View.VISIBLE);
-            startRecording();
+        etComposeBox.setVisibility(GONE);
+        recordTime.setBase(SystemClock.elapsedRealtime());
+        recordTime.start();
+        ivArrow.setVisibility(GONE);
+        voiceSeekbar.setVisibility(GONE);
+        voiceMessageLayout.setVisibility(View.VISIBLE);
+        audioRecordView.recreate();
+        audioRecordView.setVisibility(View.VISIBLE);
+        startRecording();
     }
 
     private void startPlayingAudio(String path) {

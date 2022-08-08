@@ -129,7 +129,7 @@ public class CometChatCallActivity extends AppCompatActivity implements View.OnC
             String id = intent.getStringExtra(UIKitConstants.IntentStrings.ID);
         }
         if (intent.hasExtra(UIKitConstants.IntentStrings.SESSION_ID)) {
-           sessionId = intent.getStringExtra(UIKitConstants.IntentStrings.SESSION_ID);
+            sessionId = intent.getStringExtra(UIKitConstants.IntentStrings.SESSION_ID);
         }
         if (intent.hasExtra(UIKitConstants.IntentStrings.AVATAR)) {
             avatar = intent.getStringExtra(UIKitConstants.IntentStrings.AVATAR);

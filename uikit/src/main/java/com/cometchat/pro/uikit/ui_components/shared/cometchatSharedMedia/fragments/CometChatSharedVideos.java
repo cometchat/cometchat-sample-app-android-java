@@ -48,7 +48,7 @@ public class CometChatSharedVideos extends Fragment {
         type = getArguments().getString("type");
 
         fetchMessage();
-   
+
         rvFiles.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -91,7 +91,7 @@ public class CometChatSharedVideos extends Fragment {
             @Override
             public void onError(CometChatException e) {
                 if (rvFiles!=null)
-                   CometChatSnackBar.show(getContext(),rvFiles, CometChatError.localized(e), CometChatSnackBar.ERROR);
+                    CometChatSnackBar.show(getContext(),rvFiles, CometChatError.localized(e), CometChatSnackBar.ERROR);
             }
         });
     }

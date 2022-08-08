@@ -167,10 +167,12 @@ public class CometChatAvatar extends MaterialCardView {
                 if (isValidContextForGlide(context))
                     setValues();
             } else {
-                if (group.getName().length() > 2)
-                    text = group.getName().substring(0, 2);
-                else {
-                    text = group.getName();
+                if (group.getName()!=null) {
+                    if (group.getName().length() > 2)
+                        text = group.getName().substring(0, 2);
+                    else {
+                        text = group.getName();
+                    }
                 }
                 imageView.setVisibility(View.GONE);
                 textView.setText(text);

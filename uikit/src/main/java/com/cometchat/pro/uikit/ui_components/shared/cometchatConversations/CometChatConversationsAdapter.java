@@ -267,13 +267,13 @@ public class CometChatConversationsAdapter extends RecyclerView.Adapter<CometCha
     public void updateList(List<Conversation> conversations) {
 
         for (int i = 0; i <conversations.size() ; i++) {
-           if (filterConversationList.contains(conversations.get(i))){
-               int index=filterConversationList.indexOf(conversations.get(i));
-               filterConversationList.remove(conversations.get(i));
-               filterConversationList.add(index,conversations.get(i));
+            if (filterConversationList.contains(conversations.get(i))){
+                int index=filterConversationList.indexOf(conversations.get(i));
+                filterConversationList.remove(conversations.get(i));
+                filterConversationList.add(index,conversations.get(i));
             }else {
-               filterConversationList.add(conversations.get(i));
-           }
+                filterConversationList.add(conversations.get(i));
+            }
         }
         notifyDataSetChanged();
     }
@@ -454,8 +454,8 @@ public class CometChatConversationsAdapter extends RecyclerView.Adapter<CometCha
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-             filterConversationList= (List<Conversation>) filterResults.values;
-              notifyDataSetChanged();
+                filterConversationList= (List<Conversation>) filterResults.values;
+                notifyDataSetChanged();
             }
         };
     }

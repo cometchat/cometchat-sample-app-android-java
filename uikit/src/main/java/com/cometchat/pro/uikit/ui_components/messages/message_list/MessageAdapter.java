@@ -659,8 +659,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 TextView textViewOption = new TextView(context);
                 textViewPercentage.setPadding(16, 4, 0, 4);
                 textViewOption.setPadding(16, 4, 0, 4);
-                textViewOption.setTextAppearance(context, R.style.TextAppearance_AppCompat_Medium);
-                textViewPercentage.setTextAppearance(context, R.style.TextAppearance_AppCompat_Medium);
+                textViewOption.setTextAppearance(context, androidx.appcompat.R.style.TextAppearance_AppCompat_Medium);
+                textViewPercentage.setTextAppearance(context, androidx.appcompat.R.style.TextAppearance_AppCompat_Medium);
 
                 textViewPercentage.setTextColor(context.getResources().getColor(R.color.primaryTextColor));
                 textViewOption.setTextColor(context.getResources().getColor(R.color.primaryTextColor));

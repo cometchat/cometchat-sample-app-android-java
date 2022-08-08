@@ -241,7 +241,7 @@
     <string name="enter_your_question">Enter your Question</string>
     <string name="question">Question</string>
     <string name="add_a_new_option">Add a New Option</string>
-    <string name="unable_to_get_location">Unable to get your location</string>
+    <string name="unable_to_get_location">Unable to get your location. Try again</string>
     <string name="ended">Ended</string>
     <string name="ongoing">Ongoing</string>
     <string name="share_whiteboard">Share Whiteboard</string>

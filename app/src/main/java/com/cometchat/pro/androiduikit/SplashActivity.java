@@ -19,8 +19,9 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        AppSettings appSettings = new AppSettings.AppSettingsBuilder().
-                subscribePresenceForAllUsers().setRegion(AppConfig.AppDetails.REGION).build();
+        AppSettings appSettings = new AppSettings.AppSettingsBuilder()
+                .autoEstablishSocketConnection(false).subscribePresenceForAllUsers()
+                .setRegion(AppConfig.AppDetails.REGION).build();
         CometChat.init(this, AppConfig.AppDetails.APP_ID, appSettings,
                 new CometChat.CallbackListener<String>() {
                     @Override

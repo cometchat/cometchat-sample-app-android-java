@@ -242,9 +242,9 @@ public class CometChatCreateGroup extends Fragment {
                     createGroup(group);
                 }
                 else
-                    if (etGroupPassword!=null)
-                        CometChatSnackBar.show(getContext(),etGroupCnfPassword.getRootView(),
-                                getResources().getString(R.string.password_not_matched),CometChatSnackBar.WARNING);
+                if (etGroupPassword!=null)
+                    CometChatSnackBar.show(getContext(),etGroupCnfPassword.getRootView(),
+                            getResources().getString(R.string.password_not_matched),CometChatSnackBar.WARNING);
             }
         }
         else {
