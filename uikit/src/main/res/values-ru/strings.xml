@@ -300,4 +300,8 @@
     <string name="outgoing_voice_call">Исходящий голосовой вызов</string>
     <string name="outgoing_video_call">Исходящий видеозвонок</string>
     <string name="no_banned_members_found">Забаненные участники не найдены</string>
+    <string name="name_length_error">Более 100 символов</string>
+    <string name="media_in_progress">Выполняется загрузка мультимедиа</string>
+    <string name="no_messages_found">Сообщения не найдены</string>
+    <string name="forwarded_successful_message">Сообщение успешно переадресовано</string>
 </resources>

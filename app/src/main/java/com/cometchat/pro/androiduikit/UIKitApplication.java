@@ -3,14 +3,10 @@ package com.cometchat.pro.androiduikit;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Build;
-import android.widget.Toast;
 
-
-import com.cometchat.pro.core.AppSettings;
 import com.cometchat.pro.core.CometChat;
-import com.cometchat.pro.exceptions.CometChatException;
-import com.cometchat.pro.androiduikit.constants.AppConfig;
 import com.cometchat.pro.uikit.ui_components.calls.call_manager.listener.CometChatCallListener;
 import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 
@@ -22,28 +18,14 @@ public class UIKitApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        AppSettings appSettings = new AppSettings.AppSettingsBuilder().
-                subscribePresenceForAllUsers().setRegion(AppConfig.AppDetails.REGION).build();
-        CometChat.init(this, AppConfig.AppDetails.APP_ID, appSettings,
-                new CometChat.CallbackListener<String>() {
-            @Override
-            public void onSuccess(String s) {
-                UIKitSettings.setAppID(AppConfig.AppDetails.APP_ID);
-                UIKitSettings.setAuthKey(AppConfig.AppDetails.AUTH_KEY);
-                CometChat.setSource("ui-kit","android","java");
-            }
-
-            @Override
-            public void onError(CometChatException e) {
-                Toast.makeText(UIKitApplication.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        UIKitSettings uiKitSettings = new UIKitSettings(this);
-        uiKitSettings.addConnectionListener(TAG);
-        CometChatCallListener.addCallListener(TAG,this);
         createNotificationChannel();
     }
 
+    public static void initListener(Context context) {
+        UIKitSettings uiKitSettings = new UIKitSettings(context);
+        uiKitSettings.addConnectionListener(TAG);
+        CometChatCallListener.addCallListener(TAG,context);
+    }
 
 
     private void createNotificationChannel() {

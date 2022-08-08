@@ -24,6 +24,8 @@ import java.util.Locale;
 
 public class UIKitSettings {
 
+    private static boolean captionAllowed = false;
+    private static boolean lastSeenVisible = false;
     //style
     protected static String UIcolor = "#03A9F4";
     //BottomBar
@@ -189,6 +191,7 @@ public class UIKitSettings {
         CometChat.addConnectionListener(TAG, new CometChat.ConnectionListener() {
             @Override
             public void onConnected() {
+                CometChat.connect();
                 Toast.makeText(context,"OnConnected",Toast.LENGTH_LONG).show();
             }
 
@@ -337,12 +340,20 @@ public class UIKitSettings {
     }
 
 
+    public static void allowCaption(boolean isAllowed) {
+        captionAllowed = isAllowed;
+    }
+
+    public static void showLastSeen(boolean show) {
+        lastSeenVisible = show;
+    }
+
     public static void deleteConversation(boolean isEnabled) {
         deleteConversation = isEnabled;
     }
 
-    public static void startConversation(boolean isEanbled) {
-        startConversation = isEanbled;
+    public static void startConversation(boolean isEnabled) {
+        startConversation = isEnabled;
     }
 
     public static void users(boolean showUsers) {
@@ -926,5 +937,13 @@ public class UIKitSettings {
 
     public static boolean isStartConversation() {
         return startConversation;
+    }
+
+    public static boolean isCaptionAllowed() {
+        return captionAllowed;
+    }
+
+    public static boolean isLastSeenVisible() {
+        return lastSeenVisible;
     }
 }

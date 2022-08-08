@@ -194,10 +194,10 @@ public class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAdapter.
      * @see GroupMember
      */
     public void removeGroupMember(GroupMember groupMember) {
-         if (groupMemberList.contains(groupMember)) {
-             groupMemberList.remove(groupMember);
-             notifyDataSetChanged();
-         }
+        if (groupMemberList.contains(groupMember)) {
+            groupMemberList.remove(groupMember);
+            notifyDataSetChanged();
+        }
     }
 
     /**

@@ -45,15 +45,12 @@ public class OngoingCallService extends Service {
     private void startMyOwnForeground() {
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(2);
-        PendingIntent pendingIntent;
+        PendingIntent pendingIntent = null;
         if (CometChat.getActiveCall()!=null) {
             pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),REQUEST_CODE,
-                    getCallIntent("Ongoing"),PendingIntent.FLAG_UPDATE_CURRENT);
-        } else {
-            pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), REQUEST_CODE,
-                    getCallIntent("Ongoing"), PendingIntent.FLAG_UPDATE_CURRENT);
+                    getCallIntent("Ongoing"),
+                    PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
         }
-
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,"2");
         Notification notification = notificationBuilder.setOngoing(true)
                 .setSmallIcon(R.drawable.cc)

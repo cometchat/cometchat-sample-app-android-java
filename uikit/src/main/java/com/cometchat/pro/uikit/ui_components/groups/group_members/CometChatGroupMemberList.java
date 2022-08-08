@@ -74,11 +74,11 @@ public class CometChatGroupMemberList extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       if (getArguments()!=null) {
-           guid = getArguments().getString(UIKitConstants.IntentStrings.GUID);
-           showModerators = getArguments().getBoolean(UIKitConstants.IntentStrings.SHOW_MODERATORLIST);
-           transferOwnerShip = getArguments().getBoolean(UIKitConstants.IntentStrings.TRANSFER_OWNERSHIP);
-       }
+        if (getArguments()!=null) {
+            guid = getArguments().getString(UIKitConstants.IntentStrings.GUID);
+            showModerators = getArguments().getBoolean(UIKitConstants.IntentStrings.SHOW_MODERATORLIST);
+            transferOwnerShip = getArguments().getBoolean(UIKitConstants.IntentStrings.TRANSFER_OWNERSHIP);
+        }
     }
 
     @Override
@@ -128,12 +128,12 @@ public class CometChatGroupMemberList extends Fragment {
             etSearch.setText("");
             clearSearch.setVisibility(View.GONE);
             searchUser(etSearch.getText().toString());
-             if (getActivity()!=null) {
-                 InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                 // Hide the soft keyboard
-                 assert inputMethodManager != null;
-                 inputMethodManager.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
-             }
+            if (getActivity()!=null) {
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                // Hide the soft keyboard
+                assert inputMethodManager != null;
+                inputMethodManager.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
+            }
         });
 
         rvGroupMemberList.addOnScrollListener(new RecyclerView.OnScrollListener() {

@@ -54,6 +54,7 @@
                     android:layout_width="wrap_content"
                     android:text="@string/decline"
                     android:id="@+id/decline_incoming"
+                    android:layout_weight="1"
                     android:layout_marginTop="16dp"
                     app:backgroundTint="@color/red"
                     android:layout_marginLeft="16dp"
@@ -64,6 +65,7 @@
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:text="@string/accept"
+                    android:layout_weight="1"
                     android:id="@+id/accept_incoming"
                     android:layout_marginTop="16dp"
                     app:backgroundTint="@color/colorPrimary"

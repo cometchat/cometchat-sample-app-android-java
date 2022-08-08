@@ -99,11 +99,11 @@ public class SmartRepliesAdapter extends RecyclerView.Adapter<SmartRepliesAdapte
 
     class SmartReplyViewHolder extends RecyclerView.ViewHolder {
 
-       private Chip cReply;
+        private Chip cReply;
 
-       SmartReplyViewHolder(View view) {
+        SmartReplyViewHolder(View view) {
             super(view);
-           cReply = view.findViewById(R.id.replyText);
+            cReply = view.findViewById(R.id.replyText);
         }
 
     }

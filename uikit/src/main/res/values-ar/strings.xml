@@ -299,4 +299,8 @@
     <string name="outgoing_voice_call">مكالمة صوتية صادرة</string>
     <string name="outgoing_video_call">مكالمة فيديو صادرة</string>
     <string name="no_banned_members_found">لم يتم العثور على أعضاء محظورين</string>
+    <string name="name_length_error">أكثر من 100 حرف</string>
+    <string name="media_in_progress">تحميل الوسائط قيد التقدم</string>
+    <string name="no_messages_found">لا توجد رسائل</string>
+    <string name="forwarded_successful_message">تم إعادة توجيه الرسالة بنجاح</string>
 </resources>

@@ -33,20 +33,20 @@ import com.cometchat.pro.uikit.ui_settings.FeatureRestriction;
 
 /**
 
-* Purpose - CometChatMessageListActivity.class is a Activity used to display messages using CometChatMessageScreen.class. It takes
-            parameter like TYPE to differentiate between User MessageScreen & Group MessageScreen.
+ * Purpose - CometChatMessageListActivity.class is a Activity used to display messages using CometChatMessageScreen.class. It takes
+ parameter like TYPE to differentiate between User MessageScreen & Group MessageScreen.
 
-            It passes parameters like UID (userID) ,AVATAR (userAvatar) ,NAME (userName) ,STATUS (userStatus) to CometChatMessageScreen.class
-            if TYPE is CometChatConstant.RECEIVER_TYPE_USER
+ It passes parameters like UID (userID) ,AVATAR (userAvatar) ,NAME (userName) ,STATUS (userStatus) to CometChatMessageScreen.class
+ if TYPE is CometChatConstant.RECEIVER_TYPE_USER
 
-            It passes parameters like GUID (groupID) ,AVATAR (groupIcon) ,NAME (groupName) ,GROUP_OWNER (groupOwner) to CometChatMessageScreen.class
-            if TYPE is CometChatConstant.RECEIVER_TYPE_GROUP
+ It passes parameters like GUID (groupID) ,AVATAR (groupIcon) ,NAME (groupName) ,GROUP_OWNER (groupOwner) to CometChatMessageScreen.class
+ if TYPE is CometChatConstant.RECEIVER_TYPE_GROUP
 
-            @see com.cometchat.pro.constants.CometChatConstants
-            @see CometChatMessageList
+ @see com.cometchat.pro.constants.CometChatConstants
+ @see CometChatMessageList
 
 
-*/
+ */
 
 public class CometChatMessageListActivity extends AppCompatActivity implements MessageAdapter.OnMessageLongClick {
 
@@ -67,36 +67,36 @@ public class CometChatMessageListActivity extends AppCompatActivity implements M
         EmojiCompat.Config config = new BundledEmojiCompatConfig(this);
         EmojiCompat.init(config);
 
-         if (getIntent()!=null) {
-             Bundle bundle = new Bundle();
+        if (getIntent()!=null) {
+            Bundle bundle = new Bundle();
 
-             bundle.putString(UIKitConstants.IntentStrings.AVATAR, getIntent().getStringExtra(UIKitConstants.IntentStrings.AVATAR));
-             bundle.putString(UIKitConstants.IntentStrings.NAME, getIntent().getStringExtra(UIKitConstants.IntentStrings.NAME));
-             bundle.putString(UIKitConstants.IntentStrings.TYPE,getIntent().getStringExtra(UIKitConstants.IntentStrings.TYPE));
+            bundle.putString(UIKitConstants.IntentStrings.AVATAR, getIntent().getStringExtra(UIKitConstants.IntentStrings.AVATAR));
+            bundle.putString(UIKitConstants.IntentStrings.NAME, getIntent().getStringExtra(UIKitConstants.IntentStrings.NAME));
+            bundle.putString(UIKitConstants.IntentStrings.TYPE,getIntent().getStringExtra(UIKitConstants.IntentStrings.TYPE));
 
-              if (getIntent().hasExtra(UIKitConstants.IntentStrings.TYPE)&&
-                      getIntent().getStringExtra(UIKitConstants.IntentStrings.TYPE).equals(CometChatConstants.RECEIVER_TYPE_USER)) {
-                  bundle.putString(UIKitConstants.IntentStrings.LINK,getIntent().getStringExtra(UIKitConstants.IntentStrings.LINK));
-                  bundle.putString(UIKitConstants.IntentStrings.UID, getIntent().getStringExtra(UIKitConstants.IntentStrings.UID));
-                  bundle.putString(UIKitConstants.IntentStrings.STATUS, getIntent().getStringExtra(UIKitConstants.IntentStrings.STATUS));
+            if (getIntent().hasExtra(UIKitConstants.IntentStrings.TYPE)&&
+                    getIntent().getStringExtra(UIKitConstants.IntentStrings.TYPE).equals(CometChatConstants.RECEIVER_TYPE_USER)) {
+                bundle.putString(UIKitConstants.IntentStrings.LINK,getIntent().getStringExtra(UIKitConstants.IntentStrings.LINK));
+                bundle.putString(UIKitConstants.IntentStrings.UID, getIntent().getStringExtra(UIKitConstants.IntentStrings.UID));
+                bundle.putString(UIKitConstants.IntentStrings.STATUS, getIntent().getStringExtra(UIKitConstants.IntentStrings.STATUS));
 
-              }else {
-                  bundle.putString(UIKitConstants.IntentStrings.GUID, getIntent().getStringExtra(UIKitConstants.IntentStrings.GUID));
-                  bundle.putString(UIKitConstants.IntentStrings.GROUP_OWNER,getIntent().getStringExtra(UIKitConstants.IntentStrings.GROUP_OWNER));
-                  bundle.putInt(UIKitConstants.IntentStrings.MEMBER_COUNT,getIntent().getIntExtra(UIKitConstants.IntentStrings.MEMBER_COUNT,0));
-                  bundle.putString(UIKitConstants.IntentStrings.GROUP_TYPE,getIntent().getStringExtra(UIKitConstants.IntentStrings.GROUP_TYPE));
-                  bundle.putString(UIKitConstants.IntentStrings.GROUP_DESC,getIntent().getStringExtra(UIKitConstants.IntentStrings.GROUP_DESC));
-                  bundle.putString(UIKitConstants.IntentStrings.GROUP_PASSWORD,getIntent().getStringExtra(UIKitConstants.IntentStrings.GROUP_PASSWORD));
-              }
+            }else {
+                bundle.putString(UIKitConstants.IntentStrings.GUID, getIntent().getStringExtra(UIKitConstants.IntentStrings.GUID));
+                bundle.putString(UIKitConstants.IntentStrings.GROUP_OWNER,getIntent().getStringExtra(UIKitConstants.IntentStrings.GROUP_OWNER));
+                bundle.putInt(UIKitConstants.IntentStrings.MEMBER_COUNT,getIntent().getIntExtra(UIKitConstants.IntentStrings.MEMBER_COUNT,0));
+                bundle.putString(UIKitConstants.IntentStrings.GROUP_TYPE,getIntent().getStringExtra(UIKitConstants.IntentStrings.GROUP_TYPE));
+                bundle.putString(UIKitConstants.IntentStrings.GROUP_DESC,getIntent().getStringExtra(UIKitConstants.IntentStrings.GROUP_DESC));
+                bundle.putString(UIKitConstants.IntentStrings.GROUP_PASSWORD,getIntent().getStringExtra(UIKitConstants.IntentStrings.GROUP_PASSWORD));
+            }
 
-              if (getIntent().hasExtra(UIKitConstants.IntentStrings.MESSAGE)) {
-                  bundle.putString(UIKitConstants.IntentStrings.MESSAGE,
-                          getIntent().getStringExtra(UIKitConstants.IntentStrings.MESSAGE));
-              }
+            if (getIntent().hasExtra(UIKitConstants.IntentStrings.MESSAGE)) {
+                bundle.putString(UIKitConstants.IntentStrings.MESSAGE,
+                        getIntent().getStringExtra(UIKitConstants.IntentStrings.MESSAGE));
+            }
 
-              fragment.setArguments(bundle);
-             getSupportFragmentManager().beginTransaction().replace(R.id.chat_fragment, fragment).commit();
-         }
+            fragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.chat_fragment, fragment).commit();
+        }
     }
 
     @Override
@@ -130,7 +130,7 @@ public class CometChatMessageListActivity extends AppCompatActivity implements M
     @Override
     public void setLongMessageClick(List<BaseMessage> baseMessage) {
         if (fragment!=null)
-        ((OnMessageLongClick)fragment).setLongMessageClick(baseMessage);
+            ((OnMessageLongClick)fragment).setLongMessageClick(baseMessage);
     }
 
     @Override

@@ -17,7 +17,7 @@ public class SmartReplyViewModel {
     public SmartReplyViewModel(Context context, CometChatSmartReplies smartReplyList) {
         this.context = context;
         this.smartReplyList = smartReplyList;
-         setSmartReplyAdapter(smartReplyList);
+        setSmartReplyAdapter(smartReplyList);
     }
 
     private void setSmartReplyAdapter(CometChatSmartReplies smartReplyList) {

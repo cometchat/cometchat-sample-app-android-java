@@ -298,5 +298,9 @@
     <string name="select_group">Wähle die Gruppe</string>
     <string name="search_users">Benutzer suchen</string>
     <string name="search_groups">Gruppen suchen</string>
+    <string name="name_length_error">Mehr als 100 Zeichen</string>
+    <string name="media_in_progress">Medien-Upload läuft</string>
+    <string name="no_messages_found">Keine Nachrichten gefunden</string>
+    <string name="forwarded_successful_message">Nachricht erfolgreich weitergeleitet</string>
 
 </resources>

@@ -66,7 +66,7 @@ public class CometChatBlockUserList extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         fontUtils=FontUtils.getInstance(getActivity());
+        fontUtils=FontUtils.getInstance(getActivity());
     }
 
     @Override
@@ -160,7 +160,7 @@ public class CometChatBlockUserList extends Fragment {
             public void onError(CometChatException e) {
                 progressDialog.dismiss();
                 CometChatSnackBar.show(getContext(),var1,
-                       CometChatError.localized(e),CometChatSnackBar.ERROR);
+                        CometChatError.localized(e),CometChatSnackBar.ERROR);
                 Log.e(TAG, "onError: "+e.getMessage());
             }
         });
@@ -190,7 +190,7 @@ public class CometChatBlockUserList extends Fragment {
                 Log.e(TAG, "onError: "+e.getMessage());
                 CometChatSnackBar.show(getContext(),
                         rvUserList,getResources().getString(R.string.block_user_list_error)+", "+
-                        CometChatError.localized(e), CometChatSnackBar.ERROR);
+                                CometChatError.localized(e), CometChatSnackBar.ERROR);
             }
         });
     }

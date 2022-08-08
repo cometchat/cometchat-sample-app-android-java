@@ -298,4 +298,8 @@
     <string name="outgoing_voice_call">आउटगोइंग वॉयस कॉल</string>
     <string name="outgoing_video_call">आउटगोइंग वीडियो कॉल</string>
     <string name="no_banned_members_found">कोई प्रतिबंधित सदस्य नहीं मिला</string>
+    <string name="name_length_error">100 से अधिक वर्ण</string>
+    <string name="media_in_progress">मीडिया अपलोड प्रगति पर है</string>
+    <string name="no_messages_found">कोई संदेश नहीं मिला</string>
+    <string name="forwarded_successful_message">संदेश सफलतापूर्वक अग्रेषित किया गया</string>
 </resources>

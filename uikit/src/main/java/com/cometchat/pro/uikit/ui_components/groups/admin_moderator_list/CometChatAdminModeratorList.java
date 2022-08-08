@@ -84,7 +84,7 @@ public class CometChatAdminModeratorList extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-            fontUtils=FontUtils.getInstance(getActivity());
+        fontUtils=FontUtils.getInstance(getActivity());
 
         handleArguments();
     }
@@ -285,7 +285,7 @@ public class CometChatAdminModeratorList extends Fragment {
                 for (GroupMember groupMember : groupMembers) {
 
 //                    if (groupMember.getScope().equals(CometChatConstants.SCOPE_ADMIN)) {
-                        memberList.add(groupMember);
+                    memberList.add(groupMember);
 //                    }
                 }
                 adapter.addAll(memberList);
@@ -358,20 +358,20 @@ public class CometChatAdminModeratorList extends Fragment {
         CometChat.addGroupListener(TAG, new CometChat.GroupListener() {
             @Override
             public void onGroupMemberLeft(Action action, User leftUser, Group leftGroup) {
-                    updateGroupMember(leftUser,true,null);
+                updateGroupMember(leftUser,true,null);
             }
 
             @Override
             public void onGroupMemberKicked(Action action, User kickedUser, User kickedBy, Group kickedFrom) {
-                    updateGroupMember(kickedUser,true,null);
+                updateGroupMember(kickedUser,true,null);
             }
 
             @Override
             public void onGroupMemberScopeChanged(Action action, User updatedBy, User updatedUser, String scopeChangedTo, String scopeChangedFrom, Group group) {
-                    if (action.getNewScope().equals(CometChatConstants.SCOPE_ADMIN))
-                        updateGroupMember(updatedUser,false,action);
-                    else if (action.getOldScope().equals(CometChatConstants.SCOPE_ADMIN))
-                        updateGroupMember(updatedUser,true,null);
+                if (action.getNewScope().equals(CometChatConstants.SCOPE_ADMIN))
+                    updateGroupMember(updatedUser,false,action);
+                else if (action.getOldScope().equals(CometChatConstants.SCOPE_ADMIN))
+                    updateGroupMember(updatedUser,true,null);
             }
         });
     }

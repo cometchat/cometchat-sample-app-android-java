@@ -50,16 +50,16 @@ public class CometChatGroupsViewModel {
     }
 
     public void setGroupList(List<Group> groupList){
-         if (groupListAdapter!=null) {
-              if (groupList!=null&&groupList.size()!=0)
+        if (groupListAdapter!=null) {
+            if (groupList!=null&&groupList.size()!=0)
                 groupListAdapter.updateGroupList(groupList);
-         }
+        }
     }
 
 
     public void remove(Group group){
-         if (groupListAdapter!=null)
-        groupListAdapter.removeGroup(group);
+        if (groupListAdapter!=null)
+            groupListAdapter.removeGroup(group);
     }
 
 

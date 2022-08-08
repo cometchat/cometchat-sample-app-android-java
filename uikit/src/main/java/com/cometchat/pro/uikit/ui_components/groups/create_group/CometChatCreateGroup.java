@@ -89,8 +89,10 @@ public class CometChatCreateGroup extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!etGroupPassword.getText().toString().isEmpty() && s.toString().equals(etGroupPassword.getText().toString())) {
-                    groupCnfPasswordLayout.setEndIconDrawable(getResources().getDrawable(R.drawable.ic_baseline_check_circle_24));
-                    groupCnfPasswordLayout.setEndIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.green_600)));
+                    groupCnfPasswordLayout.setStartIconDrawable(getResources().getDrawable(R.drawable.ic_baseline_check_circle_24));
+                    groupCnfPasswordLayout.setStartIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.green_600)));
+                } else {
+                    groupCnfPasswordLayout.setStartIconDrawable(null);
                 }
             }
 
@@ -169,7 +171,11 @@ public class CometChatCreateGroup extends Fragment {
         createGroupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createGroup();
+                if (etGroupName.getText().length()>100) {
+                    etGroupName.setError(getString(R.string.name_length_error));
+                } else {
+                    createGroup();
+                }
             }
         });
         checkDarkMode();
@@ -236,9 +242,9 @@ public class CometChatCreateGroup extends Fragment {
                     createGroup(group);
                 }
                 else
-                    if (etGroupPassword!=null)
-                        CometChatSnackBar.show(getContext(),etGroupCnfPassword.getRootView(),
-                                getResources().getString(R.string.password_not_matched),CometChatSnackBar.WARNING);
+                if (etGroupPassword!=null)
+                    CometChatSnackBar.show(getContext(),etGroupCnfPassword.getRootView(),
+                            getResources().getString(R.string.password_not_matched),CometChatSnackBar.WARNING);
             }
         }
         else {

@@ -39,7 +39,7 @@
             android:layout_below="@+id/tv_user"
             android:layout_margin="8dp"
             android:layout_toEndOf="@+id/iv_user"
-            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardBackgroundColor="@color/message_bubble_grey"
             app:cardCornerRadius="10dp">
 
 
@@ -55,6 +55,14 @@
                     android:background="@color/textColorWhite"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_defaulf_image" />
+                <TextView
+                    android:textColor="@color/primaryTextColor"
+                    android:padding="8dp"
+                    android:visibility="gone"
+                    android:id="@+id/caption"
+                    android:layout_below="@+id/go_img_message"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"/>
             </RelativeLayout>
 
             <RelativeLayout

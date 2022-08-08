@@ -79,7 +79,7 @@ public class UserListViewModel {
     }
 
     public void setUsersList(List<User> usersList){
-          getAdapter().updateList(usersList);
+        getAdapter().updateList(usersList);
     }
 
     public void update(int index, User user) {

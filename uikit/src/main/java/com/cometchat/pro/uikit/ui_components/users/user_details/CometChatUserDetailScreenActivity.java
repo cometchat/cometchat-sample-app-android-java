@@ -209,7 +209,7 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
 
         tvBlockUser.setOnClickListener(view -> {
             if (isBlocked)
-               unblockUser();
+                unblockUser();
             else
                 blockUser();
         });
@@ -241,7 +241,7 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
 
         if (getIntent().hasExtra(UIKitConstants.IntentStrings.IS_BLOCKED_BY_ME)){
             isBlocked=getIntent().getBooleanExtra(UIKitConstants.IntentStrings.IS_BLOCKED_BY_ME,false);
-             setBlockUnblock();
+            setBlockUnblock();
         }
 
         if (getIntent().hasExtra(UIKitConstants.IntentStrings.GUID)) {
@@ -404,26 +404,26 @@ public class CometChatUserDetailScreenActivity extends AppCompatActivity {
         ArrayList<String> uids = new ArrayList<>();
         uids.add(uid);
 
-      CometChat.unblockUsers(uids, new CometChat.CallbackListener<HashMap<String, String>>() {
-          @Override
-          public void onSuccess(HashMap<String, String> stringStringHashMap) {
+        CometChat.unblockUsers(uids, new CometChat.CallbackListener<HashMap<String, String>>() {
+            @Override
+            public void onSuccess(HashMap<String, String> stringStringHashMap) {
 //              if (tvBlockUser!=null)
 //                  CometChatSnackBar.show(CometChatUserDetailScreenActivity.this,
 //                          tvBlockUser,
 //                          userName.getText().toString()+" "+getResources().getString(R.string.unblocked_successfully),CometChatSnackBar.SUCCESS);
-              progressDialog.dismiss();
-              isBlocked=false;
-              setBlockUnblock();
-          }
+                progressDialog.dismiss();
+                isBlocked=false;
+                setBlockUnblock();
+            }
 
-          @Override
-          public void onError(CometChatException e) {
-              Log.d(TAG, "onError: "+e.getMessage());
-              if (tvBlockUser!=null)
-                  CometChatSnackBar.show(CometChatUserDetailScreenActivity.this,
-                          tvBlockUser,getString(R.string.unblock_user_error),CometChatSnackBar.ERROR);
-          }
-      });
+            @Override
+            public void onError(CometChatException e) {
+                Log.d(TAG, "onError: "+e.getMessage());
+                if (tvBlockUser!=null)
+                    CometChatSnackBar.show(CometChatUserDetailScreenActivity.this,
+                            tvBlockUser,getString(R.string.unblock_user_error),CometChatSnackBar.ERROR);
+            }
+        });
     }
 
 

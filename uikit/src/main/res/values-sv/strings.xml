@@ -326,5 +326,9 @@
     <string name="outgoing_voice_call">Utgående röstsamtal</string>
     <string name="outgoing_video_call">Utgående videosamtal</string>
     <string name="no_banned_members_found">Inga förbjudna medlemmar hittades</string>
+    <string name="name_length_error">Mer än 100 tecken</string>
+    <string name="media_in_progress">Mediauppladdning pågår</string>
+    <string name="no_messages_found">Inga meddelanden hittades</string>
+    <string name="forwarded_successful_message">Meddelande har vidarebefordrats</string>
 
 </resources>
