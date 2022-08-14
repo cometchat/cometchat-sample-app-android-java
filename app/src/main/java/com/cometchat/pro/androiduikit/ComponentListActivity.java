@@ -1,11 +1,10 @@
 package com.cometchat.pro.androiduikit;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.card.MaterialCardView;
 
@@ -24,12 +23,7 @@ public class ComponentListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_component_list);
         backIcon = findViewById(R.id.backIcon);
-        backIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        backIcon.setOnClickListener(v -> onBackPressed());
         cometchatAvatar = findViewById(R.id.cometchat_avatar);
         cometchatAvatar.setOnClickListener(view -> {
             Intent intent = new Intent(ComponentListActivity.this, ComponentLoadActivity.class);

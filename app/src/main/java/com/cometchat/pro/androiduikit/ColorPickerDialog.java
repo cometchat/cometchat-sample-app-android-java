@@ -1,19 +1,15 @@
-package com.cometchat.pro.androiduikit;
+    package com.cometchat.pro.androiduikit;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.LinearGradient;
-import android.graphics.Paint;
-import android.graphics.PixelFormat;
-import android.graphics.Shader;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.LinearLayout;
+    import android.app.Dialog;
+    import android.content.Context;
+    import android.graphics.Canvas;
+    import android.graphics.Color;
+    import android.graphics.LinearGradient;
+    import android.graphics.Paint;
+    import android.graphics.Shader;
+    import android.os.Bundle;
+    import android.view.MotionEvent;
+    import android.view.View;
 
 public class ColorPickerDialog extends Dialog {
 
@@ -21,18 +17,20 @@ public class ColorPickerDialog extends Dialog {
         void colorChanged(String key, int color);
     }
 
-    private OnColorChangedListener mListener;
-    private int mInitialColor, mDefaultColor;
-    private String mKey;
+    private final OnColorChangedListener mListener;
+    private final int mInitialColor;
+    private final int mDefaultColor;
+    private final String mKey;
 
     private static class ColorPickerView extends View {
-        private Paint mPaint;
+        private final Paint mPaint;
         private float mCurrentHue = 0;
         private int mCurrentX = 0, mCurrentY = 0;
-        private int mCurrentColor, mDefaultColor;
+        private int mCurrentColor;
+        private final int mDefaultColor;
         private final int[] mHueBarColors = new int[258];
-        private int[] mMainColors = new int[65536];
-        private OnColorChangedListener mListener;
+        private final int[] mMainColors = new int[65536];
+        private final OnColorChangedListener mListener;
 
         ColorPickerView(Context c, OnColorChangedListener l, int color,
                         int defaultColor) {
