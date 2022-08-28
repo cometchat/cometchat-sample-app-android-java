@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.cometchat.pro.androiduikit.R;
@@ -19,6 +20,8 @@ import com.cometchat.pro.uikit.ui_components.shared.cometchatAvatar.CometChatAva
 import com.cometchat.pro.uikit.ui_resources.utils.Utils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.Objects;
 
 public class AvatarFragment extends Fragment {
 
@@ -174,13 +177,13 @@ public class AvatarFragment extends Fragment {
 
     private void checkDarkMode() {
         if(Utils.isDarkMode(getContext())) {
-            borderWidthLayout.setDefaultHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.textColorWhite)));
-            borderWidthLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.textColorWhite)));
-            borderWidthLayout.setBoxStrokeColor(getResources().getColor(R.color.textColorWhite));
+            borderWidthLayout.setDefaultHintTextColor(ColorStateList.valueOf(ContextCompat.getColor(Objects.requireNonNull(getActivity()), R.color.textColorWhite)));
+            borderWidthLayout.setHintTextColor(ColorStateList.valueOf(ContextCompat.getColor(Objects.requireNonNull(getActivity()), R.color.textColorWhite)));
+            borderWidthLayout.setBoxStrokeColor(ContextCompat.getColor(getActivity(), R.color.textColorWhite));
         } else {
-            borderWidthLayout.setDefaultHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.primaryTextColor)));
-            borderWidthLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.primaryTextColor)));
-            borderWidthLayout.setBoxStrokeColor(getResources().getColor(R.color.primaryTextColor));
+            borderWidthLayout.setDefaultHintTextColor(ColorStateList.valueOf(ContextCompat.getColor(Objects.requireNonNull(getActivity()), R.color.primaryTextColor)));
+            borderWidthLayout.setHintTextColor(ColorStateList.valueOf(ContextCompat.getColor(getActivity(), R.color.primaryTextColor)));
+            borderWidthLayout.setBoxStrokeColor(ContextCompat.getColor(getActivity(), R.color.primaryTextColor));
         }
     }
 
