@@ -1,2 +1,19 @@
-include ':app', ':uikit'
-rootProject.name='Android UI Kit'
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url "https://dl.cloudsmith.io/public/cometchat/cometchat-pro-android/maven/"
+        }
+    }
+}
+rootProject.name = "PlutoUiKitSampleApp"
+include ':app'
