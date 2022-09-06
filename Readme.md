@@ -31,7 +31,7 @@ Before you begin, ensure you have met the following requirements:<br/>
 
 ## Installing Android Java Chat Pluto UI Kit :wrench:
 
-Simply clone the project from [android-java-chat-pluto-uikit](https://github.com/cometchat-pro/android-java-chat-app/tree/pluto) repository.
+Simply clone the project from [android-java-chat-pluto-uikit](https://github.com/cometchat-pro/android-java-chat-ui-kit/tree/pluto) repository.
 
 
 ### Running the sample app
