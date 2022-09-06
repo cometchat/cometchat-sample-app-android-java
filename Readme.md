@@ -25,13 +25,13 @@ CometChat Pluto Sample App (built using CometChat UIKit) is a fully functional m
 Before you begin, ensure you have met the following requirements:<br/>
 ✅ &nbsp; You have `Android Studio` installed in your machine.<br/>
 ✅ &nbsp; You have a `Android Device or Emulator` with Android Version 6.0 or above.<br/>
-✅ &nbsp; You have read [CometChat Key Concepts](https://www.cometchat.com/docs/java-ui-kit-beta/key-concepts).<br/>
+✅ &nbsp; You have read [CometChat Key Concepts](https://www.cometchat.com/docs/pluto-java-beta/key-concepts).<br/>
 
 <hr/>
 
-## Installing Android Java Chat UI Kit :wrench:
+## Installing Android Java Chat Pluto UI Kit :wrench:
 
-Simply clone the project from [android-java-chat-app](https://github.com/cometchat-pro-samples/android-java-chat-app/) repository.
+Simply clone the project from [android-java-chat-pluto-uikit](https://github.com/cometchat-pro/android-java-chat-app/tree/pluto) repository.
 
 
 ### Running the sample app
@@ -54,13 +54,13 @@ Build and run the Sample App.
 
 # Learn more about UI-Kit
 
-Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/android-java-chat-ui-kit/blob/master/README.md) inside your app.
+Learn more about how to integrate [Pluto UI Kit](https://www.cometchat.com/docs/pluto-java-beta/integration) inside your app.
 <br/>
 <hr/>
 
 ## Troubleshooting
 
-- To read the full documentation on UI Kit integration visit our [Documentation](https://www.cometchat.com/docs/java-ui-kit-beta/integration)  .
+- To read the full documentation on UI Kit integration visit our [Documentation](https://www.cometchat.com/docs/pluto-java-beta/overview)  .
 
 - Facing any issues while integrating or installing the UI Kit please <a href="https://app.cometchat.io/"> connect with us via real time support present in CometChat Dashboard.</a>.
 
