@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.cometchat.pro.plutouikitsampleapp">
+    package="com.cometchat.pro.javasampleapp">
 
     <application
-        android:name=".Application"
+        android:name="com.cometchat.pro.javasampleapp.Application"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -16,27 +16,27 @@
         android:theme="@style/Theme.PlutoUiKitSampleApp"
         tools:targetApi="31">
         <activity
-            android:name=".activity.CreateUserActivity"
+            android:name="com.cometchat.pro.javasampleapp.activity.CreateUserActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".activity.ComponentLaunchActivity"
+            android:name="com.cometchat.pro.javasampleapp.activity.ComponentLaunchActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ComponentListActivity"
+            android:name="com.cometchat.pro.javasampleapp.activity.ComponentListActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.LoginActivity"
+            android:name="com.cometchat.pro.javasampleapp.activity.LoginActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.HomeActivity"
+            android:name="com.cometchat.pro.javasampleapp.activity.HomeActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.cometchat.pro.javasampleapp.activity.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>

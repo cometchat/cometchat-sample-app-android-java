@@ -47,7 +47,7 @@ You can obtain your  *APP_ID*, *AUTH_KEY* and *REGION_CODE* from [CometChat-Pro 
 -  Select demo users or enter the **UID** at the time of login once the app is launched.
 
 <img align="center" width="100%" height="auto"
-src="https://files.readme.io/9f23df2-app_credentials.png">
+src="./Screenshots/credentials.png">
 
 Build and run the Sample App.
 </hr>

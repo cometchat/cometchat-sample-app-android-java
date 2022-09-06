@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/app_background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.shared.SDK_Derived.DataItemFragment">
+    tools:context=".fragments.shared.sdk_derived.DataItemFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
