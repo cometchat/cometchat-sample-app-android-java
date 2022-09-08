@@ -25,7 +25,7 @@ CometChat Pluto Sample App (built using CometChat UIKit) is a fully functional m
 Before you begin, ensure you have met the following requirements:<br/>
 ✅ &nbsp; You have `Android Studio` installed in your machine.<br/>
 ✅ &nbsp; You have a `Android Device or Emulator` with Android Version 6.0 or above.<br/>
-✅ &nbsp; You have read [CometChat Key Concepts](https://www.cometchat.com/docs/pluto-java-beta/key-concepts).<br/>
+✅ &nbsp; You have read [CometChat Key Concepts](https://www.cometchat.com/docs/java-uikit-beta/key-concepts).<br/>
 
 <hr/>
 
@@ -54,7 +54,7 @@ Build and run the Sample App.
 
 # Learn more about UI-Kit
 
-Learn more about how to integrate [Pluto UI Kit](https://www.cometchat.com/docs/pluto-java-beta/integration) inside your app.
+Learn more about how to integrate [Pluto UI Kit](https://www.cometchat.com/docs/java-uikit-beta/integration) inside your app.
 <br/>
 <hr/>
 
@@ -73,8 +73,6 @@ Thanks to the following people who have contributed to this project:
 
 [👨‍💻 @vivekprajapati 💻](https://github.com/vivekCometChat)
 
-[Contribution guidelines for this project]()
-
 ---
 
 ## :mailbox: Contact
@@ -82,9 +80,5 @@ Thanks to the following people who have contributed to this project:
 Contact us via real time support present in [CometChat Dashboard.](https://app.cometchat.io/)
 
 ---
-
-## License
-
-This project uses the following license: [License.md](LICENSE).
 
 
