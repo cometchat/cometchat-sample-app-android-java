@@ -35,7 +35,6 @@ public class CometChatConversationsViewModel {
         if (conversationListAdapter!=null)
             conversationListAdapter.add(conversation);
     }
-
     private void setAdapter(CometChatConversations cometChatConversationList){
         if (conversationListAdapter==null)
             conversationListAdapter=new CometChatConversationsAdapter(context);

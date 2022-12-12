@@ -477,13 +477,13 @@ public class CometChatConversationList extends Fragment implements TextWatcher, 
             @Override
             public void onTypingStarted(TypingIndicator typingIndicator) {
                 if (rvConversationList!=null)
-                    rvConversationList.setTypingIndicator(typingIndicator,false);
+                    rvConversationList.setTypingIndicator(typingIndicator,true);
             }
 
             @Override
             public void onTypingEnded(TypingIndicator typingIndicator) {
                 if (rvConversationList!=null)
-                    rvConversationList.setTypingIndicator(typingIndicator,true);
+                    rvConversationList.setTypingIndicator(typingIndicator,false);
             }
         });
         CometChat.addGroupListener(TAG, new CometChat.GroupListener() {

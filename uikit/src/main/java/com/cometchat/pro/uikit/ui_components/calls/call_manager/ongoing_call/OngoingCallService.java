@@ -71,14 +71,13 @@ public class OngoingCallService extends Service {
             callIntent.putExtra(UIKitConstants.IntentStrings.TYPE, CometChat.getActiveCall().getType());
             callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             callIntent.setAction(title);
-            return callIntent;
         } else {
             callIntent = new Intent(getApplicationContext(), CometChatUI.class);
             callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             notificationManager.cancel(2);
             notificationManager.cancel(1);
-            return callIntent;
         }
+        return callIntent;
     }
 
     @Override
@@ -92,10 +91,6 @@ public class OngoingCallService extends Service {
     public void onDestroy() {
         super.onDestroy();
         stopTimer();
-
-//        Intent broadcastIntent = new Intent();
-//        broadcastIntent.setAction("restartservice");
-//        this.sendBroadcast(broadcastIntent);
     }
 
     @Override
