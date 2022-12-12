@@ -741,11 +741,10 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
                     if (editable.length() > 0) {
                         sendTypingIndicator(false);
                     }
-
-                    editor.putString(Id,editable.toString());
-                    editor.apply();
-                    editor.commit();
                 }
+                editor.putString(Id,editable.toString());
+                editor.apply();
+                editor.commit();
                 if (typingTimer == null) {
                     typingTimer = new Timer();
                 }
