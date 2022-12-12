@@ -833,7 +833,7 @@ public class MediaUtils {
             try {
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(result));
+                shareIntent.putExtra(Intent.EXTRA_STREAM,FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", new File(result)));
                 shareIntent.setType(((MediaMessage)baseMessage).getAttachment().getFileMimeType());
                 Intent intent = Intent.createChooser(shareIntent, context.getResources().getString(R.string.share_message));
                 context.startActivity(intent);

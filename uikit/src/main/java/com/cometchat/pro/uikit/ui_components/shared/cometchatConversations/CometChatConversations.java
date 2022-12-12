@@ -68,7 +68,6 @@ public class CometChatConversations extends RecyclerView {
         if (conversationViewModel==null)
             conversationViewModel=new CometChatConversationsViewModel(context,this);
     }
-
     /**
      *   This method set the fetched list into the CometChatConversationList Component.
      *
