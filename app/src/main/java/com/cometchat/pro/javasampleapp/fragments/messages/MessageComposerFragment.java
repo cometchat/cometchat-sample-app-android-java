@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.cometchat.pro.javasampleapp.R;
-import com.cometchatworkspace.components.messages.composer.CometChatComposer;
+import com.cometchatworkspace.components.messages.composer.CometChatMessageComposer;
 import com.cometchatworkspace.components.messages.composer.listener.Events;
 import com.cometchatworkspace.components.messages.template.CometChatMessageTemplate;
 
@@ -24,7 +24,7 @@ public class MessageComposerFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_message_composer, container, false);
 
         //To handle click performed on Action sheet
-        CometChatComposer.addListener("MessageComposerFragment", new Events() {
+        CometChatMessageComposer.addListener("MessageComposerFragment", new Events() {
             @Override
             public void onMoreActionClicked(ImageView moreIcon) {
                 super.onMoreActionClicked(moreIcon);

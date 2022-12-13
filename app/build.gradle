@@ -10,7 +10,7 @@ android {
         minSdk 21
         targetSdk 32
         versionCode 1
-        versionName "1.0"
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [file_provider: "com.cometchat.pro.javasampleapp"]
@@ -32,7 +32,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.cometchat:pro-android-java-chat-ui-kit:3.0.9-pluto.beta1'
+    implementation 'com.cometchat:pro-android-java-chat-ui-kit:3.0.9-pluto.beta.1.1'
     implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

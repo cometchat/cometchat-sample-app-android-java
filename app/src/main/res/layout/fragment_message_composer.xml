@@ -7,7 +7,7 @@
     android:background="@color/app_background"
     tools:context=".fragments.messages.MessageComposerFragment">
 
-    <com.cometchatworkspace.components.messages.composer.CometChatComposer
+    <com.cometchatworkspace.components.messages.composer.CometChatMessageComposer
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/composer"
