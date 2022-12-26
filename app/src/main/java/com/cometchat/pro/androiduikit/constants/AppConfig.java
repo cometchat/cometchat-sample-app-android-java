@@ -9,6 +9,7 @@ public class AppConfig {
         public static final String AUTH_KEY = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 
         public static final String REGION = "XX";
+
     }
 }
 
