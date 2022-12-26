@@ -87,7 +87,7 @@ public class CometChatStartCallActivity extends AppCompatActivity {
         if (type!=null && type.equalsIgnoreCase(CometChatConstants.RECEIVER_TYPE_USER))
             callSettings = new CallSettings.CallSettingsBuilder(this,mainView)
                     .setSessionId(sessionID)
-                    .setMode(CallSettings.MODE_SINGLE)
+                    .setMode(CallSettings.MODE_DEFAULT)
                     .build();
         else
             callSettings = new CallSettings.CallSettingsBuilder(this,mainView)

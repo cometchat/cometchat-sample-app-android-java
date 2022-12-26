@@ -136,6 +136,7 @@
 
         <service
             android:name=".ui_components.calls.call_manager.ongoing_call.OngoingCallService"
+            android:exported="true"
             android:enabled="true" />
     </application>
 

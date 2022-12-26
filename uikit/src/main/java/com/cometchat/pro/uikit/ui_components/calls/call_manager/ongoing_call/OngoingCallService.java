@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -15,6 +16,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.uikit.R;
+import com.cometchat.pro.uikit.ui_components.calls.call_manager.CometChatStartCallActivity;
 import com.cometchat.pro.uikit.ui_components.cometchat_ui.CometChatUI;
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
 
@@ -27,13 +29,14 @@ public class OngoingCallService extends Service {
     private int counter = 0;
 
     NotificationManager notificationManager;
+
     @Override
     public void onCreate() {
         super.onCreate();
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O)
             startMyOwnForeground();
         else
-            this.startForeground(1,new Notification());
+            this.startForeground(1, new Notification());
     }
 
     @Nullable
@@ -46,12 +49,35 @@ public class OngoingCallService extends Service {
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(2);
         PendingIntent pendingIntent = null;
-        if (CometChat.getActiveCall()!=null) {
-            pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),REQUEST_CODE,
-                    getCallIntent("Ongoing"),
-                    PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        if (CometChat.getActiveCall() != null) {
+            if (Build.VERSION.SDK_INT >= 31) {
+                Intent joinOngoingIntent =
+                        new Intent(getApplicationContext(), CometChatStartCallActivity.class);
+                joinOngoingIntent.putExtra(
+                        UIKitConstants.IntentStrings.SESSION_ID,
+                        CometChat.getActiveCall().getSessionId()
+                );
+                joinOngoingIntent.putExtra(
+                        UIKitConstants.IntentStrings.TYPE,
+                        CometChat.getActiveCall().getType()
+                );
+                joinOngoingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+                stackBuilder.addNextIntent(joinOngoingIntent);
+                pendingIntent= stackBuilder.getPendingIntent(
+                        REQUEST_CODE,
+                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+                );
+
+            } else {
+                pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), REQUEST_CODE,
+                        getCallIntent("Ongoing"),
+                        PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+            }
         }
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,"2");
+        Log.e("", "startMyOwnForeground: "+pendingIntent);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "2");
         Notification notification = notificationBuilder.setOngoing(true)
                 .setSmallIcon(R.drawable.cc)
                 .setColor(getResources().getColor(R.color.colorPrimary))
@@ -60,13 +86,13 @@ public class OngoingCallService extends Service {
                 .setContentIntent(pendingIntent)
                 .setCategory(Notification.CATEGORY_CALL)
                 .build();
-        startForeground(1,notification);
+        startForeground(1, notification);
     }
 
     private Intent getCallIntent(String title) {
         Intent callIntent;
-        if (CometChat.getActiveCall()!=null) {
-            callIntent = new Intent(getApplicationContext(),OngoingCallBroadcast.class);
+        if (CometChat.getActiveCall() != null) {
+            callIntent = new Intent(getApplicationContext(), OngoingCallBroadcast.class);
             callIntent.putExtra(UIKitConstants.IntentStrings.SESSION_ID, CometChat.getActiveCall().getSessionId());
             callIntent.putExtra(UIKitConstants.IntentStrings.TYPE, CometChat.getActiveCall().getType());
             callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -101,19 +127,20 @@ public class OngoingCallService extends Service {
 
     private Timer timer;
     private TimerTask timerTask;
+
     public void startTimer() {
         timer = new Timer();
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                Log.d("AppInBackground: ",""+ counter++ );
+                Log.d("AppInBackground: ", "" + counter++);
             }
         };
         timer.schedule(timerTask, 1000, 1000);
     }
 
     public void stopTimer() {
-        if (timer!=null) {
+        if (timer != null) {
             timer.cancel();
             timer = null;
         }
