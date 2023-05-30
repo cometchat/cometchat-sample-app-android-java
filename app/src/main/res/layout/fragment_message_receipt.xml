@@ -7,29 +7,28 @@
     android:background="@color/app_background"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".fragments.shared.secondary.MessageReceiptFragment">
+    tools:context=".fragments.shared.views.MessageReceiptFragment">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Message Receipt"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textAlignment="center"
         android:padding="10dp"
-        android:textColor="@color/black"
-        />
+        android:text="Message Receipt"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/black" />
+
     <TextView
+        style="@style/TextAppearance.AppCompat.Caption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/message_receipt"
-        style="@style/TextAppearance.AppCompat.Caption"
-        android:textColor="@color/grey"
-        />
+        android:textColor="@color/grey" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,7 +57,7 @@
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
-                    <com.cometchatworkspace.components.shared.secondaryComponents.CometChatMessageReceipt
+                    <com.cometchat.chatuikit.shared.views.CometChatReceipt.CometChatReceipt
                         android:id="@+id/receiptProgress"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
@@ -67,6 +66,7 @@
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
-                    <com.cometchatworkspace.components.shared.secondaryComponents.CometChatMessageReceipt
+                    <com.cometchat.chatuikit.shared.views.CometChatReceipt.CometChatReceipt
                         android:id="@+id/receiptSent"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
@@ -98,6 +98,7 @@
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -120,7 +121,7 @@
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
-                    <com.cometchatworkspace.components.shared.secondaryComponents.CometChatMessageReceipt
+                    <com.cometchat.chatuikit.shared.views.CometChatReceipt.CometChatReceipt
                         android:id="@+id/receiptDeliver"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
@@ -129,6 +130,7 @@
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -151,7 +153,7 @@
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
-                    <com.cometchatworkspace.components.shared.secondaryComponents.CometChatMessageReceipt
+                    <com.cometchat.chatuikit.shared.views.CometChatReceipt.CometChatReceipt
                         android:id="@+id/receiptRead"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
@@ -160,6 +162,7 @@
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -182,7 +185,7 @@
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
-                    <com.cometchatworkspace.components.shared.secondaryComponents.CometChatMessageReceipt
+                    <com.cometchat.chatuikit.shared.views.CometChatReceipt.CometChatReceipt
                         android:id="@+id/receiptError"
                         android:layout_width="70dp"
                         android:layout_height="70dp"

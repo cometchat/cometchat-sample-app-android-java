@@ -44,7 +44,7 @@
                 android:layout_below="@id/tvComet"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
-                android:text="Pluto UI Kit"
+                android:text="Kitchen Sink App"
                 android:textColor="@color/colorPrimary"
                 android:textSize="42sp"
                 android:textStyle="bold" />

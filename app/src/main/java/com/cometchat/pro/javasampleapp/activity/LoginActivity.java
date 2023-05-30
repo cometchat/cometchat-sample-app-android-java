@@ -1,7 +1,5 @@
 package com.cometchat.pro.javasampleapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,11 +7,14 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.cometchat.chatuikit.shared.cometchatuikit.CometChatUIKit;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
-import com.cometchat.pro.models.User;
 import com.cometchat.pro.javasampleapp.R;
-import com.cometchat.pro.javasampleapp.AppConstants;
+import com.cometchat.pro.javasampleapp.AppUtils;
+import com.cometchat.pro.models.User;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -21,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout inputLayout;
     private ProgressBar progressBar;
     private TextInputEditText uid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,12 +60,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(String uid) {
-        CometChat.login(uid, AppConstants.AUTH_KEY, new CometChat.CallbackListener<User>() {
+        CometChatUIKit.login(uid, new CometChat.CallbackListener<User>() {
             @Override
             public void onSuccess(User user) {
                 startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                AppUtils.fetchDefaultObjects();
                 finishAffinity();
             }
+
             @Override
             public void onError(CometChatException e) {
                 inputLayout.setEndIconVisible(true);
@@ -72,7 +76,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
     public void createUser(View view) {
-        startActivity(new Intent(LoginActivity.this,CreateUserActivity.class));
+        startActivity(new Intent(LoginActivity.this, CreateUserActivity.class));
     }
 }

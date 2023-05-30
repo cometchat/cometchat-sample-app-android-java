@@ -1,21 +1,23 @@
 package com.cometchat.pro.javasampleapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
-
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.cometchat.pro.core.AppSettings;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
+
+import com.cometchat.chatuikit.shared.cometchatuikit.CometChatUIKit;
+import com.cometchat.chatuikit.shared.cometchatuikit.UIKitSettings;
+import com.cometchat.chatuikit.shared.resources.utils.Utils;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
+import com.cometchat.pro.javasampleapp.AppConstants;
+import com.cometchat.pro.javasampleapp.AppUtils;
 import com.cometchat.pro.javasampleapp.R;
 import com.cometchat.pro.models.User;
-import com.cometchat.pro.javasampleapp.AppConstants;
-import com.cometchatworkspace.resources.utils.Utils;
 import com.google.android.material.card.MaterialCardView;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,24 +37,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Utils.setStatusBarColor(this, getResources().getColor(android.R.color.white));
-        AppSettings appSettings = new AppSettings.AppSettingsBuilder().
-                subscribePresenceForAllUsers().setRegion(AppConstants.REGION).build();
-        CometChat.init(this, AppConstants.APP_ID, appSettings,
-                new CometChat.CallbackListener<String>() {
-                    @Override
-                    public void onSuccess(String s) {
-                        if (CometChat.getLoggedInUser() != null) {
-                            startActivity(new Intent(MainActivity.this, HomeActivity.class));
-                            finish();
-                        }
-                        CometChat.setSource("ui-kit", "android", "java");
-                    }
+        UIKitSettings uiKitSettings = new UIKitSettings.UIKitSettingsBuilder().setRegion(AppConstants.REGION).setAppId(AppConstants.APP_ID).setAuthKey(AppConstants.AUTH_KEY).subscribePresenceForAllUsers().build();
+        CometChatUIKit.init(this, uiKitSettings, new CometChat.CallbackListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                if (CometChatUIKit.getLoggedInUser() != null) {
+                    AppUtils.fetchDefaultObjects();
+                    startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                    finish();
+                }
+                CometChat.setSource("ui-kit", "android", "java");
+            }
 
-                    @Override
-                    public void onError(CometChatException e) {
-                        Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+            @Override
+            public void onError(CometChatException e) {
+                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
         superhero1 = findViewById(R.id.superhero1);
         superhero2 = findViewById(R.id.superhero2);
         superhero3 = findViewById(R.id.superhero3);
@@ -90,9 +91,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void login(String uid) {
-        CometChat.login(uid, AppConstants.AUTH_KEY, new CometChat.CallbackListener<User>() {
+        CometChatUIKit.login(uid, new CometChat.CallbackListener<User>() {
             @Override
             public void onSuccess(User user) {
+                AppUtils.fetchDefaultObjects();
                 startActivity(new Intent(MainActivity.this, HomeActivity.class));
                 finish();
             }
@@ -105,6 +107,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createUser(View view) {
-        startActivity(new Intent(this,CreateUserActivity.class));
+        startActivity(new Intent(this, CreateUserActivity.class));
     }
 }

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.messages.MessageListFragment">
 
-    <com.cometchatworkspace.components.messages.message_list.CometChatMessageList
+    <com.cometchat.chatuikit.messagelist.CometChatMessageList
         android:id="@+id/messageList"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

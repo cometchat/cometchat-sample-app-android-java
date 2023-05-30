@@ -47,27 +47,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <!--chats-->
-            <com.google.android.material.card.MaterialCardView
+            <!-- conversations-->
+            <LinearLayout
                 android:id="@+id/moduleChats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="10dp"
-                app:cardUseCompatPadding="true">
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:visibility="visible"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
 
                     <LinearLayout
                         android:id="@+id/conversationWithMessages"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="10dp"
                         android:layout_marginEnd="16dp"
                         android:orientation="vertical">
 
@@ -78,8 +79,8 @@
 
                             <ImageView
                                 android:layout_width="30dp"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/component1" />
+                                android:layout_height="30dp"
+                                android:src="@drawable/conversations_with_messages" />
 
                             <TextView
                                 style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
@@ -115,6 +116,16 @@
                             android:background="@color/app_background" />
 
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    android:visibility="visible"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
 
                     <LinearLayout
                         android:id="@+id/conversations"
@@ -132,8 +143,8 @@
 
                             <ImageView
                                 android:layout_width="30dp"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/component2" />
+                                android:layout_height="30dp"
+                                android:src="@drawable/conversations" />
 
                             <TextView
                                 style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
@@ -169,130 +180,30 @@
                             android:background="@color/app_background" />
 
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <LinearLayout
-                        android:id="@+id/conversationList"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="16dp"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/list" />
-
-                            <TextView
-                                style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginEnd="10dp"
-                                android:layout_weight="1"
-                                android:text="Conversation List"
-                                android:textStyle="bold" />
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
-                        </LinearLayout>
-
-                        <TextView
-                            style="@style/TextAppearance.AppCompat.Caption"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="40dp"
-                            android:layout_marginEnd="40dp"
-                            android:text="@string/component_chats_list" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="40dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="40dp"
-                            android:background="@color/app_background" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/conversationListItem"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="24dp"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/component3" />
-
-                            <TextView
-                                style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginEnd="10dp"
-                                android:layout_weight="1"
-                                android:text="Conversation List Item"
-                                android:textStyle="bold" />
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
-                        </LinearLayout>
-
-                        <TextView
-                            style="@style/TextAppearance.AppCompat.Caption"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="40dp"
-                            android:layout_marginEnd="40dp"
-                            android:text="@string/conversation_list_item" />
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
             <!--users-->
-
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:id="@+id/moduleUsers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="10dp"
-                app:cardUseCompatPadding="true">
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
 
                     <LinearLayout
                         android:id="@+id/userWithMessages"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="10dp"
                         android:layout_marginEnd="16dp"
                         android:orientation="vertical">
 
@@ -303,8 +214,8 @@
 
                             <ImageView
                                 android:layout_width="30dp"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/component1" />
+                                android:layout_height="30dp"
+                                android:src="@drawable/users_with_messages" />
 
                             <TextView
                                 style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
@@ -340,6 +251,15 @@
                             android:background="@color/app_background" />
 
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
 
                     <LinearLayout
                         android:id="@+id/users"
@@ -357,8 +277,8 @@
 
                             <ImageView
                                 android:layout_width="30dp"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/component2" />
+                                android:layout_height="30dp"
+                                android:src="@drawable/users" />
 
                             <TextView
                                 style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
@@ -394,9 +314,18 @@
                             android:background="@color/app_background" />
 
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
 
                     <LinearLayout
-                        android:id="@+id/userList"
+                        android:id="@+id/user_details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -411,8 +340,8 @@
 
                             <ImageView
                                 android:layout_width="30dp"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/list" />
+                                android:layout_height="30dp"
+                                android:src="@drawable/details" />
 
                             <TextView
                                 style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
@@ -421,7 +350,7 @@
                                 android:layout_marginStart="10dp"
                                 android:layout_marginEnd="10dp"
                                 android:layout_weight="1"
-                                android:text="User List"
+                                android:text="Details"
                                 android:textStyle="bold" />
 
                             <ImageView
@@ -437,7 +366,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="40dp"
                             android:layout_marginEnd="40dp"
-                            android:text="@string/component_users_list" />
+                            android:text="@string/component_user_details" />
 
                         <View
                             android:layout_width="match_parent"
@@ -448,76 +377,31 @@
                             android:background="@color/app_background" />
 
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <LinearLayout
-                        android:id="@+id/usersDataItem"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="24dp"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/component3" />
-
-                            <TextView
-                                style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginEnd="10dp"
-                                android:layout_weight="1"
-                                android:text="Data Item"
-                                android:textStyle="bold" />
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
-                        </LinearLayout>
-
-                        <TextView
-                            style="@style/TextAppearance.AppCompat.Caption"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="40dp"
-                            android:layout_marginEnd="40dp"
-                            android:text="@string/data_item_user" />
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
             <!--groups-->
-
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:id="@+id/noduleGroups"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="10dp"
-                app:cardUseCompatPadding="true">
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:visibility="visible"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
 
                     <LinearLayout
                         android:id="@+id/groupWithMessages"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="10dp"
                         android:layout_marginEnd="16dp"
                         android:orientation="vertical">
 
@@ -528,8 +412,8 @@
 
                             <ImageView
                                 android:layout_width="30dp"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/component1" />
+                                android:layout_height="30dp"
+                                android:src="@drawable/group_with_message" />
 
                             <TextView
                                 style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
@@ -565,6 +449,16 @@
                             android:background="@color/app_background" />
 
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    android:visibility="visible"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
 
                     <LinearLayout
                         android:id="@+id/groups"
@@ -582,8 +476,8 @@
 
                             <ImageView
                                 android:layout_width="30dp"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/component2" />
+                                android:layout_height="30dp"
+                                android:src="@drawable/group_ic" />
 
                             <TextView
                                 style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
@@ -619,9 +513,19 @@
                             android:background="@color/app_background" />
 
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    android:visibility="visible"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
 
                     <LinearLayout
-                        android:id="@+id/groupList"
+                        android:id="@+id/create_group"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -636,8 +540,8 @@
 
                             <ImageView
                                 android:layout_width="30dp"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/list" />
+                                android:layout_height="30dp"
+                                android:src="@drawable/create_group" />
 
                             <TextView
                                 style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
@@ -646,7 +550,7 @@
                                 android:layout_marginStart="10dp"
                                 android:layout_marginEnd="10dp"
                                 android:layout_weight="1"
-                                android:text="Group List"
+                                android:text="Create Group"
                                 android:textStyle="bold" />
 
                             <ImageView
@@ -662,7 +566,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="40dp"
                             android:layout_marginEnd="40dp"
-                            android:text="@string/component_groups_list" />
+                            android:text="@string/component_create_groups" />
 
                         <View
                             android:layout_width="match_parent"
@@ -673,9 +577,19 @@
                             android:background="@color/app_background" />
 
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    android:visibility="visible"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
 
                     <LinearLayout
-                        android:id="@+id/groupsDataItem"
+                        android:id="@+id/join_protected_group"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -691,8 +605,8 @@
 
                             <ImageView
                                 android:layout_width="30dp"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/component3" />
+                                android:layout_height="30dp"
+                                android:src="@drawable/lock" />
 
                             <TextView
                                 style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
@@ -701,7 +615,7 @@
                                 android:layout_marginStart="10dp"
                                 android:layout_marginEnd="10dp"
                                 android:layout_weight="1"
-                                android:text="Data Item"
+                                android:text="Join Protected Group"
                                 android:textStyle="bold" />
 
                             <ImageView
@@ -717,32 +631,312 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="40dp"
                             android:layout_marginEnd="40dp"
-                            android:text="@string/data_item_group" />
+                            android:text="@string/join_protected_group" />
                     </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-            <!--messages-->
+                </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.card.MaterialCardView
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    android:visibility="visible"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:id="@+id/group_member"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/group_ic" />
+
+                            <TextView
+                                style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:text="Group Members"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_arrow_right"
+                                app:tint="@color/black" />
+                        </LinearLayout>
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Caption"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="40dp"
+                            android:text="@string/group_member" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    android:visibility="visible"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:id="@+id/add_member"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/add_members" />
+
+                            <TextView
+                                style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:text="Add Members"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_arrow_right"
+                                app:tint="@color/black" />
+                        </LinearLayout>
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Caption"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="40dp"
+                            android:text="@string/group_member" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    android:visibility="visible"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:id="@+id/transfer_ownership"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/transfer_ownership" />
+
+                            <TextView
+                                style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:text="Transfer Ownership"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_arrow_right"
+                                app:tint="@color/black" />
+                        </LinearLayout>
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Caption"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="40dp"
+                            android:text="@string/transfer_ownership" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    android:visibility="visible"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:id="@+id/banned_members"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ban_user" />
+
+                            <TextView
+                                style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:text="Banned Members"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_arrow_right"
+                                app:tint="@color/black" />
+                        </LinearLayout>
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Caption"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="40dp"
+                            android:text="@string/banned_members_desc" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    android:visibility="visible"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:id="@+id/group_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/details" />
+
+                            <TextView
+                                style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:text="Details"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_arrow_right"
+                                app:tint="@color/black" />
+                        </LinearLayout>
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Caption"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="40dp"
+                            android:text="@string/banned_members_desc" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+            <!--messages-->
+            <LinearLayout
                 android:id="@+id/moduleMessages"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="10dp"
-                app:cardUseCompatPadding="true">
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
 
                     <LinearLayout
                         android:id="@+id/messages"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="10dp"
                         android:layout_marginEnd="16dp"
                         android:orientation="vertical">
 
@@ -753,7 +947,7 @@
 
                             <ImageView
                                 android:layout_width="30dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="30dp"
                                 android:src="@drawable/component1" />
 
                             <TextView
@@ -790,6 +984,15 @@
                             android:background="@color/app_background" />
 
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
 
                     <LinearLayout
                         android:id="@+id/messageHeader"
@@ -807,7 +1010,7 @@
 
                             <ImageView
                                 android:layout_width="30dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="30dp"
                                 android:src="@drawable/component2" />
 
                             <TextView
@@ -844,6 +1047,15 @@
                             android:background="@color/app_background" />
 
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
 
                     <LinearLayout
                         android:id="@+id/messageList"
@@ -861,7 +1073,7 @@
 
                             <ImageView
                                 android:layout_width="30dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="30dp"
                                 android:src="@drawable/list" />
 
                             <TextView
@@ -898,6 +1110,15 @@
                             android:background="@color/app_background" />
 
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
 
                     <LinearLayout
                         android:id="@+id/messageComposer"
@@ -916,7 +1137,7 @@
 
                             <ImageView
                                 android:layout_width="30dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="30dp"
                                 android:src="@drawable/component3" />
 
                             <TextView
@@ -944,24 +1165,89 @@
                             android:layout_marginEnd="40dp"
                             android:text="@string/message_composer" />
                     </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                </com.google.android.material.card.MaterialCardView>
 
+            </LinearLayout>
+            <!--calls-->
+            <LinearLayout
+                android:id="@+id/module_calls"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:id="@+id/call_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/component3" />
+
+                            <TextView
+                                style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:text="Call Button"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_arrow_right"
+                                app:tint="@color/black" />
+                        </LinearLayout>
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Caption"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="40dp"
+                            android:text="@string/call_button" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
             <!--shared-->
             <LinearLayout
                 android:id="@+id/shared"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
                 <!--PRIMARY COMPONENTS-->
                 <TextView
+                    style="@style/TextAppearance.AppCompat.Caption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Primary"
                     android:layout_marginStart="16dp"
                     android:layout_marginBottom="-10dp"
-                    style="@style/TextAppearance.AppCompat.Caption"/>
+                    android:text="Resources" />
+
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -990,17 +1276,17 @@
 
                                 <ImageView
                                     android:layout_width="30dp"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/sound_manager" />
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/audio_bubble" />
 
                                 <TextView
                                     style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_weight="1"
-                                    android:layout_gravity="center_vertical"
                                     android:text="Sound Manager"
                                     android:textStyle="bold" />
 
@@ -1028,6 +1314,7 @@
                                 android:background="@color/app_background" />
 
                         </LinearLayout>
+
                         <LinearLayout
                             android:id="@+id/theme"
                             android:layout_width="match_parent"
@@ -1043,17 +1330,17 @@
 
                                 <ImageView
                                     android:layout_width="30dp"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="30dp"
                                     android:src="@drawable/theme" />
 
                                 <TextView
                                     style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_weight="1"
-                                    android:layout_gravity="center_vertical"
                                     android:text="Theme"
                                     android:textStyle="bold" />
 
@@ -1098,20 +1385,20 @@
 
                                 <ImageView
                                     android:layout_width="30dp"
-                                    android:layout_height="match_parent"
-                                    app:tint="@color/black"
+                                    android:layout_height="30dp"
                                     android:layout_gravity="center_vertical"
-                                    android:src="@drawable/ic_translate" />
+                                    android:src="@drawable/ic_translate"
+                                    app:tint="@color/black" />
 
                                 <TextView
                                     style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_weight="1"
                                     android:text="Localize"
-                                    android:layout_gravity="center_vertical"
                                     android:textStyle="bold" />
 
                                 <ImageView
@@ -1134,140 +1421,15 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!--SDK DERIVED COMPONENTS-->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SDK Derived"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginBottom="-10dp"
-                    style="@style/TextAppearance.AppCompat.Caption"/>
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="10dp"
-                    android:visibility="visible"
-                    app:cardUseCompatPadding="true">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:id="@+id/derivedConversationListItem"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/component3" />
-
-                                <TextView
-                                    style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="10dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="Conversation List Item"
-                                    android:textStyle="bold" />
-
-                                <ImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
-                                    android:src="@drawable/ic_arrow_right"
-                                    app:tint="@color/black" />
-                            </LinearLayout>
-
-                            <TextView
-                                style="@style/TextAppearance.AppCompat.Caption"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="40dp"
-                                android:layout_marginEnd="40dp"
-                                android:text="@string/conversation_list_item" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_marginStart="40dp"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginEnd="40dp"
-                                android:background="@color/app_background" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/derivedDataItem"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginBottom="16dp"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/component3" />
-
-                                <TextView
-                                    style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="10dp"
-                                    android:layout_marginEnd="10dp"
-                                    android:layout_weight="1"
-                                    android:text="Data Item"
-                                    android:layout_gravity="center_vertical"
-                                    android:textStyle="bold" />
-
-                                <ImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
-                                    android:src="@drawable/ic_arrow_right"
-                                    app:tint="@color/black" />
-                            </LinearLayout>
-
-                            <TextView
-                                style="@style/TextAppearance.AppCompat.Caption"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="40dp"
-                                android:layout_marginEnd="40dp"
-                                android:text="@string/data_item" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
                 <!--SECONDARY COMPONENTS-->
                 <TextView
+                    style="@style/TextAppearance.AppCompat.Caption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Secondary"
                     android:layout_marginStart="16dp"
                     android:layout_marginBottom="-10dp"
-                    style="@style/TextAppearance.AppCompat.Caption"/>
+                    android:text="Views" />
+
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1303,10 +1465,10 @@
                                     style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_weight="1"
-                                    android:layout_gravity="center_vertical"
                                     android:text="Avatar"
                                     android:textStyle="bold" />
 
@@ -1334,6 +1496,7 @@
                                 android:background="@color/app_background" />
 
                         </LinearLayout>
+
                         <LinearLayout
                             android:id="@+id/badgeCount"
                             android:layout_width="match_parent"
@@ -1356,10 +1519,10 @@
                                     style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_weight="1"
-                                    android:layout_gravity="center_vertical"
                                     android:text="Badge Count"
                                     android:textStyle="bold" />
 
@@ -1387,6 +1550,7 @@
                                 android:background="@color/app_background" />
 
                         </LinearLayout>
+
                         <LinearLayout
                             android:id="@+id/messageReceipt"
                             android:layout_width="match_parent"
@@ -1409,10 +1573,10 @@
                                     style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_weight="1"
-                                    android:layout_gravity="center_vertical"
                                     android:text="Message Receipt"
                                     android:textStyle="bold" />
 
@@ -1457,18 +1621,18 @@
 
                                 <ImageView
                                     android:layout_width="30dp"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="30dp"
                                     android:src="@drawable/status_indicator" />
 
                                 <TextView
                                     style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_weight="1"
                                     android:text="Status Indicator"
-                                    android:layout_gravity="center_vertical"
                                     android:textStyle="bold" />
 
                                 <ImageView
@@ -1486,6 +1650,335 @@
                                 android:layout_marginEnd="40dp"
                                 android:text="@string/statusIndicator_description" />
 
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginStart="40dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="40dp"
+                                android:background="@color/app_background" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/text_bubble"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/text_bubble" />
+
+                                <TextView
+                                    style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_weight="1"
+                                    android:text="Text Bubble"
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_arrow_right"
+                                    app:tint="@color/black" />
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/TextAppearance.AppCompat.Caption"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="40dp"
+                                android:layout_marginEnd="40dp"
+                                android:text="@string/text_bubble" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginStart="40dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="40dp"
+                                android:background="@color/app_background" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/image_bubble"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/image_bubble" />
+
+                                <TextView
+                                    style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_weight="1"
+                                    android:text="Image Bubble"
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_arrow_right"
+                                    app:tint="@color/black" />
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/TextAppearance.AppCompat.Caption"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="40dp"
+                                android:layout_marginEnd="40dp"
+                                android:text="@string/image_bubble" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginStart="40dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="40dp"
+                                android:background="@color/app_background" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/video_bubble"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/video_bubble" />
+
+                                <TextView
+                                    style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_weight="1"
+                                    android:text="Video Bubble"
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_arrow_right"
+                                    app:tint="@color/black" />
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/TextAppearance.AppCompat.Caption"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="40dp"
+                                android:layout_marginEnd="40dp"
+                                android:text="@string/video_bubble" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginStart="40dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="40dp"
+                                android:background="@color/app_background" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/audio_bubble"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/audio_bubble" />
+
+                                <TextView
+                                    style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_weight="1"
+                                    android:text="Audio Bubble"
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_arrow_right"
+                                    app:tint="@color/black" />
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/TextAppearance.AppCompat.Caption"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="40dp"
+                                android:layout_marginEnd="40dp"
+                                android:text="@string/audio_bubble" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginStart="40dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="40dp"
+                                android:background="@color/app_background" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/files_bubble"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/file_bubble" />
+
+                                <TextView
+                                    style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_weight="1"
+                                    android:text="File Bubble"
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_arrow_right"
+                                    app:tint="@color/black" />
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/TextAppearance.AppCompat.Caption"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="40dp"
+                                android:layout_marginEnd="40dp"
+                                android:text="@string/file_bubble" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginStart="40dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="40dp"
+                                android:background="@color/app_background" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/list_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/list_item" />
+
+                                <TextView
+                                    style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_weight="1"
+                                    android:text="ListItem"
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_arrow_right"
+                                    app:tint="@color/black" />
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/TextAppearance.AppCompat.Caption"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="40dp"
+                                android:layout_marginEnd="40dp"
+                                android:text="@string/listItem" />
                         </LinearLayout>
 
                     </LinearLayout>

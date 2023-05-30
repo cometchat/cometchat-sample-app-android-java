@@ -1,19 +1,20 @@
 package com.cometchat.pro.javasampleapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+
+import com.cometchat.chatuikit.shared.cometchatuikit.CometChatUIKit;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
-import com.cometchat.pro.models.User;
 import com.cometchat.pro.javasampleapp.R;
-import com.cometchat.pro.javasampleapp.AppConstants;
+import com.cometchat.pro.javasampleapp.AppUtils;
+import com.cometchat.pro.models.User;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -22,6 +23,7 @@ public class CreateUserActivity extends AppCompatActivity {
     private TextInputEditText name;
     private AppCompatButton createUserBtn;
     private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +46,7 @@ public class CreateUserActivity extends AppCompatActivity {
                     User user = new User();
                     user.setUid(uid.getText().toString());
                     user.setName(name.getText().toString());
-                    CometChat.createUser(user, AppConstants.AUTH_KEY, new CometChat.CallbackListener<User>() {
+                    CometChatUIKit.createUser(user, new CometChat.CallbackListener<User>() {
                         @Override
                         public void onSuccess(User user) {
                             login(user);
@@ -62,9 +64,10 @@ public class CreateUserActivity extends AppCompatActivity {
     }
 
     private void login(User user) {
-        CometChat.login(user.getUid(), AppConstants.AUTH_KEY, new CometChat.CallbackListener<User>() {
+        CometChatUIKit.login(user.getUid(), new CometChat.CallbackListener<User>() {
             @Override
             public void onSuccess(User user) {
+                AppUtils.fetchDefaultObjects();
                 startActivity(new Intent(CreateUserActivity.this, HomeActivity.class));
                 finishAffinity();
             }

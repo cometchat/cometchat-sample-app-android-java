@@ -13,7 +13,6 @@ import com.cometchat.pro.javasampleapp.R;
 
 public class GroupsWithMessagesFragment extends Fragment {
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

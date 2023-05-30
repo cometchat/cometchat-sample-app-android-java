@@ -1,15 +1,15 @@
 package com.cometchat.pro.javasampleapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.cometchat.chatuikit.shared.resources.utils.Utils;
 import com.cometchat.pro.javasampleapp.R;
 import com.cometchat.pro.javasampleapp.constants.StringConstants;
-import com.cometchatworkspace.resources.utils.Utils;
 
 public class ComponentListActivity extends AppCompatActivity {
     @Override
@@ -30,6 +30,8 @@ public class ComponentListActivity extends AppCompatActivity {
                 findViewById(R.id.moduleMessages).setVisibility(View.VISIBLE);
             } else if (getIntent().getStringExtra(StringConstants.MODULE).equalsIgnoreCase(StringConstants.SHARED)) {
                 findViewById(R.id.shared).setVisibility(View.VISIBLE);
+            } else if (getIntent().getStringExtra(StringConstants.MODULE).equalsIgnoreCase(StringConstants.CALLS)) {
+                findViewById(R.id.module_calls).setVisibility(View.VISIBLE);
             }
         }
         //back
@@ -38,20 +40,22 @@ public class ComponentListActivity extends AppCompatActivity {
         //chats
         findViewById(R.id.conversationWithMessages).setOnClickListener(view -> handleIntent(R.id.conversationWithMessages));
         findViewById(R.id.conversations).setOnClickListener(view -> handleIntent(R.id.conversations));
-        findViewById(R.id.conversationList).setOnClickListener(view -> handleIntent(R.id.conversationList));
-        findViewById(R.id.conversationListItem).setOnClickListener(view -> handleIntent(R.id.conversationListItem));
 
         //users
         findViewById(R.id.userWithMessages).setOnClickListener(view -> handleIntent(R.id.userWithMessages));
         findViewById(R.id.users).setOnClickListener(view -> handleIntent(R.id.users));
-        findViewById(R.id.userList).setOnClickListener(view -> handleIntent(R.id.userList));
-        findViewById(R.id.usersDataItem).setOnClickListener(view -> handleIntent(R.id.usersDataItem));
+        findViewById(R.id.user_details).setOnClickListener(view -> handleIntent(R.id.user_details));
 
         //groups
         findViewById(R.id.groupWithMessages).setOnClickListener(view -> handleIntent(R.id.groupWithMessages));
         findViewById(R.id.groups).setOnClickListener(view -> handleIntent(R.id.groups));
-        findViewById(R.id.groupList).setOnClickListener(view -> handleIntent(R.id.groupList));
-        findViewById(R.id.groupsDataItem).setOnClickListener(view -> handleIntent(R.id.groupsDataItem));
+        findViewById(R.id.create_group).setOnClickListener(view -> handleIntent(R.id.create_group));
+        findViewById(R.id.join_protected_group).setOnClickListener(view -> handleIntent(R.id.join_protected_group));
+        findViewById(R.id.group_member).setOnClickListener(view -> handleIntent(R.id.group_member));
+        findViewById(R.id.add_member).setOnClickListener(view -> handleIntent(R.id.add_member));
+        findViewById(R.id.transfer_ownership).setOnClickListener(view -> handleIntent(R.id.transfer_ownership));
+        findViewById(R.id.banned_members).setOnClickListener(view -> handleIntent(R.id.banned_members));
+        findViewById(R.id.group_details).setOnClickListener(view -> handleIntent(R.id.group_details));
 
         //messages
         findViewById(R.id.messages).setOnClickListener(view -> handleIntent(R.id.messages));
@@ -59,19 +63,24 @@ public class ComponentListActivity extends AppCompatActivity {
         findViewById(R.id.messageHeader).setOnClickListener(view -> handleIntent(R.id.messageHeader));
         findViewById(R.id.messageComposer).setOnClickListener(view -> handleIntent(R.id.messageComposer));
 
+        //calls
+        findViewById(R.id.call_button).setOnClickListener(view -> handleIntent(R.id.call_button));
+
         //shared
 
-        //secondary
+        //views
         findViewById(R.id.avatar).setOnClickListener(view -> handleIntent(R.id.avatar));
         findViewById(R.id.badgeCount).setOnClickListener(view -> handleIntent(R.id.badgeCount));
         findViewById(R.id.messageReceipt).setOnClickListener(view -> handleIntent(R.id.messageReceipt));
         findViewById(R.id.statusIndicator).setOnClickListener(view -> handleIntent(R.id.statusIndicator));
+        findViewById(R.id.list_item).setOnClickListener(view -> handleIntent(R.id.list_item));
+        findViewById(R.id.text_bubble).setOnClickListener(view -> handleIntent(R.id.text_bubble));
+        findViewById(R.id.image_bubble).setOnClickListener(view -> handleIntent(R.id.image_bubble));
+        findViewById(R.id.video_bubble).setOnClickListener(view -> handleIntent(R.id.video_bubble));
+        findViewById(R.id.audio_bubble).setOnClickListener(view -> handleIntent(R.id.audio_bubble));
+        findViewById(R.id.files_bubble).setOnClickListener(view -> handleIntent(R.id.files_bubble));
 
-        //SDK derived
-        findViewById(R.id.derivedConversationListItem).setOnClickListener(view -> handleIntent(R.id.derivedConversationListItem));
-        findViewById(R.id.derivedDataItem).setOnClickListener(view -> handleIntent(R.id.derivedDataItem));
-
-        //primary
+        //resources
         findViewById(R.id.soundManager).setOnClickListener(view -> handleIntent(R.id.soundManager));
         findViewById(R.id.theme).setOnClickListener(view -> handleIntent(R.id.theme));
         findViewById(R.id.localize).setOnClickListener(view -> handleIntent(R.id.localize));

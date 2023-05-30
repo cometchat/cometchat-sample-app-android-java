@@ -49,12 +49,13 @@
                 android:text="Name : Iron Man"
                 />
 
-            <com.cometchatworkspace.components.shared.secondaryComponents.cometchatAvatar.CometChatAvatar
+            <com.cometchat.chatuikit.shared.views.CometChatAvatar.CometChatAvatar
                 android:id="@+id/avataricon"
                 android:layout_width="100dp"
                 android:layout_marginTop="16dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
+                app:cardElevation="0dp"
                 tools:src="@tools:sample/avatars" />
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/borderRadiusLayout"
@@ -67,6 +68,7 @@
                 app:boxCornerRadiusBottomEnd="12dp"
                 app:boxCornerRadiusBottomStart="12dp"
                 app:boxCornerRadiusTopEnd="12dp"
+                app:hintTextColor="@color/accent"
                 app:boxCornerRadiusTopStart="12dp"
                 app:boxStrokeColor="@color/secondaryTextColor"
                 app:boxStrokeWidth="1dp">
@@ -79,6 +81,7 @@
                     android:imeOptions="actionGo"
                     android:inputType="number"
                     android:maxLines="1"
+                    android:maxLength="5"
                     android:textColor="@color/primaryTextColor" />
             </com.google.android.material.textfield.TextInputLayout>
 
