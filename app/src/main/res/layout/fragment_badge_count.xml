@@ -41,7 +41,7 @@
                 android:textColor="@color/grey"
                 android:text="@string/badgeCount_description" />
 
-            <com.cometchatworkspace.components.shared.secondaryComponents.cometchatBadgeCount.CometChatBadgeCount
+            <com.cometchat.chatuikit.shared.views.CometChatBadge.CometChatBadge
                 android:id="@+id/badgeCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

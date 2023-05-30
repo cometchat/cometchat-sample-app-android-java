@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.users.UsersFragment">
 
-    <com.cometchatworkspace.components.users.CometChatUsers
+    <com.cometchat.chatuikit.users.CometChatUsers
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/users"/>

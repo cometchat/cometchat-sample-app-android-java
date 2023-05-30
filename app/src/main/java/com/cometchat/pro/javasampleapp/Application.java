@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.cometchat.chatuikit.shared.resources.utils.Utils;
 import com.cometchat.pro.core.CometChat;
 
 

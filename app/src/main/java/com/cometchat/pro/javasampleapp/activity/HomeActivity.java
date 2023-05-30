@@ -5,11 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.cometchat.chatuikit.shared.resources.utils.Utils;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.javasampleapp.R;
 import com.cometchat.pro.javasampleapp.constants.StringConstants;
-import com.cometchatworkspace.resources.utils.Utils;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -25,6 +25,7 @@ public class HomeActivity extends AppCompatActivity {
         findViewById(R.id.groups).setOnClickListener(view -> handleIntent(StringConstants.GROUPS));
         findViewById(R.id.messages).setOnClickListener(view -> handleIntent(StringConstants.MESSAGES));
         findViewById(R.id.shared).setOnClickListener(view -> handleIntent(StringConstants.SHARED));
+        findViewById(R.id.calls).setOnClickListener(view -> handleIntent(StringConstants.CALLS));
 
         findViewById(R.id.logout).setOnClickListener(view -> CometChat.logout(new CometChat.CallbackListener<String>() {
             @Override

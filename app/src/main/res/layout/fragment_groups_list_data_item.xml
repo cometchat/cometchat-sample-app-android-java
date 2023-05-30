@@ -1,88 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_background"
-    tools:context=".fragments.groups.GroupListDataItemFragment">
+    tools:context=".fragments.groups.GroupDetailsFragment">
 
 
-    <com.google.android.material.card.MaterialCardView
+    <com.cometchat.chatuikit.details.CometChatDetails
+        android:id="@+id/group_details"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="10dp"
-        app:cardUseCompatPadding="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Data Item (Group)"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/primaryTextColor"
-                android:textStyle="bold" />
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Caption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/data_item_group"
-                android:textColor="@color/grey" />
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Caption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Public Group"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <com.cometchatworkspace.components.shared.sdkDerivedComponents.cometchatDataItem.CometChatDataItem
-                android:id="@+id/publicGroup"
-                android:layout_width="match_parent"
-                android:layout_height="70dp" />
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Caption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Protected Group"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <com.cometchatworkspace.components.shared.sdkDerivedComponents.cometchatDataItem.CometChatDataItem
-                android:id="@+id/protectedGroup"
-                android:layout_width="match_parent"
-                android:layout_height="70dp" />
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Caption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Private Group"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <com.cometchatworkspace.components.shared.sdkDerivedComponents.cometchatDataItem.CometChatDataItem
-                android:id="@+id/privateGroup"
-                android:layout_width="match_parent"
-                android:layout_height="70dp" />
-        </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
+        android:layout_height="match_parent" />
 
 
 </RelativeLayout>

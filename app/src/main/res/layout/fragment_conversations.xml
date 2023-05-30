@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.conversations.ConversationsFragment">
 
-    <com.cometchatworkspace.components.chats.CometChatConversations
+    <com.cometchat.chatuikit.conversations.CometChatConversations
         android:id="@+id/conversationWithMessages"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

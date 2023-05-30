@@ -35,7 +35,7 @@
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:id="@+id/localizeOverview"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/localize_english_overview"

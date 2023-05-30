@@ -1,0 +1,62 @@
+package com.cometchat.pro.javasampleapp.fragments.shared.views;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+
+import com.cometchat.chatuikit.shared.cometchatuikit.CometChatUIKit;
+import com.cometchat.chatuikit.shared.resources.theme.CometChatTheme;
+import com.cometchat.chatuikit.shared.utils.ConversationTailView;
+import com.cometchat.chatuikit.shared.views.CometChatAvatar.AvatarStyle;
+import com.cometchat.chatuikit.shared.views.CometChatBadge.BadgeStyle;
+import com.cometchat.chatuikit.shared.views.CometChatDate.DateStyle;
+import com.cometchat.chatuikit.shared.views.CometChatDate.Pattern;
+import com.cometchat.chatuikit.shared.views.CometChatListItem.CometChatListItem;
+import com.cometchat.pro.core.CometChat;
+import com.cometchat.pro.javasampleapp.R;
+
+
+public class ListItemFragment extends Fragment {
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_data_item, container, false);
+        CometChatTheme theme = CometChatTheme.getInstance(getContext());
+        CometChatListItem groupListItem = view.findViewById(R.id.group_list_item);
+        groupListItem.setTitle("Superhero");
+        groupListItem.setSubtitleView(getTextView("8 members"));
+        groupListItem.setAvatar(null, "Superhero");
+        groupListItem.setAvatarStyle(new AvatarStyle().setInnerBackgroundColor(getResources().getColor(R.color.black)));
+        groupListItem.hideStatusIndicator(true);
+
+        String name = CometChatUIKit.getLoggedInUser().getName();
+        CometChatListItem userListItem = view.findViewById(R.id.user_list_Item);
+        userListItem.setAvatar(CometChatUIKit.getLoggedInUser().getAvatar(), name);
+        userListItem.setSubtitleView(getTextView(CometChatUIKit.getLoggedInUser().getStatus()));
+        userListItem.setTitle(name);
+        userListItem.setStatusIndicatorColor(getResources().getColor(com.cometchat.chatuikit.R.color.online_green));
+
+        CometChatListItem conversationListItem = view.findViewById(R.id.conversation_list_item);
+        ConversationTailView tailView = new ConversationTailView(getContext());
+        tailView.setBadgeCount(100);
+        tailView.getBadge().setStyle(new BadgeStyle().setTextColor(theme.getPalette().getAccent()).setBackground(theme.getPalette().getPrimary()).setCornerRadius(100));
+        tailView.getDate().setDate(System.currentTimeMillis() / 1000, Pattern.DAY_DATE_TIME);
+        tailView.getDate().setStyle(new DateStyle().setTextAppearance(theme.getTypography().getSubtitle1()).setTextColor(theme.getPalette().getAccent600()));
+        conversationListItem.setTitle(name);
+        conversationListItem.setAvatar(CometChatUIKit.getLoggedInUser().getAvatar(), name);
+        conversationListItem.setTailView(tailView);
+        conversationListItem.setSubtitleView(getTextView("Hey, How are you?"));
+        conversationListItem.setStatusIndicatorColor(getResources().getColor(com.cometchat.chatuikit.R.color.online_green));
+        return view;
+    }
+
+    private View getTextView(String name) {
+        TextView textView = new TextView(getContext());
+        textView.setText(name);
+        return textView;
+    }
+}

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_background"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.shared.sdk_derived.DataItemFragment">
+    tools:context=".fragments.shared.views.ListItemFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Data Item"
+                android:text="List Item"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/primaryTextColor"
                 android:textStyle="bold" />
@@ -48,8 +48,8 @@
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
-            <com.cometchatworkspace.components.shared.sdkDerivedComponents.cometchatDataItem.CometChatDataItem
-                android:id="@+id/groupsDataItem"
+            <com.cometchat.chatuikit.shared.views.CometChatListItem.CometChatListItem
+                android:id="@+id/group_list_item"
                 android:layout_width="match_parent"
                 android:layout_height="70dp" />
 
@@ -62,8 +62,22 @@
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
-            <com.cometchatworkspace.components.shared.sdkDerivedComponents.cometchatDataItem.CometChatDataItem
-                android:id="@+id/usersDataItem"
+            <com.cometchat.chatuikit.shared.views.CometChatListItem.CometChatListItem
+                android:id="@+id/user_list_Item"
+                android:layout_width="match_parent"
+                android:layout_height="70dp" />
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Conversation"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <com.cometchat.chatuikit.shared.views.CometChatListItem.CometChatListItem
+                android:id="@+id/conversation_list_item"
                 android:layout_width="match_parent"
                 android:layout_height="70dp" />
 

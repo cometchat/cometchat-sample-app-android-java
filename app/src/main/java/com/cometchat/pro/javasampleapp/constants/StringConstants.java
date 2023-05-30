@@ -8,6 +8,7 @@ public class StringConstants {
     public static final String GROUPS="Groups";
     public static final String MESSAGES="Messages";
     public static final String SHARED="Shared";
+    public static final String CALLS="Calls";
 
 
 }

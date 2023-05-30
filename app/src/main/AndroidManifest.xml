@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.cometchat.pro.javasampleapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:name="com.cometchat.pro.javasampleapp.Application"
         android:allowBackup="true"
@@ -14,29 +19,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PlutoUiKitSampleApp"
+        tools:replace="android:theme"
         tools:targetApi="31">
         <activity
-            android:name="com.cometchat.pro.javasampleapp.activity.CreateUserActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
-        <activity
-            android:name="com.cometchat.pro.javasampleapp.activity.ComponentLaunchActivity"
+            android:name=".activity.CreateUserActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.cometchat.pro.javasampleapp.activity.ComponentListActivity"
+            android:name=".activity.ComponentLaunchActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.cometchat.pro.javasampleapp.activity.LoginActivity"
+            android:name=".activity.ComponentListActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.cometchat.pro.javasampleapp.activity.HomeActivity"
+            android:name=".activity.LoginActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.cometchat.pro.javasampleapp.activity.MainActivity"
+            android:name=".activity.HomeActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>

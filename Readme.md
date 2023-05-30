@@ -29,9 +29,9 @@ Before you begin, ensure you have met the following requirements:<br/>
 
 <hr/>
 
-## Installing Android Java Chat Pluto UI Kit :wrench:
+## Installing Android Java Chat UI Kit :wrench:
 
-Simply clone the project from [android-java-chat-pluto-uikit](https://github.com/cometchat-pro/android-java-chat-ui-kit/tree/pluto) repository.
+Simply clone the project from [android-java-chat-app](https://github.com/cometchat-pro-samples/android-java-chat-app/) repository.
 
 
 ### Running the sample app
@@ -54,13 +54,13 @@ Build and run the Sample App.
 
 # Learn more about UI-Kit
 
-Learn more about how to integrate [Pluto UI Kit](https://www.cometchat.com/docs/java-uikit-beta/integration) inside your app.
+Learn more about how to integrate [UI Kit](https://www.cometchat.com/docs/java-uikit-beta/integration) inside your app.
 <br/>
 <hr/>
 
 ## Troubleshooting
 
-- To read the full documentation on UI Kit integration visit our [Documentation](https://www.cometchat.com/docs/pluto-java-beta/overview)  .
+- To read the full documentation on UI Kit integration visit our [Documentation](https://www.cometchat.com/docs/java-uikit-beta/integration)  .
 
 - Facing any issues while integrating or installing the UI Kit please <a href="https://app.cometchat.io/"> connect with us via real time support present in CometChat Dashboard.</a>.
 
@@ -73,6 +73,8 @@ Thanks to the following people who have contributed to this project:
 
 [👨‍💻 @vivekprajapati 💻](https://github.com/vivekCometChat)
 
+[Contribution guidelines for this project]()
+
 ---
 
 ## :mailbox: Contact
@@ -80,5 +82,9 @@ Thanks to the following people who have contributed to this project:
 Contact us via real time support present in [CometChat Dashboard.](https://app.cometchat.io/)
 
 ---
+
+## License
+
+This project uses the following license: [License.md](LICENSE).
 
 

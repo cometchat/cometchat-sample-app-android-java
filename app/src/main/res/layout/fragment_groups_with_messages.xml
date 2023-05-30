@@ -5,9 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".fragments.groups.GroupsWithMessagesFragment">
 
-    <com.cometchatworkspace.components.groups.CometChatGroupsWithMessages
+    <com.cometchat.chatuikit.groupswithmessages.CometChatGroupsWithMessages
+        android:id="@+id/groupWithMessages"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/groupWithMessages"/>
+        android:layout_height="match_parent" />
 
 </FrameLayout>

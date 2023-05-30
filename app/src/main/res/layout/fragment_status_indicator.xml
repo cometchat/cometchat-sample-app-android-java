@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:background="@color/app_background"
+    android:gravity="center"
     android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
@@ -13,15 +12,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:cardCornerRadius="16dp"
-        app:cardUseCompatPadding="true"
-        app:cardElevation="10dp">
+        app:cardElevation="10dp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="16dp"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -33,21 +31,21 @@
                 android:textStyle="bold" />
 
             <TextView
+                style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                style="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/grey"
-                android:text="@string/statusIndicator_description" />
+                android:text="@string/statusIndicator_description"
+                android:textColor="@color/grey" />
 
-            <com.cometchatworkspace.components.shared.secondaryComponents.cometchatStatusIndicator.CometChatStatusIndicator
+            <com.cometchat.chatuikit.shared.views.CometChatStatusIndicator.CometChatStatusIndicator
                 android:id="@+id/statusIndicator"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                app:cardCornerRadius="100dp"
-                android:layout_margin="10dp"
                 android:layout_gravity="center"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="100dp"
                 app:user_status="@string/online" />
 
             <LinearLayout
