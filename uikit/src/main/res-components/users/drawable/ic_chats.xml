@@ -1,6 +1,0 @@
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-<!--  <item android:drawable="@drawable/ic_chats_selected"-->
-<!--      android:state_checked="true"/>-->
-  <item android:drawable="@drawable/ic_chats_unselected"
-      android:state_checked="false"/>
-</selector>
