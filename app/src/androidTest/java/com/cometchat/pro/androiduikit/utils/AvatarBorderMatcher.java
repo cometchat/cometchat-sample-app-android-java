@@ -46,9 +46,9 @@ public class AvatarBorderMatcher extends TypeSafeMatcher<View> {
             return false;
         }
         CometChatAvatar avatarA = new CometChatAvatar(context);
-        avatarA.setImageDrawable(imageView.getDrawable());
+        avatarA.setDrawable(imageView.getDrawable());
         CometChatAvatar avatarB = new CometChatAvatar(context);
-        avatarB.setImageDrawable(expectedDrawable);
+        avatarB.setDrawable(expectedDrawable);
         return avatarA.getBorderWidth()==avatarB.getBorderWidth()?true:false;
     }
 
