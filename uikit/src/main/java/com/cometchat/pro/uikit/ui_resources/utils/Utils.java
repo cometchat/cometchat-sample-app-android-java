@@ -674,7 +674,7 @@ public class Utils {
 //            String var1 = Environment.getExternalStorageDirectory() + "/" + context.getResources().getString(R.string.app_name) + "/"
 //                    + "audio/";
         createDirectory(dir);
-        return dir + (new SimpleDateFormat("yyyyMMddHHmmss")).format(new Date()) + ".mp3";
+        return dir + (new SimpleDateFormat("yyyyMMddHHmmss")).format(new Date()) + ".m4a";
 
     }
 
