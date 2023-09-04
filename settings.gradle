@@ -13,9 +13,6 @@ dependencyResolutionManagement {
         maven{
             url "https://dl.cloudsmith.io/public/cometchat/cometchat/maven/"
         }
-        maven {
-            url "https://dl.cloudsmith.io/public/cometchat/cometchat-pro-android/maven/"
-        }
     }
 }
 rootProject.name = "PlutoUiKitSampleApp"

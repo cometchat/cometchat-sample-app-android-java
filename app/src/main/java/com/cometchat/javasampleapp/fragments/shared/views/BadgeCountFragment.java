@@ -1,15 +1,19 @@
 package com.cometchat.javasampleapp.fragments.shared.views;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.cometchat.chatuikit.shared.views.CometChatBadge.CometChatBadge;
+import com.cometchat.javasampleapp.AppUtils;
 import com.cometchat.javasampleapp.R;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -21,6 +25,7 @@ public class BadgeCountFragment extends Fragment {
     private int count = 1;
     private TextInputLayout badgeCountLayout;
     private TextInputEditText badgeCountEdt;
+    private LinearLayout parentView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,7 +40,7 @@ public class BadgeCountFragment extends Fragment {
         CometChatBadge badgeCount = view.findViewById(R.id.badgeCount);
         badgeCountLayout = view.findViewById(R.id.badgeCountLayout);
         badgeCountEdt = view.findViewById(R.id.badgeCountEdt);
-
+        parentView = view.findViewById(R.id.parent_view);
         badgeCountEdt.setText(String.valueOf(1));
         badgeCountEdt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -94,9 +99,24 @@ public class BadgeCountFragment extends Fragment {
                 badgeCount.setBackground(getResources().getColor(R.color.violet));
             }
         });
-
+        setUpUI(view);
         return view;
     }
 
+    private void setUpUI(View view) {
+        if (AppUtils.isNightMode(getContext())) {
+            AppUtils.changeTextColorToWhite(getContext(),view.findViewById(R.id.badge_count_text_desc));
+            AppUtils.changeTextColorToWhite(getContext(),view.findViewById(R.id.badge_count_text));
+            badgeCountLayout.setBoxStrokeColorStateList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+            badgeCountLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+            badgeCountLayout.getEditText().setTextColor(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+            parentView.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.app_background_dark)));
+        } else {
+            AppUtils.changeTextColorToBlack(getContext(),view.findViewById(R.id.avatar_text));
+            AppUtils.changeTextColorToBlack(getContext(),view.findViewById(R.id.avatar_text_toggle));
+            AppUtils.changeTextColorToBlack(getContext(),view.findViewById(R.id.loggedInUserName));
+            parentView.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.app_background)));
+        }
+    }
 
 }

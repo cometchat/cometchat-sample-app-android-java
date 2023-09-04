@@ -9,10 +9,10 @@
   <p align="left">
     CometChat Kitchen Sink Sample App (built using <b>CometChat UI Kits</b>) is a fully functional real-time messaging app capable of private (one-on-one), group messaging, voice & video calling.
     <br />
-    <a href="https://www.cometchat.com/docs/android-v4-uikit/overview"><strong>Explore the docs »</strong></a>
+    <a href="https://www.cometchat.com/docs/java-uikit-beta/overview"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/cometchat-pro/cometchat-chat-sample-app-android-java/issues">Report Bug</a>
+    <a href="https://github.com/cometchat-pro/android-java-chat-app/issues">Report Bug</a>
   </p>
 </p>
 
@@ -74,13 +74,13 @@ Simply clone or fork this repo and run it using the instructions below to see al
 1. Clone the repo
 
    ```sh
-   git clone https://github.com/cometchat-pro/cometchat-chat-sample-app-android-java.git
+   git clone https://github.com/cometchat-pro/android-java-chat-app.git
    ```
 
 2. Change to the working directory
 
    ```sh
-   cd cometchat-chat-sample-app-android-java
+   cd android-java-chat-app
    ```
 
 3. Change the Branch
@@ -89,7 +89,7 @@ Simply clone or fork this repo and run it using the instructions below to see al
    git checkout v4
    ```
 
-4. Replace `APP_ID`, `REGION`, and `AUTH_KEY` with your CometChat `App ID`, `Region`, and `Auth Key` in `AppConstants.java` file.
+4. Replace `APP_ID`, `REGION` and `AUTH_KEY` with your CometChat `App ID`, `Region` and `Auth Key` in `AppConstants.java` file.
 
    ![Replacing constants in AppConstants.java](./Screenshots/credentials.png "Replacing constants in AppConstants.java")
 
@@ -97,34 +97,35 @@ Simply clone or fork this repo and run it using the instructions below to see al
 
 ## Usage
 
-This app contains all features offered by CometChat through its UI Kit. [Read more about the Android UI Kit here.](https://www.cometchat.com/docs/android-v4-uikit/overview)
+This app contains all features offered by CometChat through its UI Kit. [Read more about the Android chat UI Kit here.](https://www.cometchat.com/docs/java-uikit-beta/overview)
 
 ### Run project locally
 
 - Open the project in Android Studio.
 
+   - Modify `APP_ID` and `AUTH_KEY` and `REGION` with your own .
    - Build and run the Sample App.
    -  Select demo users or enter the **UID** at the time of login once the app is launched.
 
-To learn about Android UI Kit Integration, please [click here](https://www.cometchat.com/docs/android-v4-uikit/integration).
+To learn about Android UI Kit Integration, please [click here](https://www.cometchat.com/docs/java-uikit-beta/integration).
 
 ## Help
 
-To learn more about our UI kits, visit our [documentation](https://www.cometchat.com/docs/v4-uikits).
+To learn more about our UI kits, visit our [documentation](https://www.cometchat.com/docs/java-uikit-beta/overview).
 
-If you are still facing issues while running this project or integrating with our UI Kits, please connect with our real-time support via the [CometChat Dashboard](https://app.cometchat.com/).
+If you are still facing issues while running this project or integrating with our UI Kits, please connect with our real time support via the [CometChat Dashboard](https://app.cometchat.com/).
 
 <!-- CONTRIBUTING -->
 
 ## Contributing
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**. Sincere thanks to all our [contributors](https://github.com/cometchat-pro/android-java-chat-app/graphs/contributors)!
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**. Sincere thanks to all our [contributors](https://github.com/cometchat-pro/android-java-chat-app/graphs/contributors)!
 
 You are requested to follow the contribution guidelines specified in [CONTRIBUTING.md](./CONTRIBUTING.md) while contributing to the project :smile:.
 
 ## Support
 
-Please connect with our real-time support via the [CometChat Dashboard](https://app.cometchat.com/).
+Please connect with our real time support via the [CometChat Dashboard](https://app.cometchat.com/).
 
 <!-- LICENSE -->
 
@@ -134,8 +135,8 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 ## About Authors
 
-`cometchat-chat-sample-app-android-java` is created & maintained by CometChat.
+`android-java-chat-app` is created & maintained by CometChat.
 
 The names and logos for CometChat are trademarks of CometChat, Inc.
 
-We love open-source software! See [our other projects](https://github.com/cometchat-pro) or [sign up with us](https://app.cometchat.com) to start using our product.
+We love open source software! See [our other projects](https://github.com/cometchat-pro) or [sign up with us](https://app.cometchat.com) to start using our product.

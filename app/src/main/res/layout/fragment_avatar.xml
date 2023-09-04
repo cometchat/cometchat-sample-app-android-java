@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@color/app_background"
     android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
@@ -23,40 +23,41 @@
             android:padding="8dp">
 
             <TextView
+                android:id="@+id/avatar_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Avatar"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textStyle="bold"
                 android:textColor="@color/black"
-                />
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/avatar_text_description"
+                style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                style="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/grey"
-                android:text="@string/avatar_description" />
+                android:text="@string/avatar_description"
+                android:textColor="@color/grey" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/loggedInUserName"
                 style="@style/TextAppearance.AppCompat.Body1"
-                android:text="Name : Iron Man"
-                />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name : Iron Man" />
 
             <com.cometchat.chatuikit.shared.views.CometChatAvatar.CometChatAvatar
                 android:id="@+id/avataricon"
                 android:layout_width="100dp"
-                android:layout_marginTop="16dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="16dp"
                 app:cardElevation="0dp"
                 tools:src="@tools:sample/avatars" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/borderRadiusLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -68,10 +69,10 @@
                 app:boxCornerRadiusBottomEnd="12dp"
                 app:boxCornerRadiusBottomStart="12dp"
                 app:boxCornerRadiusTopEnd="12dp"
-                app:hintTextColor="@color/accent"
                 app:boxCornerRadiusTopStart="12dp"
                 app:boxStrokeColor="@color/secondaryTextColor"
-                app:boxStrokeWidth="1dp">
+                app:boxStrokeWidth="1dp"
+                app:hintTextColor="@color/accent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/borderRadius"
@@ -80,8 +81,8 @@
                     android:background="@null"
                     android:imeOptions="actionGo"
                     android:inputType="number"
-                    android:maxLines="1"
                     android:maxLength="5"
+                    android:maxLines="1"
                     android:textColor="@color/primaryTextColor" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,6 +94,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/avatar_text_toggle"
                     style="@style/TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

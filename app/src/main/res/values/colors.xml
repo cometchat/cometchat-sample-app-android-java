@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primaryTextColor">#FF000000</color>
     <color name="app_background">#efeef3</color>
+    <color name="app_background_dark">#000000</color>
     <!--Used in color palette-->
     <color name="colorPrimaryDark">#006ccb</color>
     <color name="red">#F44336</color>

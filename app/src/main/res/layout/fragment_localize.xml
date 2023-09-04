@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background"
+    android:id="@+id/parent_view"
     android:gravity="center">
 
 
@@ -23,12 +23,12 @@
             android:padding="8dp">
 
             <TextView
+                android:id="@+id/localize_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Localize"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <TextView

@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/parent_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -80,6 +81,7 @@
                     android:imeOptions="actionDone"
                     android:inputType="text"
                     android:maxLines="1"
+                    android:layout_marginTop="10dp"
                     android:padding="16dp"
                     android:textColor="@color/primaryTextColor" />
             </com.google.android.material.textfield.TextInputLayout>

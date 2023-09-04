@@ -9,9 +9,9 @@
     tools:ignore="MissingDefaultResource">
 
     <RelativeLayout
+        android:id="@+id/parent_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
 
         <TextView
             android:id="@+id/tvTitle"
@@ -81,10 +81,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:padding="16dp"
                     android:imeOptions="actionDone"
                     android:inputType="text"
                     android:maxLines="1"
+                    android:padding="16dp"
                     android:textColor="@color/primaryTextColor" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -113,8 +113,8 @@
                     android:background="@null"
                     android:imeOptions="actionDone"
                     android:inputType="text"
-                    android:padding="16dp"
                     android:maxLines="1"
+                    android:padding="16dp"
                     android:textColor="@color/primaryTextColor" />
             </com.google.android.material.textfield.TextInputLayout>
 

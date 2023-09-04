@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background"
+    android:id="@+id/parent_view"
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".fragments.shared.views.MessageReceiptFragment">
 
     <TextView
+        android:id="@+id/message_receipt_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
@@ -19,6 +20,7 @@
         android:textColor="@color/black" />
 
     <TextView
+        android:id="@+id/message_receipt_text_desc"
         style="@style/TextAppearance.AppCompat.Caption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,6 +50,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/progress_text"
                         style="@style/TextAppearance.AppCompat.Caption"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -80,6 +83,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/sent_text"
                         style="@style/TextAppearance.AppCompat.Caption"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -112,6 +116,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/deliver_text"
                         style="@style/TextAppearance.AppCompat.Caption"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -144,6 +149,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/read_text"
                         style="@style/TextAppearance.AppCompat.Caption"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -176,6 +182,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/error_text"
                         style="@style/TextAppearance.AppCompat.Caption"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

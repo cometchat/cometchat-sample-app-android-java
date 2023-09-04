@@ -13,7 +13,7 @@ import com.cometchat.chatuikit.shared.cometchatuikit.CometChatUIKit;
 import com.cometchat.chatuikit.shared.models.CometChatDetailsOption;
 import com.cometchat.chatuikit.shared.models.CometChatDetailsTemplate;
 import com.cometchat.chatuikit.shared.utils.DetailsUtils;
-import com.cometchat.pro.core.CometChat;
+import com.cometchat.chat.core.CometChat;
 import com.cometchat.javasampleapp.R;
 
 import java.util.List;
