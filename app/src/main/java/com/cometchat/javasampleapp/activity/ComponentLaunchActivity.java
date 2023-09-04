@@ -1,13 +1,19 @@
 package com.cometchat.javasampleapp.activity;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.cometchat.chatuikit.shared.resources.utils.Utils;
+import com.cometchat.javasampleapp.AppUtils;
 import com.cometchat.javasampleapp.R;
 import com.cometchat.javasampleapp.fragments.calls.CallButtonFragment;
+import com.cometchat.javasampleapp.fragments.conversations.ContactsFragment;
 import com.cometchat.javasampleapp.fragments.conversations.ConversationsFragment;
 import com.cometchat.javasampleapp.fragments.conversations.ConversationsWithMessagesFragment;
 import com.cometchat.javasampleapp.fragments.groups.AddMemberFragment;
@@ -21,6 +27,7 @@ import com.cometchat.javasampleapp.fragments.groups.JoinProtectedGroupFragment;
 import com.cometchat.javasampleapp.fragments.groups.TransferOwnershipFragment;
 import com.cometchat.javasampleapp.fragments.messages.MessageComposerFragment;
 import com.cometchat.javasampleapp.fragments.messages.MessageHeaderFragment;
+import com.cometchat.javasampleapp.fragments.messages.MessageInformationFragment;
 import com.cometchat.javasampleapp.fragments.messages.MessageListFragment;
 import com.cometchat.javasampleapp.fragments.messages.MessagesFragment;
 import com.cometchat.javasampleapp.fragments.shared.resources.LocalizeFragment;
@@ -32,6 +39,7 @@ import com.cometchat.javasampleapp.fragments.shared.views.BadgeCountFragment;
 import com.cometchat.javasampleapp.fragments.shared.views.FileBubbleFragment;
 import com.cometchat.javasampleapp.fragments.shared.views.ImageBubbleFragment;
 import com.cometchat.javasampleapp.fragments.shared.views.ListItemFragment;
+import com.cometchat.javasampleapp.fragments.shared.views.MediaRecorderFragment;
 import com.cometchat.javasampleapp.fragments.shared.views.MessageReceiptFragment;
 import com.cometchat.javasampleapp.fragments.shared.views.StatusIndicatorFragment;
 import com.cometchat.javasampleapp.fragments.shared.views.TextBubbleFragment;
@@ -41,14 +49,14 @@ import com.cometchat.javasampleapp.fragments.users.UsersFragment;
 import com.cometchat.javasampleapp.fragments.users.UsersWithMessagesFragment;
 
 public class ComponentLaunchActivity extends AppCompatActivity {
-
+    private LinearLayout parentView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_component_launch);
-        Utils.setStatusBarColor(this, getResources().getColor(R.color.app_background));
         int id = getIntent().getIntExtra("component", 0);
-
+        parentView = findViewById(R.id.container);
+        setUpUI();
         if (id == R.id.conversationWithMessages) {
             loadFragment(new ConversationsWithMessagesFragment());
         } else if (id == R.id.conversations) {
@@ -113,6 +121,21 @@ public class ComponentLaunchActivity extends AppCompatActivity {
             loadFragment(new AudioBubbleFragment());
         } else if (id == R.id.files_bubble) {
             loadFragment(new FileBubbleFragment());
+        } else if (id == R.id.media_recorder) {
+            loadFragment(new MediaRecorderFragment());
+        } else if (id == R.id.contacts) {
+            loadFragment(new ContactsFragment());
+        }else if (id == R.id.messageInformation) {
+            loadFragment(new MessageInformationFragment());
+        }
+    }
+    private void setUpUI() {
+        if(AppUtils.isNightMode(this)){
+            Utils.setStatusBarColor(this, ContextCompat.getColor(this,R.color.app_background_dark));
+            parentView.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this,R.color.app_background_dark)));
+        }else {
+            Utils.setStatusBarColor(this, getResources().getColor(R.color.app_background));
+            parentView.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.app_background)));
         }
     }
 

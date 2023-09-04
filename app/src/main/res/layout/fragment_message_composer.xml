@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="bottom"
-    android:background="@color/app_background"
+    android:id="@+id/parent_view"
     tools:context=".fragments.messages.MessageComposerFragment">
 
     <com.cometchat.chatuikit.messagecomposer.CometChatMessageComposer

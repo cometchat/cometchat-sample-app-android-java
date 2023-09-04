@@ -1,11 +1,14 @@
 package com.cometchat.javasampleapp.fragments.shared.views;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.cometchat.chatuikit.shared.cometchatuikit.CometChatUIKit;
@@ -16,21 +19,22 @@ import com.cometchat.chatuikit.shared.views.CometChatBadge.BadgeStyle;
 import com.cometchat.chatuikit.shared.views.CometChatDate.DateStyle;
 import com.cometchat.chatuikit.shared.views.CometChatDate.Pattern;
 import com.cometchat.chatuikit.shared.views.CometChatListItem.CometChatListItem;
-import com.cometchat.pro.core.CometChat;
+import com.cometchat.chat.core.CometChat;
+import com.cometchat.javasampleapp.AppUtils;
 import com.cometchat.javasampleapp.R;
 
 
 public class ListItemFragment extends Fragment {
-
+    private LinearLayout parentView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_data_item, container, false);
+        parentView=view.findViewById(R.id.parent_view);
         CometChatTheme theme = CometChatTheme.getInstance(getContext());
         CometChatListItem groupListItem = view.findViewById(R.id.group_list_item);
         groupListItem.setTitle("Superhero");
         groupListItem.setSubtitleView(getTextView("8 members"));
-        groupListItem.setAvatar(null, "Superhero");
-        groupListItem.setAvatarStyle(new AvatarStyle().setInnerBackgroundColor(getResources().getColor(R.color.black)));
+        groupListItem.setAvatar("https://data-us.cometchat.io/2379614bd4db65dd/media/1682517838_2050398854_08d684e835e3c003f70f2478f937ed57.jpeg", "Superhero");
         groupListItem.hideStatusIndicator(true);
 
         String name = CometChatUIKit.getLoggedInUser().getName();
@@ -51,6 +55,7 @@ public class ListItemFragment extends Fragment {
         conversationListItem.setTailView(tailView);
         conversationListItem.setSubtitleView(getTextView("Hey, How are you?"));
         conversationListItem.setStatusIndicatorColor(getResources().getColor(com.cometchat.chatuikit.R.color.online_green));
+        setUpUI(view);
         return view;
     }
 
@@ -58,5 +63,22 @@ public class ListItemFragment extends Fragment {
         TextView textView = new TextView(getContext());
         textView.setText(name);
         return textView;
+    }
+
+    private void setUpUI(View view) {
+        if (AppUtils.isNightMode(getContext())) {
+            AppUtils.changeTextColorToWhite(getContext(),view.findViewById(R.id.conversation));
+            AppUtils.changeTextColorToWhite(getContext(),view.findViewById(R.id.group));
+            AppUtils.changeTextColorToWhite(getContext(),view.findViewById(R.id.user));
+            AppUtils.changeTextColorToWhite(getContext(),view.findViewById(R.id.list_item));
+            AppUtils.changeTextColorToWhite(getContext(),view.findViewById(R.id.list_item_desc));
+            parentView.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.app_background_dark)));
+        } else {
+            AppUtils.changeTextColorToBlack(getContext(),view.findViewById(R.id.conversation));
+            AppUtils.changeTextColorToBlack(getContext(),view.findViewById(R.id.group));
+            AppUtils.changeTextColorToBlack(getContext(),view.findViewById(R.id.user));
+            AppUtils.changeTextColorToBlack(getContext(),view.findViewById(R.id.list_item));
+            parentView.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.app_background)));
+        }
     }
 }

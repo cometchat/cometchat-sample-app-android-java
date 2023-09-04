@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background"
+    android:id="@+id/parent_view"
     android:orientation="vertical"
     tools:context=".activity.ComponentListActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginEnd="10dp"
+        android:padding="10dp"
+        android:layout_marginBottom="-10dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -23,7 +24,7 @@
             android:layout_height="35dp"
             android:rotationY="180"
             android:src="@drawable/ic_arrow_right"
-            app:tint="@color/black" />
+             />
 
         <TextView
             android:id="@+id/title"
@@ -70,6 +71,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -78,6 +80,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/image_cwm"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/conversations_with_messages" />
@@ -96,7 +99,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
+                                 />
                         </LinearLayout>
 
                         <TextView
@@ -106,14 +109,6 @@
                             android:layout_marginStart="40dp"
                             android:layout_marginEnd="40dp"
                             android:text="@string/module_chats" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="40dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="40dp"
-                            android:background="@color/app_background" />
 
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -134,6 +129,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -142,6 +138,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/image_c"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/conversations" />
@@ -160,7 +157,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
+                                 />
                         </LinearLayout>
 
                         <TextView
@@ -171,13 +168,64 @@
                             android:layout_marginEnd="40dp"
                             android:text="@string/component_chats" />
 
-                        <View
+
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    android:visibility="visible"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:id="@+id/contacts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/image_contacts"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/baseline_contacts_24" />
+
+                            <TextView
+                                style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:text="Contacts"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_arrow_right"
+                                 />
+                        </LinearLayout>
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Caption"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginStart="40dp"
-                            android:layout_marginTop="10dp"
                             android:layout_marginEnd="40dp"
-                            android:background="@color/app_background" />
+                            android:text="@string/component_contacts" />
 
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -205,6 +253,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -213,6 +262,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/image_uwm"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/users_with_messages" />
@@ -231,7 +281,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
+                                 />
                         </LinearLayout>
 
                         <TextView
@@ -242,13 +292,7 @@
                             android:layout_marginEnd="40dp"
                             android:text="@string/module_users" />
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="40dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="40dp"
-                            android:background="@color/app_background" />
+
 
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -268,6 +312,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -276,6 +321,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/image_u"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/users" />
@@ -294,7 +340,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
+                                 />
                         </LinearLayout>
 
                         <TextView
@@ -305,13 +351,7 @@
                             android:layout_marginEnd="40dp"
                             android:text="@string/component_users" />
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="40dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="40dp"
-                            android:background="@color/app_background" />
+
 
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -331,6 +371,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -339,6 +380,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/image_ud"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/details" />
@@ -357,7 +399,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
+                                 />
                         </LinearLayout>
 
                         <TextView
@@ -368,13 +410,7 @@
                             android:layout_marginEnd="40dp"
                             android:text="@string/component_user_details" />
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="40dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="40dp"
-                            android:background="@color/app_background" />
+
 
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -403,6 +439,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -411,6 +448,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/image_gwm"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/group_with_message" />
@@ -429,7 +467,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
+                                 />
                         </LinearLayout>
 
                         <TextView
@@ -439,14 +477,6 @@
                             android:layout_marginStart="40dp"
                             android:layout_marginEnd="40dp"
                             android:text="@string/module_groups" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="40dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="40dp"
-                            android:background="@color/app_background" />
 
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -467,6 +497,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -475,6 +506,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/image_g"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/group_ic" />
@@ -493,7 +525,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
+                                 />
                         </LinearLayout>
 
                         <TextView
@@ -504,13 +536,7 @@
                             android:layout_marginEnd="40dp"
                             android:text="@string/component_groups" />
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="40dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="40dp"
-                            android:background="@color/app_background" />
+
 
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -531,6 +557,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -539,6 +566,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/image_cg"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/create_group" />
@@ -557,7 +585,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
+                                 />
                         </LinearLayout>
 
                         <TextView
@@ -568,13 +596,7 @@
                             android:layout_marginEnd="40dp"
                             android:text="@string/component_create_groups" />
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="40dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="40dp"
-                            android:background="@color/app_background" />
+
 
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -604,6 +626,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/image_jp"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/lock" />
@@ -622,7 +645,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
+                                 />
                         </LinearLayout>
 
                         <TextView
@@ -660,6 +683,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/image_gm"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/group_ic" />
@@ -678,7 +702,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
+                                 />
                         </LinearLayout>
 
                         <TextView
@@ -716,6 +740,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/image_ad"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/add_members" />
@@ -734,7 +759,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
+                                 />
                         </LinearLayout>
 
                         <TextView
@@ -772,6 +797,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/image_to"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/transfer_ownership" />
@@ -790,7 +816,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
+                                 />
                         </LinearLayout>
 
                         <TextView
@@ -828,6 +854,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/image_bm"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ban_user" />
@@ -846,7 +873,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
+                                 />
                         </LinearLayout>
 
                         <TextView
@@ -884,6 +911,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/image_gd"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/details" />
@@ -902,7 +930,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
+                                 />
                         </LinearLayout>
 
                         <TextView
@@ -938,6 +966,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -946,6 +975,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/image_message"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/component1" />
@@ -964,7 +994,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
+                                 />
                         </LinearLayout>
 
                         <TextView
@@ -975,13 +1005,7 @@
                             android:layout_marginEnd="40dp"
                             android:text="@string/module_messages" />
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="40dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="40dp"
-                            android:background="@color/app_background" />
+
 
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -1001,6 +1025,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -1009,6 +1034,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/image_message_header"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/component2" />
@@ -1027,7 +1053,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
+                                 />
                         </LinearLayout>
 
                         <TextView
@@ -1038,13 +1064,7 @@
                             android:layout_marginEnd="40dp"
                             android:text="@string/message_header" />
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="40dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="40dp"
-                            android:background="@color/app_background" />
+
 
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -1064,6 +1084,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -1072,6 +1093,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/image_message_list"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/list" />
@@ -1090,7 +1112,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
+                                 />
                         </LinearLayout>
 
                         <TextView
@@ -1101,13 +1123,7 @@
                             android:layout_marginEnd="40dp"
                             android:text="@string/message_list" />
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="40dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="40dp"
-                            android:background="@color/app_background" />
+
 
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -1136,6 +1152,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/image_message_composer"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/component3" />
@@ -1154,7 +1171,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
+                                 />
                         </LinearLayout>
 
                         <TextView
@@ -1164,6 +1181,61 @@
                             android:layout_marginStart="40dp"
                             android:layout_marginEnd="40dp"
                             android:text="@string/message_composer" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:id="@+id/messageInformation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/image_message_information"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/baseline_info_24" />
+
+                            <TextView
+                                style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:text="Message Information"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_arrow_right"
+                                 />
+                        </LinearLayout>
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Caption"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="40dp"
+                            android:text="@string/message_information_des" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -1200,6 +1272,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/image_call_button"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/component3" />
@@ -1218,7 +1291,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/ic_arrow_right"
-                                app:tint="@color/black" />
+                                 />
                         </LinearLayout>
 
                         <TextView
@@ -1275,6 +1348,7 @@
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/image_audio"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/audio_bubble" />
@@ -1294,7 +1368,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/ic_arrow_right"
-                                    app:tint="@color/black" />
+                                     />
                             </LinearLayout>
 
                             <TextView
@@ -1348,7 +1422,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/ic_arrow_right"
-                                    app:tint="@color/black" />
+                                     />
                             </LinearLayout>
 
                             <TextView
@@ -1384,11 +1458,13 @@
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/image_translate"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:layout_gravity="center_vertical"
                                     android:src="@drawable/ic_translate"
-                                    app:tint="@color/black" />
+                                    app:tint="@color/black"
+                                     />
 
                                 <TextView
                                     style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
@@ -1405,7 +1481,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/ic_arrow_right"
-                                    app:tint="@color/black" />
+                                     />
                             </LinearLayout>
 
                             <TextView
@@ -1457,6 +1533,7 @@
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/image_avatar"
                                     android:layout_width="30dp"
                                     android:layout_height="wrap_content"
                                     android:src="@drawable/avatar_ic" />
@@ -1476,7 +1553,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/ic_arrow_right"
-                                    app:tint="@color/black" />
+                                     />
                             </LinearLayout>
 
                             <TextView
@@ -1511,6 +1588,7 @@
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/image_badge_count"
                                     android:layout_width="30dp"
                                     android:layout_height="wrap_content"
                                     android:src="@drawable/badge_count" />
@@ -1530,7 +1608,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/ic_arrow_right"
-                                    app:tint="@color/black" />
+                                     />
                             </LinearLayout>
 
                             <TextView
@@ -1565,6 +1643,7 @@
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/image_message_receipt"
                                     android:layout_width="30dp"
                                     android:layout_height="wrap_content"
                                     android:src="@drawable/message_receipt" />
@@ -1584,7 +1663,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/ic_arrow_right"
-                                    app:tint="@color/black" />
+                                     />
                             </LinearLayout>
 
                             <TextView
@@ -1620,6 +1699,7 @@
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/image_status_indicator"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/status_indicator" />
@@ -1639,7 +1719,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/ic_arrow_right"
-                                    app:tint="@color/black" />
+                                     />
                             </LinearLayout>
 
                             <TextView
@@ -1675,6 +1755,7 @@
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/image_text_bubble"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/text_bubble" />
@@ -1694,7 +1775,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/ic_arrow_right"
-                                    app:tint="@color/black" />
+                                     />
                             </LinearLayout>
 
                             <TextView
@@ -1730,6 +1811,7 @@
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/image_image_bubble"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/image_bubble" />
@@ -1749,7 +1831,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/ic_arrow_right"
-                                    app:tint="@color/black" />
+                                     />
                             </LinearLayout>
 
                             <TextView
@@ -1785,6 +1867,7 @@
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/image_video_bubble"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/video_bubble" />
@@ -1804,7 +1887,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/ic_arrow_right"
-                                    app:tint="@color/black" />
+                                     />
                             </LinearLayout>
 
                             <TextView
@@ -1840,6 +1923,7 @@
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/image_audio_bubble"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/audio_bubble" />
@@ -1859,7 +1943,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/ic_arrow_right"
-                                    app:tint="@color/black" />
+                                     />
                             </LinearLayout>
 
                             <TextView
@@ -1895,6 +1979,7 @@
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/image_file_bubble"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/file_bubble" />
@@ -1914,7 +1999,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/ic_arrow_right"
-                                    app:tint="@color/black" />
+                                     />
                             </LinearLayout>
 
                             <TextView
@@ -1924,6 +2009,61 @@
                                 android:layout_marginStart="40dp"
                                 android:layout_marginEnd="40dp"
                                 android:text="@string/file_bubble" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginStart="40dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="40dp"
+                                android:background="@color/app_background" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/media_recorder"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/image_mic"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/baseline_mic_none_24" />
+
+                                <TextView
+                                    style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_weight="1"
+                                    android:text="Media Recorder"
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_arrow_right"
+                                     />
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/TextAppearance.AppCompat.Caption"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="40dp"
+                                android:layout_marginEnd="40dp"
+                                android:text="@string/media_recorder" />
 
                             <View
                                 android:layout_width="match_parent"
@@ -1950,6 +2090,7 @@
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/image_list_item"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/list_item" />
@@ -1969,7 +2110,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/ic_arrow_right"
-                                    app:tint="@color/black" />
+                                     />
                             </LinearLayout>
 
                             <TextView

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.cometchat.chatuikit.messageheader.CometChatMessageHeader;
 import com.cometchat.chatuikit.shared.cometchatuikit.CometChatUIKit;
-import com.cometchat.pro.core.CometChat;
+import com.cometchat.chat.core.CometChat;
 import com.cometchat.javasampleapp.R;
 
 public class MessageHeaderFragment extends Fragment {
