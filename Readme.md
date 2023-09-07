@@ -4,12 +4,12 @@
     <img src="./Screenshots/logo.png" alt="CometChat logo" width="180" height="180">
   </a>
 
-  <h2 align="left">Android Java Sample App</h3>
+<h2 align="left">Android Java Sample App</h3>
 
   <p align="left">
     CometChat Kitchen Sink Sample App (built using <b>CometChat UI Kits</b>) is a fully functional real-time messaging app capable of private (one-on-one), group messaging, voice & video calling.
     <br />
-    <a href="https://www.cometchat.com/docs/android-v4-uikit/overview"><strong>Explore the docs »</strong></a>
+    <a href="https://www.cometchat.com/docs/v4/android-uikit/overview"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/cometchat-pro/cometchat-chat-sample-app-android-java/issues">Report Bug</a>
@@ -36,13 +36,13 @@
 ## Table of Contents
 
 - [About the Project](#about-the-project)
-  - [Built With](#built-with)
+    - [Built With](#built-with)
 - [Getting Started](#getting-started)
-  - [Dependencies](#dependencies)
-  - [Installing](#installing)
-  - [Usage](#usage)
-    - [Run locally](#run-project-locally)
-  - [Help](#help)
+    - [Dependencies](#dependencies)
+    - [Installing](#installing)
+    - [Usage](#usage)
+        - [Run locally](#run-project-locally)
+    - [Help](#help)
 - [Contributing](#contributing)
 - [Support](#support)
 - [License](#license)
@@ -97,16 +97,16 @@ Simply clone or fork this repo and run it using the instructions below to see al
 
 ## Usage
 
-This app contains all features offered by CometChat through its UI Kit. [Read more about the Android UI Kit here.](https://www.cometchat.com/docs/android-v4-uikit/overview)
+This app contains all features offered by CometChat through its UI Kit. [Read more about the Android UI Kit here.](https://www.cometchat.com/docs/v4/android-uikit/overview)
 
 ### Run project locally
 
 - Open the project in Android Studio.
 
-   - Build and run the Sample App.
-   -  Select demo users or enter the **UID** at the time of login once the app is launched.
+    - Build and run the Sample App.
+    -  Select demo users or enter the **UID** at the time of login once the app is launched.
 
-To learn about Android UI Kit Integration, please [click here](https://www.cometchat.com/docs/android-v4-uikit/integration).
+To learn about Android UI Kit Integration, please [click here](https://www.cometchat.com/docs/v4/android-uikit/integration).
 
 ## Help
 
