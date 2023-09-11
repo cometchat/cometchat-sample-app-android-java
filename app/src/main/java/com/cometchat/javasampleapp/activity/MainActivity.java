@@ -3,7 +3,6 @@ package com.cometchat.javasampleapp.activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -12,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 
-import com.cometchat.chatuikit.extensions.ExtensionConstants;
 import com.cometchat.chatuikit.shared.cometchatuikit.CometChatUIKit;
 import com.cometchat.chatuikit.shared.cometchatuikit.UIKitSettings;
 import com.cometchat.chatuikit.shared.resources.utils.Utils;
@@ -20,6 +18,7 @@ import com.cometchat.chat.core.CometChat;
 import com.cometchat.chat.exceptions.CometChatException;
 import com.cometchat.javasampleapp.AppConstants;
 import com.cometchat.javasampleapp.AppUtils;
+import com.cometchat.javasampleapp.Application;
 import com.cometchat.javasampleapp.R;
 import com.cometchat.chat.models.User;
 import com.google.android.material.card.MaterialCardView;
@@ -49,11 +48,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String s) {
                 if (CometChatUIKit.getLoggedInUser() != null) {
+                    Application.addCallListener(MainActivity.this);
                     AppUtils.fetchDefaultObjects();
                     startActivity(new Intent(MainActivity.this, HomeActivity.class));
                     finish();
                 }
-                CometChat.setSource("ui-kit", "android", "java");
             }
 
             @Override
@@ -97,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         CometChatUIKit.login(uid, new CometChat.CallbackListener<User>() {
             @Override
             public void onSuccess(User user) {
+                Application.addCallListener(MainActivity.this);
                 AppUtils.fetchDefaultObjects();
                 startActivity(new Intent(MainActivity.this, HomeActivity.class));
                 finish();
