@@ -6,7 +6,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 32
         versionCode 1
-        versionName "3.0.16-1"
+        versionName "3.0.16-2"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         renderscriptSupportModeEnabled true
