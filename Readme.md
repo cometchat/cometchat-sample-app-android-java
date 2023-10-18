@@ -126,11 +126,11 @@ You are requested to follow the contribution guidelines specified in [CONTRIBUTI
 
 Please connect with our real-time support via the [CometChat Dashboard](https://app.cometchat.com/).
 
-<!-- LICENSE -->
+<!-- LICENSE.md -->
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE.md) file for details.
 
 ## About Authors
 

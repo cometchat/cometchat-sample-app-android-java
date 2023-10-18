@@ -19,9 +19,12 @@ import com.cometchat.chat.exceptions.CometChatException;
 import com.cometchat.javasampleapp.AppConstants;
 import com.cometchat.javasampleapp.AppUtils;
 import com.cometchat.javasampleapp.Application;
+import com.cometchat.javasampleapp.BuildConfig;
 import com.cometchat.javasampleapp.R;
 import com.cometchat.chat.models.User;
 import com.google.android.material.card.MaterialCardView;
+
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,12 +44,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        parentView=findViewById(R.id.parent_view);
+        parentView = findViewById(R.id.parent_view);
         Utils.setStatusBarColor(this, getResources().getColor(android.R.color.white));
         UIKitSettings uiKitSettings = new UIKitSettings.UIKitSettingsBuilder().setRegion(AppConstants.REGION).setAppId(AppConstants.APP_ID).setAuthKey(AppConstants.AUTH_KEY).subscribePresenceForAllUsers().build();
         CometChatUIKit.init(this, uiKitSettings, new CometChat.CallbackListener<String>() {
             @Override
             public void onSuccess(String s) {
+                CometChat.setDemoMetaInfo(getAppMetadata());
                 if (CometChatUIKit.getLoggedInUser() != null) {
                     Application.addCallListener(MainActivity.this);
                     AppUtils.fetchDefaultObjects();
@@ -110,13 +114,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpUI() {
-        if(AppUtils.isNightMode(this)){
-            Utils.setStatusBarColor(this, ContextCompat.getColor(this,R.color.app_background_dark));
-            parentView.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this,R.color.app_background_dark)));
-        }else {
+        if (AppUtils.isNightMode(this)) {
+            Utils.setStatusBarColor(this, ContextCompat.getColor(this, R.color.app_background_dark));
+            parentView.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.app_background_dark)));
+        } else {
             Utils.setStatusBarColor(this, getResources().getColor(R.color.app_background));
             parentView.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.app_background)));
         }
+    }
+
+    private JSONObject getAppMetadata() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("name", getResources().getString(R.string.app_name));
+            jsonObject.put("type", "sample");
+            jsonObject.put("version", BuildConfig.VERSION_NAME);
+            jsonObject.put("bundle", BuildConfig.APPLICATION_ID);
+            jsonObject.put("platform", "android");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
     public void createUser(View view) {
