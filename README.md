@@ -97,6 +97,6 @@ Contact us via real time support present in [CometChat Dashboard.](https://app.c
 
 ## License
 
-This project uses the following license: [License.md](LICENSE).
+This project uses the following license: [License.md](LICENSE.md).
 
 
