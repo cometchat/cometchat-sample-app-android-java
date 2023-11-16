@@ -1,15 +1,14 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/parent_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
 
         <TextView
             android:id="@+id/tvTitle"
@@ -17,103 +16,126 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-medium"
             android:padding="4dp"
-            android:text="SignIn"
+            android:text="Sign In"
             android:textColor="@color/primaryTextColor"
-            android:textSize="40sp"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvDes1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvTitle"
-            android:id="@+id/tvDes1"
             android:layout_marginStart="16dp"
             android:padding="4dp"
-            android:text="Welcome to CometChat"
+            android:text="Welcome!"
             android:textColor="@color/colorPrimary"
             android:textSize="32sp"
             android:textStyle="bold" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvDes2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvDes1"
-            android:id="@+id/tvDes2"
             android:layout_marginStart="16dp"
+            android:fontFamily="sans-serif"
             android:padding="4dp"
-            android:text="Please Enter UID to Continue"
+            android:text="Kindly, enter UID \nto proceed"
             android:textColor="@color/primaryTextColor"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <RelativeLayout
-            android:animateLayoutChanges="true"
-            android:layout_below="@id/tvDes2"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="56dp"
-            android:layout_marginEnd="32dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDes2"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:animateLayoutChanges="true">
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputUID"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/app_background"
                 android:hint="Enter UID"
-                android:textColorHint="@color/secondaryTextColor"
-                app:boxCornerRadiusBottomEnd="24dp"
-                app:boxCornerRadiusBottomStart="24dp"
-                app:boxCornerRadiusTopEnd="24dp"
-                app:boxCornerRadiusTopStart="24dp"
+                app:boxBackgroundMode="filled"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
                 app:boxStrokeColor="@color/secondaryTextColor"
-                app:boxStrokeWidth="1dp"
-                app:endIconDrawable="@drawable/ic_arrow_right"
-                app:endIconMode="custom"
-                app:endIconTint="@color/primaryTextColor">
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:endIconTint="@color/primaryTextColor"
+                app:hintTextColor="@color/black">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etUID"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:maxLines="1"
-                android:inputType="text"
-                android:imeOptions="actionDone"
-                android:textColor="@color/primaryTextColor" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etUID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:layout_marginTop="10dp"
+                    android:padding="16dp"
+                    android:textColor="@color/primaryTextColor" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <ProgressBar
                 android:id="@+id/loginProgress"
-                android:visibility="gone"
-                android:indeterminateTint="@color/primaryTextColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignEnd="@+id/inputUID"
                 android:layout_alignBottom="@+id/inputUID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:indeterminateTint="@color/primaryTextColor"
+                android:visibility="gone" />
 
         </RelativeLayout>
-        <LinearLayout
-            android:gravity="center"
-            android:orientation="horizontal"
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/tvSignIn"
             android:layout_width="match_parent"
-            android:layout_marginBottom="16dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/bottom"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/curved_blue_button"
+            android:text="Sign In"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <LinearLayout
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_height="wrap_content">
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
-                android:text="Don't have any users?"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="Don't have any users?" />
+
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/create_user"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
                 android:onClick="createUser"
                 android:text="Create Now"
-                android:id="@+id/create_user"
                 android:textAllCaps="true"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginLeft="8dp"
-                android:layout_height="wrap_content"/>
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
-    </RelativeLayout>
 
+    </RelativeLayout>
 
 </ScrollView>

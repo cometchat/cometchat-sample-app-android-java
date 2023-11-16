@@ -2,200 +2,142 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/parent_view"
+    android:gravity="center"
+    android:orientation="vertical">
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        app:cardElevation="8dp"
         app:cardCornerRadius="24dp"
-        android:layout_height="wrap_content">
+        app:cardElevation="8dp">
+
         <LinearLayout
-            android:orientation="vertical"
-            android:padding="8dp"
-            android:layout_margin="16dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:orientation="vertical"
+            android:padding="8dp">
+
             <TextView
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:text="Badge Count"
+                android:id="@+id/badge_count_text"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Badge Count"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                />
+
             <TextView
+                android:id="@+id/badge_count_text_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="@string/badgeCount_description"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/grey"
+                android:text="@string/badgeCount_description" />
+
+            <com.cometchat.chatuikit.shared.views.CometChatBadge.CometChatBadge
+                android:id="@+id/badgeCount"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <com.cometchat.pro.uikit.ui_components.shared.cometchatBadgeCount.CometChatBadgeCount
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_width="wrap_content"
                 app:count="1"
                 app:count_background_color="@color/colorPrimaryDark"
-                app:count_color="@color/light_grey"
-                android:id="@+id/badgeCount"
-                android:layout_height="wrap_content"/>
+                app:count_color="@color/light_grey" />
+
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/badgeCountLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:id="@+id/badgeCount_layout"
                 android:hint="Badge Count"
+                android:layout_marginTop="10dp"
                 android:textColorHint="@color/secondaryTextColor"
-                app:boxCornerRadiusBottomEnd="24dp"
-                app:boxCornerRadiusBottomStart="24dp"
-                app:boxCornerRadiusTopEnd="24dp"
-                app:boxCornerRadiusTopStart="24dp"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
                 app:boxStrokeColor="@color/secondaryTextColor"
                 app:boxStrokeWidth="1dp">
+
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/badgeCount_edt"
+                    android:id="@+id/badgeCountEdt"
                     android:layout_width="match_parent"
-                    android:inputType="number"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:maxLines="1"
                     android:imeOptions="actionGo"
+                    android:inputType="number"
+                    android:maxLines="1"
                     android:textColor="@color/primaryTextColor" />
             </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:id="@+id/badgeCountSize_layout"
+
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Count Size"
-                android:textColorHint="@color/secondaryTextColor"
-                app:boxCornerRadiusBottomEnd="24dp"
-                app:boxCornerRadiusBottomStart="24dp"
-                app:boxCornerRadiusTopEnd="24dp"
-                app:boxCornerRadiusTopStart="24dp"
-                app:boxStrokeColor="@color/secondaryTextColor"
-                app:boxStrokeWidth="1dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/countSize"
-                    android:layout_width="match_parent"
-                    android:inputType="number"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:maxLines="1"
-                    android:imeOptions="actionGo"
-                    android:textColor="@color/primaryTextColor" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <TextView
                 android:layout_marginTop="16dp"
-                android:textStyle="bold"
+                android:layout_marginRight="8dp"
                 android:text="Background Color :"
-                android:layout_marginRight="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:textStyle="bold" />
+
             <LinearLayout
-                android:padding="12dp"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
                 <View
-                    android:layout_weight="1"
-                    android:id="@+id/bd_red"
-                    android:background="@color/red"
+                    android:id="@+id/bdRed"
                     android:layout_width="24dp"
-                    android:layout_height="24dp"/>
-                <View
+                    android:layout_height="24dp"
                     android:layout_weight="1"
-                    android:id="@+id/bd_purple"
-                    android:background="@color/purple"
+                    android:background="@color/red" />
+
+                <View
+                    android:id="@+id/bdPurple"
                     android:layout_width="24dp"
-                    android:layout_height="24dp"/>
-                <View
+                    android:layout_height="24dp"
                     android:layout_weight="1"
-                    android:id="@+id/bd_green"
-                    android:background="@color/green"
+                    android:background="@color/purple" />
+
+                <View
+                    android:id="@+id/bdGreen"
                     android:layout_width="24dp"
-                    android:layout_height="24dp"/>
-                <View
+                    android:layout_height="24dp"
                     android:layout_weight="1"
-                    android:id="@+id/bd_yellow"
-                    android:background="@color/yellow"
+                    android:background="@color/green" />
+
+                <View
+                    android:id="@+id/bdYellow"
                     android:layout_width="24dp"
-                    android:layout_height="24dp"/>
-                <View
+                    android:layout_height="24dp"
                     android:layout_weight="1"
-                    android:clickable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:id="@+id/bd_blue"
+                    android:background="@color/yellow" />
+
+                <View
+                    android:id="@+id/bdBlue"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_weight="1"
                     android:background="@color/blue"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"/>
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackground" />
+
                 <View
-                    android:layout_weight="1"
-                   android:id="@+id/bd_violet"
-                    android:background="@color/violet"
+                    android:id="@+id/bdViolet"
                     android:layout_width="24dp"
-                    android:layout_height="24dp"/>
+                    android:layout_height="24dp"
+                    android:layout_weight="1"
+                    android:background="@color/violet" />
             </LinearLayout>
-            <TextView
-                android:textStyle="bold"
-                android:text="Count Color :"
-                android:layout_marginRight="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <LinearLayout
-                android:padding="12dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <View
-                    android:clickable="true"
-                    android:layout_weight="1"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:id="@+id/count_red"
-                    android:background="@color/red"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"/>
-                <View
-                    android:clickable="true"
-                    android:layout_weight="1"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:id="@+id/count_purple"
-                    android:background="@color/purple"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"/>
-                <View
-                    android:clickable="true"
-                    android:layout_weight="1"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:id="@+id/count_green"
-                    android:background="@color/green"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"/>
-                <View
-                    android:clickable="true"
-                    android:layout_weight="1"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:id="@+id/count_yellow"
-                    android:background="@color/yellow"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"/>
-                <View
-                    android:clickable="true"
-                    android:layout_weight="1"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:id="@+id/count_blue"
-                    android:background="@color/blue"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"/>
-                <View
-                    android:clickable="true"
-                    android:layout_weight="1"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:id="@+id/count_violet"
-                    android:background="@color/violet"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"/>
-        </LinearLayout>
+
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </LinearLayout>
