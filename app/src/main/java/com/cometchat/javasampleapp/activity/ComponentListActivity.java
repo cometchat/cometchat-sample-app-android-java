@@ -87,6 +87,8 @@ public class ComponentListActivity extends AppCompatActivity {
         findViewById(R.id.video_bubble).setOnClickListener(view -> handleIntent(R.id.video_bubble));
         findViewById(R.id.audio_bubble).setOnClickListener(view -> handleIntent(R.id.audio_bubble));
         findViewById(R.id.files_bubble).setOnClickListener(view -> handleIntent(R.id.files_bubble));
+        findViewById(R.id.form_bubble).setOnClickListener(view -> handleIntent(R.id.form_bubble));
+        findViewById(R.id.card_bubble).setOnClickListener(view -> handleIntent(R.id.card_bubble));
         findViewById(R.id.media_recorder).setOnClickListener(view -> handleIntent(R.id.media_recorder));
 
         //resources
@@ -130,6 +132,8 @@ public class ComponentListActivity extends AppCompatActivity {
             AppUtils.changeIconTintToWhite(this,findViewById(R.id.image_video_bubble));
             AppUtils.changeIconTintToWhite(this,findViewById(R.id.image_audio_bubble));
             AppUtils.changeIconTintToWhite(this,findViewById(R.id.image_file_bubble));
+            AppUtils.changeIconTintToWhite(this,findViewById(R.id.image_form_bubble));
+            AppUtils.changeIconTintToWhite(this,findViewById(R.id.image_card_bubble));
             AppUtils.changeIconTintToWhite(this,findViewById(R.id.image_mic));
             AppUtils.changeIconTintToWhite(this,findViewById(R.id.image_list_item));
             Utils.setStatusBarColor(this, ContextCompat.getColor(this,R.color.app_background_dark));
@@ -168,6 +172,8 @@ public class ComponentListActivity extends AppCompatActivity {
             AppUtils.changeIconTintToBlack(this,findViewById(R.id.image_video_bubble));
             AppUtils.changeIconTintToBlack(this,findViewById(R.id.image_audio_bubble));
             AppUtils.changeIconTintToBlack(this,findViewById(R.id.image_file_bubble));
+            AppUtils.changeIconTintToBlack(this,findViewById(R.id.image_form_bubble));
+            AppUtils.changeIconTintToBlack(this,findViewById(R.id.image_card_bubble));
             AppUtils.changeIconTintToBlack(this,findViewById(R.id.image_mic));
             AppUtils.changeIconTintToBlack(this,findViewById(R.id.image_list_item));
             Utils.setStatusBarColor(this, getResources().getColor(R.color.app_background));
