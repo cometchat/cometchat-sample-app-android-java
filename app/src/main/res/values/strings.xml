@@ -74,6 +74,8 @@
     <string name="media_recorder">The CometChatMediaRecorder is a custom Android component that provides a user interface for recording audio and playing back the recorded audio. It is designed to be easily integrated into chat applications or other projects where audio messaging is required.</string>
     <string name="component_contacts">CometChatContacts is a versatile UI component specifically designed to streamlines the process of showcasing all app users and available chat groups in a user-friendly interface, making it easier for users to connect and communicate effectively.</string>
     <string name="message_information_des">The CometChatMessageInformation component is a custom UI view designed to display message-related information, such as delivery and read receipts. It serves as an integral part of the CometChat UI UIKit.</string>
+    <string name="form_bubble">The CometChatFormBubble component is used to render a form within a chat bubble.\nTo learn more about this component tap here</string>
+    <string name="card_bubble">The CometChatCardBubble component is used to display a card within a chat bubble. To learn more about this component tap here.</string>
 
 
 </resources>

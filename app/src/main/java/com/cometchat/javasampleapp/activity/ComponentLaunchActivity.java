@@ -36,7 +36,9 @@ import com.cometchat.javasampleapp.fragments.shared.resources.ThemeFragment;
 import com.cometchat.javasampleapp.fragments.shared.views.AudioBubbleFragment;
 import com.cometchat.javasampleapp.fragments.shared.views.AvatarFragment;
 import com.cometchat.javasampleapp.fragments.shared.views.BadgeCountFragment;
+import com.cometchat.javasampleapp.fragments.shared.views.CardBubbleFragment;
 import com.cometchat.javasampleapp.fragments.shared.views.FileBubbleFragment;
+import com.cometchat.javasampleapp.fragments.shared.views.FormBubbleFragment;
 import com.cometchat.javasampleapp.fragments.shared.views.ImageBubbleFragment;
 import com.cometchat.javasampleapp.fragments.shared.views.ListItemFragment;
 import com.cometchat.javasampleapp.fragments.shared.views.MediaRecorderFragment;
@@ -121,6 +123,10 @@ public class ComponentLaunchActivity extends AppCompatActivity {
             loadFragment(new AudioBubbleFragment());
         } else if (id == R.id.files_bubble) {
             loadFragment(new FileBubbleFragment());
+        }else if (id == R.id.form_bubble) {
+            loadFragment(new FormBubbleFragment());
+        }else if (id == R.id.card_bubble) {
+            loadFragment(new CardBubbleFragment());
         } else if (id == R.id.media_recorder) {
             loadFragment(new MediaRecorderFragment());
         } else if (id == R.id.contacts) {
