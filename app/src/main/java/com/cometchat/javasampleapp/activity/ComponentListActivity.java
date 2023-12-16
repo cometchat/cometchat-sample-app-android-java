@@ -73,6 +73,12 @@ public class ComponentListActivity extends AppCompatActivity {
 
         //calls
         findViewById(R.id.call_button).setOnClickListener(view -> handleIntent(R.id.call_button));
+        findViewById(R.id.call_logs).setOnClickListener(view -> handleIntent(R.id.call_logs));
+        findViewById(R.id.call_logs_details).setOnClickListener(view -> handleIntent(R.id.call_logs_details));
+        findViewById(R.id.call_logs_with_details).setOnClickListener(view -> handleIntent(R.id.call_logs_with_details));
+        findViewById(R.id.call_log_participants).setOnClickListener(view -> handleIntent(R.id.call_log_participants));
+        findViewById(R.id.call_log_recording).setOnClickListener(view -> handleIntent(R.id.call_log_recording));
+        findViewById(R.id.call_log_history).setOnClickListener(view -> handleIntent(R.id.call_log_history));
 
         //shared
 
