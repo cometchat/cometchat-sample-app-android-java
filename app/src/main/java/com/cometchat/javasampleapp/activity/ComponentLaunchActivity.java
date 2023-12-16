@@ -2,7 +2,6 @@ package com.cometchat.javasampleapp.activity;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +12,12 @@ import com.cometchat.chatuikit.shared.resources.utils.Utils;
 import com.cometchat.javasampleapp.AppUtils;
 import com.cometchat.javasampleapp.R;
 import com.cometchat.javasampleapp.fragments.calls.CallButtonFragment;
+import com.cometchat.javasampleapp.fragments.calls.CallLogDetailsFragment;
+import com.cometchat.javasampleapp.fragments.calls.CallLogHistoryFragment;
+import com.cometchat.javasampleapp.fragments.calls.CallLogParticipantsFragment;
+import com.cometchat.javasampleapp.fragments.calls.CallLogRecordingFragment;
+import com.cometchat.javasampleapp.fragments.calls.CallLogWithDetailsFragment;
+import com.cometchat.javasampleapp.fragments.calls.CallLogsFragment;
 import com.cometchat.javasampleapp.fragments.conversations.ContactsFragment;
 import com.cometchat.javasampleapp.fragments.conversations.ConversationsFragment;
 import com.cometchat.javasampleapp.fragments.conversations.ConversationsWithMessagesFragment;
@@ -52,6 +57,7 @@ import com.cometchat.javasampleapp.fragments.users.UsersWithMessagesFragment;
 
 public class ComponentLaunchActivity extends AppCompatActivity {
     private LinearLayout parentView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,23 +129,36 @@ public class ComponentLaunchActivity extends AppCompatActivity {
             loadFragment(new AudioBubbleFragment());
         } else if (id == R.id.files_bubble) {
             loadFragment(new FileBubbleFragment());
-        }else if (id == R.id.form_bubble) {
+        } else if (id == R.id.form_bubble) {
             loadFragment(new FormBubbleFragment());
-        }else if (id == R.id.card_bubble) {
+        } else if (id == R.id.card_bubble) {
             loadFragment(new CardBubbleFragment());
         } else if (id == R.id.media_recorder) {
             loadFragment(new MediaRecorderFragment());
         } else if (id == R.id.contacts) {
             loadFragment(new ContactsFragment());
-        }else if (id == R.id.messageInformation) {
+        } else if (id == R.id.messageInformation) {
             loadFragment(new MessageInformationFragment());
+        } else if (id == R.id.call_logs) {
+            loadFragment(new CallLogsFragment());
+        } else if (id == R.id.call_logs_details) {
+            loadFragment(new CallLogDetailsFragment());
+        } else if (id == R.id.call_logs_with_details) {
+            loadFragment(new CallLogWithDetailsFragment());
+        } else if (id == R.id.call_log_participants) {
+            loadFragment(new CallLogParticipantsFragment());
+        } else if (id == R.id.call_log_recording) {
+            loadFragment(new CallLogRecordingFragment());
+        } else if (id == R.id.call_log_history) {
+            loadFragment(new CallLogHistoryFragment());
         }
     }
+
     private void setUpUI() {
-        if(AppUtils.isNightMode(this)){
-            Utils.setStatusBarColor(this, ContextCompat.getColor(this,R.color.app_background_dark));
-            parentView.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this,R.color.app_background_dark)));
-        }else {
+        if (AppUtils.isNightMode(this)) {
+            Utils.setStatusBarColor(this, ContextCompat.getColor(this, R.color.app_background_dark));
+            parentView.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.app_background_dark)));
+        } else {
             Utils.setStatusBarColor(this, getResources().getColor(R.color.app_background));
             parentView.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.app_background)));
         }
