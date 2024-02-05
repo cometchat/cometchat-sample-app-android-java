@@ -14,7 +14,6 @@
     <br />
     <a href="https://github.com/cometchat-pro/cometchat-chat-sample-app-android-java/issues">Report Bug</a>
   </p>
-</p>
 
 <div align="left">
     <a href="https://github.com/cometchat-pro/android-java-chat-app/releases/" alt="Releases">
@@ -36,7 +35,7 @@
 ## Table of Contents
 
 - [About the Project](#about-the-project)
-    - [Built With](#built-with)
+    - [Prerequisites](#Prerequisites)
 - [Getting Started](#getting-started)
     - [Dependencies](#dependencies)
     - [Installing](#installing)
@@ -54,10 +53,11 @@
 
 CometChat Kitchen Sink Sample App (built using **CometChat UI Kit**) is a fully functional real-time messaging app capable of private (one-on-one), group messaging, voice & video calling.
 
-### Built With
+### Prerequisites
 
-- [Android](https://developer.android.com/)
-- [CometChat](https://cometchat.com)
+- ✅ You have Android Studio installed in your machine.
+- ✅ You have an Android Device or emulator with Android Version 6.0 or above.
+- ✅ You have kotlin version 1.8 or Java 8 and above
 
 <!-- GETTING STARTED -->
 
@@ -90,8 +90,13 @@ Simply clone or fork this repo and run it using the instructions below to see al
    ```
 
 4. Replace `APP_ID`, `REGION`, and `AUTH_KEY` with your CometChat `App ID`, `Region`, and `Auth Key` in `AppConstants.java` file.
+```java
+    public static final String APP_ID = "XXXXXXXXXXXXXXXXX";
 
-   ![Replacing constants in AppConstants.java](./Screenshots/credentials.png "Replacing constants in AppConstants.java")
+    public static final String AUTH_KEY = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+
+    public static final String REGION = "XX";
+```
 
 <!-- USAGE EXAMPLES -->
 

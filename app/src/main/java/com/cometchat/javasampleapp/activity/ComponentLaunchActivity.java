@@ -48,6 +48,7 @@ import com.cometchat.javasampleapp.fragments.shared.views.ImageBubbleFragment;
 import com.cometchat.javasampleapp.fragments.shared.views.ListItemFragment;
 import com.cometchat.javasampleapp.fragments.shared.views.MediaRecorderFragment;
 import com.cometchat.javasampleapp.fragments.shared.views.MessageReceiptFragment;
+import com.cometchat.javasampleapp.fragments.shared.views.SchedulerBubbleFragment;
 import com.cometchat.javasampleapp.fragments.shared.views.StatusIndicatorFragment;
 import com.cometchat.javasampleapp.fragments.shared.views.TextBubbleFragment;
 import com.cometchat.javasampleapp.fragments.shared.views.VideoBubbleFragment;
@@ -133,6 +134,8 @@ public class ComponentLaunchActivity extends AppCompatActivity {
             loadFragment(new FormBubbleFragment());
         } else if (id == R.id.card_bubble) {
             loadFragment(new CardBubbleFragment());
+        } else if (id == R.id.scheduler_bubble) {
+            loadFragment(new SchedulerBubbleFragment());
         } else if (id == R.id.media_recorder) {
             loadFragment(new MediaRecorderFragment());
         } else if (id == R.id.contacts) {
