@@ -24,8 +24,8 @@ public class CallButtonFragment extends Fragment {
         CometChatCallButtons cometChatCallButton = view.findViewById(R.id.call_button);
         cometChatCallButton.getVideoCallButton().hideButtonBackground(true);
         cometChatCallButton.getVoiceCallButton().hideButtonBackground(true);
-        cometChatCallButton.setVideoCallIcon(com.cometchat.chatuikit.R.drawable.video_icon);
-        cometChatCallButton.setVoiceCallIcon(com.cometchat.chatuikit.R.drawable.call_icon);
+        cometChatCallButton.setVideoCallIcon(com.cometchat.chatuikit.R.drawable.cometchat_video_icon);
+        cometChatCallButton.setVoiceCallIcon(com.cometchat.chatuikit.R.drawable.cometchat_call_icon);
         cometChatCallButton.hideButtonText(false);
         cometChatCallButton.setVideoButtonText("video call");
         cometChatCallButton.setVoiceButtonText("voice call");
