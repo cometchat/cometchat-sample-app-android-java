@@ -9,14 +9,17 @@ android {
         applicationId "com.cometchat.javasampleapp"
         minSdk 21
         targetSdk 33
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 5
+        versionName "1.0.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [file_provider: "com.cometchat.javasampleapp"]
     }
 
     buildTypes {
+        debug {
+            debuggable false
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
