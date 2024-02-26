@@ -182,7 +182,7 @@ public class ComponentListActivity extends AppCompatActivity {
             AppUtils.changeIconTintToBlack(this,findViewById(R.id.image_file_bubble));
             AppUtils.changeIconTintToBlack(this,findViewById(R.id.image_form_bubble));
             AppUtils.changeIconTintToBlack(this,findViewById(R.id.image_card_bubble));
-            AppUtils.changeIconTintToWhite(this,findViewById(R.id.image_scheduler_bubble));
+            AppUtils.changeIconTintToBlack(this,findViewById(R.id.image_scheduler_bubble));
             AppUtils.changeIconTintToBlack(this,findViewById(R.id.image_mic));
             AppUtils.changeIconTintToBlack(this,findViewById(R.id.image_list_item));
             Utils.setStatusBarColor(this, getResources().getColor(R.color.app_background));
