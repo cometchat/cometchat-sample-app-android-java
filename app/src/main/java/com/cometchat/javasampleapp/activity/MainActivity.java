@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 
 import com.cometchat.chatuikit.shared.cometchatuikit.CometChatUIKit;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppCompatImageView ivLogo;
 
+    private AppCompatTextView tvCometChat;
     private LinearLayout parentView;
 
     @Override
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         superhero3 = findViewById(R.id.superhero3);
         superhero4 = findViewById(R.id.superhero4);
         ivLogo = findViewById(R.id.ivLogo);
+        tvCometChat = findViewById(R.id.tvComet);
         findViewById(R.id.login).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
 
         superhero1.setOnClickListener(view -> {
@@ -117,9 +120,11 @@ public class MainActivity extends AppCompatActivity {
         if (AppUtils.isNightMode(this)) {
             Utils.setStatusBarColor(this, ContextCompat.getColor(this, R.color.app_background_dark));
             parentView.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.app_background_dark)));
+            tvCometChat.setTextColor(getResources().getColor(R.color.app_background));
         } else {
             Utils.setStatusBarColor(this, getResources().getColor(R.color.app_background));
             parentView.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.app_background)));
+            tvCometChat.setTextColor(getResources().getColor(R.color.app_background_dark));
         }
     }
 

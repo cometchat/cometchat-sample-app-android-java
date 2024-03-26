@@ -24,8 +24,13 @@ This is a reference application showcasing the integration of [**CometChat's And
     public static final String REGION = "XX";
     ```
 4. Run the app on a device or emulator.
-   
-![image (2)](https://github.com/cometchat/cometchat-sample-app-android-java/assets/2210730/5f78442e-11f1-438f-9344-d379a865a529)
+
+<div style="
+    display: flex;
+    align-items: center;
+    justify-content: center;">
+   <img src="./Screenshots/main_screen.png" alt="login" width="300">
+</div>
 
 ## Help and Support
 For issues running the project or integrating with our UI Kits, consult our [documentation](https://www.cometchat.com/docs/android-uikit/integration) or create a [support ticket](https://help.cometchat.com/hc/en-us) or seek real-time support via the [CometChat Dashboard](http://app.cometchat.com/).
