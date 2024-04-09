@@ -39,7 +39,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/localize_english_overview"
-                android:textColor="@color/grey" />
+                android:textColor="@color/cometchat_grey" />
 
 
             <LinearLayout

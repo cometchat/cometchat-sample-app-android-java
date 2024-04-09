@@ -84,11 +84,11 @@
                             android:layout_marginBottom="8dp"
                             android:layout_marginEnd="8dp"
                             android:layout_weight="1"
-                            android:backgroundTint="@color/primaryTextColor"
+                            android:backgroundTint="@color/cometchat_primary_text_color"
                             android:clickable="true"
                             android:focusable="true"
                             app:cardCornerRadius="12dp"
-                            app:rippleColor="@color/light_grey">
+                            app:rippleColor="@color/cometchat_light_grey">
 
                             <RelativeLayout
                                 android:layout_width="wrap_content"
@@ -140,11 +140,11 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="8dp"
                             android:layout_weight="1"
-                            android:backgroundTint="@color/primaryTextColor"
+                            android:backgroundTint="@color/cometchat_primary_text_color"
                             android:clickable="true"
                             android:focusable="true"
                             app:cardCornerRadius="12dp"
-                            app:rippleColor="@color/light_grey">
+                            app:rippleColor="@color/cometchat_light_grey">
 
                             <RelativeLayout
                                 android:layout_width="wrap_content"
@@ -202,11 +202,11 @@
                             android:layout_marginEnd="8dp"
                             android:layout_marginBottom="8dp"
                             android:layout_weight="1"
-                            android:backgroundTint="@color/primaryTextColor"
+                            android:backgroundTint="@color/cometchat_primary_text_color"
                             android:clickable="true"
                             android:focusable="true"
                             app:cardCornerRadius="12dp"
-                            app:rippleColor="@color/light_grey">
+                            app:rippleColor="@color/cometchat_light_grey">
 
                             <RelativeLayout
                                 android:layout_width="wrap_content"
@@ -258,11 +258,11 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="8dp"
                             android:layout_weight="1"
-                            android:backgroundTint="@color/primaryTextColor"
+                            android:backgroundTint="@color/cometchat_primary_text_color"
                             android:clickable="true"
                             android:focusable="true"
                             app:cardCornerRadius="12dp"
-                            app:rippleColor="@color/light_grey">
+                            app:rippleColor="@color/cometchat_light_grey">
 
                             <RelativeLayout
                                 android:layout_width="wrap_content"
@@ -333,7 +333,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="16sp"
-                    app:rippleColor="@color/light_grey" />
+                    app:rippleColor="@color/cometchat_light_grey" />
             </LinearLayout>
 
 
@@ -363,7 +363,7 @@
                         android:layout_marginLeft="8dp"
                         android:onClick="createUser"
                         android:text="Create Now"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="@color/cometchat_color_primary" />
                 </LinearLayout>
 
             </RelativeLayout>

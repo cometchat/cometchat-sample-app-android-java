@@ -19,7 +19,7 @@ public class ImageBubbleFragment extends Fragment {
 
         CometChatImageBubble imageBubble = view.findViewById(R.id.image_bubble);
         imageBubble.setImageUrl("https://data-us.cometchat.io/2379614bd4db65dd/media/1682517838_2050398854_08d684e835e3c003f70f2478f937ed57.jpeg", R.drawable.ic_launcher_background, false);
-        imageBubble.setStyle(new ImageBubbleStyle().setCornerRadius(18).setTextColor(getResources().getColor(R.color.black)).setBackground(getResources().getColor(com.cometchat.chatuikit.R.color.accent100)));
+        imageBubble.setStyle(new ImageBubbleStyle().setCornerRadius(18).setTextColor(getResources().getColor(R.color.black)).setBackground(getResources().getColor(com.cometchat.chatuikit.R.color.cometchat_accent100)));
         imageBubble.setCaption("This is a simple representation of CometChat Image Bubble");
         return view;
     }

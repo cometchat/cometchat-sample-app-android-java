@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         if (Utils.isDarkMode(this)) {
             ivLogo.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
         } else {
-            ivLogo.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.primaryTextColor)));
+            ivLogo.setImageTintList(ColorStateList.valueOf(getResources().getColor(com.cometchat.chatuikit.R.color.cometchat_primary_text_color)));
         }
         setUpUI();
     }

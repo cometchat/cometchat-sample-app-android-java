@@ -65,15 +65,15 @@ public class ThemeFragment extends Fragment {
     private void setTheme(boolean isDefault) {
 
         if (isDefault) {
-            accent = getResources().getColor(com.cometchat.chatuikit.R.color.accent);
+            accent = getResources().getColor(com.cometchat.chatuikit.R.color.cometchat_accent);
             background = getResources().getColor(R.color.white);
-            primary = getResources().getColor(com.cometchat.chatuikit.R.color.primary);
+            primary = getResources().getColor(com.cometchat.chatuikit.R.color.cometchat_accent);
             heading = com.cometchat.chatuikit.R.style.Heading;
             name = R.style.Name;
             text1 = R.style.Text1;
             text2 = R.style.Text2;
         } else {
-            accent = getResources().getColor(com.cometchat.chatuikit.R.color.online_green);
+            accent = getResources().getColor(com.cometchat.chatuikit.R.color.cometchat_online_green);
             background = Color.parseColor("#021E20");
             primary = getResources().getColor(android.R.color.black);
             heading = R.style.AppHeading;
@@ -93,7 +93,7 @@ public class ThemeFragment extends Fragment {
         palette.accent600(ColorUtils.setAlphaComponent(accent, 148));
         palette.accent700(ColorUtils.setAlphaComponent(accent, 176));
         palette.accent800(ColorUtils.setAlphaComponent(accent, 209));
-        palette.secondary(getResources().getColor(com.cometchat.chatuikit.R.color.secondary));
+        palette.secondary(getResources().getColor(com.cometchat.chatuikit.R.color.cometchat_secondary));
         palette.accent900(ColorUtils.setAlphaComponent(accent, 255));
 
         Typography typography = Typography.getInstance();

@@ -3,6 +3,6 @@
     android:shape="rectangle">
     <corners android:radius="10dp"
         />
-    <solid android:color="@color/primary"
+    <solid android:color="@color/cometchat_primary"
         />
 </shape>

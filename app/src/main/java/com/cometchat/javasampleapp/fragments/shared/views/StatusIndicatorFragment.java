@@ -31,12 +31,12 @@ public class StatusIndicatorFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_status_indicator, container, false);
         CometChatStatusIndicator statusIndicator = view.findViewById(R.id.statusIndicator);
         parentView= view.findViewById(R.id.parent_view);
-        statusIndicator.setBackgroundColor(getResources().getColor(com.cometchat.chatuikit.R.color.online_green));
+        statusIndicator.setBackgroundColor(getResources().getColor(com.cometchat.chatuikit.R.color.cometchat_online_green));
         RadioGroup statusChangeGroup = view.findViewById(R.id.toggle);
         statusIndicator.setBorderWidth(0);
         statusChangeGroup.setOnCheckedChangeListener((radioGroup, i) -> {
             if (i == R.id.online) {
-                statusIndicator.setBackgroundColor(getResources().getColor(com.cometchat.chatuikit.R.color.online_green));
+                statusIndicator.setBackgroundColor(getResources().getColor(com.cometchat.chatuikit.R.color.cometchat_online_green));
             } else if (i == R.id.offline) {
                 statusIndicator.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
             }

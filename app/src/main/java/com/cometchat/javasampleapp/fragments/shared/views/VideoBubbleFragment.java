@@ -20,7 +20,7 @@ public class VideoBubbleFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_video_bubble, container, false);
 
         CometChatVideoBubble videoBubble = view.findViewById(R.id.video_bubble);
-        videoBubble.setStyle(new VideoBubbleStyle().setCornerRadius(18).setBackground(getResources().getColor(com.cometchat.chatuikit.R.color.accent100)));
+        videoBubble.setStyle(new VideoBubbleStyle().setCornerRadius(18).setBackground(getResources().getColor(com.cometchat.chatuikit.R.color.cometchat_accent100)));
         videoBubble.setVideoUrl("https://data-us.cometchat.io/2379614bd4db65dd/media/1682517886_527585446_3e8e02fc506fa535eecfe0965e1a2024.mp4", R.drawable.ic_launcher_background);
         return view;
     }

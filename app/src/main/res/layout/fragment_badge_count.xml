@@ -40,7 +40,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 style="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/grey"
+                android:textColor="@color/cometchat_grey"
                 android:text="@string/badgeCount_description" />
 
             <com.cometchat.chatuikit.shared.views.CometChatBadge.CometChatBadge
@@ -49,8 +49,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 app:count="1"
-                app:count_background_color="@color/colorPrimaryDark"
-                app:count_color="@color/light_grey" />
+                app:count_background_color="@color/cometchat_color_primary_dark"
+                app:count_color="@color/cometchat_light_grey" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/badgeCountLayout"
@@ -59,12 +59,12 @@
                 android:layout_height="wrap_content"
                 android:hint="Badge Count"
                 android:layout_marginTop="10dp"
-                android:textColorHint="@color/secondaryTextColor"
+                android:textColorHint="@color/cometchat_secondary_text_color"
                 app:boxCornerRadiusBottomEnd="12dp"
                 app:boxCornerRadiusBottomStart="12dp"
                 app:boxCornerRadiusTopEnd="12dp"
                 app:boxCornerRadiusTopStart="12dp"
-                app:boxStrokeColor="@color/secondaryTextColor"
+                app:boxStrokeColor="@color/cometchat_secondary_text_color"
                 app:boxStrokeWidth="1dp">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -75,7 +75,7 @@
                     android:imeOptions="actionGo"
                     android:inputType="number"
                     android:maxLines="1"
-                    android:textColor="@color/primaryTextColor" />
+                    android:textColor="@color/cometchat_primary_text_color" />
             </com.google.android.material.textfield.TextInputLayout>
 
 

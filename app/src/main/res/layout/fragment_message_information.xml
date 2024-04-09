@@ -9,8 +9,6 @@
     <com.cometchat.chatuikit.messageinformation.CometChatMessageInformation
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/message_information"
-        />
-
+        android:id="@+id/message_information" />
 
 </LinearLayout>

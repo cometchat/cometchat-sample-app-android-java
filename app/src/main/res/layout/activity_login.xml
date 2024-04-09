@@ -19,7 +19,7 @@
             android:fontFamily="sans-serif-medium"
             android:padding="4dp"
             android:text="Sign In"
-            android:textColor="@color/primaryTextColor"
+            android:textColor="@color/cometchat_primary_text_color"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -31,7 +31,7 @@
             android:layout_marginStart="16dp"
             android:padding="4dp"
             android:text="Welcome!"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/cometchat_color_primary"
             android:textSize="32sp"
             android:textStyle="bold" />
 
@@ -44,7 +44,7 @@
             android:fontFamily="sans-serif"
             android:padding="4dp"
             android:text="Kindly, enter UID \nto proceed"
-            android:textColor="@color/primaryTextColor"
+            android:textColor="@color/cometchat_primary_text_color"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -67,10 +67,10 @@
                 app:boxCornerRadiusBottomStart="16dp"
                 app:boxCornerRadiusTopEnd="16dp"
                 app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeColor="@color/secondaryTextColor"
+                app:boxStrokeColor="@color/cometchat_secondary_text_color"
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="0dp"
-                app:endIconTint="@color/primaryTextColor"
+                app:endIconTint="@color/cometchat_primary_text_color"
                 app:hintTextColor="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -83,7 +83,7 @@
                     android:maxLines="1"
                     android:layout_marginTop="10dp"
                     android:padding="16dp"
-                    android:textColor="@color/primaryTextColor" />
+                    android:textColor="@color/cometchat_primary_text_color" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <ProgressBar
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignEnd="@+id/inputUID"
                 android:layout_alignBottom="@+id/inputUID"
-                android:indeterminateTint="@color/primaryTextColor"
+                android:indeterminateTint="@color/cometchat_primary_text_color"
                 android:visibility="gone" />
 
         </RelativeLayout>
@@ -133,7 +133,7 @@
                 android:onClick="createUser"
                 android:text="Create Now"
                 android:textAllCaps="true"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/cometchat_color_primary" />
         </LinearLayout>
 
     </RelativeLayout>

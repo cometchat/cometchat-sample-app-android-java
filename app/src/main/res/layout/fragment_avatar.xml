@@ -40,7 +40,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/avatar_description"
-                android:textColor="@color/grey" />
+                android:textColor="@color/cometchat_grey" />
 
             <TextView
                 android:id="@+id/loggedInUserName"
@@ -65,14 +65,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:hint="Corner Radius"
-                android:textColorHint="@color/secondaryTextColor"
+                android:textColorHint="@color/cometchat_secondary_text_color"
                 app:boxCornerRadiusBottomEnd="12dp"
                 app:boxCornerRadiusBottomStart="12dp"
                 app:boxCornerRadiusTopEnd="12dp"
                 app:boxCornerRadiusTopStart="12dp"
-                app:boxStrokeColor="@color/secondaryTextColor"
+                app:boxStrokeColor="@color/cometchat_secondary_text_color"
                 app:boxStrokeWidth="1dp"
-                app:hintTextColor="@color/accent">
+                app:hintTextColor="@color/cometchat_accent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/borderRadius"
@@ -83,7 +83,7 @@
                     android:inputType="number"
                     android:maxLength="5"
                     android:maxLines="1"
-                    android:textColor="@color/primaryTextColor" />
+                    android:textColor="@color/cometchat_primary_text_color" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout

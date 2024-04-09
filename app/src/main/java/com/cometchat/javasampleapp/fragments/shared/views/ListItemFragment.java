@@ -42,7 +42,7 @@ public class ListItemFragment extends Fragment {
         userListItem.setAvatar(CometChatUIKit.getLoggedInUser().getAvatar(), name);
         userListItem.setSubtitleView(getTextView(CometChatUIKit.getLoggedInUser().getStatus()));
         userListItem.setTitle(name);
-        userListItem.setStatusIndicatorColor(getResources().getColor(com.cometchat.chatuikit.R.color.online_green));
+        userListItem.setStatusIndicatorColor(getResources().getColor(com.cometchat.chatuikit.R.color.cometchat_online_green));
 
         CometChatListItem conversationListItem = view.findViewById(R.id.conversation_list_item);
         ConversationTailView tailView = new ConversationTailView(getContext());
@@ -54,7 +54,7 @@ public class ListItemFragment extends Fragment {
         conversationListItem.setAvatar(CometChatUIKit.getLoggedInUser().getAvatar(), name);
         conversationListItem.setTailView(tailView);
         conversationListItem.setSubtitleView(getTextView("Hey, How are you?"));
-        conversationListItem.setStatusIndicatorColor(getResources().getColor(com.cometchat.chatuikit.R.color.online_green));
+        conversationListItem.setStatusIndicatorColor(getResources().getColor(com.cometchat.chatuikit.R.color.cometchat_online_green));
         setUpUI(view);
         return view;
     }

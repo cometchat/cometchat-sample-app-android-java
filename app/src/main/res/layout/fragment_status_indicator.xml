@@ -28,7 +28,7 @@
                 android:layout_gravity="center"
                 android:text="Status Indicator"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/primaryTextColor"
+                android:textColor="@color/cometchat_primary_text_color"
                 android:textStyle="bold" />
 
             <TextView
@@ -39,7 +39,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/statusIndicator_description"
-                android:textColor="@color/grey" />
+                android:textColor="@color/cometchat_grey" />
 
             <com.cometchat.chatuikit.shared.views.CometChatStatusIndicator.CometChatStatusIndicator
                 android:id="@+id/statusIndicator"
@@ -48,7 +48,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 app:cardCornerRadius="100dp"
-                app:user_status="@string/online" />
+                app:user_status="@string/cometchat_online" />
 
             <LinearLayout
                 android:layout_width="match_parent"

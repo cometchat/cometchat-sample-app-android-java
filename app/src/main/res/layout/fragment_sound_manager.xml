@@ -40,7 +40,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/sound_manager"
-                android:textColor="@color/grey" />
+                android:textColor="@color/cometchat_grey" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -75,7 +75,7 @@
                     android:padding="8dp"
                     android:textColor="@color/black"
                     android:textSize="13sp"
-                    app:rippleColor="@color/light_grey" />
+                    app:rippleColor="@color/cometchat_light_grey" />
             </LinearLayout>
 
             <LinearLayout
@@ -109,7 +109,7 @@
                     android:padding="8dp"
                     android:textColor="@color/black"
                     android:textSize="13sp"
-                    app:rippleColor="@color/light_grey" />
+                    app:rippleColor="@color/cometchat_light_grey" />
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

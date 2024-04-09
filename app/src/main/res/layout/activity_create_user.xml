@@ -21,7 +21,7 @@
             android:layout_marginTop="16dp"
             android:padding="4dp"
             android:text="SignUp"
-            android:textColor="@color/primaryTextColor"
+            android:textColor="@color/cometchat_primary_text_color"
             android:textSize="40sp"
             android:textStyle="bold" />
 
@@ -34,7 +34,7 @@
             android:layout_marginStart="16dp"
             android:padding="4dp"
             android:text="Welcome to \nCometChat"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/cometchat_color_primary"
             android:textStyle="bold" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -46,7 +46,7 @@
             android:layout_marginStart="16dp"
             android:padding="4dp"
             android:text="Please Enter below details to continue"
-            android:textColor="@color/primaryTextColor"
+            android:textColor="@color/cometchat_primary_text_color"
             android:textStyle="normal" />
 
         <LinearLayout
@@ -70,10 +70,10 @@
                 app:boxCornerRadiusBottomStart="16dp"
                 app:boxCornerRadiusTopEnd="16dp"
                 app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeColor="@color/secondaryTextColor"
+                app:boxStrokeColor="@color/cometchat_secondary_text_color"
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="0dp"
-                app:endIconTint="@color/primaryTextColor"
+                app:endIconTint="@color/cometchat_primary_text_color"
                 app:hintTextColor="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -85,7 +85,7 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:padding="16dp"
-                    android:textColor="@color/primaryTextColor" />
+                    android:textColor="@color/cometchat_primary_text_color" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -100,10 +100,10 @@
                 app:boxCornerRadiusBottomStart="16dp"
                 app:boxCornerRadiusTopEnd="16dp"
                 app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeColor="@color/secondaryTextColor"
+                app:boxStrokeColor="@color/cometchat_secondary_text_color"
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="0dp"
-                app:endIconTint="@color/primaryTextColor"
+                app:endIconTint="@color/cometchat_primary_text_color"
                 app:hintTextColor="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -115,7 +115,7 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:padding="16dp"
-                    android:textColor="@color/primaryTextColor" />
+                    android:textColor="@color/cometchat_primary_text_color" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
@@ -135,7 +135,7 @@
                 android:text="Create User"
                 android:textColor="@color/white"
                 app:elevation="0dp"
-                app:rippleColor="@color/light_grey" />
+                app:rippleColor="@color/cometchat_light_grey" />
 
             <ProgressBar
                 android:id="@+id/createUserPb"

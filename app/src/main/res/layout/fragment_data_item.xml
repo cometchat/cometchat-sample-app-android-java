@@ -29,7 +29,7 @@
                 android:layout_gravity="center"
                 android:text="List Item"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/primaryTextColor"
+                android:textColor="@color/cometchat_primary_text_color"
                 android:textStyle="bold" />
 
             <TextView
@@ -40,7 +40,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/data_item"
-                android:textColor="@color/grey" />
+                android:textColor="@color/cometchat_grey" />
 
             <TextView
                 android:id="@+id/group"
