@@ -10,7 +10,7 @@ android {
         minSdk 21
         targetSdk 33
         versionCode 7
-        versionName "1.0.6"
+        versionName "4.3.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [file_provider: "com.cometchat.javasampleapp"]
