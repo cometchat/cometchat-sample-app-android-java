@@ -47,9 +47,10 @@ public class SoundManagerFragment extends Fragment {
             AppUtils.changeTextColorToWhite(getContext(),view.findViewById(R.id.outgoing_message_text));
             parentView.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.app_background_dark)));
         } else {
-            AppUtils.changeTextColorToWhite(getContext(),view.findViewById(R.id.soundManager_title));
-            AppUtils.changeTextColorToWhite(getContext(),view.findViewById(R.id.incoming_message_text));
-            AppUtils.changeTextColorToWhite(getContext(),view.findViewById(R.id.outgoing_message_text));
+            AppUtils.changeTextColorToBlack(getContext(),view.findViewById(R.id.soundManager_title));
+            AppUtils.changeTextColorToBlack(getContext(),view.findViewById(R.id.soundManager_description));
+            AppUtils.changeTextColorToBlack(getContext(),view.findViewById(R.id.incoming_message_text));
+            AppUtils.changeTextColorToBlack(getContext(),view.findViewById(R.id.outgoing_message_text));
             parentView.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.app_background)));
         }
     }

@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.res.Configuration;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.cometchat.chat.core.Call;
 import com.cometchat.chatuikit.calls.CometChatCallActivity;
 import com.cometchat.chatuikit.shared.resources.theme.CometChatTheme;
 import com.cometchat.chatuikit.shared.resources.theme.Palette;
+import com.cometchat.chatuikit.shared.resources.utils.Utils;
 import com.cometchat.chat.core.CometChat;
 
 
@@ -19,7 +21,7 @@ public class Application extends android.app.Application {
     public void onCreate() {
         super.onCreate();
         LISTENER_ID = System.currentTimeMillis() + "";
-        if (AppUtils.isNightMode(this)) {
+        if(AppUtils.isNightMode(this)){
             Palette.getInstance(this).mode(CometChatTheme.MODE.DARK);
         }
     }
@@ -51,9 +53,9 @@ public class Application extends android.app.Application {
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if (AppUtils.isNightMode(this)) {
+        if(AppUtils.isNightMode(this)){
             Palette.getInstance(this).mode(CometChatTheme.MODE.DARK);
-        } else {
+        }else{
             Palette.getInstance(this).mode(CometChatTheme.MODE.LIGHT);
         }
     }

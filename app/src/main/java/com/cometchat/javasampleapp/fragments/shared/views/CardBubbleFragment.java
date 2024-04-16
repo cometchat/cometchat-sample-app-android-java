@@ -44,21 +44,21 @@ public class CardBubbleFragment extends Fragment {
         cardBubble = view.findViewById(R.id.card_bubble);
         scrollView = view.findViewById(R.id.scroll_view);
         scrollView.setVerticalScrollBarEnabled(false);
-        CometChatTheme theme = CometChatTheme.getInstance(getContext());
+        CometChatTheme theme = CometChatTheme.getInstance();
 
         //create style object for card bubble
         CardBubbleStyle cardBubbleStyle = new CardBubbleStyle()
                 .setTextAppearance(theme.getTypography().getText1())
-                .setTextColor(theme.getPalette().getAccent())
-                .setContentBackgroundColor(theme.getPalette().getBackground())
+                .setTextColor(theme.getPalette().getAccent(getContext()))
+                .setContentBackgroundColor(theme.getPalette().getBackground(getContext()))
                 .setCornerRadius(16)
-                .setProgressBarTintColor(theme.getPalette().getPrimary())
-                .setButtonSeparatorColor(theme.getPalette().getAccent100())
-                .setButtonBackgroundColor(theme.getPalette().getBackground())
-                .setButtonTextColor(theme.getPalette().getPrimary())
-                .setButtonDisableTextColor(theme.getPalette().getAccent500())
+                .setProgressBarTintColor(theme.getPalette().getPrimary(getContext()))
+                .setButtonSeparatorColor(theme.getPalette().getAccent100(getContext()))
+                .setButtonBackgroundColor(theme.getPalette().getBackground(getContext()))
+                .setButtonTextColor(theme.getPalette().getPrimary(getContext()))
+                .setButtonDisableTextColor(theme.getPalette().getAccent500(getContext()))
                 .setButtonTextAppearance(theme.getTypography().getSubtitle1())
-                .setBackground(theme.getPalette().getBackground())
+                .setBackground(theme.getPalette().getBackground(getContext()))
                 .setBackground(theme.getPalette().getGradientBackground())
                 .setImageBubbleStyle(new ImageBubbleStyle()
                         .setCornerRadius(16)

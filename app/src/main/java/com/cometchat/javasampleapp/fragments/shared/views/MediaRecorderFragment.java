@@ -20,17 +20,17 @@ public class MediaRecorderFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_media_recorder, container, false);
         CometChatMediaRecorder mediaRecorder = view.findViewById(R.id.recorder);
-        CometChatTheme cometChatTheme = CometChatTheme.getInstance(getContext());
+        CometChatTheme cometChatTheme = CometChatTheme.getInstance();
         mediaRecorder.setStyle(new MediaRecorderStyle()
-                .setBackground(cometChatTheme.getPalette().getBackground())
-                .setBackground(cometChatTheme.getPalette().getBackground())
-                .setRecordedContainerColor(cometChatTheme.getPalette().getAccent100())
-                .setPlayIconTint(cometChatTheme.getPalette().getAccent())
-                .setPauseIconTint(cometChatTheme.getPalette().getAccent())
-                .setStopIconTint(cometChatTheme.getPalette().getError())
-                .setVoiceRecordingIconTint(cometChatTheme.getPalette().getError())
-                .setRecordingChunkColor(cometChatTheme.getPalette().getPrimary())
-                .setTimerTextColor(cometChatTheme.getPalette().getAccent())
+                .setBackground(cometChatTheme.getPalette().getBackground(getContext()))
+                .setBackground(cometChatTheme.getPalette().getBackground(getContext()))
+                .setRecordedContainerColor(cometChatTheme.getPalette().getAccent100(getContext()))
+                .setPlayIconTint(cometChatTheme.getPalette().getAccent(getContext()))
+                .setPauseIconTint(cometChatTheme.getPalette().getAccent(getContext()))
+                .setStopIconTint(cometChatTheme.getPalette().getError(getContext()))
+                .setVoiceRecordingIconTint(cometChatTheme.getPalette().getError(getContext()))
+                .setRecordingChunkColor(cometChatTheme.getPalette().getPrimary(getContext()))
+                .setTimerTextColor(cometChatTheme.getPalette().getAccent(getContext()))
                 .setTimerTextAppearance(cometChatTheme.getTypography().getText1()));
         mediaRecorder.setCardElevation(10);
         mediaRecorder.setRadius(16);

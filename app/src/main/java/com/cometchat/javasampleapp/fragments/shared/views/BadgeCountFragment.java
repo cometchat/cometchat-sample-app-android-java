@@ -112,10 +112,12 @@ public class BadgeCountFragment extends Fragment {
             badgeCountLayout.getEditText().setTextColor(ColorStateList.valueOf(getResources().getColor(R.color.white)));
             parentView.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.app_background_dark)));
         } else {
-            AppUtils.changeTextColorToBlack(getContext(),view.findViewById(R.id.avatar_text));
-            AppUtils.changeTextColorToBlack(getContext(),view.findViewById(R.id.avatar_text_toggle));
-            AppUtils.changeTextColorToBlack(getContext(),view.findViewById(R.id.loggedInUserName));
-            parentView.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.app_background)));
+            AppUtils.changeTextColorToBlack(getContext(),view.findViewById(R.id.badge_count_text_desc));
+            AppUtils.changeTextColorToBlack(getContext(),view.findViewById(R.id.badge_count_text));
+            badgeCountLayout.setBoxStrokeColorStateList(ColorStateList.valueOf(getResources().getColor(R.color.black)));
+            badgeCountLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.black)));
+            badgeCountLayout.getEditText().setTextColor(ColorStateList.valueOf(getResources().getColor(R.color.black)));
+            parentView.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.app_background)));
         }
     }
 

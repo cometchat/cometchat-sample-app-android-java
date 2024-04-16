@@ -30,7 +30,7 @@ public class ListItemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_data_item, container, false);
         parentView=view.findViewById(R.id.parent_view);
-        CometChatTheme theme = CometChatTheme.getInstance(getContext());
+        CometChatTheme theme = CometChatTheme.getInstance();
         CometChatListItem groupListItem = view.findViewById(R.id.group_list_item);
         groupListItem.setTitle("Superhero");
         groupListItem.setSubtitleView(getTextView("8 members"));
@@ -47,9 +47,9 @@ public class ListItemFragment extends Fragment {
         CometChatListItem conversationListItem = view.findViewById(R.id.conversation_list_item);
         ConversationTailView tailView = new ConversationTailView(getContext());
         tailView.setBadgeCount(100);
-        tailView.getBadge().setStyle(new BadgeStyle().setTextColor(theme.getPalette().getAccent()).setBackground(theme.getPalette().getPrimary()).setCornerRadius(100));
+        tailView.getBadge().setStyle(new BadgeStyle().setTextColor(theme.getPalette().getAccent(getContext())).setBackground(theme.getPalette().getPrimary(getContext())).setCornerRadius(100));
         tailView.getDate().setDate(System.currentTimeMillis() / 1000, Pattern.DAY_DATE_TIME);
-        tailView.getDate().setStyle(new DateStyle().setTextAppearance(theme.getTypography().getSubtitle1()).setTextColor(theme.getPalette().getAccent600()));
+        tailView.getDate().setStyle(new DateStyle().setTextAppearance(theme.getTypography().getSubtitle1()).setTextColor(theme.getPalette().getAccent600(getContext())));
         conversationListItem.setTitle(name);
         conversationListItem.setAvatar(CometChatUIKit.getLoggedInUser().getAvatar(), name);
         conversationListItem.setTailView(tailView);

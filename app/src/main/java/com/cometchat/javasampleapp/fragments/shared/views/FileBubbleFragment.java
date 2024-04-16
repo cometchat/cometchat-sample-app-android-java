@@ -21,7 +21,7 @@ public class FileBubbleFragment extends Fragment {
 
         CometChatFileBubble fileBubble = view.findViewById(R.id.file_bubble);
         fileBubble.setFileUrl("https://data-us.cometchat.io/2379614bd4db65dd/media/1682517934_233027292_069741a92a2f641eb428ba6d12ccb9af.pdf", "Sample", "pdf");
-        fileBubble.setStyle(new FileBubbleStyle().setBackground(CometChatTheme.getInstance(getContext()).getPalette().getAccent100()).setCornerRadius(18));
+        fileBubble.setStyle(new FileBubbleStyle().setBackground(CometChatTheme.getInstance().getPalette().getAccent100(getContext())).setCornerRadius(18));
         fileBubble.getTitle().setPadding(20,20,20,10);
         fileBubble.getSubtitle().setPadding(20,10,2,10);
         return view;

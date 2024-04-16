@@ -53,51 +53,51 @@ public class FormBubbleFragment extends Fragment {
         formBubble = view.findViewById(R.id.form_bubble);
 
 
-        CometChatTheme theme = CometChatTheme.getInstance(getContext());
+        CometChatTheme theme = CometChatTheme.getInstance();
         //create style object for Form bubble
         FormBubbleStyle formBubbleStyle = new FormBubbleStyle()
                 .setTitleAppearance(theme.getTypography().getHeading())
-                .setTitleColor(theme.getPalette().getAccent())
+                .setTitleColor(theme.getPalette().getAccent(getContext()))
 
                 .setLabelAppearance(theme.getTypography().getSubtitle1())
-                .setLabelColor(theme.getPalette().getAccent())
+                .setLabelColor(theme.getPalette().getAccent(getContext()))
 
                 .setInputTextAppearance(theme.getTypography().getSubtitle1())
-                .setInputTextColor(theme.getPalette().getAccent())
-                .setInputHintColor(theme.getPalette().getAccent500())
-                .setErrorColor(theme.getPalette().getError())
-                .setInputStrokeColor(theme.getPalette().getAccent600())
-                .setActiveInputStrokeColor(theme.getPalette().getAccent())
+                .setInputTextColor(theme.getPalette().getAccent(getContext()))
+                .setInputHintColor(theme.getPalette().getAccent500(getContext()))
+                .setErrorColor(theme.getPalette().getError(getContext()))
+                .setInputStrokeColor(theme.getPalette().getAccent600(getContext()))
+                .setActiveInputStrokeColor(theme.getPalette().getAccent(getContext()))
 
-                .setDefaultCheckboxButtonTint(theme.getPalette().getAccent500())
-                .setSelectedCheckboxButtonTint(theme.getPalette().getPrimary())
-                .setErrorCheckboxButtonTint(theme.getPalette().getError())
-                .setCheckboxTextColor(theme.getPalette().getAccent())
+                .setDefaultCheckboxButtonTint(theme.getPalette().getAccent500(getContext()))
+                .setSelectedCheckboxButtonTint(theme.getPalette().getPrimary(getContext()))
+                .setErrorCheckboxButtonTint(theme.getPalette().getError(getContext()))
+                .setCheckboxTextColor(theme.getPalette().getAccent(getContext()))
                 .setCheckboxTextAppearance(theme.getTypography().getSubtitle1())
 
-                .setButtonBackgroundColor(theme.getPalette().getPrimary())
-                .setButtonTextColor(theme.getPalette().getAccent900())
+                .setButtonBackgroundColor(theme.getPalette().getPrimary(getContext()))
+                .setButtonTextColor(theme.getPalette().getAccent900(getContext()))
                 .setButtonTextAppearance(theme.getTypography().getSubtitle1())
-                .setProgressBarTintColor(theme.getPalette().getAccent900())
-                .setRadioButtonTint(theme.getPalette().getAccent500())
-                .setRadioButtonTextColor(theme.getPalette().getAccent())
+                .setProgressBarTintColor(theme.getPalette().getAccent900(getContext()))
+                .setRadioButtonTint(theme.getPalette().getAccent500(getContext()))
+                .setRadioButtonTextColor(theme.getPalette().getAccent(getContext()))
                 .setRadioButtonTextAppearance(theme.getTypography().getSubtitle1())
-                .setSelectedRadioButtonTint(theme.getPalette().getPrimary())
+                .setSelectedRadioButtonTint(theme.getPalette().getPrimary(getContext()))
 
-                .setSpinnerTextColor(theme.getPalette().getAccent())
+                .setSpinnerTextColor(theme.getPalette().getAccent(getContext()))
                 .setSpinnerTextAppearance(theme.getTypography().getSubtitle1())
-                .setSpinnerBackgroundColor(theme.getPalette().getAccent500())
+                .setSpinnerBackgroundColor(theme.getPalette().getAccent500(getContext()))
 
-                .setBackground(theme.getPalette().getBackground())
+                .setBackground(theme.getPalette().getBackground(getContext()))
                 .setBackground(theme.getPalette().getGradientBackground())
 
                 .setSingleSelectStyle(new SingleSelectStyle()
                         .setOptionTextAppearance(theme.getTypography().getSubtitle1())
-                        .setOptionTextColor(theme.getPalette().getAccent500())
+                        .setOptionTextColor(theme.getPalette().getAccent500(getContext()))
                         .setSelectedOptionTextAppearance(theme.getTypography().getSubtitle1())
-                        .setSelectedOptionTextColor(theme.getPalette().getAccent())
-                        .setButtonStrokeColor(theme.getPalette().getAccent600())
-                        .setTitleColor(theme.getPalette().getAccent())
+                        .setSelectedOptionTextColor(theme.getPalette().getAccent(getContext()))
+                        .setButtonStrokeColor(theme.getPalette().getAccent600(getContext()))
+                        .setTitleColor(theme.getPalette().getAccent(getContext()))
                         .setTitleAppearance(theme.getTypography().getSubtitle1())
                 );
         formBubble.setStyle(formBubbleStyle);

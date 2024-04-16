@@ -30,7 +30,7 @@ public class CallButtonFragment extends Fragment {
         cometChatCallButton.setVideoButtonText("video call");
         cometChatCallButton.setVoiceButtonText("voice call");
         cometChatCallButton.setMarginForButtons(Utils.convertDpToPx(getContext(), 1));
-        cometChatCallButton.setButtonStyle(new ButtonStyle().setButtonSize(Utils.convertDpToPx(getContext(), 25), Utils.convertDpToPx(getContext(), 25)).setButtonIconTint(CometChatTheme.getInstance(getContext()).getPalette().getPrimary()));
+        cometChatCallButton.setButtonStyle(new ButtonStyle().setButtonSize(Utils.convertDpToPx(getContext(), 25), Utils.convertDpToPx(getContext(), 25)).setButtonIconTint(CometChatTheme.getInstance().getPalette().getPrimary(getContext())));
         cometChatCallButton.setUser(AppUtils.getDefaultUser());
         return view;
     }

@@ -53,39 +53,39 @@ public class SchedulerBubbleFragment extends Fragment {
         cardView = view.findViewById(R.id.scheduler_bubble_card);
         schedulerBubble.setStyle(getSchedulerBubbleStyle());
         schedulerBubble.setSchedulerMessage(getSchedulerMessage());
-        cardView.setCardBackgroundColor(CometChatTheme.getInstance(getContext()).getPalette().getAccent50());
+        cardView.setCardBackgroundColor(CometChatTheme.getInstance().getPalette().getAccent50(getContext()));
         return view;
     }
 
     private SchedulerBubbleStyle getSchedulerBubbleStyle() {
         CometChatTheme theme = CometChatTheme.getInstance(getContext());
         SchedulerBubbleStyle schedulerBubbleStyle = new SchedulerBubbleStyle();
-        schedulerBubbleStyle.setAvatarStyle(new AvatarStyle().setOuterCornerRadius(100).setInnerBackgroundColor(theme.getPalette().getAccent600()).setTextColor(theme.getPalette().getAccent900()).setTextAppearance(theme.getTypography().getName()));
-        schedulerBubbleStyle.setCalenderStyle(new CalenderStyle().setTitleTextAppearance(theme.getTypography().getName()).setTitleTextColor(theme.getPalette().getAccent()));
+        schedulerBubbleStyle.setAvatarStyle(new AvatarStyle().setOuterCornerRadius(100).setInnerBackgroundColor(theme.getPalette().getAccent600(getContext())).setTextColor(theme.getPalette().getAccent900(getContext())).setTextAppearance(theme.getTypography().getName()));
+        schedulerBubbleStyle.setCalenderStyle(new CalenderStyle().setTitleTextAppearance(theme.getTypography().getName()).setTitleTextColor(theme.getPalette().getAccent(getContext())));
         schedulerBubbleStyle.setTimeSlotSelectorStyle(new TimeSlotSelectorStyle()
-                .setCalenderImageTint(theme.getPalette().getAccent())
-                .setEmptyTimeSlotIconColor(theme.getPalette().getAccent500())
+                .setCalenderImageTint(theme.getPalette().getAccent(getContext()))
+                .setEmptyTimeSlotIconColor(theme.getPalette().getAccent500(getContext()))
                 .setChosenDateTextAppearance(theme.getTypography().getSubtitle1())
-                .setChosenDateTextColor(theme.getPalette().getAccent())
-                .setSeparatorColor(theme.getPalette().getAccent100())
-                .setTitleColor(theme.getPalette().getAccent())
+                .setChosenDateTextColor(theme.getPalette().getAccent(getContext()))
+                .setSeparatorColor(theme.getPalette().getAccent100(getContext()))
+                .setTitleColor(theme.getPalette().getAccent(getContext()))
                 .setTitleTextAppearance(theme.getTypography().getName())
-                .setEmptyTimeSlotTextColor(theme.getPalette().getAccent500())
+                .setEmptyTimeSlotTextColor(theme.getPalette().getAccent500(getContext()))
                 .setEmptyTimeSlotTextAppearance(theme.getTypography().getText1())
         );
-        schedulerBubbleStyle.setSlotStyle(new TimeSlotItemStyle().setCornerRadius(20).setBackground(theme.getPalette().getBackground()).setTimeColor(theme.getPalette().getAccent()));
-        schedulerBubbleStyle.setSelectedSlotStyle(new TimeSlotItemStyle().setCornerRadius(20).setBackground(theme.getPalette().getPrimary()).setTimeColor(Color.WHITE));
+        schedulerBubbleStyle.setSlotStyle(new TimeSlotItemStyle().setCornerRadius(20).setBackground(theme.getPalette().getBackground(getContext())).setTimeColor(theme.getPalette().getAccent(getContext())));
+        schedulerBubbleStyle.setSelectedSlotStyle(new TimeSlotItemStyle().setCornerRadius(20).setBackground(theme.getPalette().getPrimary(getContext())).setTimeColor(Color.WHITE));
         schedulerBubbleStyle.setScheduleStyle(new ScheduleStyle()
                 .setProgressBarTintColor(Color.WHITE)
-                .setButtonBackgroundColor(theme.getPalette().getPrimary())
+                .setButtonBackgroundColor(theme.getPalette().getPrimary(getContext()))
                 .setButtonTextColor(Color.WHITE)
-                .setCalendarIconTint(theme.getPalette().getAccent())
-                .setClockIconTint(theme.getPalette().getAccent())
-                .setTimeZoneIconTint(theme.getPalette().getAccent())
-                .setDurationTextColor(theme.getPalette().getAccent())
-                .setTimeTextColor(theme.getPalette().getAccent())
-                .setTimeZoneTextColor(theme.getPalette().getAccent())
-                .setErrorTextColor(theme.getPalette().getError())
+                .setCalendarIconTint(theme.getPalette().getAccent(getContext()))
+                .setClockIconTint(theme.getPalette().getAccent(getContext()))
+                .setTimeZoneIconTint(theme.getPalette().getAccent(getContext()))
+                .setDurationTextColor(theme.getPalette().getAccent(getContext()))
+                .setTimeTextColor(theme.getPalette().getAccent(getContext()))
+                .setTimeZoneTextColor(theme.getPalette().getAccent(getContext()))
+                .setErrorTextColor(theme.getPalette().getError(getContext()))
                 .setButtonTextAppearance(theme.getTypography().getSubtitle1())
                 .setErrorTextAppearance(theme.getTypography().getCaption1())
                 .setDurationTextAppearance(theme.getTypography().getSubtitle1())
@@ -94,26 +94,26 @@ public class SchedulerBubbleFragment extends Fragment {
         );
         schedulerBubbleStyle.setTitleAppearance(theme.getTypography().getHeading());
         schedulerBubbleStyle.setNameAppearance(theme.getTypography().getName());
-        schedulerBubbleStyle.setNameColor(theme.getPalette().getAccent());
-        schedulerBubbleStyle.setTitleColor(theme.getPalette().getAccent());
-        schedulerBubbleStyle.setBackIconTint(theme.getPalette().getPrimary());
-        schedulerBubbleStyle.setSubtitleTextColor(theme.getPalette().getAccent600());
-        schedulerBubbleStyle.setClockIconTint(theme.getPalette().getAccent600());
+        schedulerBubbleStyle.setNameColor(theme.getPalette().getAccent(getContext()));
+        schedulerBubbleStyle.setTitleColor(theme.getPalette().getAccent(getContext()));
+        schedulerBubbleStyle.setBackIconTint(theme.getPalette().getPrimary(getContext()));
+        schedulerBubbleStyle.setSubtitleTextColor(theme.getPalette().getAccent600(getContext()));
+        schedulerBubbleStyle.setClockIconTint(theme.getPalette().getAccent600(getContext()));
         schedulerBubbleStyle.setSubtitleTextAppearance(theme.getTypography().getSubtitle1());
-        schedulerBubbleStyle.setSeparatorColor(theme.getPalette().getAccent100());
-        schedulerBubbleStyle.setInitialSlotsItemStyle(new TimeSlotItemStyle().setBackground(theme.getPalette().getBackground()).setTimeColor(theme.getPalette().getPrimary()).setTimeTextAppearance(theme.getTypography().getSubtitle2()).setBorderColor(theme.getPalette().getPrimary()).setBorderWidth(2).setCornerRadius(25));
-        schedulerBubbleStyle.setMoreTextColor(theme.getPalette().getPrimary());
-        schedulerBubbleStyle.setDurationTimeTextColor(theme.getPalette().getAccent500());
-        schedulerBubbleStyle.setGlobeIconTint(theme.getPalette().getAccent());
-        schedulerBubbleStyle.setTimeZoneTextColor(theme.getPalette().getAccent());
+        schedulerBubbleStyle.setSeparatorColor(theme.getPalette().getAccent100(getContext()));
+        schedulerBubbleStyle.setInitialSlotsItemStyle(new TimeSlotItemStyle().setBackground(theme.getPalette().getBackground(getContext())).setTimeColor(theme.getPalette().getPrimary(getContext())).setTimeTextAppearance(theme.getTypography().getSubtitle2()).setBorderColor(theme.getPalette().getPrimary(getContext())).setBorderWidth(2).setCornerRadius(25));
+        schedulerBubbleStyle.setMoreTextColor(theme.getPalette().getPrimary(getContext()));
+        schedulerBubbleStyle.setDurationTimeTextColor(theme.getPalette().getAccent500(getContext()));
+        schedulerBubbleStyle.setGlobeIconTint(theme.getPalette().getAccent(getContext()));
+        schedulerBubbleStyle.setTimeZoneTextColor(theme.getPalette().getAccent(getContext()));
         schedulerBubbleStyle.setMoreTextAppearance(theme.getTypography().getSubtitle2());
         schedulerBubbleStyle.setDurationTimeTextAppearance(theme.getTypography().getCaption1());
         schedulerBubbleStyle.setTimeZoneTextAppearance(theme.getTypography().getSubtitle2());
-        schedulerBubbleStyle.setQuickViewStyle(new QuickViewStyle().setCornerRadius(16).setBackground(theme.getPalette().getBackground()).setLeadingBarTint(theme.getPalette().getPrimary()).setTitleColor(theme.getPalette().getAccent()).setTitleAppearance(theme.getTypography().getText1()).setSubtitleColor(theme.getPalette().getAccent500()).setSubtitleAppearance(theme.getTypography().getSubtitle1()));
+        schedulerBubbleStyle.setQuickViewStyle(new QuickViewStyle().setCornerRadius(16).setBackground(theme.getPalette().getBackground(getContext())).setLeadingBarTint(theme.getPalette().getPrimary(getContext())).setTitleColor(theme.getPalette().getAccent(getContext())).setTitleAppearance(theme.getTypography().getText1()).setSubtitleColor(theme.getPalette().getAccent500(getContext())).setSubtitleAppearance(theme.getTypography().getSubtitle1()));
         schedulerBubbleStyle.setCornerRadius(10);
         schedulerBubbleStyle.setQuickSlotAvailableAppearance(theme.getTypography().getText1());
-        schedulerBubbleStyle.setQuickSlotAvailableTextColor(theme.getPalette().getAccent500());
-        schedulerBubbleStyle.setDisableColor(theme.getPalette().getAccent500());
+        schedulerBubbleStyle.setQuickSlotAvailableTextColor(theme.getPalette().getAccent500(getContext()));
+        schedulerBubbleStyle.setDisableColor(theme.getPalette().getAccent500(getContext()));
 
         return schedulerBubbleStyle;
     }
