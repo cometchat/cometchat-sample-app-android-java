@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.cometchat.chatuikit.shared.cometchatuikit.CometChatUIKit;
 import com.cometchat.chatuikit.shared.resources.theme.CometChatTheme;
+import com.cometchat.chatuikit.shared.resources.theme.Palette;
 import com.cometchat.chatuikit.shared.utils.ConversationTailView;
 import com.cometchat.chatuikit.shared.views.CometChatAvatar.AvatarStyle;
 import com.cometchat.chatuikit.shared.views.CometChatBadge.BadgeStyle;
@@ -33,6 +34,7 @@ public class ListItemFragment extends Fragment {
         CometChatTheme theme = CometChatTheme.getInstance();
         CometChatListItem groupListItem = view.findViewById(R.id.group_list_item);
         groupListItem.setTitle("Superhero");
+        groupListItem.setTitleColor(Palette.getInstance().getAccent(getContext()));
         groupListItem.setSubtitleView(getTextView("8 members"));
         groupListItem.setAvatar("https://data-us.cometchat.io/2379614bd4db65dd/media/1682517838_2050398854_08d684e835e3c003f70f2478f937ed57.jpeg", "Superhero");
         groupListItem.hideStatusIndicator(true);
@@ -42,6 +44,7 @@ public class ListItemFragment extends Fragment {
         userListItem.setAvatar(CometChatUIKit.getLoggedInUser().getAvatar(), name);
         userListItem.setSubtitleView(getTextView(CometChatUIKit.getLoggedInUser().getStatus()));
         userListItem.setTitle(name);
+        userListItem.setTitleColor(Palette.getInstance().getAccent(getContext()));
         userListItem.setStatusIndicatorColor(getResources().getColor(com.cometchat.chatuikit.R.color.cometchat_online_green));
 
         CometChatListItem conversationListItem = view.findViewById(R.id.conversation_list_item);
@@ -51,6 +54,7 @@ public class ListItemFragment extends Fragment {
         tailView.getDate().setDate(System.currentTimeMillis() / 1000, Pattern.DAY_DATE_TIME);
         tailView.getDate().setStyle(new DateStyle().setTextAppearance(theme.getTypography().getSubtitle1()).setTextColor(theme.getPalette().getAccent600(getContext())));
         conversationListItem.setTitle(name);
+        conversationListItem.setTitleColor(Palette.getInstance().getAccent(getContext()));
         conversationListItem.setAvatar(CometChatUIKit.getLoggedInUser().getAvatar(), name);
         conversationListItem.setTailView(tailView);
         conversationListItem.setSubtitleView(getTextView("Hey, How are you?"));

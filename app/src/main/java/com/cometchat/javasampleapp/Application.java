@@ -20,17 +20,18 @@ public class Application extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        LISTENER_ID = System.currentTimeMillis() + "";
-        if(AppUtils.isNightMode(this)){
-            Palette.getInstance(this).mode(CometChatTheme.MODE.DARK);
+        addCallListener();
+        if (AppUtils.isNightMode(this)) {
+            Palette.getInstance().mode(CometChatTheme.MODE.DARK);
         }
     }
 
-    public static void addCallListener(Context context) {
+    private void addCallListener() {
+        LISTENER_ID = System.currentTimeMillis() + "";
         CometChat.addCallListener(LISTENER_ID, new CometChat.CallListener() {
             @Override
             public void onIncomingCallReceived(Call call) {
-                CometChatCallActivity.launchIncomingCallScreen(context, call, null);
+                CometChatCallActivity.launchIncomingCallScreen(getApplicationContext(), call, null);
             }
 
             @Override
@@ -50,13 +51,20 @@ public class Application extends android.app.Application {
         });
     }
 
+
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if(AppUtils.isNightMode(this)){
-            Palette.getInstance(this).mode(CometChatTheme.MODE.DARK);
-        }else{
-            Palette.getInstance(this).mode(CometChatTheme.MODE.LIGHT);
+        setTheme();
+    }
+
+    private void setTheme() {
+        if (AppUtils.isNightMode(this)) {
+            Palette.getInstance().mode(CometChatTheme.MODE.DARK);
+            AppUtils.switchDarkMode();
+        } else {
+            Palette.getInstance().mode(CometChatTheme.MODE.LIGHT);
+            AppUtils.switchLightMode();
         }
     }
 

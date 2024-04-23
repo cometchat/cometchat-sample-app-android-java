@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(String s) {
                 CometChat.setDemoMetaInfo(getAppMetadata());
                 if (CometChatUIKit.getLoggedInUser() != null) {
-                    Application.addCallListener(MainActivity.this);
                     AppUtils.fetchDefaultObjects();
                     startActivity(new Intent(MainActivity.this, HomeActivity.class));
                     finish();
@@ -103,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
         CometChatUIKit.login(uid, new CometChat.CallbackListener<User>() {
             @Override
             public void onSuccess(User user) {
-                Application.addCallListener(MainActivity.this);
                 AppUtils.fetchDefaultObjects();
                 startActivity(new Intent(MainActivity.this, HomeActivity.class));
                 finish();
