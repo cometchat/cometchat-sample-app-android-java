@@ -77,7 +77,8 @@
     <string name="form_bubble">The CometChatFormBubble component is used to render a form within a chat list.\nTo learn more about this component tap here</string>
     <string name="card_bubble">The CometChatCardBubble component is used to display a card within a chat list. To learn more about this component tap here.</string>
     <string name="scheduler_bubble">The CometChatSchedulerBubble component is used to display a event scheduler within a chat list. To learn more about this component tap here.</string>
-
+    <string name="please_wait">Please wait...</string>
+    <string name="no_sample_users_available">No Sample Users Available.</string>
 
 
 </resources>
