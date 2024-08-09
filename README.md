@@ -29,9 +29,11 @@ This is a reference application showcasing the integration of [CometChat's Andro
 2. In Android Studio, open the project cometchat-sample-app-android-java
 
 3. Enter your CometChat _`App ID`_, _`Region`_, and _`Auth Key`_ in the [AppConstants.java](https://github.com/cometchat/cometchat-sample-app-android-java/blob/v4/app/src/main/java/com/cometchat/javasampleapp/AppConstants.java) file:
-   https://github.com/cometchat/cometchat-sample-app-android-java/blob/1a404a36789639fa6198dc69452718f246cd082c/app/src/main/java/com/cometchat/javasampleapp/AppConstants.java#L3-L11
+   https://github.com/cometchat/cometchat-sample-app-android-java/blob/2d631e56f9e596857e18838f1032ef1cf428f890/app/src/main/java/com/cometchat/javasampleapp/AppConstants.java#L3-L11
 
-4. Run the app on a device or emulator.
+4.  If your app is created before August 12th, 2024 then change the sample data URL to `https://assets.cometchat.io/sampleapp/v1/sampledata.json` in the [app/src/main/java/com/cometchat/javasampleapp/constants/StringConstants.java](https://github.com/cometchat/cometchat-sample-app-android-java/blob/v4/app/src/main/java/com/cometchat/javasampleapp/constants/StringConstants.java) file: https://github.com/cometchat/cometchat-sample-app-android-java/blob/056b60f4b8092a6a24df64e371e56879bbb77915/app/src/main/java/com/cometchat/javasampleapp/constants/StringConstants.java#L12-L14
+
+5. Run the app on a device or emulator.
 
 
 ## Help and Support
