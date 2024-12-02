@@ -99,6 +99,24 @@ public class MainActivity extends AppCompatActivity {
                     AppUtils.fetchDefaultObjects();
                     startActivity(new Intent(MainActivity.this, HomeActivity.class));
                     finish();
+                } else {
+                    AppUtils.fetchSampleUsers(new CometChat.CallbackListener<List<User>>() {
+                        @Override
+                        public void onSuccess(List<User> users) {
+                            if (!users.isEmpty()) {
+                                setUsers(users);
+                            } else {
+                                stateLayout.setVisibility(View.VISIBLE);
+                                progressBar.setVisibility(View.GONE);
+                                stateMessage.setText(R.string.no_sample_users_available);
+                            }
+                        }
+
+                        @Override
+                        public void onError(CometChatException e) {
+                            setUsers(AppUtils.processSampleUserList(AppUtils.loadJSONFromAsset(MainActivity.this)));
+                        }
+                    });
                 }
             }
 
@@ -109,23 +127,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        AppUtils.fetchSampleUsers(new CometChat.CallbackListener<List<User>>() {
-            @Override
-            public void onSuccess(List<User> users) {
-                if (!users.isEmpty()) {
-                    setUsers(users);
-                } else {
-                    stateLayout.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.GONE);
-                    stateMessage.setText(R.string.no_sample_users_available);
-                }
-            }
-
-            @Override
-            public void onError(CometChatException e) {
-                setUsers(AppUtils.processSampleUserList(AppUtils.loadJSONFromAsset(MainActivity.this)));
-            }
-        });
         findViewById(R.id.login).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
 
         user1.setOnClickListener(view -> {
@@ -159,23 +160,27 @@ public class MainActivity extends AppCompatActivity {
         gridLayoutContainer.setVisibility(View.VISIBLE);
         for (int i = 0; i < users.size(); i++) {
             if (i == 0) {
+                if (isDestroyed() || isFinishing()) break;
                 user1Name.setText(users.get(i).getName());
-                Glide.with(this).load(users.get(i).getAvatar()).error(R.drawable.ironman).into(user1Avatar);
+                Glide.with(getApplicationContext()).load(users.get(i).getAvatar()).error(R.drawable.ironman).into(user1Avatar);
                 user1.setTag(users.get(i).getUid());
                 user1.setVisibility(View.VISIBLE);
             } else if (i == 1) {
+                if (isDestroyed() || isFinishing()) break;
                 user2Name.setText(users.get(i).getName());
-                Glide.with(this).load(users.get(i).getAvatar()).error(R.drawable.captainamerica).into(user2Avatar);
+                Glide.with(getApplicationContext()).load(users.get(i).getAvatar()).error(R.drawable.captainamerica).into(user2Avatar);
                 user2.setTag(users.get(i).getUid());
                 user2.setVisibility(View.VISIBLE);
             } else if (i == 2) {
+                if (isDestroyed() || isFinishing()) break;
                 user3Name.setText(users.get(i).getName());
-                Glide.with(this).load(users.get(i).getAvatar()).error(R.drawable.spiderman).into(user3Avatar);
+                Glide.with(getApplicationContext()).load(users.get(i).getAvatar()).error(R.drawable.spiderman).into(user3Avatar);
                 user3.setTag(users.get(i).getUid());
                 user3.setVisibility(View.VISIBLE);
             } else if (i == 3) {
+                if (isDestroyed() || isFinishing()) break;
                 user4Name.setText(users.get(i).getName());
-                Glide.with(this).load(users.get(i).getAvatar()).error(R.drawable.wolverine).into(user4Avatar);
+                Glide.with(getApplicationContext()).load(users.get(i).getAvatar()).error(R.drawable.wolverine).into(user4Avatar);
                 user4.setTag(users.get(i).getUid());
                 user4.setVisibility(View.VISIBLE);
             }
